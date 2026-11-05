@@ -8,6 +8,21 @@ YAML 设计 Token（frontmatter 和/或文内 ` ```yaml ` 块）+ Markdown 散�
 `designs/<你的slug>/DESIGN.md`——解析器的角色兜底会尽力映射，但完整覆盖
 下列角色色才能获得样板间最佳观感。
 
+## 社区收录政策（designmd.app）
+
+`designs/` 中的 7 份规范（minimalism-swiss-style、acrylic-fluent、de-stijl-abstrato、
+8-bit-retro-terminal、cyber-tribal、dsgov、stone）收录自
+[designmd.app](https://designmd.app/) 的公开库（上游：gitlab.com/fabriciotelles/vibe-styles，
+DSGov 明确 CC0/MIT）。收录原则：
+
+1. **原文 verbatim**——token 值与散文不改写，保持社区规范的真实性；
+2. 仅注入一个 `gallery:` 块（order/author="designmd.app"/source 出处链接/tags）；
+3. 违反官方 spec 导致 lint error 的最小兼容修正必须行内注释标明（现有唯一一处：
+   stone 的 `rounded.circle: 50% → 9999px`）；
+4. 角色解析器对真实数据做了三层容错：嵌套色卡分组扁平化（brand.primaryMain）、
+   大小写/后缀别名匹配、以及基于亮度分布与 WCAG 对比度的兜底推导
+   （详见 [src/lib/designMd.ts](../src/lib/designMd.ts)）。
+
 ## 文件结构（官方规范）
 
 ```md

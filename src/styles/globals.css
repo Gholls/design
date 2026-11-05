@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+/*
+ * Token 映射层：所有 Tailwind 主题值都指向 --d-* 运行时变量。
+ * `inline` 让工具类直接输出 var(--d-*)，因此在 <html> 上改写变量
+ * 即可实时穿透到每一个已渲染的元素（画廊卡片则用局部作用域变量）。
+ * fallback 值 = enterprise 基准主题，保证首帧无样式闪烁。
+ */
+@theme inline {
+  --color-bg: var(--d-colors-bg, #eef2f7);
+  --color-surface: var(--d-colors-surface, #ffffff);
+  --color-surface-alt: var(--d-colors-surface-alt, #f8fafc);
+  --color-primary: var(--d-colors-primary, #2563eb);
+  --color-primary-strong: var(--d-colors-primary-strong, #1e40af);
+  --color-on-primary: var(--d-colors-on-primary, #ffffff);
+  --color-accent: var(--d-colors-accent, #7c3aed);
+  --color-ink: var(--d-colors-text, #0f172a);
+  --color-muted: var(--d-colors-muted, #64748b);
+  --color-line: var(--d-colors-border, #e2e8f0);
+  --color-success: var(--d-colors-success, #16a34a);
+  --color-warning: var(--d-colors-warning, #d97706);
+  --color-danger: var(--d-colors-danger, #dc2626);
+
+  --font-sans: var(--d-typography-font-family-base, 'Inter', ui-sans-serif, system-ui, sans-serif);
+  --font-display: var(--d-typography-font-family-display, var(--font-sans));
+
+  --radius-card: var(--d-rounded-card, 12px);
+  --radius-control: var(--d-rounded-control, 8px);
+  --radius-badge: var(--d-rounded-badge, 9999px);
+
+  --shadow-card: var(--d-shadows-card, 0 1px 3px rgb(15 23 42 / 0.08), 0 1px 2px rgb(15 23 42 / 0.04));
+  --shadow-control: var(--d-shadows-control, 0 1px 2px rgb(15 23 42 / 0.1));
+
+  --spacing: calc(0.25rem * var(--d-spacing-scale, 1));
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    transition-property: background-color, border-color, color, box-shadow, border-radius, outline-color;
+    transition-duration: 260ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: var(--d-typography-letter-spacing, -0.011em);
+    font-weight: var(--d-typography-heading-weight, 600);
+  }
+}
+
+/* 描边宽度 Token：stroke-* 工具类，让粗野主义等主题能加粗边框 */
+@utility stroke-card {
+  border-width: var(--d-strokes-card, 1px);
+}
+
+@utility stroke-control {
+  border-width: var(--d-strokes-control, 1px);
+}
+
+/* 表格行高 Token */
+@utility row-h {
+  height: var(--d-spacing-table-row, 44px);
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+pre {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@keyframes panel-in {
+  from {
+    transform: translateX(28px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.panel-in {
+  animation: panel-in 0.22s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.fade-in {
+  animation: fade-in 0.18s ease-out both;
+}
+
+.rise-in {
+  animation: rise-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+

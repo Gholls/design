@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getDesign } from '../lib/registry'
-import { APPLIED_EVENT, applyDesign, toCssVars } from '../lib/tokenEngine'
+import { APPLIED_EVENT, applyDesign, type AppliedDetail } from '../lib/tokenEngine'
 import type { Design } from '../types'
 import { kpis } from '../data/mock'
 import TopBar from '../components/sandbox/TopBar'
@@ -10,16 +10,11 @@ import FormLab from '../components/sandbox/FormLab'
 import NotificationsPanel from '../components/sandbox/NotificationsPanel'
 import SourcePanel from '../components/shared/SourcePanel'
 
-interface AppliedDetail {
-  slug: string
-  name: string
-}
-
 export default function SandboxPage({ theme }: { theme?: string }) {
   const design: Design = getDesign(theme)
   const [sourceOpen, setSourceOpen] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
-  const varCount = useMemo(() => Object.keys(toCssVars(design.tokens)).length, [design])
+  const varCount = useMemo(() => Object.keys(design.design.vars).length, [design])
 
   useEffect(() => {
     applyDesign(design)

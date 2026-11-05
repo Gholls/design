@@ -1,8 +1,8 @@
 import type { Design } from '../../types'
-import { tokenVarsForStyle } from '../../lib/cssVars'
+import { styleFromVars } from '../../lib/cssVars'
 import { buttonClass, cardClass } from '../ui/styles'
 
-const SWATCH_KEYS = ['primary', 'accent', 'bg', 'surface', 'text', 'success', 'warning', 'danger'] as const
+const SWATCH_ROLES = ['primary', 'accent', 'bg', 'surface', 'text', 'success', 'warning', 'danger'] as const
 
 interface DesignCardProps {
   design: Design
@@ -11,19 +11,24 @@ interface DesignCardProps {
 }
 
 export default function DesignCard({ design, onViewSource, onPreview }: DesignCardProps) {
-  const { meta, colors, typography, rounded, spacing } = design.tokens
+  const d = design.design
 
   return (
     /* 卡片根节点注入该规范的局部 --d-* 变量：卡内所有 token 化工具类自动套用该主题 */
     <article
-      style={tokenVarsForStyle(design.tokens)}
+      style={styleFromVars(d.vars)}
       className={`${cardClass} flex flex-col gap-4 p-5`}
     >
       <header className="flex items-start justify-between gap-3">
         <div>
-          <h3 className="font-display text-lg font-bold">{meta.name}</h3>
+          <h3 className="font-display text-lg font-bold">{d.name}</h3>
           <p className="mt-0.5 font-mono text-[11px] text-muted">
-            by {meta.author} · designs/{meta.slug}
+            by {d.author} · designs/{design.slug}
+            {d.warnings.length > 0 ? (
+              <span title={d.warnings.join('\n')} className="ml-2 text-warning">
+                ⚠ {d.warnings.length}
+              </span>
+            ) : null}
           </p>
         </div>
         <span className="font-display text-2xl leading-none text-primary" title="该主题字体与主色样例">
@@ -31,15 +36,23 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
         </span>
       </header>
 
-      <p className="text-sm leading-relaxed text-muted">{meta.summary}</p>
+      <p className="text-sm leading-relaxed text-muted">{d.summary}</p>
 
-      <div className="flex items-center gap-1.5" title="核心配色">
-        {SWATCH_KEYS.map((key) => (
+      <div className="flex flex-wrap gap-1">
+        {d.tags.map((tag) => (
+          <span key={tag} className="rounded-badge border border-line px-2 py-0.5 text-[11px] text-muted">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div className="flex items-center gap-1.5" title="角色色解析结果（官方任意色卡名 → 样板间 13 角色）">
+        {SWATCH_ROLES.map((role) => (
           <span
-            key={key}
-            title={`${key}: ${colors[key]}`}
+            key={role}
+            title={`${role}: ${d.roles[role]}`}
             className="h-6 w-6 rounded-md border border-line stroke-control"
-            style={{ backgroundColor: colors[key] }}
+            style={{ backgroundColor: d.roles[role] }}
           />
         ))}
       </div>
@@ -61,8 +74,7 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
       </div>
 
       <footer className="font-mono text-[11px] text-muted">
-        {typography['font-size-base']} · radius {rounded.card}/{rounded.control} · density ×
-        {spacing.scale}
+        {d.fontSizeBase} · radius {d.radius.card}/{d.radius.control} · density ×{d.density}
       </footer>
 
       <div className="grid grid-cols-2 gap-2">

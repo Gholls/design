@@ -5,7 +5,8 @@ import App from './App'
 import { bootActiveDesign, getStoredSlug } from './lib/tokenEngine'
 import { getDesign } from './lib/registry'
 
-bootActiveDesign(getDesign(getStoredSlug()))
+const active = getDesign(getStoredSlug())
+if (active) bootActiveDesign(active)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

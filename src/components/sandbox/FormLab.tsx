@@ -18,10 +18,10 @@ export default function FormLab({ design }: { design: Design }) {
   const [role, setRole] = useState('editor')
   const [tfa, setTfa] = useState(true)
   const [digest, setDigest] = useState(false)
-  const [density, setDensity] = useState(design.tokens.spacing.scale)
+  const [density, setDensity] = useState(String(design.design.density))
 
   useEffect(() => {
-    setDensity(design.tokens.spacing.scale)
+    setDensity(String(design.design.density))
   }, [design])
 
   const pickDensity = (value: string) => {

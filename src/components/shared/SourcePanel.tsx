@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Design } from '../../types'
 
 interface SourcePanelProps {
@@ -6,10 +6,10 @@ interface SourcePanelProps {
   onClose: () => void
 }
 
-type Tab = 'design-md' | 'tokens-json'
+type Tab = 'source' | 'tokens'
 
 export default function SourcePanel({ design, onClose }: SourcePanelProps) {
-  const [tab, setTab] = useState<Tab>('design-md')
+  const [tab, setTab] = useState<Tab>('source')
 
   useEffect(() => {
     if (!design) return
@@ -21,15 +21,29 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
   }, [design, onClose])
 
   useEffect(() => {
-    if (design) setTab('design-md')
+    if (design) setTab('source')
+  }, [design])
+
+  const tokensJson = useMemo(() => {
+    if (!design) return ''
+    const d = design.design
+    return JSON.stringify(
+      {
+        name: d.name,
+        description: d.summary,
+        colors: d.colors,
+        typography: d.typography,
+        rounded: d.rounded,
+        spacing: d.spacing,
+        components: d.components,
+        ...d.extensions,
+      },
+      null,
+      2,
+    )
   }, [design])
 
   if (!design) return null
-
-  const body =
-    tab === 'design-md'
-      ? design.markdown
-      : JSON.stringify(design.tokens, null, 2)
 
   return (
     <div className="fixed inset-0 z-50">
@@ -43,15 +57,15 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
           <div>
             <h3 className="font-display text-base font-bold">源码对照</h3>
             <p className="mt-0.5 text-xs text-muted">
-              designs/{design.slug}/ · 只读原文，改动即换肤数据源
+              designs/{design.slug}/DESIGN.md · Google DESIGN.md (alpha) 格式 · 唯一数据源
             </p>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex rounded-control border border-line p-0.5">
               {(
                 [
-                  ['design-md', 'DESIGN.md'],
-                  ['tokens-json', 'tokens.json'],
+                  ['source', '原文'],
+                  ['tokens', '解析后 Tokens'],
                 ] as const
               ).map(([value, label]) => (
                 <button
@@ -74,8 +88,13 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
             </button>
           </div>
         </header>
+        {design.design.warnings.length > 0 ? (
+          <div className="border-b border-line bg-warning/10 px-5 py-2 font-mono text-[11px] leading-4 text-warning">
+            {design.design.warnings.join(' · ')}
+          </div>
+        ) : null}
         <pre className="flex-1 overflow-auto whitespace-pre-wrap break-words px-5 py-4 text-xs leading-5 text-ink">
-          {body}
+          {tab === 'source' ? design.markdown : tokensJson}
         </pre>
       </aside>
     </div>

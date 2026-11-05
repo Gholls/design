@@ -1,30 +1,22 @@
-import type { Design, DesignTokens } from '../types'
+import type { Design } from '../types'
 
 const STORAGE_KEY = 'design-gallery.active'
 
 export const APPLIED_EVENT = 'design:applied'
 
-/** 把 tokens.json 的所有分组（除 meta）扁平化为 --d-<group>-<key> 变量表 */
-export function toCssVars(tokens: DesignTokens): Record<string, string> {
-  const vars: Record<string, string> = {}
-  for (const [group, entries] of Object.entries(tokens)) {
-    if (group === 'meta') continue
-    for (const [key, value] of Object.entries(entries as Record<string, unknown>)) {
-      vars[`--d-${group}-${key}`] = String(value)
-    }
-  }
-  return vars
+export interface AppliedDetail {
+  slug: string
+  name: string
 }
 
-/** 将一套规范注入 <html> 根节点：CSS 变量 + 基准字号 + data-design 标记 */
+/** 将解析后的规范 vars 表注入 <html> 根节点：CSS 变量 + 基准字号 + data-design */
 export function applyDesign(design: Design, options: { announce?: boolean } = {}): void {
   const root = document.documentElement
   const changed = root.dataset.design !== design.slug
-  const vars = toCssVars(design.tokens)
-  for (const [name, value] of Object.entries(vars)) {
+  for (const [name, value] of Object.entries(design.design.vars)) {
     root.style.setProperty(name, value)
   }
-  root.style.fontSize = design.tokens.typography['font-size-base'] || '16px'
+  root.style.fontSize = design.design.fontSizeBase
   root.dataset.design = design.slug
 
   try {
@@ -35,14 +27,13 @@ export function applyDesign(design: Design, options: { announce?: boolean } = {}
 
   if (options.announce !== false && changed) {
     window.dispatchEvent(
-      new CustomEvent(APPLIED_EVENT, {
-        detail: { slug: design.slug, name: design.tokens.meta.name },
+      new CustomEvent<AppliedDetail>(APPLIED_EVENT, {
+        detail: { slug: design.slug, name: design.design.name },
       }),
     )
   }
 }
 
-/** 读取上次选择；画廊背景与样板间缺省主题都走这里 */
 export function getStoredSlug(): string | null {
   try {
     return localStorage.getItem(STORAGE_KEY)

@@ -9,14 +9,18 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "design:lint": "node scripts/lint-designs.mjs"
   },
   "dependencies": {
+    "js-yaml": "^5.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@google/design.md": "^0.4.0",
     "@tailwindcss/vite": "^4.1.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^5.0.0",

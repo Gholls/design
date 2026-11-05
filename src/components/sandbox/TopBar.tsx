@@ -22,7 +22,7 @@ export default function TopBar({ design, varCount, sourceOpen, onToggleSource }:
           <h1 className="truncate font-display text-sm font-bold md:text-base">
             黄金样板间
             <span className="ml-2 font-mono text-xs font-normal text-muted">
-              {design.tokens.meta.name} · {varCount} vars 注入 :root
+              {design.design.name} · {varCount} vars 注入 :root
             </span>
           </h1>
         </div>
@@ -35,7 +35,7 @@ export default function TopBar({ design, varCount, sourceOpen, onToggleSource }:
           >
             {designs.map((d) => (
               <option key={d.slug} value={d.slug}>
-                {d.tokens.meta.name}
+                {d.design.name}
               </option>
             ))}
           </select>

@@ -78,11 +78,13 @@ Tailwind 工具类（bg-primary / rounded-card / p-4 / shadow-card）实时穿�
 design/
 ├── designs/                  # ★ 社区共建区（提 PR 只动这里）
 │   ├── README.md             #   贡献指南 + 角色契约 + 验收清单
-│   ├── enterprise/DESIGN.md          # 黄金基准（Enterprise Admin）
-│   ├── apple-minimal/DESIGN.md       # 苹果式极简
-│   ├── cyberpunk/DESIGN.md           # 暗夜霓虹
-│   ├── candy-glass/DESIGN.md         # 糖果玻璃
-│   └── brutal-neo/DESIGN.md          # 新粗野主义
+│   ├── enterprise/DESIGN.md          # 内置基准 5 套：enterprise / apple-minimal
+│   ├── apple-minimal/ · cyberpunk/   # /candy-glass / brutal-neo
+│   ├── candy-glass/ · brutal-neo/
+│   ├── minimalism-swiss-style/       # ┐ 收录自 designmd.app 的 7 份真实公开规范
+│   ├── acrylic-fluent/ · de-stijl-abstrato/       # │ 原文 verbatim，仅注入 gallery:
+│   ├── 8-bit-retro-terminal/ · cyber-tribal/      # │ 出处署名块（+1 处单位兼容修正）
+│   └── dsgov/ · stone/                             # ┘ gov.br 为 CC0/MIT 开源设计系统
 ├── scripts/lint-designs.mjs  # 官方 linter 门禁
 ├── src/
 │   ├── lib/                  # designMd 解析器 · registry · tokenEngine · router · cssVars

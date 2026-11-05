@@ -15,6 +15,7 @@ export interface NormalizedDesign {
   name: string
   summary: string
   author: string
+  source: string
   order: number
   tags: string[]
   /** 样板间契约角色色（13 个），已做别名解析与亮度兜底 */

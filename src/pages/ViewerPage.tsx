@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { Design } from '../types'
+import type { IndexedDesign } from '../types'
 import { designs, getDesign } from '../lib/registry'
 import { applyDesign } from '../lib/tokenEngine'
 import { navigate } from '../lib/router'
@@ -9,14 +9,19 @@ import SpecPanel from '../components/shared/SpecPanel'
 import SourcePanel from '../components/shared/SourcePanel'
 
 export default function ViewerPage({ theme }: { theme?: string }) {
-  const design: Design = getDesign(theme)
+  const design: IndexedDesign | null = getDesign(theme)
   const [sourceOpen, setSourceOpen] = useState(false)
-  const url = generatedUrl(design.slug)
   const [reloadKey, setReloadKey] = useState(0)
 
   useEffect(() => {
-    applyDesign(design)
+    if (design) applyDesign(design)
   }, [design])
+
+  if (!design || designs.length === 0) {
+    return <div className="grid min-h-screen place-items-center text-sm text-muted">规范索引未就绪</div>
+  }
+
+  const url = generatedUrl(design.slug)
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">

@@ -49,6 +49,12 @@ export interface Design {
   design: NormalizedDesign
 }
 
+/** 构建期索引条目（无 markdown 原文；原文经 fetch 懒加载） */
+export interface IndexedDesign {
+  slug: string
+  design: NormalizedDesign
+}
+
 export type StatusKind = 'success' | 'warning' | 'danger' | 'info'
 
 export const ROLE_NAMES = [

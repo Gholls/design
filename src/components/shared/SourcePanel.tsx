@@ -1,16 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { Design } from '../../types'
+import type { IndexedDesign } from '../../types'
+import { fetchMarkdown } from '../../lib/registry'
 import { copyAgentPrompt, downloadDesignMd } from '../../lib/agent'
 
 interface SourcePanelProps {
-  design: Design | null
+  design: IndexedDesign | null
   onClose: () => void
 }
 
-type Tab = 'source' | 'tokens'
+type Tab = 'source' | 'vars'
 
 export default function SourcePanel({ design, onClose }: SourcePanelProps) {
   const [tab, setTab] = useState<Tab>('source')
+  const [markdown, setMarkdown] = useState('')
 
   useEffect(() => {
     if (!design) return
@@ -22,27 +24,22 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
   }, [design, onClose])
 
   useEffect(() => {
-    if (design) setTab('source')
+    if (!design) return
+    setTab('source')
+    setMarkdown('加载中…')
+    let alive = true
+    fetchMarkdown(design.slug).then((md) => {
+      if (alive) setMarkdown(md)
+    })
+    return () => {
+      alive = false
+    }
   }, [design])
 
-  const tokensJson = useMemo(() => {
-    if (!design) return ''
-    const d = design.design
-    return JSON.stringify(
-      {
-        name: d.name,
-        description: d.summary,
-        colors: d.colors,
-        typography: d.typography,
-        rounded: d.rounded,
-        spacing: d.spacing,
-        components: d.components,
-        ...d.extensions,
-      },
-      null,
-      2,
-    )
-  }, [design])
+  const varsJson = useMemo(
+    () => (design ? JSON.stringify(JSON.parse(JSON.stringify(design.design.vars)), null, 2) : ''),
+    [design],
+  )
 
   if (!design) return null
 
@@ -65,8 +62,8 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
             <div className="flex rounded-control border border-line p-0.5">
               {(
                 [
-                  ['source', '原文'],
-                  ['tokens', '解析后 Tokens'],
+                  ['source', 'DESIGN.md 原文'],
+                  ['vars', '注入变量'],
                 ] as const
               ).map(([value, label]) => (
                 <button
@@ -90,19 +87,19 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
           </div>
         </header>
         {design.design.warnings.length > 0 ? (
-          <div className="border-b border-line bg-warning/10 px-5 py-2 font-mono text-[11px] leading-4 text-warning">
+          <div className="max-h-16 overflow-auto border-b border-line bg-warning/10 px-5 py-2 font-mono text-[11px] leading-4 text-warning">
             {design.design.warnings.join(' · ')}
           </div>
         ) : null}
         <pre className="flex-1 overflow-auto whitespace-pre-wrap break-words px-5 py-4 text-xs leading-5 text-ink">
-          {tab === 'source' ? design.markdown : tokensJson}
+          {tab === 'source' ? markdown : varsJson}
         </pre>
         <footer className="flex flex-wrap items-center gap-2 border-t border-line px-5 py-3">
           <button
             onClick={() => copyAgentPrompt(design)}
             className="cursor-pointer rounded-control border border-primary/50 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
           >
-            📋 复制为 Agent 提示词（需求 + 规范全文）
+            📋 复制为 Agent 任务（GOLDEN + 本规范）
           </button>
           <button
             onClick={() => downloadDesignMd(design)}
@@ -110,9 +107,7 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
           >
             ⤓ 下载 DESIGN.md
           </button>
-          <span className="ml-auto font-mono text-[11px] text-muted">
-            同一提示词 + 本规范 → agent 产出当前页面
-          </span>
+          <span className="ml-auto font-mono text-[11px] text-muted">同一提示词 + 本规范 → agent 产出静态站点</span>
         </footer>
       </aside>
     </div>

@@ -1,8 +1,10 @@
 import { buildAgentPrompt } from './prompt'
-import type { Design } from '../types'
+import { fetchMarkdown } from './registry'
+import type { IndexedDesign } from '../types'
 
-export async function copyAgentPrompt(design: Design): Promise<boolean> {
-  const text = buildAgentPrompt(design.markdown, design.design.name)
+export async function copyAgentPrompt(design: IndexedDesign): Promise<boolean> {
+  const markdown = await fetchMarkdown(design.slug)
+  const text = buildAgentPrompt(markdown, design.design.name)
   try {
     await navigator.clipboard.writeText(text)
     return true
@@ -19,8 +21,9 @@ export async function copyAgentPrompt(design: Design): Promise<boolean> {
   }
 }
 
-export function downloadDesignMd(design: Design): void {
-  const blob = new Blob([design.markdown], { type: 'text/markdown;charset=utf-8' })
+export async function downloadDesignMd(design: IndexedDesign): Promise<void> {
+  const markdown = await fetchMarkdown(design.slug)
+  const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url

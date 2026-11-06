@@ -1,4 +1,4 @@
-import type { Design } from '../../types'
+import type { IndexedDesign } from '../../types'
 import { styleFromVars } from '../../lib/cssVars'
 import { generatedUrl } from '../../lib/generated'
 import { buttonClass, cardClass } from '../ui/styles'
@@ -6,9 +6,9 @@ import { buttonClass, cardClass } from '../ui/styles'
 const SWATCH_ROLES = ['primary', 'accent', 'bg', 'surface', 'success', 'warning', 'danger'] as const
 
 interface DesignCardProps {
-  design: Design
-  onViewSource: (design: Design) => void
-  onPreview: (design: Design) => void
+  design: IndexedDesign
+  onViewSource: (design: IndexedDesign) => void
+  onPreview: (design: IndexedDesign) => void
 }
 
 /** Token 试装条：仅演示该规范的颜色/圆角/阴影气质，不是样板间（样板间由 agent 生成） */

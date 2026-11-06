@@ -1,4 +1,4 @@
-import type { Design } from '../types'
+import type { IndexedDesign } from '../types'
 
 const STORAGE_KEY = 'design-gallery.active'
 
@@ -9,8 +9,8 @@ export interface AppliedDetail {
   name: string
 }
 
-/** 将解析后的规范 vars 表注入 <html> 根节点：CSS 变量 + 基准字号 + data-design */
-export function applyDesign(design: Design, options: { announce?: boolean } = {}): void {
+/** 将索引规范 vars 表注入 <html> 根节点（画廊外壳换肤） */
+export function applyDesign(design: IndexedDesign, options: { announce?: boolean } = {}): void {
   const root = document.documentElement
   const changed = root.dataset.design !== design.slug
   for (const [name, value] of Object.entries(design.design.vars)) {
@@ -18,7 +18,6 @@ export function applyDesign(design: Design, options: { announce?: boolean } = {}
   }
   root.style.fontSize = design.design.fontSizeBase
   root.dataset.design = design.slug
-  root.dataset.variance = design.design.varianceBucket
 
   try {
     localStorage.setItem(STORAGE_KEY, design.slug)
@@ -43,6 +42,6 @@ export function getStoredSlug(): string | null {
   }
 }
 
-export function bootActiveDesign(design: Design): void {
+export function bootActiveDesign(design: IndexedDesign): void {
   applyDesign(design, { announce: false })
 }

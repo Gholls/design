@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Design } from '../../types'
+import type { IndexedDesign } from '../../types'
 import { copyAgentPrompt, downloadDesignMd } from '../../lib/agent'
 
 const BUCKET_LABEL = { structured: '秩序网格', expressive: '表现主义', editorial: '杂志编排' } as const
@@ -21,7 +21,7 @@ function Meter({ label, value, hint }: { label: string; value: number | null; hi
   )
 }
 
-export default function SpecPanel({ design, compact = false }: { design: Design; compact?: boolean }) {
+export default function SpecPanel({ design, compact = false }: { design: IndexedDesign; compact?: boolean }) {
   const d = design.design
   const [copied, setCopied] = useState<boolean | null>(null)
 

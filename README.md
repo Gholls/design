@@ -4,11 +4,12 @@
 
 本项目不内置样板间代码。它只拥有三样东西：
 
-1. **规范数据** —— `designs/<slug>/DESIGN.md`（Google Labs design.md 官方格式，
-   含 7 份来自 [designmd.app](https://designmd.app/) 的真实公开规范）；
+1. **规范数据** —— `designs/<slug>/DESIGN.md` 共 **803 套**：5 套内置基准 +
+   798 套收录自 [designmd.app](https://designmd.app/)（library 全目录 + brands，
+   抓取脚本可续传、自动注入出处署名并清洗上游脏数据）；
 2. **黄金提示词** —— `prompts/GOLDEN.md`，样板间的全部需求与约束都在这一份文字里；
-3. **轻量站点** —— 画廊、设计思想面板、生成状态、以及路由到 agent 生成产物
-   （`public/generated/<slug>/index.html`）的预览器。
+3. **轻量站点** —— 画廊（分页/搜索/筛选）、设计思想面板、生成状态，以及路由到
+   agent 生成产物（`public/generated/<slug>/index.html`）的预览器。
 
 样板间的每一次「长得不一样」，都是规范思想（Token、components 指引、
 Density/Variance/Motion 指标、Do's & Don'ts）的胜利，而非代码分支。
@@ -48,9 +49,20 @@ DESIGN.md ─────────┘                          ▼
 - 已附带两份本次生成的基准产物：`enterprise`（秩序网格基准）与
   `brutal-neo`（Variance 9/10 杂志编排 · Motion 0 零动效）——用于对照阅读差异。
 
-## 项目里保留的「智能」
+## 规模化架构（800+ 规范）
 
-应用本体轻量，但为画廊与思想面板保留一个规范解析器：
+浏览器运行时不解析 YAML——解析发生在构建期：
+
+```
+designs/*/DESIGN.md ── npm run index（tsx 复用 src/lib/designMd.ts 解析器） ─┬─→ public/design-index.json（803 条 UI 索引，~2.1MB）
+                                                                            └─→ public/designs/<slug>.md（原文，抽屉/复制时懒加载 fetch）
+```
+
+- 应用 bundle 不含解析器与规范数据（js-yaml 移入 devDependencies）；
+- 画廊按 48 张/批渲染，搜索与筛选覆盖全量索引；
+- `npm run fetch` 可随时增量续传 designmd.app 新收录（自动清洗上游 YAML 污染）。
+
+应用本体轻量，但为画廊与思想面板保留一个构建期规范解析器：
 
 - [src/lib/designMd.ts](src/lib/designMd.ts)：frontmatter/yaml 块合并、`{token.ref}`
   解引用、官方 schema 校验；**角色解析**（任意色卡命名 → 13 样板间角色，

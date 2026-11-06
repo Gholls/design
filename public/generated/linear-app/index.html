@@ -1,0 +1,197 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ Token 逐值来自 designs/linear-app/DESIGN.md：canvas #010102（"最深渊的暗"）/
+    surface-1..4 阶梯 / hairline #23252a / brand #5e6ad2 / hover #828fff / ink 三档
+  ─ 散文指令：「营销画布即产品截图」→ hero 内嵌 issue 窗口 mock（surface-2 + 发丝线）；
+    「80px display / -3px 字距」→ 首屏标题；「紫只用于交互，不用来装饰」
+  ─ components.button-primary：#5e6ad2 底 / 白字 / r-sm 6px / focus #5e69d1
+  ─ Motion：150ms 精准，无弹跳；hover 用亮度而非位移
+  ─ 边框哲学：所有分隔来自 1px hairline，阴影几乎不存在
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vector — Linear 设计系统样板间</title>
+<style>
+:root{
+  --primary:#5e6ad2;--primary-hover:#828fff;--primary-focus:#5e69d1;
+  --ink:#f7f8f8;--ink-muted:#d0d6e0;--ink-subtle:#8a8f98;--ink-tertiary:#62666d;
+  --canvas:#010102;--s1:#0f1011;--s2:#141516;--s3:#18191a;--s4:#191a1b;
+  --hair:#23252a;--hair-strong:#34343a;--hair-tert:#3e3e44;--success:#27a644;
+  --r-xs:4px;--r-sm:6px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-xxl:24px;--r-pill:9999px;
+  --font:'Inter','SF Pro Display',-apple-system,'PingFang SC',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;transition:background-color .15s,color .15s,border-color .15s,opacity .15s}
+body{font:15px/1.5 var(--font);background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--primary);color:#fff}
+header{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:22px;padding:14px max(20px,5vw);background:rgba(1,1,2,.72);backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid var(--hair)}
+.mark{font-weight:700;letter-spacing:-.02em;font-size:15px;display:flex;gap:8px;align-items:center}
+.mark b{width:16px;height:16px;border-radius:4px;background:var(--primary);display:inline-block}
+header nav{display:flex;gap:2px;margin:0 auto}
+header nav a{font-size:13px;color:var(--ink-subtle);padding:7px 11px;border-radius:var(--r-sm)}
+header nav a:hover{color:var(--ink);background:var(--s2)}
+.btn{border:1px solid var(--hair-strong);background:var(--s3);color:var(--ink);border-radius:var(--r-sm);padding:7px 13px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.btn:hover{background:var(--s4);border-color:var(--hair-tert)}
+.btn-p{background:var(--primary);border-color:transparent;color:#fff}
+.btn-p:hover{background:var(--primary-hover)}
+.btn-p:focus-visible{outline:2px solid var(--primary-focus);outline-offset:2px}
+.btn-sm{padding:5px 10px;font-size:12px}
+.view{display:none}.view.on{display:block}
+.hero{text-align:center;padding:86px 5vw 30px;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 46% at 50% 0%,rgba(94,106,210,.18),transparent 70%);pointer-events:none}
+.hero .tag{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--hair);background:var(--s1);border-radius:var(--r-pill);padding:5px 13px;font-size:12px;color:var(--ink-muted)}
+.hero .tag b{color:var(--primary-hover)}
+h1.display{font-size:clamp(40px,7.4vw,80px);font-weight:600;letter-spacing:-.045em;line-height:1.02;margin:26px auto 0;max-width:900px}
+.hero p.sub{color:var(--ink-subtle);font-size:17px;max-width:560px;margin:18px auto 0;line-height:1.6}
+.hero .links{margin-top:26px;display:flex;gap:10px;justify-content:center}
+/* 产品截图窗口（营销画布即产品） */
+.window{max-width:960px;margin:56px auto 0;border:1px solid var(--hair);border-radius:var(--r-xl);background:var(--s1);overflow:hidden;box-shadow:0 30px 80px -20px rgba(0,0,0,.7)}
+.winbar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--hair);background:var(--s2)}
+.winbar .dot{width:9px;height:9px;border-radius:50%;background:var(--hair-tert)}
+.winbar .title{font-size:12px;color:var(--ink-tertiary);margin-left:6px}
+.wingrid{display:grid;grid-template-columns:180px 1fr;min-height:300px}
+.wnav{border-right:1px solid var(--hair);padding:12px 8px;font-size:12px;color:var(--ink-subtle)}
+.wnav div{padding:5px 9px;border-radius:var(--r-sm)}
+.wnav div.on{background:var(--s3);color:var(--ink)}
+table.issues{width:100%;border-collapse:collapse;font-size:12.5px}
+.issues th{text-align:left;color:var(--ink-tertiary);font-weight:500;font-size:11px;padding:9px 16px;border-bottom:1px solid var(--hair);cursor:pointer}
+.issues td{padding:9px 16px;border-bottom:1px solid var(--hair);color:var(--ink-muted)}
+.issues tr:hover td{background:var(--s2)}
+.issues .id{font-family:ui-monospace,'SF Mono',Menlo,monospace;color:var(--ink-tertiary);font-size:11px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-subtle)}
+.st i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink-tertiary);font-style:normal}
+.st.todo i{border-style:dashed}.st.prog i{border-color:var(--primary);border-style:solid;background:linear-gradient(90deg,var(--primary) 55%,transparent 55%)}
+.st.done i{background:var(--primary);border-color:var(--primary)}.st.crit i{border-color:#e5484d;background:#e5484d}
+.prio{font-size:11px;color:var(--ink-tertiary);letter-spacing:.02em}
+section.blk{padding:76px 5vw;max-width:1080px;margin:0 auto}
+h2.sec{font-size:clamp(26px,3.6vw,40px);font-weight:600;letter-spacing:-.03em;text-align:center}
+p.secd{color:var(--ink-subtle);text-align:center;max-width:520px;margin:12px auto 0}
+.featgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:40px}
+.fcard{border:1px solid var(--hair);background:var(--s1);border-radius:var(--r-lg);padding:22px}
+.fcard:hover{border-color:var(--hair-tert);background:var(--s2)}
+.fcard b{font-size:15px;display:block}.fcard p{color:var(--ink-subtle);font-size:13px;margin-top:7px;line-height:1.55}
+.kbd{font-family:ui-monospace,Menlo,monospace;font-size:11px;border:1px solid var(--hair-strong);border-bottom-width:2px;border-radius:4px;padding:1px 6px;background:var(--s3);color:var(--ink-muted)}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:36px}
+.q{border:1px solid var(--hair);border-radius:var(--r-lg);padding:20px;background:var(--s1);font-size:13.5px;color:var(--ink-muted)}
+.q small{display:block;margin-top:12px;color:var(--ink-tertiary);font-size:11px;font-weight:600}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:40px}
+.pl{border:1px solid var(--hair);border-radius:var(--r-lg);padding:24px;background:var(--s1)}
+.pl.best{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
+.pl h3{font-size:14px;color:var(--ink-muted);font-weight:600}.pl b{font-size:30px;font-weight:600;display:block;margin:8px 0 2px;letter-spacing:-.02em}
+.pl small{color:var(--ink-tertiary);font-size:12px}
+.pl ul{list-style:none;margin:16px 0 20px;font-size:13px;color:var(--ink-subtle)}.pl li{padding:4px 0}.pl li::before{content:"· ";color:var(--primary)}
+footer{border-top:1px solid var(--hair);padding:40px 5vw 22px;font-size:12.5px;color:var(--ink-tertiary)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;max-width:1080px;margin:0 auto}
+footer h4{color:var(--ink-muted);font-size:12px;margin-bottom:8px}footer a{display:block;padding:3px 0;color:var(--ink-tertiary)}footer a:hover{color:var(--ink)}
+.changelog{max-width:720px;margin:0 auto;padding:60px 5vw}
+.log{display:grid;grid-template-columns:90px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--hair)}
+.log time{color:var(--ink-tertiary);font-size:12px;font-variant-numeric:tabular-nums}
+.log h3{font-size:16px;font-weight:600;letter-spacing:-.01em}.log p{color:var(--ink-subtle);font-size:13.5px;margin-top:6px}
+pre.code{background:var(--s1);border:1px solid var(--hair);border-radius:var(--r-md);padding:16px;font:12px/1.7 ui-monospace,'SF Mono',Menlo,monospace;color:var(--ink-muted);overflow:auto;margin-top:14px}
+pre .c{color:var(--ink-tertiary)}pre .g{color:var(--success)}pre .p{color:var(--primary-hover)}
+.auth{display:grid;place-items:center;padding:70px 5vw}
+.acard{width:min(360px,92vw);border:1px solid var(--hair);background:var(--s1);border-radius:var(--r-lg);padding:26px}
+.acard h2{font-size:19px;font-weight:600;letter-spacing:-.02em}.acard .s{color:var(--ink-subtle);font-size:12.5px;margin-top:4px}
+.tabs{display:flex;border:1px solid var(--hair);border-radius:var(--r-sm);padding:3px;margin:18px 0;background:var(--canvas)}
+.tabs button{flex:1;border:none;background:none;color:var(--ink-subtle);font:inherit;font-size:12.5px;padding:6px;border-radius:4px;cursor:pointer}
+.tabs button.on{background:var(--s3);color:var(--ink)}
+.f{margin-bottom:10px}.f label{display:block;font-size:11px;color:var(--ink-tertiary);margin-bottom:4px;font-weight:600}
+.f input{width:100%;background:var(--canvas);border:1px solid var(--hair-strong);border-radius:var(--r-sm);padding:9px 11px;font:inherit;font-size:13.5px;color:var(--ink)}
+.f input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(94,106,210,.35)}
+.gen{border-top:1px solid var(--hair);color:var(--ink-tertiary);font-size:11px;text-align:center;padding:14px}
+@media(max-width:760px){header nav{display:none}.wingrid{grid-template-columns:1fr}.wnav{display:none}}
+</style></head><body>
+<header><span class="mark"><b></b>Vector</span>
+<nav><a href="#" data-goto="home">产品</a><a href="#" data-goto="prod">更新日志</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
+<button class="btn btn-p btn-sm" data-goto="app">下载应用</button></header>
+<main>
+<div class="view on" id="v-home">
+  <section class="hero">
+    <span class="tag">矢量引擎 v3 · <b>速度提升 4 倍</b> →</span>
+    <h1 class="display">Issue 跟踪，<br>如丝般顺滑</h1>
+    <p class="sub">为速度而生的协作平台。键盘直达一切操作，毫秒级响应，暗色是唯一的光。</p>
+    <p class="links"><button class="btn btn-p" data-goto="app">免费开始 →</button><button class="btn" data-goto="prod">阅读更新日志</button></p>
+    <div class="window">
+      <div class="winbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="title">Vector — Core / 当前视图 · 按 C 打开命令</span></div>
+      <div class="wingrid"><div class="wnav"><div class="on">收件箱</div><div>我的 Issue</div><div>路线图</div><div> cycles</div><div style="margin-top:14px;color:var(--ink-tertiary)">TEAM</div><div>Core</div><div>Infra</div></div>
+        <table class="issues"><thead><tr><th>编号</th><th>标题</th><th>状态</th><th>优先级</th></tr></thead>
+        <tbody id="iss"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 class="sec">为专注而设计</h2>
+    <p class="secd">每一次交互都有位置、有节奏。没有多余的一像素。</p>
+    <div class="featgrid">
+      <div class="fcard"><b>⌘K 直达一切</b><p>命令面板覆盖全部操作，<span class="kbd">C</span> 创建、<span class="kbd">E</span> 批量编辑，双手不离键盘。</p></div>
+      <div class="fcard"><b>同步即正义</b><p>本地优先架构：乐观更新在 16ms 内落屏，冲突由 CRDT 静默化解。</p></div>
+      <div class="fcard"><b>暗色即品牌</b><p>四个表面层级 + 发丝线完成全部纵深，阴影被彻底禁用（规范原文执行）。</p></div>
+      <div class="fcard"><b>紫色只用于交互</b><p>#5e6ad2 是行为色：选中、聚焦、主操作。它从不参与装饰。</p></div>
+    </div>
+  </section>
+
+  <section class="blk"><h2 class="sec">团队们已经迁移完毕</h2>
+    <div class="quotes">
+      <div class="q">"Vector 让我们把周报会砍掉了。状态自己会说话。"<small>— Infra 负责人 · 某支付公司</small></div>
+      <div class="q">"从点击到响应，快到我以为坏了。"<small>— 创始工程师 · 12 人团队</small></div>
+      <div class="q">"发丝线分隔的暗色层级，信息密度翻倍而压力减半。"<small>— 设计主管 · 出行平台</small></div>
+    </div>
+  </section>
+
+  <section class="blk"><h2 class="sec">定价，按席位计费</h2>
+    <div class="price">
+      <div class="pl"><h3>Free</h3><b>¥0</b><small>永久</small><ul><li>2 位成员</li><li>基础工作流</li></ul><button class="btn" style="width:100%">开始</button></div>
+      <div class="pl best"><h3>Standard</h3><b>¥8</b><small>/席位/月</small><ul><li>无限 Issue</li><li> cycles 与预测</li><li>命令面板全量 API</li></ul><button class="btn btn-p" style="width:100%">试用 14 天</button></div>
+      <div class="pl"><h3>Enterprise</h3><b>定制</b><small>SSO / 审计</small><ul><li>专属数据驻留</li><li>SLA 99.99</li></ul><button class="btn" style="width:100%">联系我们</button></div>
+    </div>
+  </section>
+  <footer><div class="cols">
+    <div><h4>产品</h4><a>Vector App</a><a>移动端</a><a>集成</a></div>
+    <div><h4>资源</h4><a>文档</a><a>键盘快捷键</a><a>状态页</a></div>
+    <div><h4>公司</h4><a>关于</a><a>招聘</a><a>安全</a></div>
+    <div><h4>法律</h4><a>隐私</a><a>条款</a></div>
+  </div><p style="text-align:center;margin-top:26px">© 2026 Vector 样板间演示</p></footer>
+</div>
+
+<div class="view" id="v-prod">
+  <div class="changelog">
+    <h2 class="sec" style="text-align:left">更新日志</h2>
+    <div class="log"><time>2026.11.03</time><div><h3>矢量引擎 v3</h3><p>增量同步管线重写：大型工作区首屏 <b>118ms</b>，乐观写入 <span class="kbd">&lt;16ms</span>。</p><pre class="code"><span class="c">// 冲突由 CRDT 静默合并，无需再看到三方弹窗</span>\nstore.<span class="p">commit</span>(issue, { optimistic: <span class="g">true</span> })  <span class="c">// 立即落屏</span></pre></div></div>
+    <div class="log"><time>2026.10.21</time><div><h3>Cycles 预测</h3><p>基于历史速率自动预测周期完成概率，暗色图表仅用紫色梯度区分置信度。</p></div></div>
+    <div class="log"><time>2026.09.30</time><div><h3>移动 App 重构</h3><p>本地优先：飞行模式可用，回到网络后无感合并。</p></div></div>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Linear-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-app">
+  <div class="window" style="margin:30px auto 40px;min-height:420px">
+    <div class="winbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="title">应用视图 · Core / 全部 Issue · 排序：优先级</span><button class="btn btn-sm" style="margin-left:auto" data-goto="home">+ 新建 <span class="kbd">C</span></button></div>
+    <div class="wingrid"><div class="wnav"><div class="on">全部 Issue</div><div>进行中</div><div>待办</div><div>已完成</div><div style="margin-top:14px;color:var(--ink-tertiary)">视图</div><div>分配给我</div><div>最近创建</div></div>
+      <table class="issues"><thead><tr><th>编号</th><th>标题 ⇅</th><th>状态</th><th>优先级</th></tr></thead><tbody id="iss2"></tbody></table>
+    </div>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Linear-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-auth">
+  <div class="auth"><div class="acard">
+    <h2>登录 Vector</h2><p class="s">工作区 <b style="color:var(--ink-muted)">core.vector.app</b> · SSO 可用</p>
+    <div class="tabs"><button class="on">密码</button><button>魔链</button></div>
+    <div class="f"><label>邮箱</label><input value="hi@gholl.com"></div>
+    <div class="f"><label>密码</label><input type="password" value="design-systems"></div>
+    <button class="btn btn-p" style="width:100%;padding:9px">继续 <span class="kbd" style="border-color:var(--hair);background:transparent">↵</span></button>
+    <p style="font-size:11px;color:var(--ink-tertiary);margin-top:12px;text-align:center">焦点环使用 primary-focus #5e69d1（规范 token）</p>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Linear-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Linear-design-analysis」生成 · 80px display / 发丝线纵深 / 紫仅交互（规范原文执行）</div>
+<script>
+const ISS=[['COR-1482','增量同步偶发重复渲染（Safari 17.2）','prog','紧急'],['COR-1479','命令面板支持中文模糊匹配','todo','高'],['INF-311','Cycles 燃尽导出 CSV','done','中'],['INF-308','移动端离线队列持久化','prog','高'],['COR-1471','Issue 标题行内换行光标错位','todo','低'],['INF-301','Webhook 重试退避策略','done','中'],['COR-1466','标签组快捷键冲突 ⌘G','crit','紧急'],['INF-298','GraphQL introspection 缓存','todo','中']];
+function row(i){return `<tr><td class="id">${i[0]}</td><td style="color:var(--ink)">${i[1]}</td><td><span class="st ${i[2]}"><i></i>${{todo:'待办',prog:'进行中',done:'已完成',crit:'阻塞'}[i[2]]}</span></td><td class="prio">${i[3]}</td></tr>`}
+document.getElementById('iss').innerHTML=ISS.slice(0,5).map(row).join('');
+document.getElementById('iss2').innerHTML=ISS.map(row).join('');
+const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
+</script></body></html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ Token 逐值来自 designs/supabase/DESIGN.md：canvas #fff + canvas-night #1c1c1c 双世界、
+    primary #3ecf8e（on-primary 为深墨 #171717——品牌标志：绿底黑字）、hairline #dfdfdf、
+    彩虹 accents（purple/yellow/tomato/pink/indigo）仅做分类标记
+  ─ 散文指令：「安静地技术化：极简 chrome、近单色画面、绿色作为唯一行动信号」；
+    「代码块即产品截图」→ hero 嵌 canvas-night SQL 终端
+  ─ rounded 阶梯 6/8/12/16；spacing 紧凑 8 起步（developer density）
+  ─ Motion：150ms 干脆，hover 只提亮不加位移阴影
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QuasarDB — Supabase 设计系统样板间</title>
+<style>
+:root{
+  --primary:#3ecf8e;--primary-deep:#24b47e;--primary-soft:#4ade80;--on-primary:#171717;
+  --ink:#171717;--ink2:#212121;--mute:#707070;--mute2:#9a9a9a;--faint:#b2b2b2;--on-dark:#fff;
+  --canvas:#fff;--canvas-soft:#fafafa;--night:#1c1c1c;--night-soft:#202020;
+  --hair:#dfdfdf;--hair-strong:#c7c7c7;--cool:#ededed;--cool2:#efefef;
+  --purple:#6b01c2;--violet:#644fc1;--violet-soft:#eddbf9;--yellow:#ffdb13;--tomato:#ff2201;--pink:#c7007e;--indigo:#054cff;--crimson:#e2005a;
+  --r-xs:4px;--r-sm:6px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-pill:9999px;
+  --s-xs:4px;--s-sm:8px;--s-md:12px;--s-lg:16px;--s-xl:24px;--s-xxl:32px;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --font:'Circular','Helvetica Neue',Helvetica,'PingFang SC',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;transition:background-color .15s,color .15s,border-color .15s,opacity .15s}
+body{font:14.5px/1.6 var(--font);background:var(--canvas);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:20px;padding:12px max(18px,4vw);border-bottom:1px solid var(--hair);background:rgba(255,255,255,.86);backdrop-filter:blur(10px)}
+.logo{font-weight:700;font-size:16px;display:flex;gap:8px;align-items:center;letter-spacing:-.02em}
+.logo b{color:var(--primary);font-size:19px}
+header nav{display:flex;gap:2px;margin:0 auto}
+header nav a{padding:7px 12px;border-radius:var(--r-sm);font-size:13px;color:var(--mute)}
+header nav a:hover{color:var(--ink);background:var(--canvas-soft)}
+.btn{border:1px solid var(--hair-strong);background:var(--canvas);color:var(--ink);border-radius:var(--r-md);padding:8px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn-p{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.btn-p:hover{background:var(--primary-deep);border-color:var(--primary-deep)}
+.btn-t{background:transparent;border-color:transparent;color:var(--mute)}.btn-t:hover{color:var(--ink)}
+.view{display:none}.view.on{display:block}
+.hero{padding:64px 4vw 8px;text-align:center;position:relative}
+.hero .badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--cool);border-radius:var(--r-pill);padding:5px 12px;font-size:12px;color:var(--mute);background:var(--canvas-soft)}
+.hero .badge i{color:var(--primary);font-style:normal;font-weight:700}
+h1{font-size:clamp(34px,5.6vw,58px);font-weight:600;letter-spacing:-.035em;line-height:1.08;margin-top:20px}
+h1 em{font-style:normal;color:var(--primary-deep)}
+.hero p.sub{color:var(--mute);font-size:16px;max-width:520px;margin:14px auto 0}
+.hero .links{display:flex;gap:10px;justify-content:center;margin-top:24px}
+.term{max-width:860px;margin:44px auto 0;background:var(--night);border:1px solid #2a2a2a;border-radius:var(--r-xl);overflow:hidden;text-align:left;font-family:var(--mono);font-size:12.5px}
+.termbar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid #2a2a2a;background:var(--night-soft)}
+.termbar s{width:10px;height:10px;border-radius:50%;background:#333;text-decoration:none}
+.termbar span{margin-left:8px;color:var(--faint);font-size:11px}
+.term pre{padding:18px 20px;line-height:1.7;color:#d4d4d4;overflow:auto}
+.term .k{color:var(--primary)}.term .s{color:var(--yellow)}.term .c{color:#6b7280}.term .fn{color:var(--violet-soft)}
+.wrap{max-width:1060px;margin:0 auto;padding:60px 4vw}
+h2.sec{font-size:clamp(24px,3.4vw,36px);font-weight:600;letter-spacing:-.03em;text-align:center}
+p.secd{color:var(--mute);text-align:center;max-width:520px;margin:10px auto 0}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:36px}
+.f{border:1px solid var(--hair);border-radius:var(--r-lg);padding:20px;background:var(--canvas)}
+.f:hover{border-color:var(--hair-strong)}
+.f .chip{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-radius:var(--r-xs);padding:2px 8px;margin-bottom:12px;color:var(--ink)}
+.f b{font-size:15.5px}.f p{color:var(--mute);font-size:13px;margin-top:6px}
+.docs{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-top:40px}
+.dnav{border-right:1px solid var(--hair);padding-right:20px;font-size:13px;color:var(--mute)}
+.dnav div{padding:5px 8px;border-radius:var(--r-sm);cursor:pointer}.dnav div.on{background:var(--canvas-soft);color:var(--ink);font-weight:600}
+.dbody h3{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.dbody p{color:var(--mute);margin-top:10px;max-width:60ch}
+.inlinecode{font-family:var(--mono);font-size:.88em;background:var(--canvas-soft);border:1px solid var(--cool);border-radius:var(--r-xs);padding:1px 6px;color:var(--ink2)}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:36px}
+.pl{border:1px solid var(--hair);border-radius:var(--r-lg);padding:22px}
+.pl.best{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
+.pl h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--mute)}
+.pl b{display:block;font-size:30px;font-weight:600;margin:8px 0 0;letter-spacing:-.02em}
+.pl small{color:var(--faint)}.pl ul{list-style:none;margin:14px 0 18px;font-size:13px;color:var(--mute)}.pl li{padding:3px 0}.pl li::before{content:"✓ ";color:var(--primary-deep);font-weight:700}
+footer{border-top:1px solid var(--hair);background:var(--canvas-soft);padding:36px 4vw 20px;font-size:12.5px;color:var(--mute)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;max-width:1060px;margin:0 auto}
+footer h4{color:var(--ink);font-size:12px;margin-bottom:6px}footer a{display:block;padding:3px 0}footer a:hover{text-decoration:underline}
+.studio{max-width:1060px;margin:0 auto;padding:26px 4vw}
+.studio h2{font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px}
+.studio h2 .chip{font-size:10px;background:var(--violet-soft);color:var(--purple);border-radius:var(--r-xs);padding:2px 8px;font-weight:700}
+.stbar{display:flex;gap:8px;margin:16px 0 12px;flex-wrap:wrap}
+.stbar input,.stbar select{border:1px solid var(--hair);border-radius:var(--r-sm);padding:8px 12px;font:inherit;font-size:13px;background:var(--canvas)}
+.stbar input:focus{outline:none;border-color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:13px;border:1px solid var(--hair);border-radius:var(--r-md)}
+th{text-align:left;background:var(--canvas-soft);color:var(--mute);font-weight:600;font-size:11px;padding:9px 12px;border-bottom:1px solid var(--hair);cursor:pointer}
+th.num,td.num{text-align:right;font-family:var(--mono);font-size:12px}
+td{padding:9px 12px;border-bottom:1px solid var(--cool2)}
+td .type{color:var(--faint);font-family:var(--mono);font-size:11px}
+.pill{border-radius:var(--r-pill);padding:2px 10px;font-size:11px;font-weight:700}
+.p-ok{background:rgba(62,207,142,.16);color:var(--primary-deep)}.p-run{background:var(--cool2);color:var(--mute)}
+.p-warn{background:rgba(255,219,19,.2);color:#8a6d00}.p-err{background:rgba(255,34,1,.12);color:var(--tomato)}
+.empty{border:1px dashed var(--hair-strong);border-radius:var(--r-lg);padding:30px;text-align:center;color:var(--mute);font-size:13px;margin-top:22px}
+.auth{display:grid;place-items:center;padding:56px 4vw}
+.acard{width:min(380px,92vw);border:1px solid var(--hair);border-radius:var(--r-xl);padding:26px}
+.acard h2{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.tabs{display:flex;border:1px solid var(--hair);border-radius:var(--r-md);padding:3px;margin:16px 0}
+.tabs button{flex:1;border:none;background:none;font:inherit;font-size:13px;padding:7px;border-radius:var(--r-sm);cursor:pointer;color:var(--mute)}
+.tabs button.on{background:var(--canvas-soft);color:var(--ink);font-weight:700}
+.f2{margin-bottom:10px}.f2 label{font-size:12px;color:var(--mute);display:block;margin-bottom:4px;font-weight:600}
+.f2 input{width:100%;border:1px solid var(--hair);border-radius:var(--r-sm);padding:10px 12px;font:inherit;font-size:14px;background:var(--canvas)}
+.f2 input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(62,207,142,.25)}
+.gen{border-top:1px solid var(--hair);color:var(--faint);font-size:11px;text-align:center;padding:12px}
+@media(max-width:820px){header nav{display:none}.docs{grid-template-columns:1fr}.dnav{display:none}}
+</style></head><body>
+<header><span class="logo"><b>◆</b>QuasarDB</span>
+<nav><a href="#" data-goto="home">产品</a><a href="#" data-goto="prod">文档</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="app">启动器</a></nav>
+<button class="btn btn-p" data-goto="auth">开始使用 —— 免费</button></header>
+<main>
+<div class="view on" id="v-home">
+  <section class="hero">
+    <span class="badge">开<circle>源</circle> Firebase 替代 · <i>v3.2 向量检索 GA</i></span>
+    <h1>Build in a weekend.<br><em>Scale to millions.</em></h1>
+    <p class="sub">Postgres 的一切：索引、触发器、关系型建模——加上认证、存储、实时与边缘函数。</p>
+    <p class="links"><button class="btn btn-p" data-goto="app">打开控制台</button><button class="btn" data-goto="prod">读文档 ›</button></p>
+    <div class="term"><div class="termbar"><s></s><s></s><s></s><span>sql editor — public.orders</span></div>
+<pre><span class="c">-- 绿色是唯一的行动信号（规范原文）</span>
+<span class="k">select</span> status, <span class="fn">count</span>(*) <span class="k">as</span> n
+  <span class="k">from</span> orders
+ <span class="k">where</span> created_at > <span class="s">now() - interval '7 day'</span>
+ <span class="k">group by</span> status
+ <span class="k">order by</span> n <span class="k">desc</span>;
+<span class="c">▸ 3 rows returned in 42ms</span></pre></div>
+  </section>
+
+  <div class="wrap">
+    <h2 class="sec">一个 Postgres，全部后端</h2>
+    <p class="secd">彩虹色只用于分类标记，画布保持近单色——安静地技术化。</p>
+    <div class="fgrid">
+      <div class="f"><span class="chip" style="background:rgba(62,207,142,.18)">DATABASE</span><b>原生 Postgres</b><p>不是封装，是本体。pgvector、JSONB、逻辑复制全部可用，<span class="inlinecode">supabase db diff</span> 生成迁移。</p></div>
+      <div class="f"><span class="chip" style="background:var(--violet-soft);color:var(--purple)">AUTH</span><b>用户认证</b><p>RLS 策略与前端 SDK 同构；magic link、OAuth、匿名登录 30 分钟接完。</p></div>
+      <div class="f"><span class="chip" style="background:rgba(255,219,19,.25)">REALTIME</span><b>实时订阅</b><p>数据库行变更直接推流到浏览器，<span class="inlinecode">.on('postgres_changes')</span> 一行搞定。</p></div>
+      <div class="f"><span class="chip" style="background:rgba(226,0,90,.14);color:var(--crimson)">STORAGE</span><b>大文件与向量</b><p>S3 兼容 + pgvector 检索，resumable 上传，CDN 全球分发。</p></div>
+      <div class="f"><span class="chip" style="background:rgba(5,76,255,.12);color:var(--indigo)">EDGE FUNCTIONS</span><b>边缘运行时</b><p>Deno 函数就近部署 31 个区域，冷启动 <span class="inlinecode">&lt;10ms</span>。</p></div>
+      <div class="f"><span class="chip" style="background:rgba(255,34,1,.12);color:var(--tomato)">PG CRON</span><b>定时作业</b><p>在库内调度备份与聚合刷新，失败自动进告警通道。</p></div>
+    </div>
+  </div>
+
+  <section style="background:var(--canvas-soft)"><div class="wrap" style="padding-top:56px;padding-bottom:56px">
+    <h2 class="sec">定价随规模伸展</h2>
+    <div class="price">
+      <div class="pl"><h3>Free</h3><b>¥0</b><small>玩具与原型</small><ul><li>2 个项目</li><li>500MB 数据库</li><li>社区支持</li></ul><button class="btn" style="width:100%" data-goto="auth">开始</button></div>
+      <div class="pl best"><h3>Pro</h3><b>$25</b><small>/月起，按量计费</small><ul><li>无限活跃项目</li><li>7 天日志保留</li><li>8GB 数据库</li></ul><button class="btn btn-p" style="width:100%" data-goto="auth">升级</button></div>
+      <div class="pl"><h3>Team</h3><b>$599</b><small>/月</small><ul><li>SSO / 分支预览</li><li>SLA 与优先支持</li></ul><button class="btn" style="width:100%">联系销售</button></div>
+    </div>
+  </div></section>
+  <footer><div class="cols">
+    <div><h4>产品</h4><a>Database</a><a>Auth</a><a>Storage</a><a>Functions</a></div>
+    <div><h4>开发者</h4><a data-goto="prod">文档</a><a>CLI</a><a>客户端 SDK</a><a>状态页</a></div>
+    <div><h4>开源</h4><a>GitHub 21k★</a><a>贡献指南</a><a>路线图</a></div>
+    <div><h4>条款</h4><a>隐私</a><a>安全</a></div>
+  </div><p style="text-align:center;margin-top:20px">© 2026 QuasarDB 样板间演示</p></footer>
+</div>
+
+<div class="view" id="v-prod">
+  <div class="wrap" style="padding-top:40px"><div class="docs">
+    <div class="dnav"><div class="on">快速开始</div><div>认证 RLS</div><div>实时订阅</div><div>Edge Functions</div><div>向量检索</div><div>自托管</div></div>
+    <div class="dbody">
+      <h3>实时订阅 postgres_changes</h3>
+      <p>客户端直接监听数据库行事件，无需消息队列。<span class="inlinecode">realtime</span> 通道继承 RLS 权限——用户只能收到自己可见的变更。</p>
+      <div class="term" style="margin-top:18px;text-align:left"><div class="termbar"><s></s><s></s><s></s><span>app/realtime.ts</span></div>
+<pre><span class="k">const</span> channel = client.<span class="fn">channel</span>(<span class="s">'orders-feed'</span>)
+
+channel.<span class="fn">on</span>(<span class="s">'postgres_changes'</span>, {
+  event: <span class="s">'INSERT'</span>, schema: <span class="s">'public'</span>, table: <span class="s">'orders'</span>
+}, (payload) => renderRow(payload.new))
+
+<span class="k">await</span> channel.<span class="fn">subscribe</span>()  <span class="c">// 42ms 建连</span></pre></div>
+      <p style="margin-top:16px">下一步：<b style="color:var(--ink)">RLS 模板库</b> 与 <b style="color:var(--ink)">WebSocket 广播</b>。</p>
+    </div>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Supabaze-Inspired-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-app">
+  <section class="studio">
+    <h2>表编辑器 · public.orders <span class="chip">TABLE</span></h2>
+    <div class="stbar">
+      <input placeholder="筛选行…" style="max-width:220px"><select><option>全部列</option><option>status</option><option>amount</option></select>
+      <button class="btn btn-sm btn">插入行</button><button class="btn btn-t">↑ CSV 导入</button>
+      <span style="margin-left:auto;font-size:12px;color:var(--mute)" id="stat"></span>
+    </div>
+    <table><thead><tr><th id="srt">amount ⇅</th><th>customer</th><th>status</th><th>渠道</th><th class="num">created_at</th></tr></thead><tbody id="tb"></tbody></table>
+    <div class="empty">未选择行 —— 控制台空态从不说谎也不打扰（规范文气）。</div>
+  </section>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Supabaze-Inspired-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-auth">
+  <div class="auth"><div class="acard">
+    <h2>登录控制台</h2>
+    <div class="tabs"><button class="on">邮箱</button><button>GitHub</button><button>魔链</button></div>
+    <div class="f2"><label>邮箱</label><input value="hi@gholl.com"></div>
+    <div class="f2"><label>密码</label><input type="password" value="design-systems"></div>
+    <button class="btn btn-p" style="width:100%;padding:10px">登录</button>
+    <p style="font-size:11.5px;color:var(--faint);margin-top:12px;text-align:center">绿色仅作为行动色 —— 其余一切近单色（规范原文）</p>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Supabaze-Inspired-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Supabaze-Inspired-design-analysis」生成 · 彩虹色仅分类标记 / 绿底深墨按钮（规范 token 执行）</div>
+<script>
+const V=[['4,820','云栖网络','p-ok','已完成','api',3],['1,299','Pixel 工作室','p-run','处理中','web',2],['18,500','极光生物','p-ok','已完成','api',5],['96','试用者 42','p-warn','待支付','web',1],['7,140','长风物流','p-ok','已完成','cli',4],['250','Fold Labs','p-err','已退款','web',0],['3,680','谷雨茶室','p-run','处理中','api',2]];
+let asc=true,tb=document.getElementById('tb');
+function draw(){const rows=[...V].sort((a,b)=>asc?+b[0].replace(/,/g,'')- +a[0].replace(/,/g,''):+a[0].replace(/,/g,'')-+b[0].replace(/,/g,''));
+tb.innerHTML=rows.map(r=>`<tr><td class="num" style="font-weight:700">¥${r[0]}</td><td>${r[1]}</td><td><span class="pill ${r[2]}">${r[3]}</span></td><td><span class="type">${r[4]}</span></td><td class="num">11-0${5-r[5]} 09:2${r[5]}</td></tr>`).join('');
+document.getElementById('stat').textContent=`${rows.length} rows · 42ms`}
+document.getElementById('srt').onclick=()=>{asc=!asc;draw()};draw();
+const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
+</script></body></html>

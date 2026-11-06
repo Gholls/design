@@ -1,0 +1,199 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ Token 逐值来自 designs/airbnb/DESIGN.md：Rausch #ff385c 唯一情绪色 / active #e00b41 /
+    ink #222 / canvas #fff / hairline #ddd / 圆角阶梯 8-14-20-32 / pill 搜索条
+  ─ 散文指令：「搜索是首页的第一公民」→ hero 即搜索条+分类圆标；「卡片即产品」
+    → listing 网格占据主版面；「价格表达亲密」→ 定价用 ¥/晚 口语单位
+  ─ components.button-primary：圆形图标按钮 + Rausch 实心主按钮（active 加深）
+  ─ Motion 文气：卡片 hover 图微缩放 + 心标弹跳（品牌标志交互），150ms
+  ─ 星评分用 ink 色（star-rating #222，非金色——规范明确）
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Airbnb 设计系统样板间 · 住进风景里</title>
+<style>
+:root{
+  --primary:#ff385c;--primary-active:#e00b41;--primary-disabled:#ffd1da;--on-primary:#fff;
+  --ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--muted-soft:#929292;
+  --hairline:#ddd;--hairline-soft:#ebebeb;--border-strong:#c1c1c1;
+  --canvas:#fff;--surface-soft:#f7f7f7;--surface-strong:#f2f2f2;--star:#222;
+  --r-xs:4px;--r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:32px;--r-pill:9999px;
+  --s-sm:8px;--s-md:12px;--s-base:16px;--s-lg:24px;--s-xl:32px;
+  --font:'Airbnb Cereal VF',Circular,-apple-system,system-ui,Roboto,'PingFang SC',sans-serif;
+}
+*{box-sizing:border-box;margin:0;transition:background-color .15s,color .15s,border-color .15s,transform .15s,box-shadow .15s}
+body{font:15px/1.5 var(--font);color:var(--ink);background:var(--canvas)}
+a{color:inherit;text-decoration:none}
+header{display:flex;align-items:center;gap:var(--s-lg);padding:14px max(20px,4vw);border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--canvas);z-index:30}
+.bnb{color:var(--primary);font-weight:800;font-size:22px;letter-spacing:-.04em}
+header nav{display:flex;gap:4px;margin:0 auto}
+header nav a{padding:10px 14px;border-radius:var(--r-pill);font-weight:600;font-size:14px;color:var(--muted)}
+header nav a:hover{background:var(--surface-soft);color:var(--ink)}
+.avatar-me{display:flex;align-items:center;gap:8px;border:1px solid var(--hairline);border-radius:var(--r-pill);padding:5px 6px 5px 12px;cursor:pointer;font-size:13px}
+.avatar-me:hover{box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.avatar-me i{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-size:12px}
+.view{display:none}.view.on{display:block}
+/* 首页：搜索第一公民 */
+.hero{padding:44px 4vw 8px;text-align:center}
+.hero h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.2}
+.searchbar{display:inline-flex;align-items:center;gap:0;margin:30px auto 26px;border:1px solid var(--hairline);border-radius:var(--r-pill);box-shadow:0 3px 14px rgba(0,0,0,.08);background:var(--canvas);overflow:hidden}
+.searchbar .seg{padding:14px 22px;font-size:14px;font-weight:600;border-right:1px solid var(--hairline-soft);color:var(--ink);cursor:pointer}
+.searchbar .seg small{display:block;font-weight:400;color:var(--muted-soft);font-size:11.5px}
+.searchbar .go{width:46px;height:46px;border-radius:50%;background:var(--primary);color:var(--on-primary);border:none;margin:4px;cursor:pointer;font-size:17px;display:grid;place-items:center}
+.searchbar .go:hover{background:var(--primary-active)}
+.cats{display:flex;gap:26px;overflow:auto;padding:6px 4vw 18px;border-bottom:1px solid var(--hairline)}
+.cats .c{min-width:64px;text-align:center;color:var(--muted);font-size:11.5px;font-weight:600;cursor:pointer;padding:8px 2px;border-bottom:2px solid transparent}
+.cats .c:hover{color:var(--ink)}
+.cats .c.on{color:var(--ink);border-bottom-color:var(--ink)}
+.cats .c i{display:block;font-style:normal;font-size:24px;margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:26px;padding:30px 4vw}
+.card .photo{aspect-ratio:1/1;border-radius:var(--r-md);position:relative;overflow:hidden}
+.card .photo .dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+.card .photo .dots b{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6)}.card .photo .dots b:first-child{background:#fff}
+.heart{position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;color:var(--on-primary);font-size:16px;cursor:pointer;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.heart.liked{color:var(--primary);transform:scale(1.15)}
+.card:hover .photo{transform:scale(1.012)}
+.meta{display:flex;justify-content:space-between;margin-top:10px;font-size:15px}
+.meta b{font-weight:600}
+.card p{color:var(--muted);font-size:14px;margin-top:2px}
+.card .price{margin-top:4px;font-size:14.5px}.card .price b{font-weight:700}
+.super{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;border:1px solid var(--ink);border-radius:var(--r-xs);padding:2px 7px;margin-bottom:6px}
+.hostcta{margin:20px 4vw 40px;background:linear-gradient(180deg,#fff0f3,#ffe4ea);border-radius:var(--r-xl);padding:44px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.hostcta h2{font-size:24px;font-weight:700}.hostcta p{color:var(--body);margin-top:6px}
+.btn{border:1px solid var(--ink);border-radius:var(--r-sm);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;background:var(--canvas)}
+.btn-p{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.btn-p:hover{background:var(--primary-active);border-color:var(--primary-active)}
+footer{border-top:1px solid var(--hairline);padding:34px 4vw 20px;background:var(--canvas)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s-lg);font-size:13px;color:var(--muted)}
+footer h4{color:var(--ink);font-size:13.5px;margin-bottom:8px}footer a{display:block;padding:3.5px 0}footer a:hover{text-decoration:underline}
+/* 体验页 */
+.exp{padding:44px 4vw;max-width:1000px;margin:0 auto}
+.exp .img{height:340px;border-radius:var(--r-lg);background:radial-gradient(circle at 20% 20%,#ffd7c2,#ff8e7e 55%,#e5487b)}
+.exp h2{font-size:26px;font-weight:700;margin-top:26px}
+.exp .row{display:flex;gap:14px;flex-wrap:wrap;color:var(--body);font-size:14px;margin-top:8px}
+.exp .box{border:1px solid var(--hairline);border-radius:var(--r-md);padding:22px;margin-top:22px;background:var(--surface-soft)}
+.reserve{position:sticky;bottom:16px;margin-top:26px;float:right;border:1px solid var(--hairline);border-radius:var(--r-md);box-shadow:0 6px 18px rgba(0,0,0,.12);background:#fff;padding:20px;width:300px}
+.reserve .p{font-size:17px}.reserve .p b{font-weight:700}
+.reserve .btn{width:100%;margin-top:14px}
+/* 后台 */
+.app{max-width:1000px;margin:0 auto;padding:40px 4vw}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.kpi{border:1px solid var(--hairline);border-radius:var(--r-md);padding:18px}
+.kpi b{font-size:24px;display:block;margin-top:4px}.kpi span{color:var(--muted);font-size:12.5px}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14px}
+th{text-align:left;color:var(--muted);font-size:12px;font-weight:600;padding:10px 12px;border-bottom:1px solid var(--hairline)}
+th.num,td.num{text-align:right}td{padding:13px 12px;border-bottom:1px solid var(--hairline-soft)}
+.pill{display:inline-block;border-radius:var(--r-pill);padding:3px 10px;font-size:11.5px;font-weight:700}
+.p-ok{background:#00830c;color:#fff}.p-run{background:#f7f7f7;color:var(--ink);border:1px solid var(--hairline)}
+.p-warn{background:#fff3d9;color:#7d5a00}.p-err{background:var(--primary);color:#fff}
+.tbar{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;align-items:center}
+.tbar input,.tbar select{border:1px solid var(--border-strong);border-radius:var(--r-pill);padding:10px 16px;font:inherit;font-size:13.5px;background:var(--canvas)}
+.tbar input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 2px rgba(0,0,0,.12)}
+/* 认证 */
+.auth{display:grid;place-items:center;padding:60px 4vw}
+.acard{width:min(400px,92vw)}
+.acard h2{font-size:22px;font-weight:700}.acard .tabs{display:flex;border-bottom:1px solid var(--hairline);margin:18px 0 22px}
+.acard .tabs button{flex:1;background:none;border:none;font:inherit;font-size:15px;font-weight:600;padding:10px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent}
+.acard .tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.fld{margin-bottom:12px}.fld label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
+.fld input{width:100%;border:1px solid var(--border-strong);border-radius:var(--r-sm);padding:13px 14px;font:inherit;font-size:15px}
+.fld input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 2px rgba(0,0,0,.12)}
+.fld.bad input{border-color:var(--primary-active)}
+.fld .err{display:none;color:var(--primary-active);font-size:12px;font-weight:600;margin-top:4px}
+.fld.bad .err{display:block}
+.gen{background:var(--surface-soft);text-align:center;font-size:11.5px;color:var(--muted);padding:14px}
+@media(max-width:760px){header nav{display:none}.searchbar{flex-wrap:wrap;border-radius:var(--r-lg)}.reserve{float:none;width:auto;position:static}}
+</style></head><body>
+<header><a class="bnb" href="#">bnb</a>
+  <nav><a data-goto="home" href="#">房源</a><a data-goto="exp" href="#">体验</a><a data-goto="app" href="#">成为房东</a></nav>
+  <span class="avatar-me">菜单 <i>我</i></span></header>
+<main>
+<div class="view on" id="v-home">
+  <section class="hero"><h1>Discover 周末短途<br>住进风景里</h1>
+    <div class="searchbar">
+      <span class="seg">住哪儿<small>搜索城市或房源类型</small></span>
+      <span class="seg">日期<small>添加日期</small></span>
+      <span class="seg">人数<small>添加人数</small></span>
+      <button class="go" aria-label="搜索">⌕</button>
+    </div>
+  </section>
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+  <section class="hostcta"><div><h2>把你的空房变成收入</h2><p>超过 400 万房源在 Airbnb 出租，平均月入 ¥3,200。</p></div>
+    <button class="btn" data-goto="app">开始出租 ›</button></section>
+  <footer><div class="cols">
+    <div><h4>支持</h4><a>帮助中心</a><a>AirCover</a><a>反歧视</a><a>取消政策</a></div>
+    <div><h4> Hosting</h4><a>Airbnb 出租</a><a>体验 host</a><a>负责任 hosting</a><a>资源中心</a></div>
+    <div><h4>Airbnb 类别</h4><a>城市与周边</a><a>海岛</a><a>滑雪</a><a>独特住所</a></div>
+  </div><p style="margin-top:20px;font-size:12px;color:var(--muted-soft)">© 2026 样板间演示，非 Airbnb 官方</p></footer>
+</div>
+
+<div class="view" id="v-exp">
+  <div class="exp">
+    <div class="img"></div>
+    <h2>与本地向导攀 4 小时火山小径</h2>
+    <div class="row"><span>★ 4.96（412 条评价）·  Rating 使用 ink 色而非金色（规范）</span><span>时长 4 小时 · 含装备</span></div>
+    <p style="margin-top:14px;color:var(--body);max-width:60ch">这条路线只有当地人才知道。我们从雾色未散的熔岩原出发，沿途采拾火山玻璃——向导会讲 1912 年喷发时村子里的故事。山顶的云海，值得每一级台阶。</p>
+    <div class="box"><b>你会带上什么</b><p style="color:var(--body);margin-top:8px">一件会被火山灰弄脏的外套 · 一双合脚的鞋 · 以及一段你会反复讲述的故事。</p></div>
+    <div class="reserve"><div class="p"><b>¥428</b> / 人</div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:4px">11 月 18 日（周二）· 6 人以内</p>
+      <button class="btn btn-p">申请预订</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">预订前无需付款</p></div>
+    <div style="clear:both"></div>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-app">
+  <section class="app">
+    <h2 style="font-size:24px;font-weight:700">房东控制台</h2>
+    <p style="color:var(--muted);margin:4px 0 20px">过去 30 天 · 2 个房源</p>
+    <div class="kpis">
+      <div class="kpi"><span>入住率</span><b>86%</b><span>↑ 4% 环比</span></div>
+      <div class="kpi"><span>收入</span><b>¥12,480</b><span>↑ 12% 环比</span></div>
+      <div class="kpi"><span>回复率</span><b>98%</b><span>中位 2 小时内</span></div>
+    </div>
+    <div class="tbar">
+      <input placeholder="搜索预订编号 / 房客…" style="max-width:240px">
+      <select><option>全部状态</option><option>待确认</option><option>已确认</option><option>已完成</option><option>已取消</option></select>
+      <button class="btn btn-p" style="margin-left:auto">新增价目</button>
+    </div>
+    <table><thead><tr><th id="srt" style="cursor:pointer">订单金额 ⇅</th><th>房客</th><th>房源</th><th>入住</th><th>状态</th></tr></thead><tbody id="tb"></tbody></table>
+    <p style="margin-top:26px;color:var(--muted);font-size:13px;border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:26px;text-align:center">这个月没有需要回复的消息 —— 空状态即「无事可做」，不打扰。</p>
+  </section>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-auth">
+  <div class="auth"><div class="acard">
+    <h2>登录或注册</h2>
+    <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">注册</button></div>
+    <div class="fld"><label>邮箱或电话 *</label><input value="hi@gholl.com"></div>
+    <div class="fld bad"><label>密码 *</label><input type="password" id="pw" value="air"><span class="err">密码太短 —— Airbnb 的校验直接标红边框并附一句话说明。</span></div>
+    <button class="btn btn-p" style="width:100%;padding:14px">继续</button>
+    <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:16px">注册即同意房东条款 · <a data-goto="home" href="#" style="font-weight:600">返回首页</a></p>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成 · 搜索第一公民 / Rausch 单色情绪 / 星评分用 ink 色（规范原文执行）</div>
+<script>
+const cats=[['⌂','房源'],['🏖','海滩'],['🏔','山景'],['⛺','帐篷'],['🌃','城市天台'],['♨️','温泉'],['🏝','小岛'],['🛶','湖畔'],['🚂','复古火车'],['🌋','火山'],['🏠','树屋'],['🚐','房车']];
+document.getElementById('cats').innerHTML=cats.map((c,i)=>`<span class="c${i===2?' on':''}" onclick="this.parentNode.querySelectorAll('.c').forEach(x=>x.classList.remove('on'));this.classList.add('on')"><i>${c[0]}</i>${c[1]}</span>`).join('');
+const BG=['radial-gradient(circle at 70% 30%,#ffd9a0,#e07a5f 60%,#3d405b)','linear-gradient(160deg,#a8dadc,#457b9d 70%,#1d3557)','radial-gradient(circle at 30% 70%,#ffe5d9,#f4acb7 55%,#9d4edd)','linear-gradient(200deg,#d8f3dc,#95d5b2 60%,#2d6a4f)','radial-gradient(circle at 50% 20%,#fff1c4,#ffb703 60%,#fb8500)','linear-gradient(150deg,#e0f7fa,#80deea 55%,#0288d1)'];
+const L=[['雾岛 · 海景木屋','指宿，日本','整栋房源 · 2 室','1,024 位房客评分',4.97,'¥689'],['安第斯山顶玻璃屋','瓦尔帕莱索，智利','树屋','842',4.89,'¥512'],['托斯卡纳橄榄农庄','锡耶纳，意大利','农舍','1,566',4.95,'¥823'],['盐湖漂浮舱','犹他州，美国','独特住所','308',4.83,'¥446'],['京都町屋 · 庭园景','京都，日本','整套房源','2,318',4.98,'¥911'],['法罗群岛灯塔','法罗群岛','灯塔','97',4.92,'¥1,280']];
+const H=(i)=>i%3===0?'super':'';
+document.getElementById('grid').innerHTML=L.map((l,i)=>`<div class="card"><div class="photo" style="background:${BG[i%BG.length]}"><span class="heart" onclick="this.classList.toggle('liked')">♥</span><span class="dots"><b></b><b></b><b></b><b></b></span></div>
+  ${i%3===0?'<span class="super">★ Superhost</span>':''}
+  <div class="meta"><b>${l[0]}</b><span style="color:var(--star);font-weight:600">★ ${l[4]}</span></div>
+  <p>${l[1]}</p><p>${l[2]} · ${l[3]}条评价</p><p class="price"><b>${l[5]}</b> 晚</p></div>`).join('');
+const views={home:'v-home',exp:'v-exp',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
+const B=[['BK-3301','松本 花','海景木屋','11-14','p-ok','已确认',3445],['BK-3302','Dana W','山顶玻璃屋','11-19','p-run','待确认',1536],['BK-3303','李昂','京都町屋','11-09','p-ok','已确认',6377],['BK-3304','Priya S','灯塔','11-22','p-warn','修改请求',2560],['BK-3305','Marco R','农庄','11-27','p-ok','已确认',4938],['BK-3306','匿名房客','盐湖漂浮舱','11-30','p-err','已取消',892]];
+let asc=true,tb=document.getElementById('tb');
+function draw(){tb.innerHTML=[...B].sort((a,b)=>asc?b[6]-a[6]:a[6]-b[6]).map(o=>`<tr><td class="num" style="font-weight:700">¥${o[6].toLocaleString()}</td><td>${o[1]}</td><td style="color:var(--muted)">${o[2]}</td><td>${o[3]}</td><td><span class="pill ${o[4]}">${o[5]}</span></td></tr>`).join('')}
+document.getElementById('srt').onclick=()=>{asc=!asc;draw()};draw();
+document.getElementById('pw').addEventListener('input',e=>e.target.closest('.fld').classList.toggle('bad',e.target.value.length<8));
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className='';};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className='';};
+</script></body></html>

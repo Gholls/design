@@ -1,0 +1,310 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ Token 逐值来自 designs/apple/DESIGN.md（Action Blue #0066cc 唯一交互色 / canvas #fff /
+    canvas-parchment #f5f5f7 / surface-black #000 交替磁贴 / SF Pro 族 / 负字距）
+  ─ 散文指令：「UI退后让产品说话」「无装饰渐变，chrome 零阴影」「阴影只出现在商品图上」
+    → 全站唯一 shadow token 用于产品舞台层；导航无底色无描边
+  ─ components.button-primary：pill 9999px、链接式次级动作（underline on hover）
+  ─ Variance 低-中：整宽通栏磁贴交替明暗（品牌标志手法）；Density  airy：大留白
+  ─ Motion 品牌文气：克制的 200ms 淡入，无弹跳
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ProVision — Apple Design System 样板间</title>
+<style>
+:root{
+  --primary:#0066cc;--primary-focus:#0071e3;--primary-on-dark:#2997ff;
+  --ink:#1d1d1f;--body:#1d1d1f;--body-muted:#cccccc;--ink-muted-48:#7a7a7a;
+  --hairline:#e0e0e0;--hairline-soft:#f0f0f0;
+  --canvas:#ffffff;--canvas-parchment:#f5f5f7;--surface-black:#000000;--surface-pearl:#fafafc;
+  --on-primary:#ffffff;--on-dark:#ffffff;
+  --r-xs:5px;--r-sm:8px;--r-md:11px;--r-lg:18px;--r-pill:9999px;
+  --s-xxs:4px;--s-xs:8px;--s-sm:12px;--s-md:17px;--s-lg:24px;--s-xl:32px;--s-xxl:48px;
+  --sh-product:0 3px 30px rgba(0,0,0,.12),0 3px 8px rgba(0,0,0,.04);
+  --font-display:'SF Pro Display',-apple-system,'SF Pro Text','PingFang SC',system-ui,sans-serif;
+  --font-text:'SF Pro Text',-apple-system,'PingFang SC',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;transition:background-color .2s,color .2s,opacity .2s,border-color .2s}
+body{font:17px/1.47 var(--font-text);background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+nav{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:var(--s-lg);padding:12px max(22px,5vw);background:rgba(255,255,255,.8);backdrop-filter:blur(20px);font-size:12px}
+.logo{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink)}
+.navlink{color:var(--ink);opacity:.85;font-weight:400}.navlink:hover{opacity:1;text-decoration:none}
+.navcta{margin-left:auto;background:var(--primary);color:var(--on-primary);border-radius:var(--r-pill);padding:6px 14px;font-weight:500;border:none;cursor:pointer;font-size:12px}
+.navcta:hover{background:var(--primary-focus)}
+.view{display:none}.view.on{display:block}
+h1,h2,h3{font-family:var(--font-display);letter-spacing:-.02em}
+.hero{padding:80px 5vw 0;text-align:center}
+.hero h1{font-size:clamp(40px,6.5vw,64px);font-weight:600;line-height:1.07}
+.hero .sub{margin:14px auto 0;max-width:580px;color:var(--ink-muted-48);font-size:21px;line-height:1.4}
+.hero .links{margin-top:var(--s-lg)}
+.hero .links a{font-size:17px;margin:0 12px}
+.tile{margin-top:var(--s-xxl);padding:64px 5vw;text-align:center}
+.tile.dark{background:var(--surface-black);color:var(--on-dark)}
+.tile.dark h3{color:var(--on-dark)}
+.tile.dark .tsub{color:var(--body-muted)}
+.tile.paper{background:var(--canvas-parchment)}
+.stage{margin:34px auto 0;max-width:720px;aspect-ratio:16/9;border-radius:var(--r-lg);box-shadow:var(--sh-product);position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1c1e,#2c2c2e 55%,#48484c);display:grid;place-items:center}
+.stage::after{content:"";position:absolute;inset:auto 18% 12% 18%;height:6px;border-radius:3px;background:rgba(255,255,255,.28)}
+.stage .orb{width:42%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,#8ea2ff 45%,#303a68 75%);}
+.tsub{color:var(--ink-muted-48);font-size:15px}
+section.blk{padding:72px 5vw}
+section.blk h2{font-size:clamp(28px,4vw,40px);font-weight:600;text-align:center}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s-lg);margin-top:var(--s-xl)}
+.feat .f{background:var(--surface-pearl);border-radius:var(--r-lg);padding:var(--s-lg)}
+.feat .f b{font-family:var(--font-display);font-size:19px}
+.feat .f p{color:var(--ink-muted-48);font-size:14px;margin-top:8px;line-height:1.5}
+.glyph{width:44px;height:44px;border-radius:var(--r-md);background:var(--primary);margin-bottom:14px;display:grid;place-items:center;color:var(--on-primary);font-size:20px}
+.strip{background:var(--canvas-parchment);text-align:center;padding:26px 5vw;color:var(--ink-muted-48);font-size:13px}
+.quote{max-width:720px;margin:0 auto;text-align:center;padding:72px 5vw}
+.quote p{font-family:var(--font-display);font-size:clamp(22px,3vw,28px);line-height:1.35;letter-spacing:-.01em}
+.quote small{display:block;margin-top:16px;color:var(--ink-muted-48);font-size:13px}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--s-lg);max-width:980px;margin:var(--s-xl) auto 0}
+.plan{border:1px solid var(--hairline);border-radius:var(--r-lg);padding:26px;background:var(--canvas)}
+.plan.best{background:var(--surface-black);color:var(--on-dark);border-color:transparent}
+.plan h3{font-size:19px}.plan b{font-family:var(--font-display);font-size:32px;display:block;margin:10px 0}
+.plan ul{list-style:none;font-size:13.5px;color:var(--ink-muted-48);margin-top:12px}.plan.best ul{color:var(--body-muted)}
+.plan li{padding:5px 0}
+.plan .btn{display:block;text-align:center;margin-top:16px;border-radius:var(--r-pill);padding:9px 0;font-size:14px;font-weight:500;cursor:pointer;border:none;background:var(--canvas-parchment);color:var(--primary)}
+.plan.best .btn{background:var(--primary);color:var(--on-primary)}
+details.faq{max-width:680px;margin:0 auto;border-bottom:1px solid var(--hairline);padding:14px 4px}
+details.faq summary{cursor:pointer;font-weight:500;font-size:16px;list-style:none}
+details.faq summary::before{content:"﹢ ";color:var(--primary)}
+details.faq[open] summary::before{content:"﹣ "}
+details.faq p{color:var(--ink-muted-48);font-size:14.5px;padding:10px 0 4px}
+footer{background:var(--canvas-parchment);padding:48px 5vw 24px;font-size:12px;color:var(--ink-muted-48)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--s-lg)}
+footer h4{font-size:12px;color:var(--ink);margin-bottom:10px}
+footer a{display:block;color:var(--ink-muted-48);padding:3px 0}footer a:hover{color:var(--ink);text-decoration:none}
+.subrow{display:flex;gap:8px;max-width:320px;margin-top:24px}
+.subrow input{flex:1;border:1px solid var(--hairline);border-radius:var(--r-pill);padding:8px 14px;font:inherit;font-size:13px;background:var(--canvas)}
+.subrow button{border:none;border-radius:var(--r-pill);padding:8px 16px;background:var(--primary);color:var(--on-primary);cursor:pointer;font-size:13px}
+.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
+.app .side{background:var(--canvas-parchment);border-right:1px solid var(--hairline);padding:20px 12px;font-size:13px}
+.app .side a{display:block;color:var(--ink);opacity:.8;padding:7px 10px;border-radius:var(--r-sm)}
+.app .side a.on{background:var(--primary);color:var(--on-primary);opacity:1}
+.app .body{padding:28px 34px;background:var(--canvas)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s-md)}
+.kpi{background:var(--canvas-parchment);border-radius:var(--r-lg);padding:18px}
+.kpi b{font-family:var(--font-display);font-size:26px;display:block;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--ink-muted-48)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:22px;background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-md);overflow:hidden}
+th{background:var(--surface-pearl);color:var(--ink-muted-48);font-weight:500;text-align:left;padding:10px 14px;font-size:11px}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+td{padding:11px 14px;border-top:1px solid var(--hairline-soft)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:var(--r-pill);padding:3px 10px;font-size:11px;font-weight:600}
+.p-ok{background:#e6f7ec;color:#1a7f37}.p-run{background:#e8f1ff;color:var(--primary)}.p-warn{background:#fff4e0;color:#9a5b00}.p-err{background:#feeceb;color:var(--ink)}
+.formbar{display:flex;gap:10px;margin-top:24px;align-items:center;flex-wrap:wrap}
+.formbar input,.formbar select{border:1px solid var(--hairline);border-radius:var(--r-pill);padding:9px 14px;font:inherit;font-size:13px;background:var(--canvas)}
+.formbar input:focus,.formbar select:focus{outline:2px solid var(--primary-focus);outline-offset:0;border-color:transparent}
+.auth{display:grid;place-items:center;min-height:100vh;background:var(--canvas-parchment)}
+.authcard{width:min(380px,90vw);background:var(--canvas);border-radius:var(--r-lg);padding:34px;box-shadow:var(--sh-product)}
+.authcard h2{font-size:24px;text-align:center}
+.tabs{display:flex;gap:4px;background:var(--canvas-parchment);border-radius:var(--r-pill);padding:4px;margin:20px 0}
+.tabs button{flex:1;border:none;background:none;border-radius:var(--r-pill);padding:8px;cursor:pointer;font:inherit;font-size:13px}
+.tabs button.on{background:var(--canvas);box-shadow:0 1px 4px rgba(0,0,0,.08);font-weight:600}
+.field{margin-bottom:12px}.field label{font-size:12px;color:var(--ink-muted-48);display:block;margin-bottom:5px}
+.field input{width:100%;border:1px solid var(--hairline);border-radius:var(--r-sm);padding:11px 13px;font:inherit;font-size:14px}
+.field input:focus{outline:2px solid var(--primary);border-color:transparent}
+.big{width:100%;border:none;background:var(--primary);color:var(--on-primary);border-radius:var(--r-pill);padding:12px;font-size:15px;cursor:pointer;margin-top:8px}
+.gen{background:var(--surface-black);color:var(--body-muted);text-align:center;padding:16px;font-size:11.5px}
+@media(max-width:860px){.app{grid-template-columns:1fr}.app .side{display:flex;overflow:auto;border-right:none}nav{gap:10px}}
+</style></head>
+<body>
+<nav>
+  <span class="logo">ProVision</span>
+  <a class="navlink" data-goto="home" href="#">商城</a>
+  <a class="navlink" data-goto="prod" href="#">ProVision One</a>
+  <a class="navlink" data-goto="home" href="#">支持</a>
+  <a class="navlink" data-goto="auth" href="#">账户</a>
+  <button class="navcta" data-goto="app">立即选购</button>
+</nav>
+
+<main>
+<!-- 官网首页 -->
+<div class="view on" id="v-home">
+  <header class="hero">
+    <h1>ProVision One</h1>
+    <h1 style="font-size:clamp(22px,3vw,34px);font-weight:400;color:var(--ink-muted-48)">轻，成了一种力量。</h1>
+    <p class="sub">现搭载全新 P1 芯片，续航整整一天。最 Pro 的 Pro，比以往更轻薄。</p>
+    <p class="links"><a href="#" data-goto="prod">了解更多 ›</a><a href="#" data-goto="app">购买 ›</a></p>
+    <div class="tile"><div class="stage"><span class="orb"></span></div>
+      <p class="tsub" style="margin-top:14px">仅 ¥9999 起 · 3.6 英寸至 12.9 英寸全系可选</p>
+    </div>
+  </header>
+
+  <div class="tile dark">
+    <h3 style="font-family:var(--font-display);font-size:30px;font-weight:600">ProVision Air</h3>
+    <p class="tsub" style="color:var(--body-muted)">超乎想象的轻，超乎想象地强。</p>
+    <div class="stage" style="background:linear-gradient(180deg,#101012,#202228 60%,#3a3d45);max-width:560px;aspect-ratio:16/10"><span class="orb" style="background:radial-gradient(circle at 30% 30%,#fff,#9fd8c8 50%,#2b4c46 80%)"></span></div>
+  </div>
+
+  <div class="strip">已有超过 200 家创意工作室与开发团队选择 ProVision 系统 · 财富 500 强采用率 92%</div>
+
+  <section class="blk" id="feat">
+    <h2>细节处，皆是革命</h2>
+    <div class="feat">
+      <div class="f"><span class="glyph">✦</span><b>P1 芯片</b><p>16 核神经引擎，实时抠像与 4K 视频直出，安静到不存在。</p></div>
+      <div class="f"><span class="glyph" style="background:var(--ink)">◐</span><b>Liquid 视网膜</b><p>120Hz 自适应刷新，原彩与 P3 广色域让每一稿颜色都可信。</p></div>
+      <div class="f"><span class="glyph" style="background:linear-gradient(135deg,#2997ff,#5e5bd6)">⌾</span><b>全天候续航</b><p>18 小时电影播放。一天充一次电的时代结束了。</p></div>
+      <div class="f"><span class="glyph" style="background:#1a7f37">❖</span><b>隐私内建</b><p>面容数据只留在设备里。隐私不是功能，是底线。</p></div>
+    </div>
+  </section>
+
+  <div class="tile paper">
+    <h3 style="font-family:var(--font-display);font-size:26px;font-weight:600">为创作而生的一整套</h3>
+    <p class="tsub" style="margin-top:8px">ProVision One · ProVision Air · Studio Display · Magic Keyboard</p>
+    <div style="display:flex;gap:14px;justify-content:center;margin-top:26px;flex-wrap:wrap">
+      <div style="width:170px;aspect-ratio:4/3;border-radius:var(--r-md);background:linear-gradient(160deg,#e8e8ed,#d5d5db);box-shadow:var(--sh-product)"></div>
+      <div style="width:170px;aspect-ratio:4/3;border-radius:var(--r-md);background:linear-gradient(160deg,#2a2a2d,#4b4b53);box-shadow:var(--sh-product)"></div>
+      <div style="width:170px;aspect-ratio:4/3;border-radius:var(--r-md);background:linear-gradient(160deg,#f7f7f9,#c9c9d1);box-shadow:var(--sh-product)"></div>
+    </div>
+  </div>
+
+  <div class="quote">
+    <p>「我们把整个后期流程搬上了 ProVision。<br>它在片场安静地消失，只留下作品。」</p>
+    <small>—— 陈导，《海雾》摄影指导</small>
+  </div>
+
+  <section class="blk">
+    <h2>选择你的 ProVision</h2>
+    <div class="price">
+      <div class="plan"><h3>ProVision Air</h3><b>¥5,999</b>
+        <ul><li>11 英寸 Liquid 视网膜</li><li>12 小时续航</li><li>256GB 存储</li></ul>
+        <a class="btn" href="#" data-goto="app">购买</a></div>
+      <div class="plan best"><h3>ProVision One</h3><b>¥9,999</b>
+        <ul><li>13 英寸 P3 广色域</li><li>P1 芯片 · 16 核神经引擎</li><li>全天候续航 · 雷雳 5</li></ul>
+        <a class="btn" href="#" data-goto="app">购买</a></div>
+      <div class="plan"><h3>ProVision Studio</h3><b>¥18,999</b>
+        <ul><li>16 英寸 mini-LED</li><li>P1 Ultra · 32GB 起步</li><li>桌面级色彩引擎</li></ul>
+        <a class="btn" href="#" data-goto="app">购买</a></div>
+    </div>
+  </section>
+
+  <section class="blk" style="padding-top:20px">
+    <h2>常见问题</h2>
+    <details class="faq" open><summary>AppleCare 服务涵盖意外损坏吗？</summary><p>涵盖。ProVision One 每年提供两次意外损坏快速换新，电池健康低于 80% 免费更换。</p></details>
+    <details class="faq"><summary>可以在门店以旧换新吗？</summary><p>可以。任意机型与状态的旧设备均可评估折抵，门店现场完成数据迁移。</p></details>
+    <details class="faq"><summary>教育与企业管理有专属方案吗？</summary><p>提供教育商店与批量部署工具，管理员可通过设备管理平台静默分发 App。</p></details>
+    <details class="faq"><summary>发货需要多久？</summary><p>现货型号通常 1-2 个工作日送达；定制配置约 2-3 周。</p></details>
+  </section>
+
+  <footer>
+    <div class="cols">
+      <div><h4>商店</h4><a>购买 Mac</a><a>购买 iPad</a><a>配件</a><a>以旧换新</a></div>
+      <div><h4>服务</h4><a>AppleCare</a><a>iCloud+</a><a>Genius -bar 支持</a></div>
+      <div><h4>企业</h4><a>商务方案</a><a>教育</a><a>开发者</a></div>
+      <div><h4>关于</h4><a>环境责任</a><a>供应链</a><a>隐私</a></div>
+    </div>
+    <div class="subrow"><input placeholder="订阅新品与活动资讯"><button>订阅</button></div>
+    <p style="margin-top:22px">Copyright 2026 ProVision 样板间（演示用，非官方站点）</p>
+  </footer>
+</div>
+
+<!-- 产品深页 -->
+<div class="view" id="v-prod">
+  <section class="blk" style="max-width:1100px;margin:0 auto">
+    <p class="tsub"><a href="#" data-goto="home">‹ ProVision</a> / ProVision One</p>
+    <h2 style="text-align:left;font-size:clamp(30px,4.5vw,44px);margin-top:8px">为专业工作流<br>重新定义「性能」一词</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:36px;align-items:center">
+      <div>
+        <p style="font-size:16px;color:var(--ink);line-height:1.6">P1 芯片把渲染、转录、抠像这些原本属于工作站的任务交给一块 12 平方毫米的硅片。在下面的导出实测中，ProVision One 与上一代台式工作站用时几乎相同——而它只重 1.24 千克。</p>
+        <p class="links" style="margin-top:18px"><a href="#" data-goto="app">技术规格 ›</a></p>
+      </div>
+      <div class="stage" style="margin:0;background:linear-gradient(165deg,#0a1a2e,#123a5e 55%,#1e5f8f)">
+        <div style="width:78%;display:grid;gap:12px">
+          <div style="background:rgba(255,255,255,.14);border-radius:8px;height:34px;width:100%"></div>
+          <div style="background:rgba(41,151,255,.55);border-radius:8px;height:34px;width:72%"></div>
+          <div style="background:rgba(255,255,255,.10);border-radius:8px;height:34px;width:85%"></div>
+          <div style="color:#fff;font-size:12px;font-family:var(--font-text)">8K 时间线 · 实时播放不降帧</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden">
+      <table style="margin:0;border:none">
+        <thead><tr><th>导出任务</th><th>上一代工作站</th><th class="num">ProVision One</th></tr></thead>
+        <tbody>
+          <tr><td>10 分钟 4K ProRes</td><td>04:12</td><td class="num"><b>04:05</b></td></tr>
+          <tr><td>RAW 照片批量 ×1,000</td><td>01:38</td><td class="num"><b>01:41</b></td></tr>
+          <tr><td>神经风格迁移 ×200</td><td>08:02</td><td class="num"><b>05:56</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tsub" style="text-align:center;margin-top:22px">数据来自 2026 年 10 月实验室环境实测，结果因配置而异。</p>
+  </section>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</div>
+</div>
+
+<!-- 应用后台 -->
+<div class="view" id="v-app">
+  <div class="app">
+    <div class="side">
+      <a class="on" href="#">概览</a><a href="#">订单</a><a href="#">库存</a><a href="#">服务计划</a><a href="#">门店</a>
+    </div>
+    <div class="body">
+      <h2 style="font-family:var(--font-display);font-size:26px">概览</h2>
+      <p class="tsub" style="margin:4px 0 22px">本周 · 2026-11-06</p>
+      <div class="kpis">
+        <div class="kpi"><span>营收</span><b>¥2,841,900</b><span class="p-ok" style="margin-top:8px">↑ 8.4%</span></div>
+        <div class="kpi"><span>订单</span><b>1,426</b><span class="p-run" style="margin-top:8px">处理中 122</span></div>
+        <div class="kpi"><span>AppleCare 激活</span><b>94.2%</b><span class="p-ok" style="margin-top:8px">↑ 1.1%</span></div>
+      </div>
+      <div class="formbar">
+        <input placeholder="搜索订单号 / 客户…" style="flex:1;max-width:260px">
+        <select><option>全部渠道</option><option>门店</option><option>在线商店</option><option>教育渠道</option></select>
+        <span class="pill p-warn" style="margin-left:auto"><span id="sw" onclick="this.className='pill p-ok';this.textContent='库存预警 已开启'" style="cursor:pointer">库存预警 点击关闭</span></span>
+      </div>
+      <table>
+        <thead><tr><th id="thsort" style="cursor:pointer">金额 ⇅</th><th>订单</th><th>配置</th><th>渠道</th><th>状态</th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+      <div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="big" style="width:auto;padding:10px 22px;margin:0">主要操作</button>
+        <button class="big" style="width:auto;padding:10px 22px;margin:0;background:var(--canvas-parchment);color:var(--primary)">次要</button>
+        <button class="big" style="width:auto;padding:10px 22px;margin:0;background:transparent;border:1px solid var(--hairline);color:var(--ink-muted-48)" disabled>禁用</button>
+        <span class="pill p-err">已退款</span><span class="pill p-ok">已交付</span>
+      </div>
+      <div style="margin-top:30px;border:1px dashed var(--hairline);border-radius:var(--r-lg);padding:44px;text-align:center;color:var(--ink-muted-48);font-size:13px">
+        暂无服务工单 —— 空状态遵循「chrome 退后」原则：仅一条虚线框与一句说明。
+      </div>
+    </div>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</div>
+</div>
+
+<!-- 认证 -->
+<div class="view" id="v-auth">
+  <div class="auth">
+    <div class="authcard">
+      <h2>Apple 账户</h2>
+      <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">创建账户</button></div>
+      <div class="field"><label>Apple 账户</label><input value="hi@gholl.com" style="background:var(--canvas-parchment)"></div>
+      <div class="field"><label>密码</label><input type="password" value="design-systems"></div>
+      <div class="field" id="reg" style="display:none"><label>确认密码</label><input type="password" placeholder="再输入一次"></div>
+      <button class="big">登录</button>
+      <p style="text-align:center;font-size:12px;color:var(--ink-muted-48);margin-top:16px">受设备端面容验证保护 · <a href="#">忘记密码？</a></p>
+    </div>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen" id="homefoot">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成 · 全站唯一阴影仅用于产品舞台（规范原文）</div>
+
+<script>
+const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();const k=el.dataset.goto;
+  Object.values(views).forEach(v=>document.getElementById(v).classList.toggle('on',v===views[k]))
+  window.scrollTo(0,0)}));
+const ODS=[[8999,'DH-1120','ProVision One 13" · 1TB · 雷雳 5','在线商店','p-ok','已交付'],[12998,'DH-1121','ProVision Studio 16" 定制','门店','p-run','处理中'],[5999,'DH-1122','ProVision Air 11" 星夜蓝','教育渠道','p-warn','待支付'],[21997,'DH-1123','ProVision One ×2 商务采购','门店','p-ok','已交付'],[6798,'DH-1124','ProVision Air + Magic 键盘','在线商店','p-err','已退款'],[3999,'DH-1125','Studio Display 标准玻璃','在线商店','p-run','处理中'],[16999,'DH-1126','ProVision Studio M 支架套装','企业直销','p-ok','已交付'],[10998,'DH-1127','ProVision One 换购升级','门店','p-warn','待支付']];
+let asc=false;const tb=document.getElementById('tb');
+function draw(){const rows=[...ODS].sort((a,b)=>asc?a[0]-b[0]:b[0]-a[0]);
+  tb.innerHTML=rows.map(o=>`<tr><td class="num" style="font-weight:600">¥${o[0].toLocaleString()}</td><td>#${o[1]}</td><td>${o[2]}</td><td style="color:var(--ink-muted-48)">${o[3]}</td><td><span class="pill ${o[4]}">${o[5]}</span></td></tr>`).join('')}
+document.getElementById('thsort').onclick=()=>{asc=!asc;draw()};draw();
+document.getElementById('ti').onclick=()=>{document.getElementById('ti').className='on';document.getElementById('tu').className='';document.getElementById('reg').style.display='none'};
+document.getElementById('tu').onclick=()=>{document.getElementById('tu').className='on';document.getElementById('ti').className='';document.getElementById('reg').style.display='block'};
+</script>
+</body>
+</html>

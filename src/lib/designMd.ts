@@ -530,7 +530,7 @@ export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: str
       break
     }
   }
-  /* 散文 Density 指标优先于 token 推导（designmd.app 的显式设计意图） */
+  /* 散文 Density 指标优先于 token 推导（品牌分析类规范的显式设计意图） */
   if (insights.metrics.density !== null) {
     density = clampDensity(1.28 - insights.metrics.density * 0.05)
   }

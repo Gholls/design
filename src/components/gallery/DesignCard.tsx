@@ -45,6 +45,14 @@ function TokenFitting() {
   )
 }
 
+function sourceHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch {
+    return 'source'
+  }
+}
+
 export default function DesignCard({ design, onViewSource, onPreview }: DesignCardProps) {
   const d = design.design
   const generated = generatedUrl(design.slug) !== null
@@ -59,7 +67,7 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
             rel="noreferrer"
             className="absolute left-3 top-3 z-10 rounded-badge border border-line bg-surface/85 px-2 py-0.5 font-mono text-[10px] text-muted backdrop-blur hover:text-ink"
           >
-            designmd.app ↗
+            {sourceHost(d.source)} ↗
           </a>
         ) : (
           <span className="absolute left-3 top-3 z-10 rounded-badge border border-line bg-surface/85 px-2 py-0.5 font-mono text-[10px] text-muted">

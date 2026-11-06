@@ -72,7 +72,7 @@ export default function GalleryPage() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="搜索 800+ 规范…"
+              placeholder={`搜索 ${designs.length} 套规范…`}
               className="hidden h-8 w-36 rounded-control border border-line bg-surface px-2.5 text-xs outline-none placeholder:text-muted focus:border-primary sm:block"
             />
           </div>
@@ -84,11 +84,11 @@ export default function GalleryPage() {
           同一份提示词 × <span className="text-primary">{designs.length} 份 DESIGN.md</span> = 同一个产品的不同人格
         </h1>
         <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted">
-          {designs.length} 套规范收录自{' '}
-          <a href="https://designmd.app/" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
-            designmd.app
-          </a>{' '}
-          与内置基准；样板间由 code agent 依
+          {designs.length} 套规范：内置基准 + 收录自{' '}
+          <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
+            awesome-design-md
+          </a>
+          {' '}的 74 个真实品牌设计系统分析；样板间由 code agent 依
           <a href="#/prompt" className="mx-1 text-primary underline decoration-line">黄金提示词</a>
           逐规范生成静态站点。已生成 {generatedCount} / {designs.length}。
         </p>
@@ -163,8 +163,8 @@ export default function GalleryPage() {
               Google DESIGN.md
             </a>
             {' · '}数据源:{' '}
-            <a href="https://designmd.app/" target="_blank" rel="noreferrer" className="underline decoration-line hover:text-ink">
-              designmd.app
+            <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer" className="underline decoration-line hover:text-ink">
+              VoltAgent/awesome-design-md
             </a>
             {' · '}生成: code agent +{' '}
             <a href="#/prompt" className="underline decoration-line hover:text-ink">GOLDEN PROMPT</a>

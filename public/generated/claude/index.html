@@ -1,0 +1,187 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ designs/claude/DESIGN.md：暖沙画布 #faf9f5 / 奶油表面三层 #f5f0e8→#efe9de→#e8e0d2 /
+    赤陶 #cc785c 主色 active #a9583e / 深墨 #141413 / 深色块 #181715 / teal+amber 副强调
+  ─ 「温暖的编辑部纸感」→ 标题 serif 栈、细发丝线 #e6dfd8、无冷灰
+  ─ 徽章与提示条全部实色 tint（禁用透明叠色在暖底上显脏）
+  ─ Motion：200ms 柔和；对话流 mock 为产品第一可视化
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ember — Claude 设计系统样板间</title>
+<style>
+:root{--primary:#cc785c;--active:#a9583e;--disabled:#e6dfd8;--ink:#141413;--body:#3d3d3a;--strong2:#252523;--mute:#6c6a64;--mute2:#8e8b82;
+--hair:#e6dfd8;--hair-s:#ebe6df;--canvas:#faf9f5;--soft:#f5f0e8;--card:#efe9de;--cream-strong:#e8e0d2;
+--dark:#181715;--dark-e:#252320;--dark-s:#1f1e1b;--on-dark:#faf9f5;--on-dark-s:#a09d96;
+--teal:#5db8a6;--amber:#e8a55a;--ok:#5db872;--warn:#d4a017;--err:#c64545;
+--r-xs:4px;--r-sm:6px;--r-md:8px;--r-lg:12px;--r-xl:16px;--pill:9999px;
+--font-serif:'Georgia','Songti SC','Noto Serif SC',serif;
+--font:'Styrene B','Avenir Next','PingFang SC',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;transition:background-color .2s,color .2s,border-color .2s}
+body{font:15.5px/1.65 var(--font);background:var(--canvas);color:var(--body)}
+a{color:var(--active);text-decoration:none}a:hover{text-decoration:underline}
+header{display:flex;align-items:center;gap:22px;padding:14px max(20px,4vw);position:sticky;top:0;background:rgba(250,249,245,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--hair);z-index:20}
+.wm{font-family:var(--font-serif);font-weight:700;font-size:17px;color:var(--ink);display:flex;gap:9px;align-items:center}
+.wm i{font-style:normal;color:var(--primary);font-size:19px}
+header nav{display:flex;gap:2px;margin:0 auto}
+header nav a{font-size:13.5px;color:var(--mute);padding:7px 12px;border-radius:var(--r-md)}header nav a:hover{color:var(--ink);background:var(--soft);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:1px solid var(--cream-strong);background:var(--canvas);color:var(--ink);border-radius:var(--r-md);padding:9px 17px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--soft)}
+.btn-p{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-p:hover{background:var(--active);border-color:var(--active)}
+.btn-ink{background:var(--ink);border-color:var(--ink);color:var(--on-dark)}
+.btn-s{padding:6px 11px;font-size:12.5px}
+.view{display:none}.view.on{display:block}
+.hero{padding:86px 5vw 40px;text-align:center;max-width:840px;margin:0 auto}
+.hero .kick{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--primary)}
+.hero h1{font-family:var(--font-serif);font-size:clamp(34px,5.6vw,56px);font-weight:500;color:var(--ink);line-height:1.15;margin-top:18px;letter-spacing:-.01em}
+.hero p{color:var(--mute);font-size:17px;margin-top:18px;max-width:56ch;margin-inline:auto}
+.hero .links{margin-top:28px;display:flex;gap:10px;justify-content:center}
+.chat{max-width:640px;margin:50px auto 0;text-align:left;border:1px solid var(--hair);border-radius:var(--r-xl);background:var(--surface-card,var(--card));overflow:hidden}
+.chat-head{padding:12px 18px;border-bottom:1px solid var(--hair);font-size:12px;color:var(--mute);display:flex;justify-content:space-between;background:var(--canvas)}
+.chat-body{padding:20px 18px;display:grid;gap:14px;background:var(--soft)}
+.msg{border-radius:var(--r-lg);padding:13px 16px;font-size:14px;line-height:1.6;max-width:88%}
+.msg.u{background:var(--canvas);border:1px solid var(--hair);color:var(--ink);justify-self:end}
+.msg.a{background:var(--canvas);border:1px solid var(--hair);color:var(--body)}
+.msg.a b{color:var(--ink)}
+.msg .tool{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:var(--mute);background:var(--canvas);border:1px dashed var(--cream-strong);border-radius:var(--r-sm);padding:2px 8px;margin-bottom:8px}
+section.blk{padding:72px 5vw;max-width:1060px;margin:0 auto}
+h2.sec{font-family:var(--font-serif);font-weight:500;font-size:clamp(26px,4.2vw,38px);color:var(--ink);text-align:center;letter-spacing:0}
+p.secd{color:var(--mute);text-align:center;margin:12px auto 0;max-width:56ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+.f{border:1px solid var(--hair);border-radius:var(--r-xl);padding:24px;background:var(--surface-card,var(--card))}
+.f i{font-style:normal;width:34px;height:34px;border-radius:var(--r-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:14px}
+.f b{display:block;color:var(--ink);font-size:16px;margin-top:12px;font-family:var(--font-serif);font-weight:500}
+.f p{color:var(--mute);font-size:13.5px;margin-top:6px}
+.darkband{background:var(--dark);color:var(--on-dark);border-radius:var(--r-xl);padding:40px;margin-top:40px}
+.darkband h3{font-family:var(--font-serif);font-weight:500;font-size:24px}
+.darkband p{color:var(--on-dark-s);font-size:14.5px;margin-top:10px;max-width:60ch}
+.darkband blockquote{font-family:var(--font-serif);font-size:18px;line-height:1.6;border-left:3px solid var(--primary);padding-left:18px;margin-top:22px;color:var(--on-dark)}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-top:34px}
+.pl{border:1px solid var(--hair);border-radius:var(--r-xl);padding:24px;background:var(--canvas)}
+.pl.best{border:2px solid var(--primary);background:var(--card)}
+.pl h3{font-family:var(--font-serif);color:var(--ink);font-size:16px;font-weight:500}
+.pl b{display:block;font-size:26px;color:var(--ink);margin:8px 0 2px;font-weight:600}
+.pl small{color:var(--mute2);font-size:12px}
+.pl ul{list-style:none;font-size:13px;color:var(--body);margin:14px 0 18px}.pl li{padding:3.5px 0}.pl li::before{content:"— ";color:var(--primary)}
+.faq{max-width:700px;margin:0 auto;padding:0 5vw 70px}
+details{border-bottom:1px solid var(--hair);padding:14px 2px}
+summary{cursor:pointer;font-weight:600;font-size:15px;color:var(--ink);list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"⌄";color:var(--mute2)}details[open] summary::after{transform:rotate(180deg)}
+details p{color:var(--mute);font-size:14px;margin-top:10px}
+footer{border-top:1px solid var(--hair);padding:38px 5vw 20px;font-size:13px;color:var(--mute)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;max-width:1060px;margin:0 auto}
+footer h4{color:var(--ink);font-family:var(--font-serif);font-weight:500;margin-bottom:6px}
+footer a{color:var(--mute);display:block;padding:3px 0}footer a:hover{color:var(--ink);text-decoration:none}
+.app{max-width:980px;margin:0 auto;padding:40px 5vw}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:18px;border:1px solid var(--hair);border-radius:var(--r-lg);overflow:hidden;background:var(--canvas)}
+th{background:var(--soft);text-align:left;color:var(--mute);font-size:11px;font-weight:600;padding:10px 13px;border-bottom:1px solid var(--hair);cursor:pointer}
+td{padding:11px 13px;border-bottom:1px solid var(--hair-s);color:var(--body)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{border-radius:var(--pill);padding:2.5px 10px;font-size:11px;font-weight:700}
+.p-ok{background:#e2f2e6;color:#1e6b34}.p-run{background:var(--cream-strong);color:var(--active)}
+.p-warn{background:#faeed0;color:#8a6510}.p-err{background:#f6dede;color:var(--err)}
+.auth{display:grid;place-items:center;padding:56px 5vw}
+.acard{width:min(400px,92vw);background:var(--canvas);border:1px solid var(--hair);border-radius:var(--r-xl);padding:30px}
+.acard h2{font-family:var(--font-serif);color:var(--ink);font-size:21px;font-weight:500}
+.tabs{display:flex;border:1px solid var(--cream-strong);border-radius:var(--r-md);padding:3px;margin:18px 0;background:var(--soft)}
+.tabs button{flex:1;border:none;background:none;font:inherit;font-size:13.5px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;color:var(--mute)}
+.tabs button.on{background:var(--canvas);color:var(--ink);box-shadow:0 1px 4px rgba(20,20,19,.1)}
+.f2{margin-bottom:12px}.f2 label{display:block;font-size:12px;font-weight:600;color:var(--mute);margin-bottom:5px}
+.f2 input{width:100%;border:1px solid var(--cream-strong);border-radius:var(--r-md);padding:10px 12px;font:inherit;font-size:14px;background:var(--canvas);color:var(--ink)}
+.f2 input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(204,120,92,.22)}
+.gen{text-align:center;font-size:11.5px;color:var(--mute2);padding:16px;border-top:1px solid var(--hair)}
+@media(max-width:760px){header nav{display:none}.price{grid-template-columns:1fr}}
+</style></head><body>
+<header><span class="wm"><i>✳</i>Ember</span>
+<nav><a href="#" data-goto="home">模型</a><a href="#" data-goto="prod">原则</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
+<button class="btn btn-p btn-s" data-goto="app">开始对话</button></header>
+<main>
+<div class="view on" id="v-home">
+  <section class="hero">
+    <p class="kick">Thoughtful by design</p>
+    <h1>有脾气的模型，<br>好过没立场的工具。</h1>
+    <p>Ember 为长篇推理、代码与写作而生：诚实、温和、拒绝讨好。它的性格是被设计出来的，也写在规范里。</p>
+    <div class="links"><button class="btn btn-p" data-goto="app">免费使用</button><button class="btn" data-goto="prod">读安全原则</button></div>
+    <div class="chat">
+      <div class="chat-head"><span>新对话 · 平衡计分卡的局限</span><span>Ember 4.5</span></div>
+      <div class="chat-body">
+        <div class="msg u">帮我评估：用 NPS 作为唯一北极星指标合理吗？</div>
+        <div class="msg a"><span class="tool">◫ 检索了 6 篇行业研究</span><br><b>不建议。</b>NPS 适合做趋势伴读，但它有三个已知盲区：评分人群自选择、文化差异量表偏移、以及对「沉默的不满」完全不敏感。北极星应当是<b>可被证伪的行为指标</b> —— 例如续约率 × 人均使用深度。我可以给出替代框架与验证实验设计。</div>
+      </div>
+    </div>
+  </section>
+  <section class="blk">
+    <h2 class="sec">被刻意培养的性格</h2><p class="secd">赤陶色是 Ember 的全部热情 —— 它只出现在值得点击的地方。</p>
+    <div class="grid2">
+      <div class="f"><i style="background:var(--primary)">长</i><b>200K 上下文</b><p>整本书、整个代码库直接进入对话，引用位置可点回原文。</p></div>
+      <div class="f"><i style="background:var(--teal)">工</i><b>工具使用</b><p>检索、计算、代码执行按需调用，过程透明并标注来源。</p></div>
+      <div class="f"><i style="background:var(--amber)">诚</i><b>拒绝讨好</b><p>不确定时说不确定；错误时认错。有用比好听更重要。</p></div>
+      <div class="f"><i style="background:var(--ink)">宪</i><b>宪法式训练</b><p>行为准则公开可查，每次更新附变更说明 —— 包括这次。</p></div>
+    </div>
+    <div class="darkband">
+      <h3>「对齐不是保险丝，是人格。」</h3>
+      <p>我们不用规则清单围堵模型，而是用一套公开的价值文本把它养成可共事的同事。以下三个场景，它都会先反问目的再给方案。</p>
+      <blockquote>—— 摘自 Ember 模型宪法 · 第三节：诚实与有用冲突时，诚实优先。</blockquote>
+    </div>
+  </section>
+  <section class="blk">
+    <h2 class="sec">定价</h2>
+    <div class="price">
+      <div class="pl"><small>Free</small><b>¥0</b><ul><li>网页与移动端</li><li>日常推理额度</li></ul><button class="btn" style="width:100%" data-goto="auth">开始</button></div>
+      <div class="pl best"><small>Pro</small><b>¥165</b><ul><li>更大上下文</li><li>优先与新模型</li><li>代码执行额度</li></ul><button class="btn btn-p" style="width:100%" data-goto="auth">升级</button></div>
+      <div class="pl"><small>Team</small><b>¥255</b><ul><li>共享项目空间</li><li>用量控制台</li></ul><button class="btn" style="width:100%" data-goto="auth">组队</button></div>
+    </div>
+  </section>
+  <div class="faq"><h2 class="sec" style="margin-bottom:20px">常见问题</h2>
+    <details open><summary>我的数据用来训练吗？</summary><p>默认不。API 与 Pro 均需逐项授权才会进入训练集，可随时撤回。</p></details>
+    <details><summary>为什么它有时会反问？</summary><p>当目标模糊时先对齐意图是宪法行为，不是故障。</p></details>
+    <details><summary>中文写作水平如何？</summary><p>宪法文本含中文语感训练，长文与公文语体是强项。</p></details></div>
+</div>
+
+<div class="view" id="v-prod">
+  <section class="blk" style="max-width:760px">
+    <span class="pill p-run">公开文档 · v4.1</span>
+    <h2 style="font-family:var(--font-serif);font-size:34px;font-weight:500;color:var(--ink);margin-top:16px">诚实优先于有用</h2>
+    <p style="margin-top:16px;font-size:16px;line-height:1.8">当模型不确定时，「编一个可信的答案」是最便宜也最危险的路径。Ember 宪法将这条路径标为禁区：先声明不确定，再给出带置信度的推断，最后提供验证方案。</p>
+    <div class="chat" style="margin-top:26px"><div class="chat-head"><span>示例 · 宪法第三节行为</span></div>
+      <div class="chat-body"><div class="msg u">2019 年这家公司的毛利率是多少？我记得是 41%。</div>
+      <div class="msg a">我没有可核验的 2019 年报数据，<b>无法确认 41% 这个数字</b>。相近公开资料显示该年区间在 37%–44%（不同口径）。若你提供年报 PDF 或代码库接口，我可以逐表核对。</div></div></div>
+    <p style="margin-top:26px"><button class="btn" data-goto="home">← 返回</button></p>
+  </section>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Claude-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-app">
+  <div class="app">
+    <h2 style="font-family:var(--font-serif);font-size:24px;font-weight:500;color:var(--ink)">项目空间 · 编辑室</h2>
+    <p style="color:var(--mute);font-size:13px;margin-top:4px">最近 24 小时 · 12 段对话 · 3 个知识库引用</p>
+    <table><thead><tr><th>对话</th><th>发起人</th><th>工具调用</th><th class="num" id="srt">Token ⇅</th><th>状态</th></tr></thead><tbody id="tb"></tbody></table>
+    <p style="margin-top:22px;font-size:13px;color:var(--mute);border:1px dashed var(--cream-strong);border-radius:var(--r-xl);padding:24px;text-align:center;background:var(--soft)">暂无待审核输出 —— 温和地告诉你：现在是空的。</p>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Claude-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-auth">
+  <div class="auth"><div class="acard">
+    <h2>登录 Ember</h2>
+    <div class="tabs"><button class="on" id="ti">邮箱</button><button id="tu">单点登录</button></div>
+    <div class="f2"><label>邮箱</label><input value="hi@gholl.com"></div>
+    <div class="f2"><label>密码</label><input type="password" value="design-systems"></div>
+    <button class="btn btn-p" style="width:100%;padding:10px">继续</button>
+    <p style="font-size:11.5px;color:var(--mute2);text-align:center;margin-top:14px">登录页没有彩色插画 —— 纸感本身就够。</p>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Claude-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Claude-design-analysis」生成 · 暖沙三层表面 / 赤陶只给动作 / 诚实优先（宪法文本执行）</div>
+<script>
+const C=[['定价页文案 A/B 三稿','苏见月','检索×4',18420,'p-ok','已交付'],['季度复盘提纲','周墨白','计算×2',9210,'p-run','生成中'],['合同条款风险扫描','法务助理','无工具',24880,'p-warn','待人工复核'],['新闻稿润色 · 双语','林晚舟','检索×1',6140,'p-ok','已交付'],['数据口径矛盾排查','陈屿','执行×7',31250,'p-err','发现冲突，已上报']];
+let asc=false,tb=document.getElementById('tb');
+function draw(){tb.innerHTML=[...C].sort((a,b)=>asc?a[3]-b[3]:b[3]-a[3]).map(c=>`<tr><td style="color:var(--ink);font-weight:600">${c[0]}</td><td>${c[1]}</td><td style="color:var(--mute)">${c[2]}</td><td class="num">${c[3].toLocaleString()}</td><td><span class="pill ${c[4]}">${c[5]}</span></td></tr>`).join('')}
+document.getElementById('srt').onclick=()=>{asc=!asc;draw()};draw();
+const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className=''};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className=''};
+</script></body></html>

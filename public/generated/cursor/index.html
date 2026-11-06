@@ -1,0 +1,209 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ designs/cursor/DESIGN.md：米纸 #f7f7f4 / 橙 #f54e00 唯一动作色 / ink #26251e（暖黑）
+  ─ timeline 五色（thinking/grep/read/edit/done）是规范私有语汇 → 全站以「Agent 活动时间线」
+    为第一可视化：编辑器窗右侧色带 + 深页时间线全流程
+  ─ 暖中性体系：hairline #e6e5e0、深橙仅 hover、无任何冷灰（规范色表无冷色）
+  └ Motion：150ms；时间线节点悬停放大（quiet confidence，不喧哗）
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trace — Cursor 设计系统样板间</title>
+<style>
+:root{--primary:#f54e00;--active:#d04200;--ink:#26251e;--body:#5a5852;--mute:#807d72;--mute2:#a09c92;
+--hair:#e6e5e0;--hair-s:#efeee8;--hair-strong:#cfcdc4;--canvas:#f7f7f4;--soft:#fafaf7;--card:#fff;--strong:#e6e5e0;
+--t-think:#dfa88f;--t-grep:#9fc9a2;--t-read:#9fbbe0;--t-edit:#c0a8dd;--t-done:#c08532;
+--err:#cf2d56;--ok:#1f8a65;
+--r-none:0px;--r-xs:4px;--r-sm:6px;--r-md:8px;--r-lg:12px;--r-xl:16px;--pill:9999px;
+--font:'Inter','GT America','PingFang SC',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+*{box-sizing:border-box;margin:0;transition:background-color .15s,color .15s,border-color .15s}
+body{font:15px/1.6 var(--font);background:var(--canvas);color:var(--ink)}
+a{color:var(--ink);text-decoration:none}a:hover{color:var(--primary)}
+header{display:flex;align-items:center;gap:22px;padding:14px max(20px,4vw);position:sticky;top:0;background:rgba(247,247,244,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair);z-index:20}
+.wm{font-weight:700;font-size:16px;display:flex;gap:9px;align-items:center;letter-spacing:-.02em}
+.wm i{font-style:normal;color:var(--primary)}
+header nav{display:flex;gap:2px;margin:0 auto}
+header nav a{font-size:13.5px;color:var(--mute);padding:7px 12px;border-radius:var(--r-md)}header nav a:hover{color:var(--ink);background:var(--soft);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;border:1px solid var(--hair-strong);background:var(--card);color:var(--ink);border-radius:var(--r-md);padding:9px 16px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn-p{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.btn-p:hover{background:#000}
+.btn-o{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-o:hover{background:var(--active);border-color:var(--active)}
+.btn-s{padding:6px 11px;font-size:12.5px}
+.view{display:none}.view.on{display:block}
+.hero{padding:80px 5vw 26px;text-align:center;max-width:800px;margin:0 auto}
+.hero h1{font-size:clamp(36px,6vw,62px);font-weight:700;letter-spacing:-.04em;line-height:1.04}
+.hero h1 .hl{color:var(--primary)}
+.hero p{color:var(--body);font-size:17px;margin-top:16px}
+.hero .links{margin-top:26px;display:flex;gap:10px;justify-content:center}
+.editor{max-width:860px;margin:46px auto 0;display:grid;grid-template-columns:210px 1fr 150px;background:var(--card);border:1px solid var(--hair);border-radius:var(--r-xl);overflow:hidden;text-align:left;box-shadow:0 14px 44px rgba(38,37,30,.08)}
+.ed-side{border-right:1px solid var(--hair-s);padding:14px 10px;font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.ed-side div{padding:4px 9px;border-radius:var(--r-sm)}
+.ed-side .agent{margin-top:10px;border:1px solid var(--hair);padding:10px;border-radius:var(--r-md);color:var(--ink)}
+.ed-code{padding:18px;font-family:var(--mono);font-size:12.5px;line-height:1.8;color:var(--body);overflow:auto}
+.ed-code .ln{color:var(--mute2);margin-right:12px;user-select:none}
+.ed-code .kw{color:var(--primary)}.ed-code .fn{color:var(--t-done)}.ed-code .cm{color:var(--mute2)}
+.ed-code .chg{background:rgba(159,203,162,.25);border-left:2px solid var(--t-grep);display:block;padding-left:8px;margin:2px -18px 2px 0}
+.timeline{border-left:1px solid var(--hair-s);padding:16px 12px;display:grid;gap:9px}
+.timeline b{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.tl{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--body)}
+.tl i{width:10px;height:10px;border-radius:3px;font-style:normal;flex:none}
+section.blk{padding:66px 5vw;max-width:1060px;margin:0 auto}
+h2.sec{font-size:clamp(26px,4.4vw,42px);font-weight:700;letter-spacing:-.035em;text-align:center}
+p.secd{color:var(--body);text-align:center;margin:12px auto 0;max-width:58ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:32px}
+.f{border:1px solid var(--hair);border-radius:var(--r-xl);padding:24px;background:var(--card)}
+.f i{font-style:normal;display:inline-block;font-size:10.5px;font-weight:800;color:#fff;border-radius:var(--r-xs);padding:2px 8px;letter-spacing:.06em;text-transform:uppercase}
+.f b{display:block;font-size:16px;margin-top:12px;letter-spacing:-.01em}.f p{color:var(--body);font-size:13.5px;margin-top:6px}
+.band{border-radius:var(--r-xl);background:var(--ink);color:var(--card);padding:42px;margin-top:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+.band h3{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.band p{color:#b9b6ac;font-size:14px;margin-top:10px}
+.chipline{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chipline span{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--mono)}
+.chipline em{width:9px;height:9px;border-radius:3px;font-style:normal;display:inline-block}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-top:32px}
+.pl{border:1px solid var(--hair);border-radius:var(--r-xl);padding:24px;background:var(--card)}
+.pl.best{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
+.pl small{color:var(--mute);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.pl b{display:block;font-size:27px;letter-spacing:-.03em;margin:8px 0 2px;font-variant-numeric:tabular-nums}
+.pl ul{list-style:none;font-size:13px;color:var(--body);margin:14px 0 18px}.pl li{padding:3.5px 0}.pl li::before{content:"· ";color:var(--primary);font-weight:800}
+.faq{max-width:700px;margin:0 auto;padding:0 5vw 70px}
+details{border-bottom:1px solid var(--hair);padding:14px 2px}
+summary{cursor:pointer;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"⌄";color:var(--mute)}details[open] summary::after{transform:rotate(180deg)}
+details p{color:var(--body);font-size:14px;margin-top:10px}
+footer{border-top:1px solid var(--hair);padding:38px 5vw 20px;font-size:13px;color:var(--mute)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;max-width:1060px;margin:0 auto}
+footer h4{color:var(--ink);font-size:12.5px;margin-bottom:8px}footer a{color:var(--mute);display:block;padding:3px 0}
+.app{max-width:1000px;margin:0 auto;padding:38px 5vw}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:18px;border:1px solid var(--hair);border-radius:var(--r-lg);overflow:hidden;background:var(--card)}
+th{background:var(--soft);text-align:left;color:var(--mute);font-size:11px;font-weight:700;padding:10px 13px;border-bottom:1px solid var(--hair);cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+td{padding:11px 13px;border-bottom:1px solid var(--hair-s)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:var(--pill);padding:2.5px 10px;font-size:11px;font-weight:700;border:1px solid var(--hair)}
+.pill em{width:7px;height:7px;border-radius:2px;font-style:normal}
+.p-think em{background:var(--t-think)}.p-grep em{background:var(--t-grep)}.p-read em{background:var(--t-read)}.p-edit em{background:var(--t-edit)}.p-done em{background:var(--t-done)}.p-err em{background:var(--err)}
+.auth{display:grid;place-items:center;padding:52px 5vw}
+.acard{width:min(400px,92vw);background:var(--card);border:1px solid var(--hair);border-radius:var(--r-xl);padding:30px}
+.acard h2{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.tabs{display:flex;border:1px solid var(--hair);border-radius:var(--r-md);padding:3px;margin:16px 0;background:var(--canvas)}
+.tabs button{flex:1;border:none;background:none;font:inherit;font-size:13px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;color:var(--mute)}
+.tabs button.on{background:var(--ink);color:var(--card)}
+.f2{margin-bottom:12px}.f2 label{display:block;font-size:12px;font-weight:600;color:var(--mute);margin-bottom:4px}
+.f2 input{width:100%;border:1px solid var(--hair-strong);border-radius:var(--r-md);padding:10px 12px;font:inherit;font-size:14px;background:var(--canvas);color:var(--ink)}
+.f2 input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(245,78,0,.16)}
+.gen{text-align:center;font-size:11.5px;color:var(--mute2);padding:16px;border-top:1px solid var(--hair)}
+@media(max-width:840px){.editor{grid-template-columns:1fr}.ed-side,.timeline{display:none}.band{grid-template-columns:1fr}header nav{display:none}}
+</style></head><body>
+<header><span class="wm"><i>◆</i>Trace</span>
+<nav><a href="#" data-goto="home">编辑器</a><a href="#" data-goto="prod">Agent 时间线</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
+<span><button class="btn btn-s" data-goto="auth">下载</button> <button class="btn btn-o btn-s" data-goto="app">打开 Trace</button></span></header>
+<main>
+<div class="view on" id="v-home">
+  <section class="hero">
+    <h1>代码在写自己，<br><span class="hl">你只是在旁边把关。</span></h1>
+    <p>Trace 把 Agent 的每一步 —— 思考、检索、读取、编辑、完成 —— 摊在一条五色时间线上。看得见的过程，才配得上信任。</p>
+    <div class="links"><button class="btn btn-o" data-goto="app">免费开始</button><button class="btn" data-goto="prod">看一次完整执行</button></div>
+    <div class="editor">
+      <div class="ed-side"><div>app / routes</div><div style="color:var(--ink)">api / jobs.ts ●</div><div>core / planner.ts</div><div>ui / Timeline.tsx</div>
+        <div class="agent"><b style="font-family:var(--font);font-size:11.5px">Agent · 修复竞态</b><p style="font-family:var(--font);font-size:11px;color:var(--mute);margin-top:4px">5 步 · 已应用 3 处编辑</p></div></div>
+      <div class="ed-code">
+        <span class="ln"></span><span class="cm">// jobs.ts — Agent 生成的 diff</span><br>
+        <span class="ln">42</span><span class="kw">export async function</span> <span class="fn">drainQueue</span>(limit: <span class="kw">number</span>) {<br>
+        <span class="chg"><span class="ln">43</span>&nbsp;&nbsp;<span class="kw">const</span> lease = <span class="kw">await</span> store.<span class="fn">acquireLease</span>(limit)</span>
+        <span class="chg"><span class="ln">44</span>&nbsp;&nbsp;<span class="cm">// 修复：此前无租约导致并发双消费（trace #4471）</span></span>
+        <span class="ln">45</span>&nbsp;&nbsp;<span class="kw">return</span> mapWithSettled(lease, runJob)<br>
+        <span class="ln">46</span>}<br>
+        <span class="ln"></span><span style="color:var(--t-done)">▸ Tab 接受全部 · Esc 回滚</span>
+      </div>
+      <div class="timeline"><b>本次执行</b>
+        <span class="tl"><i style="background:var(--t-think)"></i>思考 · 定位竞态</span>
+        <span class="tl"><i style="background:var(--t-grep)"></i>检索 · 214 文件</span>
+        <span class="tl"><i style="background:var(--t-read)"></i>读取 · jobs.ts</span>
+        <span class="tl"><i style="background:var(--t-edit)"></i>编辑 · +2 −1</span>
+        <span class="tl"><i style="background:var(--t-done)"></i>完成 · 测试通过</span>
+      </div>
+    </div>
+  </section>
+  <section class="blk">
+    <h2 class="sec">五个阶段，五种颜色，零猜测</h2><p class="secd">时间线色带是 Trace 的全部视觉语法 —— 规范私有语汇的忠实执行。</p>
+    <div class="grid2">
+      <div class="f"><i style="background:var(--t-think)">thinking</i><b>先想，再动手</b><p>计划显式列出：目标、约束、验证方式。你可以随时打断修正方向。</p></div>
+      <div class="f"><i style="background:var(--t-grep)">grep</i><b>检索即证据</b><p>每次引用带行号与来源 chip，可点击跳转原始位置。</p></div>
+      <div class="f"><i style="background:var(--t-read)">read</i><b>读懂上下文</b><p>不止报错文件：依赖图、调用方、历史 diff 一并进入视野。</p></div>
+      <div class="f"><i style="background:var(--t-edit)">edit</i><b>编辑可见可逆</b><p>diff 逐段呈现，接受/回滚以块为单位，从不悄悄改。</p></div>
+      <div class="f"><i style="background:var(--t-done)">done</i><b>完成=测试通过</b><p>Agent 自己跑回归才算完 —— 时间线尾部永远跟着验证节点。</p></div>
+      <div class="f"><i style="background:var(--err)">error</i><b>失败也上墙</b><p>出错阶段标红并保留完整轨迹，复盘不用翻日志。</p></div>
+    </div>
+    <div class="band">
+      <div><h3>你的仓库，Agent 的方向盘在你手里。</h3><p>Tab 接受、Esc 回滚、Ctrl+Enter 接管键盘 —— 自动化的边界由每一次按键划定。</p>
+        <div class="chipline">
+          <span><em style="background:var(--t-think)"></em>thinking</span><span><em style="background:var(--t-grep)"></em>grep</span><span><em style="background:var(--t-read)"></em>read</span><span><em style="background:var(--t-edit)"></em>edit</span><span><em style="background:var(--t-done)"></em>done</span>
+        </div></div>
+      <div style="display:grid;gap:10px"><button class="btn btn-o" style="width:100%;justify-content:center">安装 VS Code 扩展</button><button class="btn" style="width:100%;background:transparent;border-color:#4a4942;color:var(--card);justify-content:center">CLI： npm i -g trace</button></div>
+    </div>
+  </section>
+  <section class="blk">
+    <h2 class="sec">定价</h2>
+    <div class="price">
+      <div class="pl"><small>Hobby</small><b>¥0</b><ul><li>补全额度</li><li>200 慢速 Agent 请求</li></ul><button class="btn" style="width:100%" data-goto="auth">开始</button></div>
+      <div class="pl best"><small>Pro</small><b>¥160</b><ul><li>无限补全</li><li>高速 Agent</li><li>多模型切换</li></ul><button class="btn btn-o" style="width:100%" data-goto="auth">升级</button></div>
+      <div class="pl"><small>Teams</small><b>¥240</b><ul><li>共享规则库</li><li>用量控制台</li></ul><button class="btn" style="width:100%" data-goto="auth">组队</button></div>
+    </div>
+  </section>
+  <div class="faq"><h2 class="sec" style="margin-bottom:20px">常见问题</h2>
+    <details open><summary>会把我代码送去训练吗？</summary><p>隐私模式默认开启：代码不留存、不训练；团队版有集中策略面板。</p></details>
+    <details><summary>能自配模型吗？</summary><p>支持 OpenAI / Anthropic / 本地 Ollama；阶段颜色语义不变。</p></details>
+    <details><summary>和现有 IDE 冲突吗？</summary><p>快捷键全部可映射回 VS Code 习惯，onboarding 三分钟。</p></details></div>
+</div>
+
+<div class="view" id="v-prod">
+  <section class="blk" style="max-width:760px">
+    <h2 class="sec" style="text-align:left">一次完整执行的时间线</h2>
+    <p class="secd" style="margin-left:0">任务：「修复结算回调的并发双消费」——每个节点可展开原始推理。</p>
+    <div style="margin-top:30px;display:grid;gap:0;border:1px solid var(--hair);border-radius:var(--r-xl);overflow:hidden;background:var(--card)">
+      <div style="display:grid;grid-template-columns:14px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--hair-s)"><span style="background:var(--t-think);border-radius:4px"></span><div><b style="font-size:13.5px">思考 · 8.2s</b><p style="color:var(--body);font-size:12.5px;margin-top:4px">目标：定位竞态；约束：不改公共 API；验证：复现脚本 + 单测。</p></div></div>
+      <div style="display:grid;grid-template-columns:14px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--hair-s)"><span style="background:var(--t-grep);border-radius:4px"></span><div><b style="font-size:13.5px">检索 · 214 文件 / 0.9s</b><p style="color:var(--body);font-size:12.5px;margin-top:4px">候选：jobs.ts:42 · billing/worker.ts · 历史 trace #4471 高相似。</p></div></div>
+      <div style="display:grid;grid-template-columns:14px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--hair-s)"><span style="background:var(--t-read);border-radius:4px"></span><div><b style="font-size:13.5px">读取 · 依赖图 3 跳</b><p style="color:var(--body);font-size:12.5px;margin-top:4px">确认 drainQueue 无租约语义，调用方两处均并发。</p></div></div>
+      <div style="display:grid;grid-template-columns:14px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--hair-s)"><span style="background:var(--t-edit);border-radius:4px"></span><div><b style="font-size:13.5px">编辑 · +2 −1 / 2 块</b><p style="color:var(--body);font-size:12.5px;margin-top:4px">acquireLease + mapWithSettled；回滚按钮保持块级。</p></div></div>
+      <div style="display:grid;grid-template-columns:14px 1fr;gap:16px;padding:16px 20px;background:var(--soft)"><span style="background:var(--t-done);border-radius:4px"></span><div><b style="font-size:13.5px">完成 · 测试 118 通过</b><p style="color:var(--body);font-size:12.5px;margin-top:4px">复现脚本 6 万次并发归零；trace 链接已附 PR 描述。</p></div></div>
+    </div>
+    <p style="margin-top:24px"><button class="btn btn-p" data-goto="app">在编辑器里跑一个任务</button> <button class="btn" data-goto="home">← 返回</button></p>
+  </section>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cursor-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-app">
+  <div class="app">
+    <h2 style="font-size:22px;font-weight:700;letter-spacing:-.02em">Agent 任务队列</h2>
+    <p style="color:var(--mute);font-size:13px;margin-top:4px">当前仓库 3 个分支 · 最近 24h</p>
+    <table><thead><tr><th>任务</th><th>分支</th><th>阶段</th><th class="num" id="srt">变更行 ⇅</th><th>结果</th></tr></thead><tbody id="tb"></tbody></table>
+    <div style="margin-top:22px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-o btn-s">主要（橙）</button><button class="btn btn-s">次要</button><button class="btn btn-s" style="color:var(--err);border-color:var(--err)">危险</button><button class="btn btn-s" disabled>禁用</button></div>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cursor-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-auth">
+  <div class="auth"><div class="acard">
+    <h2>登录 Trace</h2>
+    <div class="tabs"><button class="on" id="ti">邮箱</button><button id="tu">设备码</button></div>
+    <div class="f2"><label>邮箱</label><input value="hi@gholl.com"></div>
+    <div class="f2"><label>密码</label><input type="password" value="design-systems"></div>
+    <button class="btn btn-o" style="width:100%;padding:10px">继续</button>
+    <p style="font-size:11.5px;color:var(--mute2);text-align:center;margin-top:12px">米纸为底，橙色只出现在动作上 —— 与规范色表一致</p>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cursor-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cursor-design-analysis」生成 · timeline 五色 = 规范私有语汇（严格执行）</div>
+<script>
+const J=[['修复结算回调竞态','fix/lease','done',3,'p-done','测试通过'],['补并发回归用例','test/race','edit',86,'p-edit','等待接受'],['梳理 worker 依赖','main','read',0,'p-read','仅分析'],['回滚错误 PR','revert-92','think',0,'p-think','规划中'],['修复导入路径','fix/imports','grep',12,'p-err','失败：路径不存在'],['优化冷启动','perf/cold','done',27,'p-done','测试通过']];
+let asc=false,tb=document.getElementById('tb');
+function draw(){tb.innerHTML=[...J].sort((a,b)=>asc?b[3]-a[3]:a[3]-b[3]).map(j=>`<tr><td style="font-weight:600">${j[0]}</td><td style="font-family:var(--mono);font-size:11.5px;color:var(--mute)">${j[1]}</td><td><span class="pill ${j[4]}"><em></em>${{think:'思考',grep:'检索',read:'读取',edit:'编辑',done:'完成'}[j[2]]}</span></td><td class="num">${j[3]}</td><td style="color:${j[2]==='grep'?'var(--err)':'var(--body)'}">${j[5]}</td></tr>`).join('')}
+document.getElementById('srt').onclick=()=>{asc=!asc;draw()};draw();
+const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className=''};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className=''};
+</script></body></html>

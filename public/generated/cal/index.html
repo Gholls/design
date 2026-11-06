@@ -1,0 +1,198 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 决策溯源
+  ─ designs/cal/DESIGN.md：白画布 + 纯黑墨 #111 主按钮（primary-active #242424）、
+    品牌蓝 #3b82f6 只用于链接/选中态、彩色 badge 系列（orange/pink/violet/emerald）做分类
+  ─ 「calendar-software-first」→ 首页核心可视化即排程窗口 mock；圆角克制 8/12/16
+  ─ Motion：140ms 干净利落；hover 仅换色不浮起（clean neutral 气质）
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Slot — Cal.com 设计系统样板间</title>
+<style>
+:root{--ink:#111;--ink-active:#242424;--body:#374151;--mute:#6b7280;--mute2:#898989;
+--hair:#e5e7eb;--hair-s:#f3f4f6;--canvas:#fff;--soft:#f8f9fa;--card:#f5f5f5;--strong:#e5e7eb;
+--dark:#101010;--dark-e:#1a1a1a;--on-dark:#fff;--on-dark-s:#a1a1aa;
+--blue:#3b82f6;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;
+--b-orange:#fb923c;--b-pink:#ec4899;--b-violet:#8b5cf6;--b-emerald:#34d399;
+--r-xs:4px;--r-sm:6px;--r-md:8px;--r-lg:12px;--r-xl:16px;--pill:9999px;
+--font:'Inter','DM Sans','PingFang SC',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;transition:background-color .14s,color .14s,border-color .14s}
+body{font:15px/1.6 var(--font);color:var(--ink);background:var(--canvas)}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+header{display:flex;align-items:center;gap:22px;padding:14px max(20px,4vw);border-bottom:1px solid var(--hair);position:sticky;top:0;background:var(--canvas);z-index:20}
+.wm{font-weight:700;font-size:16px;display:flex;gap:9px;align-items:center;color:var(--ink)}
+.wm i{font-style:normal;width:22px;height:22px;border-radius:6px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}
+header nav{display:flex;gap:2px;margin:0 auto}
+header nav a{font-size:14px;color:var(--mute);padding:7px 12px;border-radius:var(--r-md)}header nav a:hover{color:var(--ink);background:var(--soft);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--strong);background:var(--canvas);color:var(--ink);border-radius:var(--r-md);padding:9px 16px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{background:var(--soft)}
+.btn-ink{background:var(--ink);color:#fff;border-color:var(--ink)}.btn-ink:hover{background:var(--ink-active)}
+.btn-s{padding:6px 11px;font-size:12.5px}
+.view{display:none}.view.on{display:block}
+.hero{padding:84px 5vw 30px;text-align:center}
+.hero h1{font-size:clamp(38px,6.2vw,64px);font-weight:800;letter-spacing:-.045em;line-height:1.05}
+.hero h1 .stroke{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.hero p{color:var(--mute);font-size:17px;margin-top:16px;max-width:52ch;margin-inline:auto}
+.hero .links{margin-top:28px;display:flex;gap:10px;justify-content:center}
+.slotmock{max-width:680px;margin:52px auto 0;border:1px solid var(--hair);border-radius:var(--r-xl);overflow:hidden;text-align:left;box-shadow:0 12px 40px rgba(17,17,17,.08)}
+.sm-head{padding:20px 24px;border-bottom:1px solid var(--hair);display:flex;justify-content:space-between;align-items:center}
+.sm-head b{font-size:15px}.sm-head span{font-size:12px;color:var(--mute)}
+.sm-body{display:grid;grid-template-columns:1fr 190px;gap:0}
+.slots{padding:18px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.slots button{border:1px solid var(--strong);border-radius:var(--r-md);background:var(--canvas);font:inherit;font-size:12.5px;font-weight:600;padding:9px 0;cursor:pointer;color:var(--ink)}
+.slots button:hover{border-color:var(--ink)}
+.slots button.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.calx{border-left:1px solid var(--hair);padding:14px;background:var(--soft)}
+.calx .days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:10.5px;color:var(--mute2);text-align:center}
+.calx .days b{display:grid;place-items:center;aspect-ratio:1;border-radius:50%;font-weight:500;color:var(--ink)}
+.calx .days b.today{background:var(--blue);color:#fff}
+.typebadges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:26px 5vw 0}
+.tb{display:inline-flex;gap:7px;align-items:center;font-size:12.5px;font-weight:600;border:1px solid var(--hair);border-radius:var(--pill);padding:6px 14px;color:var(--body)}
+.tb i{width:8px;height:8px;border-radius:50%;font-style:normal}
+section.blk{padding:70px 5vw;max-width:1060px;margin:0 auto}
+h2.sec{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.035em;text-align:center}
+p.secd{color:var(--mute);text-align:center;margin-top:10px;max-width:54ch;margin-inline:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:34px}
+.f{border:1px solid var(--hair);border-radius:var(--r-xl);padding:24px;background:var(--canvas)}
+.f i{font-style:normal;font-size:12px;font-weight:800;color:#fff;border-radius:var(--r-sm);padding:3px 8px;display:inline-block}
+.f b{display:block;font-size:16px;margin-top:14px}.f p{color:var(--mute);font-size:13.5px;margin-top:6px}
+.darkband{background:var(--dark);color:var(--on-dark);border-radius:var(--r-xl);padding:44px;margin-top:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
+.darkband h3{font-size:26px;font-weight:800;letter-spacing:-.03em}
+.darkband p{color:var(--on-dark-s);font-size:14.5px;margin-top:10px}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;margin-top:34px}
+.pl{border:1px solid var(--hair);border-radius:var(--r-xl);padding:24px}
+.pl.best{border:2px solid var(--ink)}
+.pl small{color:var(--mute);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.pl b{display:block;font-size:28px;font-weight:800;letter-spacing:-.03em;margin:8px 0 0}
+.pl ul{list-style:none;font-size:13px;color:var(--body);margin:14px 0 18px}.pl li{padding:3.5px 0}.pl li::before{content:"·";color:var(--blue);font-weight:800;margin-right:6px}
+.faq{max-width:700px;margin:0 auto;padding:0 5vw 70px}
+details{border-bottom:1px solid var(--hair);padding:14px 2px}
+summary{cursor:pointer;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"⌄";color:var(--mute)}details[open] summary::after{transform:rotate(180deg)}
+details p{color:var(--mute);font-size:14px;margin-top:10px}
+footer{border-top:1px solid var(--hair);padding:38px 5vw 20px;font-size:13px;color:var(--mute);background:var(--soft)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;max-width:1060px;margin:0 auto}
+footer h4{color:var(--ink);margin-bottom:6px;font-size:12.5px}footer a{color:var(--mute);display:block;padding:3px 0}footer a:hover{color:var(--ink);text-decoration:none}
+.app{max-width:980px;margin:0 auto;padding:40px 5vw}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:18px;border:1px solid var(--hair);border-radius:var(--r-lg);overflow:hidden}
+th{text-align:left;background:var(--soft);color:var(--mute);font-size:11px;font-weight:600;padding:9px 12px;border-bottom:1px solid var(--hair);cursor:pointer}
+td{padding:11px 12px;border-bottom:1px solid var(--hair-s)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{border-radius:var(--pill);padding:2px 10px;font-size:11px;font-weight:700}
+.p-ok{background:rgba(16,185,129,.12);color:#047857}.p-run{background:rgba(59,130,246,.12);color:#1d4ed8}
+.p-warn{background:rgba(245,158,11,.14);color:#b45309}.p-err{background:rgba(239,68,68,.12);color:#b91c1c}
+.auth{display:grid;place-items:center;padding:56px 5vw;background:var(--soft)}
+.acard{width:min(400px,92vw);background:var(--canvas);border:1px solid var(--hair);border-radius:var(--r-xl);padding:30px}
+.acard h2{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.tabs{display:flex;border:1px solid var(--hair);border-radius:var(--r-md);padding:3px;margin:18px 0}
+.tabs button{flex:1;border:none;background:none;font:inherit;font-size:13.5px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;color:var(--mute)}
+.tabs button.on{background:var(--ink);color:#fff}
+.f2{margin-bottom:12px}.f2 label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.f2 label a{font-weight:500;font-size:12px}
+.f2 input{width:100%;border:1px solid var(--strong);border-radius:var(--r-md);padding:10px 12px;font:inherit;font-size:14px}
+.f2 input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(17,17,17,.1)}
+.gen{text-align:center;font-size:11.5px;color:var(--mute2);padding:16px;border-top:1px solid var(--hair)}
+@media(max-width:760px){.sm-body{grid-template-columns:1fr}.calx{display:none}.darkband{grid-template-columns:1fr}header nav{display:none}}
+</style></head><body>
+<header><span class="wm"><i>S</i>Slot</span>
+<nav><a href="#" data-goto="home">产品</a><a href="#" data-goto="prod">工作流</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
+<span><button class="btn btn-ink btn-s" data-goto="app">预约演示</button></span></header>
+<main>
+<div class="view on" id="v-home">
+  <section class="hero">
+    <h1>排期这件小事，<br>不该有<span class="stroke">七个来回</span>。</h1>
+    <p>Slot 把你的日历变成一个预约页面：时区自动换算、缓冲时间、会议类型路由 —— 开源，自托管也免费。</p>
+    <div class="links"><button class="btn btn-ink" data-goto="app">免费创建账号</button><button class="btn" data-goto="prod">看它怎么工作</button></div>
+    <div class="slotmock">
+      <div class="sm-head"><b>30 分钟产品咨询 · 戴安娜</b><span>欧洲/柏林 · GMT+8 已换算</span></div>
+      <div class="sm-body">
+        <div class="slots" id="slots"></div>
+        <div class="calx"><div class="days" id="days"></div></div>
+      </div>
+    </div>
+  </section>
+  <div class="typebadges">
+    <span class="tb"><i style="background:var(--b-orange)"></i>30min 快聊</span>
+    <span class="tb"><i style="background:var(--b-pink)"></i>60min 深度</span>
+    <span class="tb"><i style="background:var(--b-violet)"></i>小组路演</span>
+    <span class="tb"><i style="background:var(--b-emerald)"></i>售后回访</span>
+  </div>
+  <section class="blk">
+    <h2 class="sec">时间规则，替你把关</h2><p class="secd">彩色圆点只用于会议类型分类 —— 界面其余保持黑白（规范：badge 体系即语义）。</p>
+    <div class="grid2">
+      <div class="f"><i style="background:var(--b-violet)">路由</i><b>会议类型自动分发</b><p>销售找销售，客服找客服。同一链接，按标签路由到对的人。</p></div>
+      <div class="f"><i style="background:var(--b-emerald)">缓冲</i><b>前后缓冲与工作日</b><p>连续会议的喘口气规则，写在日历层，而不是记在脑子里。</p></div>
+      <div class="f"><i style="background:var(--b-orange)">时区</i><b>双向时区感知</b><p>对方永远看到本地时间；你永远守住本地边界。</p></div>
+      <div class="f"><i style="background:var(--b-pink)">团队</i><b>轮询与最优可用</b><p>团队事件自动找共同空档，轮值公平且隐形。</p></div>
+    </div>
+    <div class="darkband">
+      <div><h3>开源不是口号，是部署选项。</h3><p>AGPLv3 · 自托管一行 docker compose · 云端版与私有化版功能同构。</p></div>
+      <div style="display:grid;gap:8px"><button class="btn" style="background:var(--dark-e);color:#fff;border-color:#333">docker run slot/slot:latest</button><button class="btn btn-ink" style="background:#fff;color:var(--dark);border-color:#fff">在 GitHub 给 ★</button></div>
+    </div>
+    <h2 class="sec" style="margin-top:60px">定价简单到没什么可谈</h2>
+    <div class="price">
+      <div class="pl"><small>Free</small><b>¥0</b><ul><li>1 个会议类型</li><li>无限预约</li><li>自托管无上限</li></ul><button class="btn" style="width:100%" data-goto="auth">开始</button></div>
+      <div class="pl best"><small>Teams</small><b>¥49</b><ul><li>团队路由</li><li>工作流自动化</li><li>日历合并</li></ul><button class="btn btn-ink" style="width:100%" data-goto="auth">试用 14 天</button></div>
+      <div class="pl"><small>Enterprise</small><b>定制</b><ul><li>合规与 SSO</li><li>专属支持</li></ul><button class="btn" style="width:100%">联系</button></div>
+    </div>
+  </section>
+  <div class="faq"><h2 class="sec" style="margin-bottom:20px">常见问题</h2>
+    <details open><summary>需要接入对方日历吗？</summary><p>不需要。预约确认后写入你的日历并发送邀请，对方零安装。</p></details>
+    <details><summary>视频会议谁提供？</summary><p>Zoom / Google Meet / 自建 LiveKit 均可按会议类型绑定。</p></details>
+    <details><summary>可以隐藏具体时间吗？</summary><p>「仅显示上午/下午」与随机时段防抢约，均支持。</p></details></div>
+</div>
+
+<div class="view" id="v-prod">
+  <section class="blk">
+    <h2 class="sec" style="text-align:left">工作流：从一次点击到日历落位</h2>
+    <div class="grid2" style="margin-top:26px">
+      <div class="f"><i style="background:var(--ink)">1</i><b>对方打开你的链接</b><p>时区已换算，可用时段基于你的日历忙闲实时计算。</p></div>
+      <div class="f"><i style="background:var(--ink)">2</i><b>选择类型与时间</b><p>缓冲规则自动扣减边界；填写议题触发路由标签。</p></div>
+      <div class="f"><i style="background:var(--ink)">3</i><b>确认即三端落位</b><p>你的日历、对方邮件、团队看板原子更新 —— 改期同理。</p></div>
+      <div class="f"><i style="background:var(--ink)">4</i><b>会后自动流转</b><p>录音摘要写进 CRM；未履约者自动降权重排。</p></div>
+    </div>
+    <p style="margin-top:26px"><button class="btn btn-ink" data-goto="home">← 回到首页</button></p>
+  </section>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cal.com-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-app">
+  <div class="app">
+    <h2 style="font-size:20px;font-weight:800;letter-spacing:-.03em">今日预约</h2>
+    <p style="color:var(--mute);font-size:13px;margin-top:4px">11 月 6 日 · 4 场会议 · 最近一场 14:30</p>
+    <table><thead><tr><th>时间 ⇅</th><th>对方</th><th>类型</th><th>地点</th><th class="num">时长</th><th>状态</th></tr></thead><tbody id="tb"></tbody></table>
+    <div style="margin-top:26px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-ink btn-s">主要</button><button class="btn btn-s">次要</button>
+      <button class="btn btn-s" style="border-color:var(--err);color:var(--err)">危险</button><button class="btn btn-s" disabled>禁用</button>
+    </div>
+    <p style="margin-top:24px;font-size:13px;color:var(--mute);border:1px dashed var(--strong);border-radius:var(--r-lg);padding:22px;text-align:center">暂无回收的会议 —— 黑白空态，不给表情。</p>
+  </div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cal.com-design-analysis」生成</div>
+</div>
+
+<div class="view" id="v-auth">
+  <div class="auth"><div class="acard">
+    <h2>登录 Slot</h2>
+    <div class="tabs"><button class="on" id="ti">邮箱</button><button id="tu">SSO</button></div>
+    <div class="f2"><label>邮箱</label><input value="hi@gholl.com"></div>
+    <div class="f2"><label>密码 <a href="#">忘记密码</a></label><input type="password" value="design-systems"></div>
+    <button class="btn btn-ink" style="width:100%;padding:10px">继续</button>
+    <div style="display:flex;gap:8px;margin-top:12px"><button class="btn" style="flex:1">Google</button><button class="btn" style="flex:1">Apple</button><button class="btn" style="flex:1">GitHub</button></div>
+  </div></div>
+  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cal.com-design-analysis」生成</div>
+</div>
+</main>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Cal.com-design-analysis」生成 · 彩色仅会议类型 badge（规范 badge 体系执行）</div>
+<script>
+const S=['09:30','10:00','11:30','13:00','14:30','15:00','16:30','17:00','18:30'];
+document.getElementById('slots').innerHTML=S.map((t,i)=>`<button class="${i===4?'sel':''}" onclick="document.querySelectorAll('#slots button').forEach(b=>b.classList.remove('sel'));this.classList.add('sel')">${t}</button>`).join('');
+let d='<span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>';
+for(let i=1;i<=28;i++)d+=`<b class="${i===6?'today':''}">${i}</b>`;
+document.getElementById('days').innerHTML=d;
+const M=[['09:30','青柠出行','快聊','Google Meet',30,'p-ok','已确认'],['11:30','Fold Labs','深度','Zoom',60,'p-run','待对方确认'],['14:30','沧海数据','小组路演','会议室 A',60,'p-warn','需设备申请'],['16:00','售后回访 · 云栖','回访','电话',15,'p-err','对方改期中']];
+document.getElementById('tb').innerHTML=M.map(m=>`<tr><td style="font-weight:600">${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td><td style="color:var(--mute)">${m[3]}</td><td class="num">${m[4]}min</td><td><span class="pill ${m[6]}">${m[5]}</span></td></tr>`).join('');
+const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className=''};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className=''};
+</script></body></html>

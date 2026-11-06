@@ -1,199 +1,466 @@
 <!doctype html>
 <!--
-  GOLDEN PROMPT 产物 · 决策溯源
-  ─ Token 逐值来自 designs/airbnb/DESIGN.md：Rausch #ff385c 唯一情绪色 / active #e00b41 /
-    ink #222 / canvas #fff / hairline #ddd / 圆角阶梯 8-14-20-32 / pill 搜索条
-  ─ 散文指令：「搜索是首页的第一公民」→ hero 即搜索条+分类圆标；「卡片即产品」
-    → listing 网格占据主版面；「价格表达亲密」→ 定价用 ¥/晚 口语单位
-  ─ components.button-primary：圆形图标按钮 + Rausch 实心主按钮（active 加深）
-  ─ Motion 文气：卡片 hover 图微缩放 + 心标弹跳（品牌标志交互），150ms
-  ─ 星评分用 ink 色（star-rating #222，非金色——规范明确）
+  GOLDEN PROMPT 产物 · GhollStudio · 规范：Airbnb
+  ─ 决策溯源
+  ─ Token 逐值来自 designs/airbnb：canvas #fff 纯白地板（散文原文：公开页无对比色页脚）/ ink #222 永不纯黑 /
+    Rausch #ff385c 唯一电压 —— 只给主 CTA、搜索 orb、心标 saved 态、进度/热柱；active #e00b41 按压、disabled #ffd1da
+  ─ 语义回退（Known Gaps 无绿/黄 token，依「单色情绪 + ink 承载」原文规则推导）：
+    ok/up→ink #222（guest-favorite-badge 原文即白底 ink 字）、warn→muted #6a6a6a、err→primary-error-text #c13515
+  ─ 排版：无独立 display 族（原文）——CJK 依 fallback 链落 PingFang SC，零外部字体；
+    h1=display-xl 28px/700（原文「刻意偏小，层级交给摄影与搜索条」）、区块标题=display-md 21/700、
+    正文 body-md 16/400、卡片标题 title-md 16/600、徽章 badge 11/600、星评分 star-rating #222 不用金色（原文）
+  ─ 圆角阶梯 rounded 8/14/20/32/full：按钮 r8 · 卡片 r14 · 面板/模态 r20 · 搜索条/徽章全 pill（原文「除 body grid 外无直角」）；
+    表单 focus=边框加深为 2px ink，无光晕无 ring（text-input 原文）
+  ─ 全站唯一阴影层 rgba(0,0,0,.02)0 0 0 1px + .04 0 2px 6px + .1 0 4px 8px（Elevation 原文），只用于 hover 卡片/浮层；
+    modal 遮罩 = scrim #000 @50%
+  ─ 标志表达：pill 搜索条 + 分段 hairline + Rausch orb（search-bar-pill/search-orb）/ 分类圆标带 ink 2px 下划线
+    （category-strip + product-tab-active）/ 案例与前台卡片墙=photo-first property-card（1:1 图版、心标、
+    Guest-favorite 徽章、carousel dots、右下「详情」hover floater）/ 定价=reservation-card（大字价格+全宽 Rausch 按钮）
+  ─ 摄影占位：零外部资产，图版用规范色 tints（#ffd1da→#ff385c、#f7f7f7→#c1c1c1、#ebebeb→#222）渐变占位
+  ─ Density：营销段 64px section rhythm + 卡片 16px 沟（原文「open hero, dense marketplace」）；后台收紧至 12-14px 但保留
+    pill/圆角语言，表格行 48px（Touch Targets 原文 ≥48）
+  ─ Motion：150ms 单档淡变 + hover 唯一阴影抬升（Known Gaps 原文：card hover = elevation lift），无入场动画
 -->
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Airbnb 设计系统样板间 · 住进风景里</title>
+<title>GhollStudio · Airbnb</title>
 <style>
 :root{
-  --primary:#ff385c;--primary-active:#e00b41;--primary-disabled:#ffd1da;--on-primary:#fff;
+  --primary:#ff385c;--primary-active:#e00b41;--primary-disabled:#ffd1da;--on:#fff;
   --ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--muted-soft:#929292;
-  --hairline:#ddd;--hairline-soft:#ebebeb;--border-strong:#c1c1c1;
-  --canvas:#fff;--surface-soft:#f7f7f7;--surface-strong:#f2f2f2;--star:#222;
+  --hair:#ddd;--hair-soft:#ebebeb;--border-strong:#c1c1c1;--scrim:#000;
+  --canvas:#fff;--soft:#f7f7f7;--sstrong:#f2f2f2;--legal:#428bff;
+  --ok:#222;--warn:#6a6a6a;--err:#c13515;--err-hover:#b32505;--tertiary:#929292;
   --r-xs:4px;--r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:32px;--r-pill:9999px;
-  --s-sm:8px;--s-md:12px;--s-base:16px;--s-lg:24px;--s-xl:32px;
-  --font:'Airbnb Cereal VF',Circular,-apple-system,system-ui,Roboto,'PingFang SC',sans-serif;
+  --sec:64px;
+  --sh:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px,rgba(0,0,0,.1) 0 4px 8px;
+  --font:'Airbnb Cereal VF',Circular,-apple-system,system-ui,Roboto,'PingFang SC','Helvetica Neue',sans-serif;
 }
-*{box-sizing:border-box;margin:0;transition:background-color .15s,color .15s,border-color .15s,transform .15s,box-shadow .15s}
-body{font:15px/1.5 var(--font);color:var(--ink);background:var(--canvas)}
-a{color:inherit;text-decoration:none}
-header{display:flex;align-items:center;gap:var(--s-lg);padding:14px max(20px,4vw);border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--canvas);z-index:30}
-.bnb{color:var(--primary);font-weight:800;font-size:22px;letter-spacing:-.04em}
-header nav{display:flex;gap:4px;margin:0 auto}
-header nav a{padding:10px 14px;border-radius:var(--r-pill);font-weight:600;font-size:14px;color:var(--muted)}
-header nav a:hover{background:var(--surface-soft);color:var(--ink)}
-.avatar-me{display:flex;align-items:center;gap:8px;border:1px solid var(--hairline);border-radius:var(--r-pill);padding:5px 6px 5px 12px;cursor:pointer;font-size:13px}
-.avatar-me:hover{box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.avatar-me i{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-size:12px}
+*{box-sizing:border-box;margin:0;transition:background-color .15s,color .15s,border-color .15s,box-shadow .15s,transform .15s}
+body{font:16px/1.5 var(--font);background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none}a:hover{text-decoration:underline}
+::selection{background:var(--primary);color:#fff}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:40;background:var(--canvas);border-bottom:1px solid var(--hair)}
+.nav{display:flex;align-items:center;gap:18px;height:80px}
+.wm{font-weight:800;font-size:22px;letter-spacing:-.04em;display:flex;gap:8px;align-items:center;color:var(--primary)}
+.wm b{width:28px;height:28px;border-radius:var(--r-pill);background:var(--primary);color:var(--on);display:grid;place-items:center;font-size:13px;font-weight:800}
+header nav{display:flex;gap:4px}
+header nav a{color:var(--muted);font-size:15px;font-weight:600;padding:10px 14px;border-radius:var(--r-pill)}
+header nav a:hover{color:var(--ink);background:var(--soft);text-decoration:none}
+.seg{display:flex;gap:3px;border-radius:var(--r-pill);padding:3px;margin-left:auto;background:var(--soft)}
+.seg button{border:none;border-radius:var(--r-pill);background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:6px 16px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--on)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--ink);background:var(--canvas);color:var(--ink);border-radius:var(--r-sm);padding:12px 20px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;min-height:48px}
+.btn:hover{background:var(--soft)}
+.btn-p{background:var(--primary);border-color:transparent;color:var(--on)}.btn-p:hover{background:var(--primary-active)}
+.btn-x{background:var(--primary);border-color:transparent;color:var(--on);border-radius:var(--r-pill);padding:10px 20px;font-size:14px;min-height:40px}.btn-x:hover{background:var(--primary-active)}
+.btn-e{border-color:var(--err);color:var(--err);background:var(--canvas)}.btn-e:hover{background:rgba(193,53,21,.06)}
+.btn-g{border-color:transparent;background:none;color:var(--muted);min-height:36px;padding:8px 12px}.btn-g:hover{background:var(--soft);color:var(--ink);text-decoration:underline}
+.btn-s{padding:7px 14px;font-size:13.5px;min-height:38px}
+.btn:disabled{background:var(--primary-disabled);border-color:transparent;color:var(--on);opacity:1;pointer-events:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .view{display:none}.view.on{display:block}
-/* 首页：搜索第一公民 */
-.hero{padding:44px 4vw 8px;text-align:center}
-.hero h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.2}
-.searchbar{display:inline-flex;align-items:center;gap:0;margin:30px auto 26px;border:1px solid var(--hairline);border-radius:var(--r-pill);box-shadow:0 3px 14px rgba(0,0,0,.08);background:var(--canvas);overflow:hidden}
-.searchbar .seg{padding:14px 22px;font-size:14px;font-weight:600;border-right:1px solid var(--hairline-soft);color:var(--ink);cursor:pointer}
-.searchbar .seg small{display:block;font-weight:400;color:var(--muted-soft);font-size:11.5px}
-.searchbar .go{width:46px;height:46px;border-radius:50%;background:var(--primary);color:var(--on-primary);border:none;margin:4px;cursor:pointer;font-size:17px;display:grid;place-items:center}
+.card{background:var(--canvas);border:1px solid var(--hair);border-radius:var(--r-lg)}
+/* ─── hero：搜索第一公民（search-bar-pill + search-orb） ─── */
+.hero{padding:52px 24px 20px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--ink);background:var(--canvas);border-radius:var(--r-pill);box-shadow:var(--sh);padding:6px 14px}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--primary)}
+h1{font-size:28px;line-height:1.4;font-weight:700;margin-top:16px;letter-spacing:-.01em}
+.sub{color:var(--body);font-size:16px;margin:8px auto 0;max-width:52ch}
+.searchbar{display:inline-flex;align-items:center;margin:30px auto 10px;border:1px solid var(--hair);border-radius:var(--r-pill);box-shadow:var(--sh);background:var(--canvas);overflow:hidden;max-width:100%}
+.searchbar .ss{padding:10px 26px;text-align:left;border-right:1px solid var(--hair-soft);cursor:pointer}
+.searchbar .ss small{display:block;font-size:14px;font-weight:500;line-height:1.3}
+.searchbar .ss span{font-size:14px;color:var(--muted)}
+.searchbar .go{width:48px;height:48px;border-radius:var(--r-pill);background:var(--primary);color:var(--on);border:none;margin:6px;cursor:pointer;font-size:18px;display:grid;place-items:center;flex:none}
 .searchbar .go:hover{background:var(--primary-active)}
-.cats{display:flex;gap:26px;overflow:auto;padding:6px 4vw 18px;border-bottom:1px solid var(--hairline)}
-.cats .c{min-width:64px;text-align:center;color:var(--muted);font-size:11.5px;font-weight:600;cursor:pointer;padding:8px 2px;border-bottom:2px solid transparent}
-.cats .c:hover{color:var(--ink)}
+.links{display:flex;gap:12px;justify-content:center;margin-top:22px}
+/* 分类圆标带（category-strip + ink 下划线 active） */
+.cats{display:flex;gap:10px;overflow:auto;padding:14px 24px 10px;border-bottom:1px solid var(--hair);background:var(--canvas);position:sticky;top:80px;z-index:30}
+.cats .c{min-width:76px;text-align:center;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;padding:8px 4px 10px;border-bottom:2px solid transparent;border-radius:var(--r-sm) var(--r-sm) 0 0}
+.cats .c:hover{color:var(--ink);background:var(--soft)}
 .cats .c.on{color:var(--ink);border-bottom-color:var(--ink)}
-.cats .c i{display:block;font-style:normal;font-size:24px;margin-bottom:4px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:26px;padding:30px 4vw}
-.card .photo{aspect-ratio:1/1;border-radius:var(--r-md);position:relative;overflow:hidden}
-.card .photo .dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
-.card .photo .dots b{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6)}.card .photo .dots b:first-child{background:#fff}
-.heart{position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;color:var(--on-primary);font-size:16px;cursor:pointer;text-shadow:0 1px 4px rgba(0,0,0,.4)}
-.heart.liked{color:var(--primary);transform:scale(1.15)}
-.card:hover .photo{transform:scale(1.012)}
-.meta{display:flex;justify-content:space-between;margin-top:10px;font-size:15px}
-.meta b{font-weight:600}
-.card p{color:var(--muted);font-size:14px;margin-top:2px}
-.card .price{margin-top:4px;font-size:14.5px}.card .price b{font-weight:700}
-.super{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;border:1px solid var(--ink);border-radius:var(--r-xs);padding:2px 7px;margin-bottom:6px}
-.hostcta{margin:20px 4vw 40px;background:linear-gradient(180deg,#fff0f3,#ffe4ea);border-radius:var(--r-xl);padding:44px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.hostcta h2{font-size:24px;font-weight:700}.hostcta p{color:var(--body);margin-top:6px}
-.btn{border:1px solid var(--ink);border-radius:var(--r-sm);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;background:var(--canvas)}
-.btn-p{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
-.btn-p:hover{background:var(--primary-active);border-color:var(--primary-active)}
-footer{border-top:1px solid var(--hairline);padding:34px 4vw 20px;background:var(--canvas)}
-footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s-lg);font-size:13px;color:var(--muted)}
-footer h4{color:var(--ink);font-size:13.5px;margin-bottom:8px}footer a{display:block;padding:3.5px 0}footer a:hover{text-decoration:underline}
-/* 体验页 */
-.exp{padding:44px 4vw;max-width:1000px;margin:0 auto}
-.exp .img{height:340px;border-radius:var(--r-lg);background:radial-gradient(circle at 20% 20%,#ffd7c2,#ff8e7e 55%,#e5487b)}
-.exp h2{font-size:26px;font-weight:700;margin-top:26px}
-.exp .row{display:flex;gap:14px;flex-wrap:wrap;color:var(--body);font-size:14px;margin-top:8px}
-.exp .box{border:1px solid var(--hairline);border-radius:var(--r-md);padding:22px;margin-top:22px;background:var(--surface-soft)}
-.reserve{position:sticky;bottom:16px;margin-top:26px;float:right;border:1px solid var(--hairline);border-radius:var(--r-md);box-shadow:0 6px 18px rgba(0,0,0,.12);background:#fff;padding:20px;width:300px}
-.reserve .p{font-size:17px}.reserve .p b{font-weight:700}
-.reserve .btn{width:100%;margin-top:14px}
-/* 后台 */
-.app{max-width:1000px;margin:0 auto;padding:40px 4vw}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
-.kpi{border:1px solid var(--hairline);border-radius:var(--r-md);padding:18px}
-.kpi b{font-size:24px;display:block;margin-top:4px}.kpi span{color:var(--muted);font-size:12.5px}
-table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14px}
-th{text-align:left;color:var(--muted);font-size:12px;font-weight:600;padding:10px 12px;border-bottom:1px solid var(--hairline)}
-th.num,td.num{text-align:right}td{padding:13px 12px;border-bottom:1px solid var(--hairline-soft)}
-.pill{display:inline-block;border-radius:var(--r-pill);padding:3px 10px;font-size:11.5px;font-weight:700}
-.p-ok{background:#00830c;color:#fff}.p-run{background:#f7f7f7;color:var(--ink);border:1px solid var(--hairline)}
-.p-warn{background:#fff3d9;color:#7d5a00}.p-err{background:var(--primary);color:#fff}
-.tbar{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;align-items:center}
-.tbar input,.tbar select{border:1px solid var(--border-strong);border-radius:var(--r-pill);padding:10px 16px;font:inherit;font-size:13.5px;background:var(--canvas)}
-.tbar input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 2px rgba(0,0,0,.12)}
+.cats .c i{display:block;font-style:normal;font-size:22px;margin-bottom:4px}
+/* 数据带 */
+.band{border-block:1px solid var(--hair);padding:24px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;background:var(--canvas)}
+.band b{display:block;font-size:28px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.band span{font-size:14px;color:var(--muted)}
+h2.sec{font-size:21px;line-height:1.4;font-weight:700}
+.blk{margin-top:var(--sec)}
+.secd{color:var(--muted);margin-top:6px;max-width:60ch;font-size:15px;line-height:1.5}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.svc{padding:20px;border-radius:var(--r-md)}
+.svc:hover{box-shadow:var(--sh)}
+.svc i{font-style:normal;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--sstrong);color:var(--ink);font-weight:700;font-size:15px}
+.svc b{display:block;font-size:16px;font-weight:600;margin-top:14px}
+.svc p{color:var(--body);font-size:14px;margin-top:6px;line-height:1.5}
+/* 案例 = photo-first property-card（无卡框，图片+meta，规范原文） */
+.case{background:none;border:none}
+.case .pic{aspect-ratio:1/1;border-radius:var(--r-md);position:relative;overflow:hidden}
+.case .pic .dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+.case .pic .dots b{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55)}.case .pic .dots b:first-child{background:#fff}
+.gf{position:absolute;top:12px;left:12px;background:var(--canvas);color:var(--ink);font-size:11px;font-weight:600;border-radius:var(--r-pill);padding:4px 10px;box-shadow:var(--sh)}
+.hrt{position:absolute;top:10px;right:10px;width:30px;height:30px;display:grid;place-items:center;color:var(--on-primary,#fff);font-size:16px;cursor:pointer;text-shadow:0 1px 4px rgba(0,0,0,.5);font-style:normal}
+.hrt.liked{color:var(--primary);transform:scale(1.15)}
+.hfl{position:absolute;right:10px;bottom:12px;background:var(--canvas);color:var(--ink);font-size:12px;font-weight:600;border-radius:var(--r-pill);padding:6px 12px;box-shadow:var(--sh);opacity:0;transform:translateY(4px)}
+.case:hover .hfl{opacity:1;transform:none}
+.case .bd{padding:10px 2px 0}
+.case .trow{display:flex;justify-content:space-between;gap:10px;font-size:16px;font-weight:600}
+.case .trow .star{font-weight:600;color:var(--ink);font-size:14px;flex:none}
+.case p{color:var(--muted);font-size:14px;margin-top:2px;line-height:1.43}
+.case .res{color:var(--ink);font-weight:700;font-size:15px;margin-top:6px;font-variant-numeric:tabular-nums}
+.tagrow{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+.tag{font-size:13px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.step{padding:18px 20px;border-radius:var(--r-md)}
+.step:hover{box-shadow:var(--sh)}
+.step b{font-size:16px;font-weight:600;display:block;margin-top:12px}.step p{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.43}
+.step i{font-style:normal;width:32px;height:32px;border-radius:50%;background:var(--sstrong);color:var(--ink);font-size:12px;font-weight:700;display:grid;place-items:center}
+/* 评价 = reviews-card 语言 */
+.quote{padding:20px;border-radius:var(--r-md)}
+.quote .stars{color:var(--ink);font-size:13px;letter-spacing:1px}
+.quote p{font-size:15px;line-height:1.5;color:var(--body);margin-top:8px}
+.quote footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:14px;color:var(--muted);border:none;padding:0;background:none}
+.quote footer .who{display:flex;gap:10px;align-items:center;color:var(--ink);font-weight:600}
+.quote footer .who i{width:36px;height:36px;border-radius:50%;background:var(--sstrong);color:var(--ink);display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700}
+/* 定价 = reservation-card 语言 */
+.price .pl{padding:24px;border-radius:var(--r-md)}
+.price .pl:hover{box-shadow:var(--sh)}
+.price .pl.best{box-shadow:var(--sh);border-color:transparent}
+.pl small{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.02em}
+.pl .rec{float:right;background:var(--ink);color:var(--on);font-size:11px;font-weight:600;border-radius:var(--r-pill);padding:3px 10px}
+.pl b{display:block;font-size:21px;font-weight:700;letter-spacing:-.01em;margin:8px 0 0;font-variant-numeric:tabular-nums}
+.pl b em{font-style:normal;font-size:14px;font-weight:400;color:var(--muted)}
+.pl ul{list-style:none;font-size:14px;color:var(--body);margin:14px 0 18px}.pl li{padding:5px 0;border-bottom:1px solid var(--hair-soft)}.pl li:last-child{border-bottom:none}.pl li::before{content:"✓  ";color:var(--ink);font-weight:700}
+.price .btn{width:100%}
+/* FAQ：hairline 分隔的 editorial 折叠（无卡面，原文「clean text columns」） */
+.faq{margin-top:24px;border-top:1px solid var(--hair)}
+details{background:var(--canvas);border:none;border-radius:0;margin:0;padding:0 4px;border-bottom:1px solid var(--hair)}
+summary{cursor:pointer;font-weight:600;font-size:16px;list-style:none;padding:16px 0;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:16px}
+summary::after{content:"";width:32px;height:32px;flex:none;border-radius:50%;background:var(--sstrong) center/14px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 2v12M2 8h12' stroke='%23222' stroke-width='2'/%3E%3C/svg%3E")}
+details[open] summary::after{transform:rotate(45deg)}
+details>div{border-top:none;padding:2px 0 18px;color:var(--body);font-size:15px;line-height:1.5}
+/* 页脚 = footer-light + legal-band（白底同画布，原文） */
+footer.site{background:var(--canvas);border-top:1px solid var(--hair);margin-top:var(--sec);padding:48px 0 20px;font-size:14px;color:var(--ink)}
+footer.site .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+footer.site h4{font-size:16px;color:var(--ink);margin-bottom:10px;font-weight:500}
+footer.site a{color:var(--ink);display:block;padding:4px 0;font-size:14px}footer.site a:hover{text-decoration:underline}
+.subrow{display:flex;gap:10px;margin-top:28px;max-width:400px;align-items:center}
+.subrow input{flex:1;border:1px solid var(--hair);border-radius:var(--r-pill);padding:13px 20px;font:inherit;font-size:14px;background:var(--canvas)}
+.subrow .btn{min-height:0;padding:12px 18px}
+.legal{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--hair);margin-top:24px;padding-top:16px;font-size:13px;color:var(--muted)}
+.legal a{display:inline;padding:0;color:var(--muted)}
+/* ─── 后台 ─── */
+.app{background:var(--canvas);min-height:calc(100vh - 80px);padding:32px 0 56px}
+.btitle{font-size:22px;font-weight:600;letter-spacing:-.011px}
+.bsub{color:var(--muted);font-size:14px;margin:4px 0 24px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{padding:16px 18px;border-radius:var(--r-md)}
+.kpi small{font-size:13px;color:var(--muted);display:block}
+.kpi b{font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:block;margin-top:2px}
+.kpi em{font-style:normal;font-size:12px;font-weight:700}
+.up{color:var(--ok)}.dn{color:var(--err)}
+.spark{display:flex;gap:4px;align-items:flex-end;height:24px;margin-top:8px}
+.spark i{flex:1;background:rgba(34,34,34,.14);border-radius:var(--r-xs) var(--r-xs) 0 0}.spark i:last-child{background:var(--primary)}
+.cols2{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:16px}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px;border-bottom:1px solid var(--hair)}
+.hdr b{font-size:16px;font-weight:600}
+.pjwall{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px}
+.pj{border:1px solid var(--hair);border-radius:var(--r-md);padding:14px;background:var(--canvas)}
+.pj:hover{box-shadow:var(--sh)}
+.pj b{font-size:15px;font-weight:600;display:block}
+.pj small{font-size:13px;color:var(--muted);display:block;margin-top:2px}
+.pj .bar{height:6px;background:var(--sstrong);border-radius:var(--r-pill);margin-top:12px;overflow:hidden}
+.pj .bar i{display:block;height:100%;background:var(--primary);border-radius:var(--r-pill)}
+.badge{display:inline-flex;gap:6px;align-items:center;border-radius:var(--r-pill);border:1px solid var(--hair);background:var(--canvas);box-shadow:rgba(0,0,0,.04) 0 2px 6px;padding:3px 10px;font-size:11px;font-weight:600;margin-top:10px;color:var(--ink)}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-ok{color:var(--ok)}.b-run{color:var(--primary)}.b-warn{color:var(--warn)}.b-err{color:var(--err)}
+.tbar{display:flex;gap:10px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--hair);flex-wrap:wrap}
+.tbar input,.tbar select{border:1px solid var(--hair);border-radius:var(--r-pill);padding:9px 18px;font:inherit;font-size:13.5px;background:var(--canvas);color:var(--ink)}
+.tbar input:focus,.tbar select:focus{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{color:var(--muted);font-weight:600;font-size:12px;text-align:left;padding:10px 14px;border-bottom:1px solid var(--hair);cursor:pointer}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+td{height:48px;padding:0 14px;border-bottom:1px solid var(--hair-soft)}
+tbody tr:hover td{background:var(--soft)}
+td select{border:1px solid var(--hair);border-radius:var(--r-pill);background:var(--canvas);font:inherit;font-size:12px;font-weight:600;padding:5px 12px;cursor:pointer;color:var(--ink)}
+td select:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+td .id{font-size:13px;color:var(--muted-soft);font-variant-numeric:tabular-nums}
+.log{max-height:220px;overflow:auto;padding:14px 20px;display:grid;gap:10px}
+.log div{display:flex;gap:10px;font-size:13.5px;color:var(--body);align-items:center}
+.log time{color:var(--muted-soft);font-size:13px;font-variant-numeric:tabular-nums;flex:none;width:56px}
+.statgrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;margin-top:16px}
+.chart{height:150px;display:flex;align-items:flex-end;gap:8px;padding:14px 20px}
+.chart>div{flex:1;display:grid;grid-template-rows:1fr auto;align-items:end;justify-items:center;gap:6px;align-content:end;height:100%}
+.chart i{width:100%;border-radius:var(--r-sm) var(--r-sm) 0 0;background:rgba(34,34,34,.14)}
+.chart i.hot{background:var(--primary)}
+.chart span{font-size:11.5px;color:var(--muted)}
+.donut{width:118px;height:118px;border-radius:50%;margin:16px auto 8px;position:relative;background:conic-gradient(var(--primary) 0 38%,var(--ink) 38% 62%,var(--muted) 62% 82%,var(--hair) 82% 100%)}
+.donut::after{content:"";position:absolute;inset:20px;border-radius:50%;background:var(--canvas)}
+.legend{padding:0 20px 16px;display:grid;gap:6px;font-size:13.5px;color:var(--muted)}
+.legend b{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:8px}
+.funnel{padding:16px 20px;display:grid;gap:8px}
+.funnel i{height:20px;border-radius:var(--r-pill);background:var(--ink);color:var(--on);font-style:normal;font-size:11px;font-weight:700;display:flex;align-items:center;padding:0 10px;font-variant-numeric:tabular-nums}
+.notif{padding:14px 20px;display:grid;gap:8px;max-height:230px;overflow:auto}
+.notif div{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--hair);border-radius:var(--r-md);background:var(--canvas);padding:10px 14px;font-size:13.5px;color:var(--ink)}
+.notif em{width:8px;height:8px;border-radius:50%;margin-top:6px;font-style:normal;flex:none}
+.notif p{margin:0}.notif time{font-size:12.5px;color:var(--muted);display:block;margin-top:2px;font-variant-numeric:tabular-nums}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:30px 12px;line-height:1.7}
+.comp{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px 20px}
+.sw{width:44px;height:24px;border-radius:var(--r-pill);background:var(--border-strong);position:relative;border:none;cursor:pointer;flex:none}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:rgba(0,0,0,.04) 0 2px 6px}
+.sw.on{background:var(--primary)}.sw.on::after{left:22px}
+.tip{position:relative}.tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--scrim);color:#fff;font-size:12px;padding:6px 12px;border-radius:var(--r-sm);white-space:nowrap}
+.skel{height:12px;border-radius:var(--r-pill);background:var(--sstrong)}
+/* 模态：scrim #000 @50%（规范原文） */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:none;place-items:center;padding:20px}
+.modal.on{display:grid}
+.mbox{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--canvas);border-radius:var(--r-lg);box-shadow:0 8px 40px rgba(0,0,0,.25)}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--hair)}
+.mhdr b{font-size:18px;font-weight:700}
+.mbody{padding:18px 20px;display:grid;gap:14px}
+.mfoot{display:flex;justify-content:flex-end;gap:10px;padding:16px 20px;border-top:1px solid var(--hair)}
+.fg label{display:block;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;border:1px solid var(--border-strong);border-radius:var(--r-sm);background:var(--canvas);padding:12px 14px;font:inherit;font-size:15px;color:var(--ink);min-height:48px}
+.fg .bad{border-color:var(--err);box-shadow:0 0 0 1px var(--err)}
+.fg .msg{font-size:13px;margin-top:4px;min-height:15px;color:var(--err);font-weight:600}
+.grow2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dz{border:1.5px dashed var(--border-strong);border-radius:var(--r-md);padding:20px;text-align:center;color:var(--muted);font-size:14px;background:var(--soft)}
 /* 认证 */
-.auth{display:grid;place-items:center;padding:60px 4vw}
-.acard{width:min(400px,92vw)}
-.acard h2{font-size:22px;font-weight:700}.acard .tabs{display:flex;border-bottom:1px solid var(--hairline);margin:18px 0 22px}
-.acard .tabs button{flex:1;background:none;border:none;font:inherit;font-size:15px;font-weight:600;padding:10px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent}
-.acard .tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
-.fld{margin-bottom:12px}.fld label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
-.fld input{width:100%;border:1px solid var(--border-strong);border-radius:var(--r-sm);padding:13px 14px;font:inherit;font-size:15px}
-.fld input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 2px rgba(0,0,0,.12)}
-.fld.bad input{border-color:var(--primary-active)}
-.fld .err{display:none;color:var(--primary-active);font-size:12px;font-weight:600;margin-top:4px}
-.fld.bad .err{display:block}
-.gen{background:var(--surface-soft);text-align:center;font-size:11.5px;color:var(--muted);padding:14px}
-@media(max-width:760px){header nav{display:none}.searchbar{flex-wrap:wrap;border-radius:var(--r-lg)}.reserve{float:none;width:auto;position:static}}
+.auth{min-height:calc(100vh - 80px);background:var(--soft);display:grid;place-items:center;padding:40px 20px}
+.acard{width:min(400px,100%);padding:32px;border-radius:var(--r-lg)}
+.acard>b{font-size:22px;font-weight:600;letter-spacing:-.011px}
+.tabs{display:flex;border-bottom:1px solid var(--hair);margin:18px 0 22px}
+.tabs button{flex:1;border:none;background:none;font:inherit;font-size:15px;font-weight:600;color:var(--muted);padding:10px;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.gen{background:var(--soft);text-align:center;font-size:12.5px;color:var(--muted);padding:16px;border-top:1px solid var(--hair)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--on);font-size:14px;font-weight:600;border-radius:var(--r-pill);padding:12px 24px;box-shadow:var(--sh);z-index:80;display:none}
+@media(max-width:920px){.hero,.cols2,.statgrid{grid-template-columns:1fr}.grid4,.band,.steps{grid-template-columns:repeat(2,1fr)}.pjwall{grid-template-columns:1fr 1fr}header nav{display:none}.searchbar{flex-wrap:wrap;border-radius:var(--r-lg);justify-content:center}.searchbar .ss{border-right:none}.cats{top:0}.price .pl.best{order:-1}}
 </style></head><body>
-<header><a class="bnb" href="#">bnb</a>
-  <nav><a data-goto="home" href="#">房源</a><a data-goto="exp" href="#">体验</a><a data-goto="app" href="#">成为房东</a></nav>
-  <span class="avatar-me"><span style="display:flex;gap:2px;border:1px solid rgba(128,128,128,.45);border-radius:9999px;padding:2px;margin-left:10px"><button data-goto="home" style="cursor:pointer;border:0;border-radius:9999px;background:rgba(128,128,128,.2);padding:5px 12px;font-size:12px;font-weight:700;color:inherit">前台</button><button data-goto="app" style="cursor:pointer;border:0;border-radius:9999px;background:transparent;padding:5px 12px;font-size:12px;font-weight:700;color:inherit">后台</button></span>菜单 <i>我</i></span></header>
+<header><div class="wrap nav">
+  <span class="wm"><b>G</b>GhollStudio</span>
+  <nav><a href="#" data-goto="home">服务</a><a href="#" data-goto="home">案例</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
+  <span class="seg" id="seg"><button data-goto="home" class="on">前台</button><button data-goto="app">后台</button></span>
+  <button class="btn btn-p btn-s" style="margin-left:10px" data-goto="app">进入后台</button>
+</div></header>
 <main>
+<!-- 前台 -->
 <div class="view on" id="v-home">
-  <section class="hero"><h1>Discover 周末短途<br>住进风景里</h1>
+  <section class="hero">
+    <span class="eyebrow">承接中 · 本月余 3 档期</span>
+    <h1>把你的产品，<br>交给我们收尾。</h1>
+    <p class="sub">GhollStudio 是一间四人起家的软件工作室：设计系统落地、Web 与小程序交付、AI 流水线、长期运维 —— 一个合同，全生命周期。</p>
     <div class="searchbar">
-      <span class="seg">住哪儿<small>搜索城市或房源类型</small></span>
-      <span class="seg">日期<small>添加日期</small></span>
-      <span class="seg">人数<small>添加人数</small></span>
-      <button class="go" aria-label="搜索">⌕</button>
+      <span class="ss"><small>委托类型</small><span>设计系统 · Web · AI</span></span>
+      <span class="ss"><small>期望档期</small><span>添加日期</span></span>
+      <span class="ss"><small>预算区间</small><span>添加金额</span></span>
+      <button class="go" data-goto="app" aria-label="搜索档期">⌕</button>
     </div>
+    <div class="links"><button class="btn btn-p" data-goto="app">委托项目</button><button class="btn" data-goto="home">看案例</button></div>
   </section>
-  <div class="cats" id="cats"></div>
-  <div class="grid" id="grid"></div>
-  <section class="hostcta"><div><h2>把你的空房变成收入</h2><p>超过 400 万房源在 Airbnb 出租，平均月入 ¥3,200。</p></div>
-    <button class="btn" data-goto="app">开始出租 ›</button></section>
-  <footer><div class="cols">
-    <div><h4>支持</h4><a>帮助中心</a><a>AirCover</a><a>反歧视</a><a>取消政策</a></div>
-    <div><h4> Hosting</h4><a>Airbnb 出租</a><a>体验 host</a><a>负责任 hosting</a><a>资源中心</a></div>
-    <div><h4>Airbnb 类别</h4><a>城市与周边</a><a>海岛</a><a>滑雪</a><a>独特住所</a></div>
-  </div><p style="margin-top:20px;font-size:12px;color:var(--muted-soft)">© 2026 样板间演示，非 Airbnb 官方</p></footer>
-</div>
-
-<div class="view" id="v-exp">
-  <div class="exp">
-    <div class="img"></div>
-    <h2>与本地向导攀 4 小时火山小径</h2>
-    <div class="row"><span>★ 4.96（412 条评价）·  Rating 使用 ink 色而非金色（规范）</span><span>时长 4 小时 · 含装备</span></div>
-    <p style="margin-top:14px;color:var(--body);max-width:60ch">这条路线只有当地人才知道。我们从雾色未散的熔岩原出发，沿途采拾火山玻璃——向导会讲 1912 年喷发时村子里的故事。山顶的云海，值得每一级台阶。</p>
-    <div class="box"><b>你会带上什么</b><p style="color:var(--body);margin-top:8px">一件会被火山灰弄脏的外套 · 一双合脚的鞋 · 以及一段你会反复讲述的故事。</p></div>
-    <div class="reserve"><div class="p"><b>¥428</b> / 人</div>
-      <p style="font-size:12.5px;color:var(--muted);margin-top:4px">11 月 18 日（周二）· 6 人以内</p>
-      <button class="btn btn-p">申请预订</button>
-      <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">预订前无需付款</p></div>
-    <div style="clear:both"></div>
+  <div class="cats">
+    <span class="c on"><i>◈</i>全部</span><span class="c"><i>▦</i>设计系统</span><span class="c"><i>▤</i>Web 交付</span><span class="c"><i>✦</i>AI 流水线</span><span class="c"><i>▧</i>运维审计</span><span class="c"><i>◎</i>电商</span><span class="c"><i>◆</i>金融后台</span><span class="c"><i>✧</i>开源</span><span class="c"><i>◉</i>小程序</span><span class="c"><i>⌁</i>数据看板</span>
   </div>
-  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成</div>
+  <div class="band"><div><b>128</b><span>已交付项目</span></div><div><b>6</b><span>在售服务</span></div><div><b>★ 4.9</b><span>客户均分</span></div><div><b>12</b><span>覆盖城市</span></div></div>
+  <div class="wrap">
+    <h2 class="sec blk">四条服务线</h2><p class="secd">每条线都有独立的验收标准 —— 不卖人天，卖可复核的交付物。</p>
+    <div class="grid4">
+      <div class="card svc"><i>◈</i><b>设计系统与 Token 工程</b><p>把品牌规范编译成变量体系，打通 Figma 与代码仓库。</p></div>
+      <div class="card svc"><i>▦</i><b>Web · 小程序交付</b><p>双周迭代上线；灰度、回滚与监控在合同里。</p></div>
+      <div class="card svc"><i>✦</i><b>AI 集成流水线</b><p>检索增强、工作流编排、评测基线 —— 以指标验收。</p></div>
+      <div class="card svc"><i>▤</i><b>长期运维与审计</b><p>SLA 99.9 起；季度安全审计与成本复盘报告。</p></div>
+    </div>
+    <h2 class="sec blk">案例</h2><p class="secd">像挑住处一样挑案例 —— 先看交付现场，再谈合作。</p>
+    <div class="grid3">
+      <div class="case"><div class="pic" style="background:linear-gradient(150deg,#ffd1da 0%,#ff385c 62%,#e00b41 100%)">
+        <span class="gf">客户首选 · 复购 3 期</span><i class="hrt">♥</i><span class="dots"><b></b><b></b><b></b><b></b></span><span class="hfl">详情 ›</span></div><div class="bd">
+        <div class="trow"><b>ProVision 商城</b><span class="star">★ 4.9</span></div>
+        <p>硬件品牌的全球商城重构，LCP 2.1s→0.9s。</p><p class="res">转化率 +34%</p><div class="tagrow"><span class="tag">电商 · Design Tokens · 全球站</span></div></div></div>
+      <div class="case"><div class="pic" style="background:radial-gradient(95% 95% at 25% 20%,#f7f7f7 0%,#dddddd 55%,#c1c1c1 100%)">
+        <span class="gf">客户首选 · 审计零差错</span><i class="hrt">♥</i><span class="dots"><b></b><b></b><b></b></span><span class="hfl">详情 ›</span></div><div class="bd">
+        <div class="trow"><b>Atlas 财务台</b><span class="star">★ 5.0</span></div>
+        <p>月结 6 天→8 小时；全部操作可审计回放。</p><p class="res">月结人力 -75%</p><div class="tagrow"><span class="tag">金融后台 · 审计回放</span></div></div></div>
+      <div class="case"><div class="pic" style="background:linear-gradient(200deg,#ebebeb 0%,#929292 55%,#222222 100%)">
+        <span class="gf">开源 4.2k star</span><i class="hrt">♥</i><span class="dots"><b></b><b></b><b></b><b></b></span><span class="hfl">详情 ›</span></div><div class="bd">
+        <div class="trow"><b>Slot 预约云</b><span class="star">★ 4.8</span></div>
+        <p>时区感知的团队排程系统，开源版获 4.2k star。</p><p class="res">爽约率 -41%</p><div class="tagrow"><span class="tag">SaaS · 开源</span></div></div></div>
+    </div>
+    <h2 class="sec blk">怎么合作</h2>
+    <div class="steps">
+      <div class="card step"><i>1</i><b>需求体检</b><p>一场 90 分钟工作坊，产出范围与风险清单。</p></div>
+      <div class="card step"><i>2</i><b>方案与报价</b><p>固定价 + 里程碑，无隐藏人天。</p></div>
+      <div class="card step"><i>3</i><b>双周迭代交付</b><p>每双周可演示版本，审核队列透明。</p></div>
+      <div class="card step"><i>4</i><b>验收与运维</b><p>验收标准写进合同；运维季度复盘。</p></div>
+    </div>
+    <div class="grid3" style="margin-top:24px">
+      <div class="card quote"><div class="stars">★★★★★</div><p>「工作室把我们的设计规范变成代码资产 —— 现在新产品线的设计成本几乎为零。」</p><footer><span class="who"><i>陈</i>陈总监 · ProVision 硬件</span><span>11-02</span></footer></div>
+      <div class="card quote"><div class="stars">★★★★★</div><p>「唯一一个把『月结人力降四分之三』写进验收条款再兑现的团队。」</p><footer><span class="who"><i>周</i>CFO 周 · 云栖支付</span><span>10-19</span></footer></div>
+      <div class="card quote" style="display:grid;place-items:center;color:var(--muted);font-size:14px">案例评价持续更新中</div>
+    </div>
+    <h2 class="sec blk">合作模式</h2>
+    <div class="grid3 price">
+      <div class="card pl"><small>起步 · 单项目</small><b>¥12万<em> 起</em></b><ul><li>需求体检</li><li>8-12 周交付</li><li>90 天质保</li></ul><button class="btn" data-goto="app">咨询</button></div>
+      <div class="card pl best"><span class="rec">推荐</span><small>标准 · 长期</small><b>¥6万<em> /月</em></b><ul><li>常驻小组 2-3 人</li><li>双周演示节奏</li><li>设计系统共建</li></ul><button class="btn btn-p" data-goto="app">预约档期</button></div>
+      <div class="card pl"><small>驻场 · 深度</small><b>面议</b><ul><li>全流程嵌入</li><li>SLA 与审计承诺</li></ul><button class="btn" data-goto="home">联系工作室</button></div>
+    </div>
+    <h2 class="sec blk">常见问题</h2>
+    <div class="faq">
+      <details open><summary>如何报价？</summary><div>需求体检后给出固定报价与里程碑拆分；范围变更走书面变更单，费用提前确认。</div></details>
+      <details><summary>代码和设计资产归谁？</summary><div>验收即完整移交：仓库、设计源文件、Token 体系与部署脚本都在你名下。</div></details>
+      <details><summary>能只接设计系统咨询吗？</summary><div>可以。Token 工程线可独立签约，典型周期 4-6 周。</div></details>
+      <details><summary>出问题谁负责？</summary><div>每条服务线有验收标准与质保期；运维线 SLA 违约按月抵扣。</div></details>
+      <details><summary>档期怎么确认？</summary><div>预约后 24 小时内回复档期，锁定后进入需求体检排期 —— 与订房一样先到先得。</div></details>
+    </div>
+  </div>
+  <footer class="site"><div class="wrap"><div class="cols">
+    <div><h4>服务</h4><a>设计系统</a><a>Web 交付</a><a>AI 流水线</a><a>运维审计</a></div>
+    <div><h4>工作室</h4><a>团队</a><a>工作原则</a><a>招聘</a></div>
+    <div><h4>资源</h4><a>开放规范库</a><a>交付清单模板</a><a>技术博客</a></div>
+    <div><h4>联系</h4><a>hi@ghollstudio.com</a><a>微信 / 邮件预约</a></div>
+  </div><div class="subrow"><input placeholder="订阅工作室月报"><button class="btn btn-s">订阅</button></div>
+  <div class="legal"><span>© 2026 GhollStudio · 本页由 AI agent 依规范生成</span><a>简体中文</a><a>CNY ¥</a><span style="margin-left:auto;font-weight:600;color:var(--ink)">F &nbsp;X &nbsp;IG</span></div></div></footer>
 </div>
 
-<div class="view" id="v-app">
-  <section class="app">
-    <h2 style="font-size:24px;font-weight:700">后台 · 房东控制台</h2>
-    <p style="color:var(--muted);margin:4px 0 20px">过去 30 天 · 2 个房源</p>
-    <div class="kpis">
-      <div class="kpi"><span>入住率</span><b>86%</b><span>↑ 4% 环比</span></div>
-      <div class="kpi"><span>收入</span><b>¥12,480</b><span>↑ 12% 环比</span></div>
-      <div class="kpi"><span>回复率</span><b>98%</b><span>中位 2 小时内</span></div>
+<!-- 后台 -->
+<div class="view" id="v-app"><div class="wrap">
+  <div class="btitle">后台 · 交付与复核</div>
+  <p class="bsub">过去 30 天 · 6 个进行中项目 · 审核队列实时更新</p>
+  <div class="kpis">
+    <div class="card kpi"><small>本月交付</small><b id="kpi-deliver">6</b><em class="up">↑ 20%</em><div class="spark"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:64%"></i><i style="height:88%"></i></div></div>
+    <div class="card kpi"><small>进行中项目</small><b id="kpi-active">7</b><em class="up">↑ 2</em><div class="spark"><i style="height:52%"></i><i style="height:48%"></i><i style="height:60%"></i><i style="height:58%"></i><i style="height:72%"></i><i style="height:80%"></i></div></div>
+    <div class="card kpi"><small>待审核队列</small><b id="kpi-review">3</b><em class="dn">需今日清空</em></div>
+    <div class="card kpi"><small>月营收</small><b>¥482,000</b><em class="up">↑ 8.4%</em></div>
+  </div>
+  <div class="cols2">
+    <div class="card">
+      <div class="hdr"><b>项目卡片墙</b><span style="display:flex;gap:6px"><button class="btn btn-p btn-s" data-open-modal>+ 新建项目</button><button class="btn btn-g btn-s" id="clear-pj">清空</button></span></div>
+      <div class="pjwall" id="pjwall"></div>
     </div>
-    <div class="tbar">
-      <input placeholder="搜索预订编号 / 房客…" style="max-width:240px">
-      <select><option>全部状态</option><option>待确认</option><option>已确认</option><option>已完成</option><option>已取消</option></select>
-      <button class="btn btn-p" style="margin-left:auto">新增价目</button>
+    <div class="card">
+      <div class="hdr"><b>通知中心</b><span style="display:flex;gap:6px"><button class="btn btn-s" id="nt-add">新增</button><button class="btn btn-g btn-s" id="nt-clear">清空</button></span></div>
+      <div class="notif" id="notif"></div>
     </div>
-    <table><thead><tr><th id="srt" style="cursor:pointer">订单金额 ⇅</th><th>房客</th><th>房源</th><th>入住</th><th>状态</th></tr></thead><tbody id="tb"></tbody></table>
-    <p style="margin-top:26px;color:var(--muted);font-size:13px;border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:26px;text-align:center">这个月没有需要回复的消息 —— 空状态即「无事可做」，不打扰。</p>
-  </section>
-  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成</div>
-</div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="hdr"><b>工单与复核</b><span class="secd" style="margin:0;font-size:13px">行内下拉改审核状态 → 自动进入复核记录</span></div>
+    <div class="tbar"><input id="q" placeholder="筛选工单 / 项目 / 客户…" style="max-width:250px"><select id="fs"><option value="">全部状态</option><option>待审核</option><option>复核通过</option><option>驳回重做</option><option>已上架</option></select><span style="margin-left:auto;font-size:13px;color:var(--muted)" id="cnt"></span></div>
+    <table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table>
+  </div>
+  <div class="cols2" style="grid-template-columns:1fr">
+    <div class="card"><div class="hdr"><b>复核记录</b><span style="font-size:13px;color:var(--muted)">状态驱动的操作流水</span></div><div class="log" id="log"></div></div>
+  </div>
+  <div class="statgrid">
+    <div class="card"><div class="hdr"><b>月度交付（个）</b><select id="range" style="border:1px solid var(--hair);border-radius:var(--r-pill);padding:6px 14px;font:inherit;font-size:12.5px;background:var(--canvas);color:var(--ink)"><option value="12">近 12 月</option><option value="6">近 6 月</option></select></div><div class="chart" id="bars"></div></div>
+    <div class="card"><div class="hdr"><b>服务类型占比</b></div><div class="donut"></div><div class="legend"><span><b style="background:var(--primary)"></b>Web 交付 38%</span><span><b style="background:var(--ink)"></b>设计系统 24%</span><span><b style="background:var(--muted)"></b>AI 流水线 20%</span><span><b style="background:var(--hair)"></b>运维审计 18%</span></div></div>
+    <div class="card"><div class="hdr"><b>线索 → 签约</b></div><div class="funnel" id="funnel"></div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="hdr"><b>组件带</b><span style="font-size:12px;color:var(--muted)">面包屑：后台 / 组件带</span></div>
+    <div class="comp">
+      <button class="btn btn-p btn-s">主要</button><button class="btn btn-s">次要</button><button class="btn btn-x btn-s">强调</button><button class="btn btn-e btn-s">危险</button><button class="btn btn-g btn-s">幽灵</button><button class="btn btn-s" disabled>禁用</button>
+      <span class="badge b-ok">已上架</span><span class="badge b-run">复核通过</span><span class="badge b-warn">待审核</span><span class="badge b-err">驳回重做</span>
+      <button class="sw on" onclick="this.classList.toggle('on')"></button>
+      <button class="btn btn-s tip" data-tip="150ms 淡变 + 唯一阴影层 hover 抬升">Tooltip</button>
+      <span style="display:grid;gap:6px;width:120px"><span class="skel" style="width:90%"></span><span class="skel"></span><span class="skel" style="width:60%"></span></span>
+    </div></div>
+</div></div>
 
-<div class="view" id="v-auth">
-  <div class="auth"><div class="acard">
-    <h2>登录或注册</h2>
-    <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">注册</button></div>
-    <div class="fld"><label>邮箱或电话 *</label><input value="hi@gholl.com"></div>
-    <div class="fld bad"><label>密码 *</label><input type="password" id="pw" value="air"><span class="err">密码太短 —— Airbnb 的校验直接标红边框并附一句话说明。</span></div>
-    <button class="btn btn-p" style="width:100%;padding:14px">继续</button>
-    <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:16px">注册即同意房东条款 · <a data-goto="home" href="#" style="font-weight:600">返回首页</a></p>
-  </div></div>
-  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成</div>
-</div>
+<!-- 认证 -->
+<div class="view" id="v-auth"><div class="auth"><div class="card acard">
+  <b>登录 Studio</b>
+  <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">注册工作室</button></div>
+  <div class="fg" style="margin-bottom:12px"><label>邮箱</label><input value="hi@gholl.com"></div>
+  <div class="fg" id="pwf"><label>密码</label><input type="password" id="pw" value="design"></div>
+  <div class="fg" id="regf" style="display:none;margin-top:12px"><label>工作室名称</label><input placeholder="My Studio"></div>
+  <label style="display:flex;gap:8px;font-size:13px;color:var(--muted);align-items:center;margin:6px 0 16px"><input type="checkbox" checked style="width:auto;accent-color:var(--primary)">30 天免登录 · 注册即同意服务条款</label>
+  <button class="btn btn-p" style="width:100%" data-goto="app">进入后台</button>
+</div></div></div>
 </main>
-<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成 · 搜索第一公民 / Rausch 单色情绪 / 星评分用 ink 色（规范原文执行）</div>
+
+<!-- 新建项目模态 -->
+<div class="modal" id="modal"><div class="mbox">
+  <div class="mhdr"><b>新建项目</b><button class="btn btn-g btn-s" data-close>✕</button></div>
+  <div class="mbody">
+    <div class="fg"><label>项目名称 *</label><input id="m-name" placeholder="例：结算中心重构"><div class="msg" id="m-name-msg"></div></div>
+    <div class="grow2">
+      <div class="fg"><label>类型</label><select id="m-type"><option>Web 交付</option><option>设计系统</option><option>AI 流水线</option><option>运维审计</option></select></div>
+      <div class="fg"><label>负责人</label><select id="m-owner"><option>林晚舟</option><option>周墨白</option><option>苏见月</option><option>陈屿</option></select></div>
+    </div>
+    <div class="grow2">
+      <div class="fg"><label>开始日期</label><input type="date" id="m-date" value="2026-11-10"></div>
+      <div class="fg"><label>预计工期：<b id="m-weeks">8</b> 周</label><input type="range" min="2" max="24" value="8" id="m-range" style="accent-color:var(--primary)"></div>
+    </div>
+    <div class="fg"><label>标签</label><input id="m-tags" placeholder="逗号分隔，例：后台, 支付"></div>
+    <div class="fg"><label>项目简介（<span id="m-count">0</span>/200）</label><textarea id="m-desc" rows="3" maxlength="200" placeholder="一句话说明验收目标…"></textarea></div>
+    <div class="dz">⇪ 拖拽需求文档到此处，或点击选择（≤20MB）</div>
+  </div>
+  <div class="mfoot"><button class="btn" data-close>取消</button><button class="btn btn-p" id="m-save">保存并开始排期</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Airbnb-design-analysis」生成 · GhollStudio 产品内核 v1</div>
 <script>
-const cats=[['⌂','房源'],['🏖','海滩'],['🏔','山景'],['⛺','帐篷'],['🌃','城市天台'],['♨️','温泉'],['🏝','小岛'],['🛶','湖畔'],['🚂','复古火车'],['🌋','火山'],['🏠','树屋'],['🚐','房车']];
-document.getElementById('cats').innerHTML=cats.map((c,i)=>`<span class="c${i===2?' on':''}" onclick="this.parentNode.querySelectorAll('.c').forEach(x=>x.classList.remove('on'));this.classList.add('on')"><i>${c[0]}</i>${c[1]}</span>`).join('');
-const BG=['radial-gradient(circle at 70% 30%,#ffd9a0,#e07a5f 60%,#3d405b)','linear-gradient(160deg,#a8dadc,#457b9d 70%,#1d3557)','radial-gradient(circle at 30% 70%,#ffe5d9,#f4acb7 55%,#9d4edd)','linear-gradient(200deg,#d8f3dc,#95d5b2 60%,#2d6a4f)','radial-gradient(circle at 50% 20%,#fff1c4,#ffb703 60%,#fb8500)','linear-gradient(150deg,#e0f7fa,#80deea 55%,#0288d1)'];
-const L=[['雾岛 · 海景木屋','指宿，日本','整栋房源 · 2 室','1,024 位房客评分',4.97,'¥689'],['安第斯山顶玻璃屋','瓦尔帕莱索，智利','树屋','842',4.89,'¥512'],['托斯卡纳橄榄农庄','锡耶纳，意大利','农舍','1,566',4.95,'¥823'],['盐湖漂浮舱','犹他州，美国','独特住所','308',4.83,'¥446'],['京都町屋 · 庭园景','京都，日本','整套房源','2,318',4.98,'¥911'],['法罗群岛灯塔','法罗群岛','灯塔','97',4.92,'¥1,280']];
-const H=(i)=>i%3===0?'super':'';
-document.getElementById('grid').innerHTML=L.map((l,i)=>`<div class="card"><div class="photo" style="background:${BG[i%BG.length]}"><span class="heart" onclick="this.classList.toggle('liked')">♥</span><span class="dots"><b></b><b></b><b></b><b></b></span></div>
-  ${i%3===0?'<span class="super">★ Superhost</span>':''}
-  <div class="meta"><b>${l[0]}</b><span style="color:var(--star);font-weight:600">★ ${l[4]}</span></div>
-  <p>${l[1]}</p><p>${l[2]} · ${l[3]}条评价</p><p class="price"><b>${l[5]}</b> 晚</p></div>`).join('');
-const views={home:'v-home',exp:'v-exp',app:'v-app',auth:'v-auth'};
-document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();Object.values(views).forEach(v=>document.getElementById(v).classList.remove('on'));document.getElementById(views[el.dataset.goto]).classList.add('on');scrollTo(0,0)}));
-const B=[['BK-3301','松本 花','海景木屋','11-14','p-ok','已确认',3445],['BK-3302','Dana W','山顶玻璃屋','11-19','p-run','待确认',1536],['BK-3303','李昂','京都町屋','11-09','p-ok','已确认',6377],['BK-3304','Priya S','灯塔','11-22','p-warn','修改请求',2560],['BK-3305','Marco R','农庄','11-27','p-ok','已确认',4938],['BK-3306','匿名房客','盐湖漂浮舱','11-30','p-err','已取消',892]];
-let asc=true,tb=document.getElementById('tb');
-function draw(){tb.innerHTML=[...B].sort((a,b)=>asc?b[6]-a[6]:a[6]-b[6]).map(o=>`<tr><td class="num" style="font-weight:700">¥${o[6].toLocaleString()}</td><td>${o[1]}</td><td style="color:var(--muted)">${o[2]}</td><td>${o[3]}</td><td><span class="pill ${o[4]}">${o[5]}</span></td></tr>`).join('')}
-document.getElementById('srt').onclick=()=>{asc=!asc;draw()};draw();
-document.getElementById('pw').addEventListener('input',e=>e.target.closest('.fld').classList.toggle('bad',e.target.value.length<8));
-document.getElementById('ti').onclick=()=>{ti.className='on';tu.className='';};
-document.getElementById('tu').onclick=()=>{tu.className='on';ti.className='';};
+/* 视图切换（与 enterprise 基准 1:1） */
+const views={home:'v-home',app:'v-app',auth:'v-auth'};
+function goto(k){document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.goto===k&&k!=='auth'));Object.values(views).forEach(v=>document.getElementById(v).classList.toggle('on',v==='v-'+k));scrollTo(0,0)}
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();goto(el.dataset.goto)}));
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+/* 装饰交互：心标收藏 + 分类带下划线（Airbnb 标志交互，纯视觉） */
+document.querySelectorAll('.hrt').forEach(h=>h.onclick=e=>{e.preventDefault();e.stopPropagation();h.classList.toggle('liked')});
+document.querySelectorAll('.cats .c').forEach(c=>c.onclick=()=>{document.querySelectorAll('.cats .c').forEach(x=>x.classList.remove('on'));c.classList.add('on')});
+/* 数据（与 enterprise 基准完全同源） */
+let PJ=[['Atlas 对账模块','设计系统','周墨白',86,'b-run','进行中'],['Slot 排期引擎','Web 交付','林晚舟',62,'b-run','进行中'],['ProVision 小程序','AI 流水线','苏见月',24,'b-warn','待启动'],['Nimbus 数据看板','Web 交付','陈屿',48,'b-run','进行中'],['海雾品牌官网','设计系统','林晚舟',92,'b-ok','复核通过'],['灯塔运维接入','运维审计','周墨白',15,'b-warn','待启动']];
+let WO=[['GS-118','Atlas 对账','云栖支付','UAT','待审核',128000,'11-05 09:42'],['GS-117','ProVision 商城','ProVision','已上架','已上架',246000,'11-05 08:31'],['GS-116','Nimbus 看板','沧海数据','联调','待审核',86000,'11-04 22:10'],['GS-115','Slot 排期','青柠出行','开发','复核通过',52000,'11-04 18:02'],['GS-114','品牌官网改版','海雾传媒','设计','驳回重做',36000,'11-04 15:47'],['GS-113','灯塔运维','Lumen','接入','已上架',98000,'11-03 20:15'],['GS-112','Token 工程咨询','几何建筑','顾问','待审核',44000,'11-03 11:20'],['GS-111','支付灰度','云栖支付','发布','复核通过',156000,'11-02 17:35']];
+let LOG=[['09:42','复核通过','GS-116 · 苏见月'],['昨天','已上架','GS-117 · 周墨白'],['昨天','驳回重做','GS-114 · 林晚舟']];
+let NT=[[0,'11-05 09:42','Atlas 对账进入 UAT，等待复核','b-warn'],[1,'11-05 08:31','ProVision 商城二期已上架','b-ok'],[2,'11-04 22:10','新工单 GS-116 已分派','b-run']];
+const STS=['待审核','复核通过','驳回重做','已上架'];
+const BADGE={'待审核':'b-warn','复核通过':'b-run','驳回重做':'b-err','已上架':'b-ok'};
+function drawPJ(){const w=document.getElementById('pjwall');
+  w.innerHTML=PJ.length?PJ.map((p,i)=>`<div class="pj"><b>${p[0]}</b><small>${p[1]} · ${p[2]}</small><div class="bar"><i style="width:${p[3]}%"></i></div><span class="badge ${p[4]}">${p[5]} ${p[3]}%</span></div>`).join('')+`<div class="pj" style="display:grid;place-items:center;border-style:dashed;color:var(--muted);font-size:13px;cursor:pointer" data-open-modal>＋ 新项目</div>`:`<div class="empty" style="grid-column:1/-1">项目卡片墙已清空 —— 点「+ 新建项目」重新开张。</div>`;
+  w.querySelectorAll('[data-open-modal]').forEach(el=>el.onclick=openModal)}
+function drawWO(){const q=document.getElementById('q').value,s=document.getElementById('fs').value;
+  let list=WO.filter(w=>(!s||w[4]===s)&&(!q||(w[0]+w[1]+w[2]).toLowerCase().includes(q.toLowerCase())));
+  list.sort((a,b)=>asc? b[5]-a[5] : a[5]-b[5]);
+  document.getElementById('tb').innerHTML=list.map(w=>`<tr><td class="id">${w[0]}</td><td style="font-weight:600">${w[1]}</td><td style="color:var(--muted)">${w[2]}</td><td>${w[3]}</td><td><select data-id="${w[0]}">${STS.map(x=>`<option ${x===w[4]?'selected':''}>${x}</option>`).join('')}</select></td><td class="num" style="font-weight:700">¥${w[5].toLocaleString()}</td><td class="num" style="color:var(--muted);font-size:12.5px">${w[6]}</td></tr>`).join('');
+  document.getElementById('tb').querySelectorAll('select').forEach(sel=>sel.onchange=()=>{
+    const w=WO.find(x=>x[0]===sel.dataset.id);w[4]=sel.value;
+    LOG.unshift([new Date().toTimeString().slice(0,5),sel.value,w[0]+' · '+w[1]]);
+    if(sel.value!=='待审核')document.getElementById('kpi-review').textContent=WO.filter(x=>x[4]==='待审核').length;
+    drawLog();drawWO();toast(`${w[0]} → ${sel.value}（已记入复核记录）`)
+  });
+  document.getElementById('cnt').textContent=`${list.length} / ${WO.length} 单 · 待审核 ${WO.filter(w=>w[4]==='待审核').length}`}
+function drawLog(){document.getElementById('log').innerHTML=LOG.map(l=>`<div><time>${l[0]}</time><span class="badge ${BADGE[l[1]]||'b-run'}" style="margin:0">${l[1]}</span><span>${l[2]}</span></div>`).join('')}
+function drawNT(){const n=document.getElementById('notif');
+  n.innerHTML=NT.length?NT.map(t=>`<div><em style="background:var(--${({'b-warn':'warn','b-ok':'ok','b-run':'primary','b-err':'err'})[t[3]]})"></em><div style="flex:1"><p>${t[2]}</p><time>${t[1]}</time></div></div>`).join(''):`<div class="empty">通知中心是空的。<br>好消息不会迟到，只会先到 —— 点「新增」试一条。</div>`}
+document.getElementById('nt-add').onclick=()=>{NT.unshift([9,new Date().toTimeString().slice(0,5),'工单 GS-119 复核通过，可安排发布','b-ok']);drawNT()};
+document.getElementById('nt-clear').onclick=()=>{NT=[];drawNT()};
+document.getElementById('clear-pj').onclick=()=>{PJ=[];drawPJ();document.getElementById('kpi-active').textContent=0};
+/* 排序 */
+let asc=false;document.getElementById('srt').onclick=()=>{asc=!asc;drawWO()};
+document.getElementById('q').oninput=drawWO;document.getElementById('fs').onchange=drawWO;
+/* 模态与表单 */
+const modal=document.getElementById('modal');
+function openModal(){modal.classList.add('on');document.getElementById('m-name').focus()}
+document.querySelectorAll('[data-open-modal]').forEach(el=>el.onclick=openModal);
+modal.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>modal.classList.remove('on'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('on')});
+document.getElementById('m-range').oninput=e=>document.getElementById('m-weeks').textContent=e.target.value;
+const desc=document.getElementById('m-desc'),cnt=document.getElementById('m-count');desc.oninput=()=>cnt.textContent=desc.value.length;
+document.getElementById('m-save').onclick=()=>{
+  const name=document.getElementById('m-name'),msg=document.getElementById('m-name-msg');
+  if(!name.value.trim()){name.classList.add('bad');msg.textContent='项目名称必填';name.focus();return}
+  name.classList.remove('bad');msg.textContent='';
+  PJ.unshift([name.value,document.getElementById('m-type').value,document.getElementById('m-owner').value,0,'b-warn','待启动']);
+  drawPJ();document.getElementById('kpi-active').textContent=PJ.length;
+  WO.unshift(['GS-'+(119+WO.length%40),name.value,'新客户','启动','待审核',Math.ceil(Math.random()*200)*1000,'刚刚']);
+  drawWO();modal.classList.remove('on');name.value='';desc.value='';cnt.textContent='0';
+  toast('项目已创建：进入卡片墙，工单落入待审核队列')};
+/* 图表 */
+const BAR12=[3,4,2,5,6,4,7,6,8,7,9,6];let range=12;
+function drawBars(){const data=BAR12.slice(12-range);const max=Math.max(...data);
+  document.getElementById('bars').innerHTML=data.map((v,i)=>`<div><i class="${i===data.length-1?'hot':''}" style="height:${v/max*100}%"></i><span>${11-range+i+2>12?'':(11-range+i+2)+'月'}</span></div>`).join('')}
+document.getElementById('range').onchange=e=>{range=+e.target.value;drawBars()};
+const F=[['线索',100],['体检会',54],['方案报价',32],['签约',18],['续聘',11]];
+document.getElementById('funnel').innerHTML=F.map((f,i)=>`<div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted)"><span style="width:48px">${f[0]}</span><div style="flex:1"><i style="width:${f[1]}%;background:rgba(34,34,34,${1-i*0.16})">${f[1]}%</i></div></div>`).join('');
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className='';regf.style.display='none'};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className='';regf.style.display='block'};
+drawPJ();drawWO();drawLog();drawNT();drawBars();
 </script></body></html>

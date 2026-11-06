@@ -409,7 +409,7 @@ td select:focus{outline:none;border-color:var(--ink)}
   <div class="panel" style="margin-top:14px">
     <div class="hdr"><b>后台 · 工单与复核</b><span class="mono">row select → 即时写入复核记录并更新待审核 KPI</span></div>
     <div class="tbar"><input id="q" placeholder="筛选工单 / 项目 / 客户…" style="max-width:230px"><select id="fs"><option value="">全部状态</option><option>待审核</option><option>复核通过</option><option>驳回重做</option><option>已上架</option></select><span class="mono" style="margin-left:auto;color:var(--mute)" id="cnt"></span></div>
-    <table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table>
+    <div style="overflow-x:auto"><table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table></div>
   </div>
   <div class="cols2" style="grid-template-columns:1fr;margin-top:14px">
     <div class="panel"><div class="hdr"><b>复核记录</b><span class="mono">state-driven activity log</span></div><div class="log" id="log"></div></div>

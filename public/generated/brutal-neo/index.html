@@ -308,7 +308,7 @@ td .id{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700
   <div class="card" style="margin-top:22px">
     <div class="hdr"><b>工单与复核</b><span style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--muted)">行内下拉改审核状态 → 自动进入复核记录</span></div>
     <div class="tbar"><input id="q" placeholder="筛选工单 / 项目 / 客户…" style="max-width:230px"><select id="fs"><option value="">全部状态</option><option>待审核</option><option>复核通过</option><option>驳回重做</option><option>已上架</option></select><span style="margin-left:auto;font-size:11px;font-weight:800;color:var(--muted)" id="cnt"></span></div>
-    <table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table>
+    <div style="overflow-x:auto"><table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table></div>
   </div>
   <div class="cols2" style="grid-template-columns:1fr">
     <div class="card"><div class="hdr"><b>复核记录</b><span style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--muted)">状态驱动的操作流水</span></div><div class="log" id="log"></div></div>

@@ -489,7 +489,7 @@ td .id{font-family:var(--font);font-size:12px;color:var(--stone);font-variant-nu
     <div class="hdr"><b>后台 · 工单与复核<span class="hint" style="font-weight:400">⛁ 数据库</span></b><span class="hint">行内下拉改「审核状态」属性 → 自动写入复核记录并更新待审核 KPI</span></div>
     <div style="padding:0 var(--s-lg)"><div class="vtabs" id="wotabs"><button class="on" data-mode="table">表格视图</button><button data-mode="board">看板视图</button></div></div>
     <div class="tbar"><input id="q" placeholder="筛选工单 / 项目 / 客户…" style="max-width:240px"><select id="fs"><option value="">全部状态</option><option>待审核</option><option>复核通过</option><option>驳回重做</option><option>已上架</option></select><span style="margin-left:auto;font-size:12px;color:var(--stone)" id="cnt"></span></div>
-    <div id="wotable"><table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table></div>
+    <div id="wotable"><div style="overflow-x:auto"><table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table></div></div>
     <div id="wob" class="woboard" style="display:none"></div>
   </div>
   <div class="cols2" style="grid-template-columns:1fr;margin-top:var(--s-md)">

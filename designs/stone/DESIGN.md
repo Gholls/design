@@ -92,14 +92,7 @@ typography:
     normal: 1.4
     relaxed: 1.6
 rounded:
-  none: 0
-  small: 4
-  medium: 8
-  large: 12
-  xLarge: 16
-  xxLarge: 24
-  pill: 999
-  circle: "9999px" # compat: 原值 50%；官方 spec 仅允许 px/rem/em（见 design.gholl.com vendor 说明）
+  none: "0px"
 spacing:
   xxs: 4
   xs: 8

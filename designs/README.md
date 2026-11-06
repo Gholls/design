@@ -23,6 +23,22 @@ DSGov 明确 CC0/MIT）。收录原则：
    大小写/后缀别名匹配、以及基于亮度分布与 WCAG 对比度的兜底推导
    （详见 [src/lib/designMd.ts](../src/lib/designMd.ts)）。
 
+## 收录清洗政策（针对 designmd.app 抓取件）
+
+上游文件为社区生成，存在少量不符合官方 spec 的脏数据。为保证全库
+`npm run design:lint` **0 error** 门禁，收录管线内置三级清洗
+（`scripts/fetch-designmd.mjs` 的 sanitizeUpstream、`scripts/lint-autofix.mjs` v1/v2），
+规则固定且完全披露：
+
+1. 移除混入 YAML 值的 CSS 变量碎片（`fontFamily: serif --x: #FFF`）；
+2. `rounded`/`typography` 非法单位：`'50%'→"9999px"`、裸 `0→"0px"/"0em"`、
+   `%` 行高→无单位倍率（130%→1.3）、区间值取首值（4rem-8rem→4rem）、
+   多段圆角取主值、非维度描述值删除该行；`linear-gradient` 值从 `colors`
+   移出为顶层 `gradients` 扩展组。
+
+除上述规则外**零改写**：token 取值与全部散文保持 verbatim。
+`omitted`/`inherit` 类键值删除会丢失极少量信息，可在 designmd.app 原页核对。
+
 ## 文件结构（官方规范）
 
 ```md

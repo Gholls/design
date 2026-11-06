@@ -78,3 +78,68 @@ export const notificationPool: Omit<NotificationItem, 'id' | 'time'>[] = [
   { level: 'success', message: 'Cloudflare Pages 部署 #218 全量生效' },
   { level: 'info', message: '社区 PR #47 提交了新规范 ocean-breeze' },
 ]
+
+/* ---------- 分析页 ---------- */
+
+export const revenueSeries: Array<{ label: string; value: number }> = [
+  { label: '1月', value: 86 }, { label: '2月', value: 74 }, { label: '3月', value: 98 },
+  { label: '4月', value: 112 }, { label: '5月', value: 104 }, { label: '6月', value: 121 },
+  { label: '7月', value: 138 }, { label: '8月', value: 129 }, { label: '9月', value: 156 },
+  { label: '10月', value: 171 }, { label: '11月', value: 164 }, { label: '12月', value: 188 },
+]
+
+export const trafficSources: Array<{ name: string; share: number; tone: 'primary' | 'accent' | 'success' | 'warning' }> = [
+  { name: '自然搜索', share: 38, tone: 'primary' },
+  { name: '直接访问', share: 27, tone: 'accent' },
+  { name: '社区画廊', share: 21, tone: 'success' },
+  { name: '付费投放', share: 14, tone: 'warning' },
+]
+
+export const funnel: Array<{ stage: string; value: number }> = [
+  { stage: '访问', value: 100 }, { stage: '注册', value: 42 }, { stage: '激活', value: 28 },
+  { stage: '订阅', value: 16 }, { stage: '续费', value: 11 },
+]
+
+export const heatmap: number[][] = [
+  [0.1, 0.2, 0.35, 0.55, 0.7, 0.85, 0.6, 0.4, 0.3, 0.5, 0.75, 0.9],
+  [0.15, 0.3, 0.4, 0.6, 0.8, 0.95, 0.7, 0.45, 0.25, 0.4, 0.65, 0.8],
+  [0.2, 0.35, 0.5, 0.7, 0.9, 1.0, 0.8, 0.5, 0.3, 0.45, 0.7, 0.85],
+  [0.12, 0.25, 0.45, 0.62, 0.78, 0.9, 0.68, 0.42, 0.28, 0.38, 0.6, 0.72],
+  [0.08, 0.18, 0.3, 0.5, 0.66, 0.8, 0.9, 0.7, 0.5, 0.3, 0.45, 0.55],
+  [0.05, 0.1, 0.18, 0.28, 0.4, 0.55, 0.65, 0.6, 0.48, 0.3, 0.25, 0.3],
+  [0.04, 0.08, 0.14, 0.22, 0.32, 0.42, 0.5, 0.46, 0.38, 0.26, 0.2, 0.24],
+]
+export const heatmapDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+
+export const topProducts: Array<{ name: string; revenue: string; share: number; trend: string }> = [
+  { name: 'Token 注入引擎', revenue: '¥482,000', share: 38, trend: '+14%' },
+  { name: '黄金样板间 Pro', revenue: '¥318,000', share: 25, trend: '+8%' },
+  { name: '规范校验门禁', revenue: '¥241,000', share: 19, trend: '+21%' },
+  { name: '画廊托管', revenue: '¥153,000', share: 12, trend: '-3%' },
+  { name: 'CLI 企业版', revenue: '¥76,000', share: 6, trend: '+2%' },
+]
+
+/* ---------- 概览页 ---------- */
+
+export const activity: Array<{ time: string; actor: string; action: string; target: string; kind: 'success' | 'info' | 'warning' | 'danger' }> = [
+  { time: '10:24', actor: '林晚舟', action: '发布了规范', target: 'Aurora Borealis', kind: 'success' },
+  { time: '09:42', actor: 'CI', action: '通过 lint 门禁', target: 'PR #52 · stone', kind: 'info' },
+  { time: '09:15', actor: '周墨白', action: '提交了角色色修正', target: 'cyber-tribal', kind: 'info' },
+  { time: '08:50', actor: '监控', action: '预览页 P95 延迟升高', target: 'sandbox · 412ms', kind: 'warning' },
+  { time: '昨天', actor: '苏见月', action: '合并了贡献', target: 'dsgov v1.2', kind: 'success' },
+  { time: '昨天', actor: 'CI', action: '构建失败（重复顶层键）', target: 'PR #49', kind: 'danger' },
+]
+
+/* ---------- 内容页 ---------- */
+
+export const pricingPlans: Array<{ name: string; price: string; period: string; pitch: string; features: string[]; highlight: boolean; cta: string }> = [
+  { name: 'Starter', price: '¥0', period: '/ 永久', pitch: '个人与试验', features: ['3 套规范', '社区画廊浏览', '官方 lint 校验'], highlight: false, cta: '免费开始' },
+  { name: 'Team', price: '¥299', period: '/ 月', pitch: '设计团队协作', features: ['无限规范', 'PR 门禁流水线', '样板间品牌定制', '版本 diff 对比'], highlight: true, cta: '开始 14 天试用' },
+  { name: 'Enterprise', price: '定制', period: '', pitch: '合规与私有部署', features: ['私有化托管', 'SSO / 审计日志', '专属 Figma 变量同步'], highlight: false, cta: '联系销售' },
+]
+
+export const blogPosts: Array<{ title: string; excerpt: string; tag: string; author: string; date: string; minutes: number }> = [
+  { title: '用 DESIGN.md 统一多智能体的界面语言', excerpt: '当五个 agent 同时在同一个仓库改 UI，没有单一事实源就是一场灾难。规范文件如何让它们写出的每个按钮都像同一个人设计…', tag: '方法论', author: 'gholl', date: '11-02', minutes: 8 },
+  { title: '角色色解析：当真实规范遇上样板间', excerpt: '社区规范里，荧光绿可能被命名为 secondary。我们如何用亮度分布与 WCAG 对比度把它纠正回辅助文字，而不改写原文…', tag: '工程', author: '林晚舟', date: '10-27', minutes: 12 },
+  { title: '一份 gov.br 规范教我们的无障碍课', excerpt: 'DSGov 用单一字体族 9 个字重和强制的对比度约束覆盖了全部联邦服务。收录它之后，我们的 lint 门禁升级了…', tag: '收录笔记', author: '周墨白', date: '10-19', minutes: 6 },
+]

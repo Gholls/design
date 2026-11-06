@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { IndexedDesign } from '../types'
 import { designs, getDesign } from '../lib/registry'
-import { applyDesign } from '../lib/tokenEngine'
 import { navigate } from '../lib/router'
 import { generatedUrl } from '../lib/generated'
+import { styleFromVars } from '../lib/cssVars'
 import { buttonClass } from '../components/ui/styles'
 import SpecPanel from '../components/shared/SpecPanel'
 import SourcePanel from '../components/shared/SourcePanel'
@@ -12,10 +12,6 @@ export default function ViewerPage({ theme }: { theme?: string }) {
   const design: IndexedDesign | null = getDesign(theme)
   const [sourceOpen, setSourceOpen] = useState(false)
   const [reloadKey, setReloadKey] = useState(0)
-
-  useEffect(() => {
-    if (design) applyDesign(design)
-  }, [design])
 
   if (!design || designs.length === 0) {
     return <div className="grid min-h-screen place-items-center text-sm text-muted">规范索引未就绪</div>
@@ -104,8 +100,8 @@ export default function ViewerPage({ theme }: { theme?: string }) {
           )}
         </main>
 
-        {/* 设计思想侧栏 */}
-        <aside className="hidden w-72 shrink-0 overflow-y-auto border-l border-line bg-surface p-3.5 xl:block">
+        {/* 设计思想侧栏：局部作用域套用该规范配色做信息展示，外壳主题不受影响 */}
+        <aside style={styleFromVars(design.design.vars)} className="hidden w-72 shrink-0 overflow-y-auto border-l border-line bg-surface p-3.5 xl:block">
           <div className="flex items-baseline justify-between gap-2">
             <h2 className="font-display text-sm font-bold">{design.design.name}</h2>
             <a href="#/prompt" className="text-[11px] text-primary hover:underline">提示词 ↗</a>

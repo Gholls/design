@@ -98,7 +98,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 </style></head><body>
 <header><span class="wm"><i>◆</i>Trace</span>
 <nav><a href="#" data-goto="home">编辑器</a><a href="#" data-goto="prod">Agent 时间线</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
-<span><button class="btn btn-s" data-goto="auth">下载</button> <button class="btn btn-o btn-s" data-goto="app">打开 Trace</button></span></header>
+<span><button class="btn btn-s" data-goto="auth">下载</button> <button class="btn btn-o btn-s" data-goto="app">进入后台</button><span style="display:flex;gap:2px;border:1px solid rgba(128,128,128,.45);border-radius:9999px;padding:2px;margin-left:10px"><button data-goto="home" style="cursor:pointer;border:0;border-radius:9999px;background:rgba(128,128,128,.2);padding:5px 12px;font-size:12px;font-weight:700;color:inherit">前台</button><button data-goto="app" style="cursor:pointer;border:0;border-radius:9999px;background:transparent;padding:5px 12px;font-size:12px;font-weight:700;color:inherit">后台</button></span></span></header>
 <main>
 <div class="view on" id="v-home">
   <section class="hero">
@@ -176,7 +176,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 
 <div class="view" id="v-app">
   <div class="app">
-    <h2 style="font-size:22px;font-weight:700;letter-spacing:-.02em">Agent 任务队列</h2>
+    <h2 style="font-size:22px;font-weight:700;letter-spacing:-.02em">后台 · Agent 任务队列</h2>
     <p style="color:var(--mute);font-size:13px;margin-top:4px">当前仓库 3 个分支 · 最近 24h</p>
     <table><thead><tr><th>任务</th><th>分支</th><th>阶段</th><th class="num" id="srt">变更行 ⇅</th><th>结果</th></tr></thead><tbody id="tb"></tbody></table>
     <div style="margin-top:22px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-o btn-s">主要（橙）</button><button class="btn btn-s">次要</button><button class="btn btn-s" style="color:var(--err);border-color:var(--err)">危险</button><button class="btn btn-s" disabled>禁用</button></div>

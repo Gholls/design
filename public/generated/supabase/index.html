@@ -102,7 +102,7 @@ td .type{color:var(--faint);font-family:var(--mono);font-size:11px}
 @media(max-width:820px){header nav{display:none}.docs{grid-template-columns:1fr}.dnav{display:none}}
 </style></head><body>
 <header><span class="logo"><b>◆</b>QuasarDB</span>
-<nav><a href="#" data-goto="home">产品</a><a href="#" data-goto="prod">文档</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="app">启动器</a></nav>
+<nav><a href="#" data-goto="home">产品</a><a href="#" data-goto="prod">文档</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="app">后台</a></nav>
 <button class="btn btn-p" data-goto="auth">开始使用 —— 免费</button></header>
 <main>
 <div class="view on" id="v-home">
@@ -110,7 +110,7 @@ td .type{color:var(--faint);font-family:var(--mono);font-size:11px}
     <span class="badge">开<circle>源</circle> Firebase 替代 · <i>v3.2 向量检索 GA</i></span>
     <h1>Build in a weekend.<br><em>Scale to millions.</em></h1>
     <p class="sub">Postgres 的一切：索引、触发器、关系型建模——加上认证、存储、实时与边缘函数。</p>
-    <p class="links"><button class="btn btn-p" data-goto="app">打开控制台</button><button class="btn" data-goto="prod">读文档 ›</button></p>
+    <p class="links"><button class="btn btn-p" data-goto="app">进入后台</button><span style="display:flex;gap:2px;border:1px solid rgba(128,128,128,.45);border-radius:9999px;padding:2px;margin-left:10px"><button data-goto="home" style="cursor:pointer;border:0;border-radius:9999px;background:rgba(128,128,128,.2);padding:5px 12px;font-size:12px;font-weight:700;color:inherit">前台</button><button data-goto="app" style="cursor:pointer;border:0;border-radius:9999px;background:transparent;padding:5px 12px;font-size:12px;font-weight:700;color:inherit">后台</button></span><button class="btn" data-goto="prod">读文档 ›</button></p>
     <div class="term"><div class="termbar"><s></s><s></s><s></s><span>sql editor — public.orders</span></div>
 <pre><span class="c">-- 绿色是唯一的行动信号（规范原文）</span>
 <span class="k">select</span> status, <span class="fn">count</span>(*) <span class="k">as</span> n
@@ -172,7 +172,7 @@ channel.<span class="fn">on</span>(<span class="s">'postgres_changes'</span>, {
 
 <div class="view" id="v-app">
   <section class="studio">
-    <h2>表编辑器 · public.orders <span class="chip">TABLE</span></h2>
+    <h2>后台 · 表编辑器 public.orders <span class="chip">TABLE</span></h2>
     <div class="stbar">
       <input placeholder="筛选行…" style="max-width:220px"><select><option>全部列</option><option>status</option><option>amount</option></select>
       <button class="btn btn-sm btn">插入行</button><button class="btn btn-t">↑ CSV 导入</button>

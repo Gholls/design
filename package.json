@@ -16,7 +16,8 @@
     "autofix": "node scripts/lint-autofix.mjs",
     "index": "tsx scripts/build-index.mjs",
     "predev": "npm run index",
-    "prebuild": "npm run index"
+    "prebuild": "npm run index",
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name design-gholl-com"
   },
   "dependencies": {
     "react": "^19.1.0",

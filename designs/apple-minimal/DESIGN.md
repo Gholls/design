@@ -95,6 +95,10 @@ components:
 模仿 Apple HIG 的中性质感：几乎看不到「主题色」，但每个控件都在暗示层级。
 适合以内容/图像为主、交易为辅的产品页面。
 
+- Density: 3/10 — Airy
+- Variance: 2/10 — Structured
+- Motion: 5/10 — Fluid
+
 ## Colors
 
 黑白灰之外只有三个系统色（绿/橙/红），全部来自 Apple 系统调色板。

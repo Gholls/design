@@ -377,14 +377,71 @@ function withUnit(value: string | number | undefined, fallback: string): string 
   return s || fallback
 }
 
+/* ------------------------------------------------------------------ */
+/* 散文层消费：Density/Variance/Motion 指标 + Overview/Do's·Don'ts 摘录 */
+/* ------------------------------------------------------------------ */
+
+function meter(markdown: string, name: string): number | null {
+  const m = new RegExp(`${name}[:\\s]+(\\d{1,2})\\s*/\\s*10`, 'i').exec(markdown)
+  if (!m) return null
+  const v = Number(m[1])
+  return Number.isNaN(v) ? null : Math.min(10, Math.max(0, v))
+}
+
+function extractSection(markdown: string, patterns: RegExp[]): string {
+  const lines = markdown.split(/\r?\n/)
+  let collecting = false
+  const out: string[] = []
+  for (const line of lines) {
+    const heading = /^##\s+(.+)$/.exec(line)
+    if (heading) {
+      const name = heading[1].trim().toLowerCase()
+      collecting = patterns.some((p) => p.test(name))
+      continue
+    }
+    if (collecting) out.push(line)
+  }
+  return out.join('\n').trim()
+}
+
+interface ProseInsights {
+  metrics: { density: number | null; variance: number; motion: number }
+  varianceBucket: 'structured' | 'expressive' | 'editorial'
+  motionScale: number
+  prose: { overview: string; dos: string[]; donts: string[] }
+}
+
+function readProse(markdown: string): ProseInsights {
+  const density = meter(markdown, 'Density')
+  const variance = meter(markdown, 'Variance') ?? 3
+  const motion = meter(markdown, 'Motion') ?? 4
+
+  const overviewRaw = extractSection(markdown, [/^overview$/, /^brand & style$/])
+  const overview = overviewRaw.replace(/^#+.*$/gm, '').replace(/\*\*/g, '').trim().slice(0, 220)
+
+  const guidelines = extractSection(markdown, [/^do'?s? and don'?t?s?$/])
+  const bullets = guidelines
+    .split(/\r?\n/)
+    .map((l) => l.replace(/^[-*]\s+/, '').trim())
+    .filter((l) => l.length > 0)
+  const dos = bullets.filter((l) => /^do\b/i.test(l)).slice(0, 4)
+  const donts = bullets.filter((l) => /^don'?t\b/i.test(l)).slice(0, 4)
+
+  const varianceBucket = variance >= 7 ? 'editorial' : variance >= 4 ? 'expressive' : 'structured'
+  const motionScale = motion === 0 ? 0 : Math.round((0.5 + motion * 0.1) * 100) / 100
+
+  return { metrics: { density, variance, motion }, varianceBucket, motionScale, prose: { overview, dos, donts } }
+}
+
 const withFamily = (family: string | undefined): string => {
   const f = (family ?? '').trim()
   if (!f) return ''
   return f.includes(',') ? f : `${f}${SANS_FALLBACK}`
 }
 
-export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: string[]): NormalizedDesign {
+export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: string[], markdown = ''): NormalizedDesign {
   const warnings = [...parseWarnings]
+  const insights = readProse(markdown)
 
   const colorsRaw = flattenColorGroups((tree.colors as Record<string, unknown>) ?? {})
 
@@ -473,6 +530,10 @@ export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: str
       break
     }
   }
+  /* 散文 Density 指标优先于 token 推导（designmd.app 的显式设计意图） */
+  if (insights.metrics.density !== null) {
+    density = clampDensity(1.28 - insights.metrics.density * 0.05)
+  }
   const tableRow = spacing['table-row'] ? withUnit(spacing['table-row'], '44px') : '44px'
 
   const radius = {
@@ -506,6 +567,7 @@ export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: str
   vars['--d-rounded-badge'] = radius.badge
   vars['--d-spacing-scale'] = String(density)
   vars['--d-spacing-table-row'] = tableRow
+  vars['--d-motion-scale'] = String(insights.motionScale)
   vars['--d-shadows-card'] = shadows.card ?? shadows.card_shadow ?? ''
   vars['--d-shadows-control'] = shadows.control ?? ''
   vars['--d-strokes-card'] = strokes.card ?? strokes.control ?? ''
@@ -534,11 +596,15 @@ export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: str
     radius,
     density,
     tableRow,
+    metrics: insights.metrics,
+    varianceBucket: insights.varianceBucket,
+    motionScale: insights.motionScale,
+    prose: insights.prose,
     warnings,
   }
 }
 
 export function buildDesign(markdown: string, slug: string): { design: NormalizedDesign; errors: string[] } {
   const { tree, errors, warnings } = parseDesignMarkdown(markdown)
-  return { design: normalizeDesign(tree, slug, warnings), errors }
+  return { design: normalizeDesign(tree, slug, warnings, markdown), errors }
 }

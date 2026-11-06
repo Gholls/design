@@ -2,16 +2,16 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'acce
 export type ButtonSize = 'sm' | 'md'
 
 const BASE =
-  'inline-flex items-center justify-center gap-1.5 rounded-control border font-medium cursor-pointer select-none ' +
+  'inline-flex items-center justify-center gap-1.5 border font-medium cursor-pointer select-none ' +
   'shadow-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ' +
   'disabled:opacity-45 disabled:cursor-not-allowed disabled:shadow-none'
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  primary: 'bg-primary text-on-primary border-transparent hover:bg-primary-strong',
-  secondary: 'bg-surface text-ink border-line stroke-control hover:bg-surface-alt',
-  ghost: 'bg-transparent text-muted border-transparent hover:bg-surface-alt hover:text-ink shadow-none',
-  danger: 'bg-danger text-white border-transparent hover:brightness-110',
-  accent: 'bg-accent text-white border-transparent hover:brightness-110',
+  primary: 'rounded-control bg-primary text-on-primary border-transparent hover:bg-primary-strong',
+  secondary: 'rounded-control border-line stroke-control bg-surface text-ink hover:bg-surface-alt',
+  ghost: 'rounded-control border-transparent bg-transparent text-muted hover:bg-surface-alt hover:text-ink shadow-none',
+  danger: 'rounded-control border-transparent bg-danger text-white hover:brightness-110',
+  accent: 'rounded-control border-transparent bg-accent text-white hover:brightness-110',
 }
 
 const SIZES: Record<ButtonSize, string> = {

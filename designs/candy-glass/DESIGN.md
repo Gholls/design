@@ -95,6 +95,10 @@ components:
 生长/社区/创作者类产品常用的亲和语言。关键约束：活泼必须仍然可扫读——
 所有灰色都带同一支品红色相，避免画面「脏」。
 
+- Density: 3/10 — Airy
+- Variance: 5/10 — Expressive
+- Motion: 8/10 — Energetic
+
 ## Colors
 
 页面底用暖桃 `#fff7ed`，卡片仍是纯白，靠有色阴影分离层级。

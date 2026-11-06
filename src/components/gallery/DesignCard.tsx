@@ -1,5 +1,6 @@
 import type { Design } from '../../types'
 import { styleFromVars } from '../../lib/cssVars'
+import { generatedUrl } from '../../lib/generated'
 import { buttonClass, cardClass } from '../ui/styles'
 
 const SWATCH_ROLES = ['primary', 'accent', 'bg', 'surface', 'success', 'warning', 'danger'] as const
@@ -10,61 +11,35 @@ interface DesignCardProps {
   onPreview: (design: Design) => void
 }
 
-/** 预览区 = 迷你样板间：所有元素仅用 token 化工具类，局部变量注入即整套规范实时生效 */
-function MiniSandbox() {
+/** Token 试装条：仅演示该规范的颜色/圆角/阴影气质，不是样板间（样板间由 agent 生成） */
+function TokenFitting() {
   return (
-    <div className="bg-bg px-4 pb-4 pt-8">
-      <div className="flex items-start justify-between">
-        <div className="h-2 w-16 rounded-full bg-line" />
+    <div className="bg-bg px-4 py-3.5">
+      <div className="flex items-center justify-between">
+        <span className="rounded-control bg-primary px-3 py-1.5 text-xs font-semibold text-on-primary shadow-control">
+          主操作
+        </span>
         <span className="font-display text-xl leading-none text-primary">Aa</span>
       </div>
-
-      <div className="mt-3 flex items-end justify-between gap-3">
-        <div>
-          <p className="font-display text-2xl font-bold leading-none tabular-nums">¥128.4k</p>
-          <p className="mt-1.5 text-[11px] font-semibold tabular-nums text-success">↑ 12.4% MRR</p>
-        </div>
-        <div className="flex h-9 items-end gap-1" aria-hidden="true">
-          {[35, 52, 44, 60, 55, 72, 88].map((h, i) => (
-            <span
-              key={i}
-              className={`w-1.5 rounded-sm ${i === 6 ? 'bg-primary' : 'bg-primary/30'}`}
-              style={{ height: `${h}%` }}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-3 flex gap-1.5">
+      <div className="mt-3 flex items-center gap-1.5">
         <span className="inline-flex items-center gap-1 rounded-badge border border-success/40 bg-success/10 px-1.5 py-0.5 text-[10px] font-semibold text-success">
           <span className="h-1 w-1 rounded-full bg-current" />成功
         </span>
         <span className="inline-flex items-center gap-1 rounded-badge border border-warning/40 bg-warning/10 px-1.5 py-0.5 text-[10px] font-semibold text-warning">
-          <span className="h-1 w-1 rounded-full bg-current" />待处理
+          <span className="h-1 w-1 rounded-full bg-current" />警告
         </span>
         <span className="inline-flex items-center gap-1 rounded-badge border border-danger/40 bg-danger/10 px-1.5 py-0.5 text-[10px] font-semibold text-danger">
-          <span className="h-1 w-1 rounded-full bg-current" />异常
+          <span className="h-1 w-1 rounded-full bg-current" />危险
         </span>
-      </div>
-
-      <div className="mt-3 space-y-1.5" aria-hidden="true">
-        <div className="flex items-center justify-between border-b border-line pb-1.5">
-          <span className="h-1.5 w-20 rounded-full bg-line" />
-          <span className="h-1.5 w-10 rounded-full bg-muted/40" />
+        <div className="ml-auto flex h-7 flex-1 items-end justify-end gap-1" aria-hidden="true">
+          {[40, 62, 48, 75, 58, 90].map((h, i) => (
+            <span
+              key={i}
+              className={`w-1.5 rounded-sm ${i === 5 ? 'bg-primary' : 'bg-primary/30'}`}
+              style={{ height: `${h}%` }}
+            />
+          ))}
         </div>
-        <div className="flex items-center justify-between">
-          <span className="h-1.5 w-24 rounded-full bg-line" />
-          <span className="h-1.5 w-12 rounded-full bg-muted/40" />
-        </div>
-      </div>
-
-      <div className="mt-3 flex items-center gap-2">
-        <span className="rounded-control bg-primary px-2.5 py-1 text-[11px] font-semibold text-on-primary shadow-control">
-          确认操作
-        </span>
-        <span className="rounded-control border border-line bg-surface px-2.5 py-1 text-[11px] font-medium">
-          取消
-        </span>
       </div>
     </div>
   )
@@ -72,12 +47,12 @@ function MiniSandbox() {
 
 export default function DesignCard({ design, onViewSource, onPreview }: DesignCardProps) {
   const d = design.design
-  const isCommunity = d.source !== ''
+  const generated = generatedUrl(design.slug) !== null
 
   return (
     <article style={styleFromVars(d.vars)} className={`${cardClass} group flex flex-col overflow-hidden`}>
       <div className="relative border-b border-line">
-        {isCommunity ? (
+        {d.source ? (
           <a
             href={d.source}
             target="_blank"
@@ -91,24 +66,34 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
             内置基准
           </span>
         )}
-        <MiniSandbox />
+        <span
+          className={`absolute right-3 top-3 z-10 rounded-badge px-2 py-0.5 font-mono text-[10px] font-semibold ${
+            generated
+              ? 'border border-success/40 bg-success/10 text-success'
+              : 'border border-line bg-surface/85 text-muted'
+          }`}
+        >
+          {generated ? '● 已生成' : '○ 待生成'}
+        </span>
+        <TokenFitting />
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="truncate font-display text-sm font-bold">{d.name}</h3>
           <span className="shrink-0 font-mono text-[10px] text-muted">
-            {d.fontSizeBase} · ×{d.density} · {d.radius.card}
+            D{d.metrics.density ?? '–'} · V{d.metrics.variance} · M{d.metrics.motion}
           </span>
         </div>
 
         <p className="line-clamp-2 text-xs leading-relaxed text-muted">{d.summary}</p>
 
         <div className="mt-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1" title={SWATCH_ROLES.map((r) => `${r}: ${d.roles[r]}`).join('\n')}>
+          <div className="flex items-center gap-1">
             {SWATCH_ROLES.map((role) => (
               <span
                 key={role}
+                title={`${role}: ${d.roles[role]}`}
                 className="h-4 w-4 rounded-full border border-line"
                 style={{ backgroundColor: d.roles[role] }}
               />
@@ -123,7 +108,7 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
               {'</>'}
             </button>
             <button onClick={() => onPreview(design)} className={buttonClass('primary', 'sm')}>
-              ⚡ 预览
+              {generated ? '⚡ 预览站点' : '⚡ 预览'}
             </button>
           </div>
         </div>

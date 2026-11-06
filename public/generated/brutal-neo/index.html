@@ -1,0 +1,314 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · 生成决策溯源
+  ─ Token 全部来自 designs/brutal-neo/DESIGN.md（米纸底/警示黄/纯黑 2px 描边/硬阴影）
+  ─ components.button-primary：黄底黑字 0 圆角 + 3px 硬投影 → .btn-primary
+  ─ Density 4/10：基准间距 18px、行高 48px（比基准更松）
+  ─ Variance 9/10 Editorial：杂志式六栏不对称网格、超大居中黑标题、卡片错位旋转
+  ─ Motion 0/10 Static：全页禁用 transition 与 animation（含骨架屏改为纯静态斜纹）
+  ─ Do：描边统一 2px；Don't：徽章不用透明叠色 → 实色描边；不引入渐变
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>黄金样板间 · BRUTAL NEO</title>
+<style>
+:root{
+  --c-bg:#f4f1ea;--c-surface:#ffffff;--c-alt:#efe9dc;
+  --c-primary:#ffd400;--c-primary-strong:#f0c000;--c-on-primary:#111111;--c-accent:#ff4757;
+  --c-text:#111111;--c-muted:#55524a;--c-line:#111111;
+  --c-success:#00963f;--c-warning:#e8590c;--c-danger:#d00000;
+  --bd:2px solid var(--c-line);--sh:6px 6px 0 var(--c-line);--sh-s:3px 3px 0 var(--c-line);
+  --sp:18px;--row:48px;
+  --font:'Space Grotesk','Helvetica Neue','PingFang SC',Arial,ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;transition:none!important;animation:none!important}
+body{font:16px/1.5 var(--font);background:var(--c-bg);color:var(--c-text)}
+a{color:inherit}
+header.hero{background:var(--c-surface);border-bottom:var(--bd);padding:38px 24px 30px;text-align:center}
+header.hero h1{font-size:44px;font-weight:800;letter-spacing:-.02em;text-transform:none}
+header.hero p{font-size:13px;font-weight:500;color:var(--c-muted);margin-top:6px}
+nav.tabs{display:flex;flex-wrap:wrap;gap:0;background:var(--c-alt);border-bottom:var(--bd);position:sticky;top:0;z-index:20}
+nav.tabs button{font:inherit;font-size:12.5px;font-weight:800;padding:12px 18px;background:none;border:0;border-right:var(--bd);cursor:pointer;text-transform:uppercase;letter-spacing:.02em}
+nav.tabs button.on{background:var(--c-primary);box-shadow:inset 0 -6px 0 var(--c-line)}
+main{padding:26px 24px 80px;max-width:1180px;margin:0 auto}
+.card{background:var(--c-surface);border:var(--bd);box-shadow:var(--sh);padding:18px}
+.grid{display:grid;gap:var(--sp)}
+.bento{grid-template-columns:repeat(6,1fr)}
+.bento>*:nth-child(1){grid-column:span 3}.bento>*:nth-child(2){grid-column:span 3}
+.bento>*:nth-child(3){grid-column:span 2}.bento>*:nth-child(4){grid-column:span 2}
+.bento>*:nth-child(5){grid-column:span 2}
+.kpi b{display:block;font-size:40px;font-weight:800;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi .lab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--c-muted)}
+.up{color:var(--c-success)}.down{color:var(--c-danger)}
+.spark{display:flex;gap:5px;align-items:flex-end;height:34px;margin-top:12px}
+.spark i{flex:1;background:var(--c-line)}.spark i:last-child{background:var(--c-primary);border:2px solid var(--c-line)}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:800;font-size:13px;border:var(--bd);background:var(--c-surface);color:var(--c-text);padding:10px 16px;cursor:pointer;box-shadow:var(--sh-s);text-transform:uppercase}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn-primary{background:var(--c-primary);color:var(--c-on-primary)}
+.btn-accent{background:var(--c-accent);color:#fff}
+.btn-danger{background:var(--c-danger);color:#fff}
+.btn-ghost{box-shadow:none;border-color:transparent;background:none;font-weight:600;text-transform:none}
+.btn:disabled{opacity:.4;box-shadow:none}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;text-transform:uppercase;border:var(--bd);background:var(--c-surface);padding:3px 10px}
+.badge::before{content:"";width:8px;height:8px;border:2px solid var(--c-line)}
+.b-ok::before{background:var(--c-success)}.b-run::before{background:var(--c-primary)}.b-pay::before{background:var(--c-warning)}.b-ref::before{background:var(--c-danger)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;text-align:left;background:var(--c-alt);border-bottom:var(--bd);padding:10px 12px;cursor:pointer}
+td{height:var(--row);padding:0 12px;border-bottom:var(--bd)}
+tr:nth-child(even) td{background:var(--c-alt)}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+input.f,select.f,textarea.f{width:100%;font:inherit;padding:10px 12px;border:var(--bd);background:var(--c-surface)}
+input.f:focus,select.f:focus,textarea.f:focus{outline:4px solid var(--c-primary)}
+label.f{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:5px}
+.sw{width:52px;height:26px;border:var(--bd);background:var(--c-surface);position:relative;cursor:pointer}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border:var(--bd);background:var(--c-alt)}
+.sw.on{background:var(--c-primary)}.sw.on::after{left:26px;background:var(--c-surface)}
+.chk{width:18px;height:18px;border:var(--bd);accent-color:var(--c-text);cursor:pointer}
+section>.h2{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;background:var(--c-text);color:var(--c-surface);display:inline-block;padding:4px 12px;margin-bottom:14px}
+.muted{color:var(--c-muted)}.mono{font-variant-numeric:tabular-nums}
+.gen{position:fixed;bottom:0;left:0;right:0;background:var(--c-text);color:var(--c-primary);border-top:var(--bd);padding:10px 24px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.view{display:none}.view.on{display:block}
+.alert{border:var(--bd);padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:10px;background:var(--c-surface);box-shadow:var(--sh-s)}
+.a-ok{border-left:12px solid var(--c-success)}.a-warn{border-left:12px solid var(--c-warning)}.a-err{border-left:12px solid var(--c-danger)}.a-info{border-left:12px solid var(--c-primary)}
+.sk{height:14px;border:var(--bd);background:repeating-linear-gradient(45deg,var(--c-alt) 0 8px,var(--c-surface) 8px 16px);margin-bottom:10px}
+.tip{position:relative}.tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--c-text);color:var(--c-surface);border:2px solid var(--c-surface);outline:var(--bd);padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap}
+.modal{position:fixed;inset:0;background:rgb(17 17 17/.55);display:none;place-items:center;z-index:40}
+.modal.on{display:grid}
+.dz{border:var(--bd);border-style:dashed;padding:34px;text-align:center;color:var(--c-muted);font-size:13px;background:var(--c-alt)}
+.chip{border:var(--bd);padding:12px 16px;font-weight:700;font-size:14px;cursor:pointer;background:var(--c-surface)}
+.chip.on{background:var(--c-primary);box-shadow:var(--sh-s)}
+.heat{display:grid;grid-template-columns:58px repeat(12,1fr);gap:4px}
+.heat b{height:26px;border:2px solid var(--c-line);font-weight:400}
+.heat span{font-size:9px;font-weight:800;color:var(--c-muted)}
+.pb{height:14px;border:var(--bd);background:var(--c-surface)}
+.pb i{display:block;height:100%;background:repeating-linear-gradient(-45deg,var(--c-primary) 0 8px,var(--c-line) 8px 10px)}
+.avatars i{display:inline-grid;place-items:center;width:38px;height:38px;border:var(--bd);background:var(--c-surface);font-style:normal;font-size:13px;font-weight:800;margin-left:-8px}
+.avatars i:first-child{margin-left:0}.avatars i:nth-child(2){background:var(--c-primary)}
+input[type=range]{width:100%;accent-color:var(--c-text)}
+.tilt1{transform:rotate(-1.2deg)}.tilt2{transform:rotate(.8deg)}
+blockquote{border:var(--bd);border-left:14px solid var(--c-primary);padding:16px 20px;font-weight:700;font-size:17px;background:var(--c-surface)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>BRUTAL NEO 样板间</h1>
+  <p>GOLDEN PROMPT × DESIGN.md「Brutal Neo」 → AGENT 生成 · 米纸底 / 黑描边 / 黄主操作 / 零动效</p>
+</header>
+<nav class="tabs" id="nav"></nav>
+<main>
+  <div class="view on" data-v="0">
+    <div class="grid bento">
+      <div class="card kpi" id="k0"></div><div class="card kpi" id="k1"></div>
+      <div class="card kpi" id="k2"></div><div class="card kpi" id="k3"></div>
+      <div class="card"><p class="lab" style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--c-muted)">部署</p><div style="display:grid;gap:8px;margin-top:10px"><span class="badge b-ok">PRODUCTION 在线</span><span class="badge b-run">CANARY 5%</span><span class="badge b-pay">PREVIEW 排队</span></div></div>
+      <div class="card" style="grid-column:span 3"><p class="h2" style="font-size:12px;font-weight:800;text-transform:uppercase;background:var(--c-text);color:var(--c-surface);display:inline-block;padding:3px 10px;margin-bottom:12px">团队动态</p><div id="activity"></div></div>
+      <div class="card"><p class="h2" style="font-size:12px;font-weight:800;text-transform:uppercase;background:var(--c-text);color:var(--c-surface);display:inline-block;padding:3px 10px;margin-bottom:12px">收入构成</p><div id="revenue"></div></div>
+    </div>
+  </div>
+
+  <div class="view" data-v="1">
+    <section class="card">
+      <p class="h2">数据表格</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <input class="f" id="q" placeholder="搜索单号 / 客户…" style="width:220px">
+        <select class="f" id="st" style="width:140px"><option value="">全部状态</option><option>已支付</option><option>处理中</option><option>待支付</option><option>已退款</option></select>
+        <button class="btn btn-ghost" style="margin-left:auto">导出 CSV</button>
+      </div>
+      <div id="bulk" style="display:none;gap:12px;align-items:center;margin-bottom:12px;background:var(--c-primary);border:var(--bd);padding:8px 14px;font-weight:800">
+        <span id="bulkN"></span><button class="btn">归档</button><button class="btn btn-danger" id="bulkDel">删除</button>
+      </div>
+      <div style="border:var(--bd)"><table><thead><tr>
+        <th style="width:40px"><input type="checkbox" class="chk" id="ckall"></th>
+        <th>单号</th><th>客户</th><th>套餐</th><th class="num">席位 ⇅</th><th class="num">金额 ⇅</th><th>状态</th><th class="num">更新 ⇅</th>
+      </tr></thead><tbody id="tb"></tbody></table></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+        <span class="muted mono" style="font-size:12px;font-weight:700" id="pinfo"></span><div id="pager" style="display:flex;gap:6px"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-v="2">
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <section class="card"><p class="h2">按钮</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <button class="btn btn-primary">主要</button><button class="btn">次要</button><button class="btn btn-accent">强调</button><button class="btn btn-danger">危险</button><button class="btn btn-ghost">幽灵</button><button class="btn" disabled>禁用</button>
+        </div>
+        <p class="muted" style="font-size:12px;margin-top:12px">按下 = 位移 3px 且投影消失（规范 Components 原文）</p>
+      </section>
+      <section class="card"><p class="h2">徽章 · 实色描边（Do/Don't 红线）</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><span class="badge b-ok">已支付</span><span class="badge b-run">处理中</span><span class="badge b-pay">待支付</span><span class="badge b-ref">已退款</span></div>
+        <div style="display:flex;gap:20px;align-items:center;margin-top:16px;font-weight:600;font-size:14px">
+          <button class="sw on" onclick="this.classList.toggle('on')"></button>
+          <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" class="chk" checked>复选</label>
+          <label style="display:flex;gap:6px;align-items:center"><input type="radio" name="r" checked>标准</label>
+        </div>
+      </section>
+      <section class="card"><p class="h2">进度 · 头像 · 开关</p>
+        <div style="display:grid;gap:10px"><div class="pb"><i style="width:78%"></i></div><div class="pb"><i style="width:100%"></i></div></div>
+        <div class="avatars" style="margin-top:16px"><i>林</i><i>周</i><i>苏</i><i>陈</i><i>+9</i></div>
+      </section>
+      <section class="card"><p class="h2">Alert · Tooltip · 静态骨架 · 模态框</p>
+        <div class="alert a-ok">✓ dsgov 通过官方 lint</div>
+        <div class="alert a-err">✕ PR #49 重复顶层键</div>
+        <button class="btn tip" data-tip="反色黑块提示">悬停我</button>
+        <button class="btn btn-primary" id="openModal">模态框</button>
+        <div style="margin-top:14px"><div class="sk" style="width:80%"></div><div class="sk" style="width:100%"></div><div class="sk" style="width:52%"></div></div>
+        <p style="font-size:12px;font-weight:800;margin-top:10px">样板间 / <u>组件</u></p>
+      </section>
+    </div>
+  </div>
+
+  <div class="view" data-v="3">
+    <div class="grid" style="grid-template-columns:1.6fr 1fr">
+      <div class="grid">
+        <section class="card"><p class="h2">基本信息</p>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+            <div><label class="f">工作区名称 *</label><input class="f" value="Gholl Design 工作室"></div>
+            <div><label class="f">负责人邮箱 *</label><input class="f" value="hi@gholl.com"></div>
+          </div>
+        </section>
+        <section class="card"><p class="h2">订阅方案 · 席位</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap"><div class="chip">Starter</div><div class="chip on">Team</div><div class="chip">Enterprise</div></div>
+          <div style="display:flex;align-items:center;gap:16px;margin-top:16px"><span class="muted" style="font-size:12px;font-weight:800">席位</span><input type="range" min="1" max="200" value="24" id="seats"><b class="mono" id="seatN" style="border:var(--bd);padding:4px 12px">24</b></div>
+        </section>
+        <section class="card"><p class="h2">安全 · 备注 · 附件</p>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+            <div><label class="f">新密码</label><input class="f" type="password" id="p1"></div>
+            <div><label class="f">确认密码</label><input class="f" type="password" id="p2"><p id="pmsg" style="font-size:12px;font-weight:800;margin-top:5px"></p></div>
+          </div>
+          <textarea class="f" rows="3" maxlength="200" id="ta" style="margin-top:14px">上线前把 changelog 同步到设计群。</textarea>
+          <p class="muted mono" style="font-size:11px;text-align:right" id="tac"></p>
+          <div class="dz" style="margin-top:10px">⇪ 拖拽上传 · ≤20MB</div>
+        </section>
+      </div>
+      <div class="grid">
+        <section class="card tilt1"><p class="h2">操作</p>
+          <div style="display:grid;gap:10px"><button class="btn btn-primary" style="justify-content:center">保存变更</button><button class="btn" style="justify-content:center">存为草稿</button></div>
+        </section>
+        <section class="card tilt2" style="background:var(--c-danger);color:#fff"><p class="lab" style="font-size:12px;font-weight:800;text-transform:uppercase">危险区</p>
+          <p style="font-size:13px;margin:8px 0 14px;font-weight:600">删除工作区不可撤销，将移除全部规范与产物。</p><button class="btn" style="background:#fff;color:var(--c-danger)">永久删除</button>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="view" data-v="4">
+    <div class="grid" style="grid-template-columns:1.4fr 1fr">
+      <section class="card"><p class="h2">MRR 趋势</p><div id="bars" style="display:flex;align-items:flex-end;gap:8px;height:200px"></div></section>
+      <section class="card"><p class="h2">流量来源</p>
+        <div style="width:150px;height:150px;border-radius:50%;border:var(--bd);background:conic-gradient(var(--c-primary) 0 38%,var(--c-accent) 38% 65%,var(--c-success) 65% 86%,var(--c-alt) 86% 100%);position:relative;margin:8px auto">
+          <div style="position:absolute;inset:26px;border-radius:50%;background:var(--c-surface);border:var(--bd);display:grid;place-items:center;font-weight:800" class="mono">18.4k</div>
+        </div>
+        <div style="font-size:13px;font-weight:700;display:grid;gap:5px"><span>■ 自然搜索 38</span><span style="color:var(--c-accent)">■ 直接访问 27</span><span style="color:var(--c-success)">■ 社区 21</span><span class="muted">■ 投放 14</span></div>
+      </section>
+      <section class="card"><p class="h2">漏斗 · Top5</p><div id="funnel" style="display:grid;gap:9px;margin-bottom:16px"></div><div id="top5" style="display:grid;gap:10px;font-size:13px;font-weight:600"></div></section>
+      <section class="card"><p class="h2">活跃热力</p><div class="heat" id="heat"></div></section>
+    </div>
+  </div>
+
+  <div class="view" data-v="5">
+    <section class="card" style="margin-bottom:22px">
+      <p class="h2">排版样张</p>
+      <h1 style="font-size:36px;font-weight:800">拒绝圆角糖衣</h1>
+      <h2 style="font-size:24px;font-weight:800;margin-top:8px">边框是结构 · 阴影是重量 · 颜色是宣言</h2>
+      <p style="margin-top:12px;max-width:60ch">正文 16px：双语混排——The quick brown fox jumps over the lazy dog. <span class="mono" style="font-weight:800">0123456789</span></p>
+      <blockquote style="margin-top:14px">「任何圆角都是对本主题的背叛。」—— Do's and Don'ts</blockquote>
+      <p style="margin-top:10px;font-size:13px">行内代码：<code style="background:var(--c-text);color:var(--c-primary);padding:3px 8px;font-weight:800">design:lint</code></p>
+    </section>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)" id="pricing"></div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr);margin-top:22px" id="blog"></div>
+  </div>
+
+  <div class="view" data-v="6">
+    <div class="card tilt1" style="max-width:440px;margin:20px auto">
+      <p class="h2">登录 / 注册</p>
+      <div style="display:flex;gap:0;margin-bottom:16px;border:var(--bd)">
+        <button class="btn" id="tin" style="flex:1;border:0;border-right:var(--bd);background:var(--c-primary);box-shadow:none">登录</button>
+        <button class="btn" id="tup" style="flex:1;border:0;box-shadow:none">注册</button>
+      </div>
+      <div style="display:grid;gap:14px">
+        <div id="nameField" style="display:none"><label class="f">姓名</label><input class="f"></div>
+        <div><label class="f">工作邮箱</label><input class="f" value="hi@gholl.com"></div>
+        <div><label class="f">密码</label><input class="f" type="password" value="design-systems"></div>
+        <label style="display:flex;gap:8px;font-size:13px;font-weight:600"><input type="checkbox" class="chk" checked> 30 天内记住我</label>
+        <button class="btn btn-primary" style="justify-content:center">进入</button>
+        <div style="display:flex;gap:10px"><button class="btn" style="flex:1;justify-content:center">GitHub</button><button class="btn" style="flex:1;justify-content:center">Google</button></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal" id="modal"><div class="card" style="max-width:400px">
+  <p class="h2">发布新版本？</p><p class="muted" style="font-size:14px;margin-bottom:16px">Brutal Neo 全量生效。投影会消失一次，就像按压真的纸张。</p>
+  <div style="display:flex;justify-content:flex-end;gap:10px"><button class="btn" id="mClose">取消</button><button class="btn btn-primary" id="mOk">确认发布</button></div>
+</div></div>
+<footer class="gen">本页面由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Brutal Neo」生成 · 零 transition / 零 animation（Motion 0/10）</footer>
+
+<script>
+const VIEWS=['概览','数据表格','组件','表单','分析','内容','认证'];
+const nav=document.getElementById('nav');
+VIEWS.forEach((v,i)=>{const b=document.createElement('button');b.textContent=`0${i+1} ${v}`;b.className=i?'':'on';b.onclick=()=>{document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.dataset.v==i));window.scrollTo(0,0)};nav.appendChild(b)});
+
+const K=[['MRR','¥1,284,300',12.4,1],['活跃席位','12,846',3.2,1],['转化率','4.68%',-0.9,1],['P95','236 ms',-8.3,0]];
+function kpiHtml(k){const good=k[2]>0===!!k[4];return `<span class="lab">${k[0]}</span><b>${k[1]}</b><span class="${good?'up':'down'}" style="font-weight:800;font-size:14px">${k[2]>0?'↑':'↓'} ${Math.abs(k[2])}%</span><div class="spark">${[40,62,50,74,66,88].map(v=>`<i style="height:${v}%"></i>`).join('')}</div>`}
+[0,1,2,3].forEach(i=>document.getElementById('k'+i).innerHTML=kpiHtml(K[i]));
+
+const ACT=[['林晚舟','发布规范','AURORA','#00963f'],['CI','LINT 通过','PR#52','#111'],['监控','延迟升高','412MS','#e8590c'],['CI','构建失败','PR#49','#d00000']];
+document.getElementById('activity').innerHTML=ACT.map(a=>`<div style="display:flex;gap:10px;align-items:center;border-bottom:var(--bd);padding:8px 0;font-size:14px"><i style="width:10px;height:10px;background:${a[3]};border:2px solid var(--c-line)"></i><b>${a[0]}</b><span class="muted">${a[1]}</span><span style="font-weight:800">${a[2]}</span></div>`).join('');
+const REV=[['TOKEN 引擎',38],['样板间',25],['门禁',19],['托管',12],['CLI',6]];
+document.getElementById('revenue').innerHTML=REV.map(r=>`<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-top:8px"><span>${r[0]}</span><span class="mono">${r[1]}%</span></div><div class="pb" style="margin-top:4px"><i style="width:${r[1]*2.4}%"></i></div>`).join('');
+
+const CUS=['星野传媒','蓝湖科技','远山科技','极光生物','拾光文化','云栖网络','拓扑智能','南山云创','像素方舟','沧海数据','长风物流','硅基时代','曜石游戏','青柠出行','谷雨茶室','浮生民宿','量子跃迁','海盐工作室','木与森设计','Fold Labs','Neon 音乐','几何建筑'];
+const ST=['已支付','处理中','待支付','已退款'],BADGE={'已支付':'b-ok','处理中':'b-run','待支付':'b-pay','已退款':'b-ref'},PL=['STARTER·月','PRO·年','TEAM·月','ENT·年'];
+let rows=CUS.map((c,i)=>({id:'DH-'+(2101-i),cus:c,plan:PL[i%4],seats:2+(i*7)%120,amt:99+((i*3137)%460000),st:ST[i%4],t:`11-${String(2+(i%4)).padStart(2,'0')} ${String(8+(i%12)).padStart(2,'0')}:${String((i*13)%60).padStart(2,'0')}`}));
+let page=1,sort={k:'id',d:1},sel=new Set();const PS=8;
+function render(){
+  const q=document.getElementById('q').value,st=document.getElementById('st').value;
+  let list=rows.filter(r=>(!st||r.st===st)&&(!q||(r.id+r.cus+r.plan).toLowerCase().includes(q.toLowerCase())));
+  list.sort((a,b)=>{const x=a[sort.k],y=b[sort.k];return (x>y?1:x<y?-1:0)*sort.d});
+  const pc=Math.max(1,Math.ceil(list.length/PS));page=Math.min(page,pc);
+  const pg=list.slice((page-1)*PS,page*PS);
+  document.getElementById('tb').innerHTML=pg.map(r=>`<tr><td><input type="checkbox" class="chk" data-id="${r.id}" ${sel.has(r.id)?'checked':''}></td><td class="mono" style="font-weight:700">#${r.id}</td><td><b>${r.cus}</b></td><td class="muted">${r.plan}</td><td class="num">${r.seats}</td><td class="num" style="font-weight:800">¥${r.amt.toLocaleString()}</td><td><span class="badge ${BADGE[r.st]}">${r.st}</span></td><td class="num muted mono" style="font-size:12px">${r.t}</td></tr>`).join('')||`<tr><td colspan="8" style="text-align:center;padding:30px;font-weight:800" class="muted">没有匹配订单（空状态）</td></tr>`;
+  document.getElementById('pinfo').textContent=`${(page-1)*PS+1}–${Math.min(page*PS,list.length)} / ${list.length} 条`;
+  document.getElementById('pager').innerHTML=Array.from({length:pc},(_,i)=>`<button class="btn ${i+1===page?'btn-primary':''}" style="padding:5px 11px" data-p="${i+1}">${i+1}</button>`).join('');
+  document.querySelectorAll('#pager button').forEach(b=>b.onclick=()=>{page=+b.dataset.p;render()});
+  document.getElementById('bulk').style.display=sel.size?'flex':'none';document.getElementById('bulkN').textContent=`已选 ${sel.size} 项`;
+}
+document.querySelectorAll('th').forEach(th=>th.onclick=()=>{const t=th.textContent;const k=t.includes('席位')?'seats':t.includes('金额')?'amt':t.includes('更新')?'t':t.includes('单号')?'id':null;if(!k)return;sort=sort.k===k?{k,d:-sort.d}:{k,d:-1};render()});
+document.getElementById('tb').addEventListener('change',e=>{const id=e.target.dataset.id;if(!id)return;e.target.checked?sel.add(id):sel.delete(id);render()});
+document.getElementById('ckall').onchange=e=>{sel=e.target.checked?new Set(rows.map(r=>r.id)):new Set();render()};
+document.getElementById('bulkDel').onclick=()=>{rows=rows.filter(r=>!sel.has(r.id));sel.clear();render()};
+document.getElementById('q').oninput=()=>{page=1;render()};document.getElementById('st').onchange=()=>{page=1;render()};
+render();
+
+document.getElementById('openModal').onclick=()=>document.getElementById('modal').classList.add('on');
+document.getElementById('mClose').onclick=document.getElementById('mOk').onclick=()=>document.getElementById('modal').classList.remove('on');
+const p1=document.getElementById('p1'),p2=document.getElementById('p2'),pm=document.getElementById('pmsg');
+const chk=()=>{if(!p2.value){pm.textContent='';return}const ok=p1.value===p2.value;pm.textContent=ok?'✓ 匹配':'✕ 不一致';pm.style.color=ok?'var(--c-success)':'var(--c-danger)'};
+p1.oninput=chk;p2.oninput=chk;
+const ta=document.getElementById('ta'),tac=document.getElementById('tac');const tc=()=>tac.textContent=ta.value.length+'/200';ta.oninput=tc;tc();
+document.getElementById('seats').oninput=e=>document.getElementById('seatN').textContent=e.target.value;
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on')});
+document.getElementById('tin').onclick=()=>{document.getElementById('tin').style.background='var(--c-primary)';document.getElementById('tup').style.background='none';document.getElementById('nameField').style.display='none'};
+document.getElementById('tup').onclick=()=>{document.getElementById('tup').style.background='var(--c-primary)';document.getElementById('tin').style.background='none';document.getElementById('nameField').style.display='block'};
+
+const BAR=[86,74,98,112,104,121,138,129,156,171,164,188];
+document.getElementById('bars').innerHTML=BAR.map((v,i)=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px"><i style="width:100%;height:${v/188*100}%;background:${i===11?'var(--c-primary)':'var(--c-text)'};border:2px solid var(--c-line)"></i><span class="muted" style="font-size:9px;font-weight:800">${i+1}</span></div>`).join('');
+const F=[['访问',100],['注册',42],['激活',28],['订阅',16],['续费',11]];
+document.getElementById('funnel').innerHTML=F.map(f=>`<div style="display:flex;gap:10px;align-items:center;font-size:12px;font-weight:800"><span class="muted" style="width:36px">${f[0]}</span><div style="flex:1"><div class="pb"><i style="width:${f[1]}%"></i></div></div><span class="mono">${f[1]}</span></div>`).join('');
+document.getElementById('top5').innerHTML=REV.slice(0,5).map(r=>`<div style="display:flex;justify-content:space-between;border-bottom:var(--bd);padding-bottom:6px"><span>${r[0]}</span><span class="mono">¥${r[1]*12.7}k</span></div>`).join('');
+const HM=[[.1,.2,.35,.55,.7,.85,.6,.4,.3,.5,.75,.9],[.15,.3,.4,.6,.8,.95,.7,.45,.25,.4,.65,.8],[.2,.35,.5,.7,.9,1,.8,.5,.3,.45,.7,.85],[.12,.25,.45,.62,.78,.9,.68,.42,.28,.38,.6,.72],[.08,.18,.3,.5,.66,.8,.9,.7,.5,.3,.45,.55],[.05,.1,.18,.28,.4,.55,.65,.6,.48,.3,.25,.3],[.04,.08,.14,.22,.32,.42,.5,.46,.38,.26,.2,.24]];
+const DAYS=['周一','周二','周三','周四','周五','周六','周日'];
+let h='';HM.forEach((r,i)=>{h+=`<span style="align-self:center;font-weight:800">${DAYS[i]}</span>`+r.map((v,j)=>`<b title="${DAYS[i]} ${j+8}:00" style="background:${v>0.7?'var(--c-primary)':v>0.4?'var(--c-alt)':'var(--c-surface)'}"></b>`).join('')});
+h+='<span></span>'+Array.from({length:12},(_,j)=>`<span>${j+8}</span>`).join('');
+document.getElementById('heat').innerHTML=h;
+
+const PR=[['STARTER','¥0','3 套规范 · 社区画廊 · LINT',0],['TEAM','¥299','无限规范 · PR 门禁 · DIFF',1],['ENTERPRISE','定制','私有化 · SSO · 审计',0]];
+document.getElementById('pricing').innerHTML=PR.map((p,i)=>`<div class="card ${i===1?'':i%2?'tilt2':'tilt1'}" style="${p[3]?'border-width:4px;background:var(--c-primary)':''}"><p class="lab" style="font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:12px">${p[0]}</p><div class="mono" style="font-size:34px;font-weight:800;margin:10px 0">${p[1]}</div><p class="muted" style="font-size:12px;font-weight:700;margin-bottom:14px">${p[2]}</p><button class="btn ${p[3]?'btn-primary':''}" style="width:100%;justify-content:center;${p[3]?'background:var(--c-text);color:var(--c-primary)':''}">${p[3]?'最受欢迎 · 试用':'选择'}</button></div>`).join('');
+const BL=[['方法论','统一多智能体的界面语言','当五个 agent 同时改 UI…'],['工程','角色色解析实战','荧光绿被命名为 secondary…'],['收录','gov.br 的无障碍课','9 个字重的强制约束…']];
+document.getElementById('blog').innerHTML=BL.map((b,i)=>`<div class="card ${i%2?'tilt2':'tilt1'}"><span class="badge b-run">${b[0]}</span><p style="font-weight:800;font-size:17px;margin-top:12px">${b[1]}</p><p class="muted" style="font-size:13px;margin-top:8px">${b[2]}</p><p class="muted mono" style="font-size:11px;margin-top:14px;font-weight:800">GHOLL · 11-02 · 8 MIN</p></div>`).join('');
+</script>
+</body>
+</html>

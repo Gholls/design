@@ -84,6 +84,19 @@ components: {...}
 - [ ] 不引入网络字体依赖（纯静态离线）；fontFamily 写回退栈
 - [ ] 散文章节按官方顺序；`Do's and Don'ts` 至少 3 条
 
+## 生成产物契约（public/generated/）
+
+样板间代码不来自本仓库提交者——它来自 **code agent**。流程：
+
+1. `npm run generate` 合成任务文件 `prompts/tasks/<slug>.md`
+   （= GOLDEN PROMPT + 你的 DESIGN.md）；
+2. 交给任意 code agent 执行，产出**单个自包含 `index.html`**（零网络依赖、
+   file:// 可运行、底部标注生成信息条）；
+3. 产物提交到 `public/generated/<slug>/index.html`，构建后自动出现在画廊
+   「● 已生成」并可预览；
+4. 验收项：产物代码顶部须有「决策溯源注释」——写明哪些界面决策来自
+   规范的哪一行（Token / components 指引 / 指标 / Do's & Don'ts）。
+
 ## 提交
 
 ```bash

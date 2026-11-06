@@ -1,140 +1,97 @@
-# design.gholl.com — Design.md 画廊与黄金样板间
+# design.gholl.com — Design.md Gallery
 
-基于 [Google Labs **design.md**](https://github.com/google-labs-code/design.md) 格式规范（alpha）构建的
-互动式设计规范画廊：一套标准「黄金样板间」UI × 多份社区共建的 DESIGN.md。
-纯静态托管、零后端——浏览器内解析 YAML 设计 Token 并动态注入 `<html>` 的 CSS
-自定义属性，在同一套 React 界面上实时换肤（颜色 / 字体 / 圆角 / 阴影 / 密度），无需刷新。
+**一个实验：同一份需求提示词 × 不同 DESIGN.md，agent 会产出怎样不同的产品？**
 
-参考数据源：[designmd.app](https://designmd.app/) 收录的 700+ 份社区 DESIGN.md
-可直接放入 `designs/<slug>/`（解析器带角色推导兜底）。
+本项目不内置样板间代码。它只拥有三样东西：
+
+1. **规范数据** —— `designs/<slug>/DESIGN.md`（Google Labs design.md 官方格式，
+   含 7 份来自 [designmd.app](https://designmd.app/) 的真实公开规范）；
+2. **黄金提示词** —— `prompts/GOLDEN.md`，样板间的全部需求与约束都在这一份文字里；
+3. **轻量站点** —— 画廊、设计思想面板、生成状态、以及路由到 agent 生成产物
+   （`public/generated/<slug>/index.html`）的预览器。
+
+样板间的每一次「长得不一样」，都是规范思想（Token、components 指引、
+Density/Variance/Motion 指标、Do's & Don'ts）的胜利，而非代码分支。
 
 - 技术栈：**Vite 7 + React 19 + Tailwind CSS v4 + js-yaml + Cloudflare Pages**
-- 官方工具链：**@google/design.md**（linter，PR 门禁 `npm run design:lint`）
-- 路由：轻量 hash 路由，URL 直达 —— `/#/preview?theme=enterprise`
-- 协议：**MIT**（见 [LICENSE](LICENSE)）
+- 官方工具链：**@google/design.md** lint 门禁（`npm run design:lint`）
+- URL：`/#/` 画廊 · `/#/preview?theme=<slug>` 预览产物 · `/#/prompt` 提示词全文
+- 协议：**MIT**（[LICENSE](LICENSE)）
 
 ## 快速开始
 
 ```bash
 npm install
-npm run dev            # 本地开发 http://localhost:5173
-npm run design:lint    # 用官方 linter 校验全部 designs/（0 error 才可提 PR）
-npm run build          # tsc 检查 + 产物输出到 dist/
-npm run preview        # 预览构建产物
+npm run dev             # http://localhost:5173
+npm run design:lint     # 官方 linter 校验全部规范（0 error 门禁）
+npm run generate        # 为全部规范合成 agent 任务文件 prompts/tasks/<slug>.md
+npm run build && npm run preview
 ```
 
-## 数据源：官方 DESIGN.md 格式
-
-每套规范就是一个自包含文件（无 tokens.json）：
-
-```md
----
-version: alpha
-name: Enterprise Admin
-description: 一句话简介
-gallery: { order, author, tags }   # 样板间扩展组（官方规范允许保留未知顶层键）
-colors:    { primary: "#2563eb", … }
-typography: { body-md: {fontFamily, fontSize…}, h1: {…} }
-rounded:   { sm, md, lg, full }
-spacing:   { base: 16px, table-row: 44px, … }
-shadows:   { card, control }        # 样板间扩展组
-strokes:   { card, control }        # 样板间扩展组
-components: { button-primary: { backgroundColor: "{colors.primary}", … } }
----
-
-## Overview / Colors / Typography / Layout / Elevation & Depth /
-## Shapes / Components / Do's and Don'ts   ← 官方章节顺序
-```
-
-`{colors.primary}` 这类 token 引用在解析期递归解引用。
-
-## 工作原理：解析 + 动态 Token 注入引擎
+## 生成流水线（样板间 = agent 的活）
 
 ```
-designs/<slug>/DESIGN.md ── registry.ts（import.meta.glob 自动发现）
-        │
-        ▼
-designMd.ts  解析器：frontmatter + 文内 yaml 块合并 → {a.b} 引用解析
-        │     → 官方 schema 校验（章节顺序/重复键）
-        ▼     → 角色解析：任意色卡名 → 样板间 13 角色（别名表 + 亮度推导兜底）
-tokenEngine.applyDesign()
-        │     扁平化 --d-<group>-<key> 变量写入 :root（含派生契约）
-        ▼
-globals.css  @theme inline { --color-primary: var(--d-colors-primary, …) }
-        │
-        ▼
-Tailwind 工具类（bg-primary / rounded-card / p-4 / shadow-card）实时穿透生效
+prompts/GOLDEN.md ─┐
+                   ├─ npm run generate ─→ prompts/tasks/<slug>.md
+designs/<slug>/    │                          │  交给任意 code agent
+DESIGN.md ─────────┘                          ▼
+                        public/generated/<slug>/index.html（自包含静态站点）
+                                    │ vite 自动登记（import.meta.glob）
+                                    ▼
+                        画廊显示「● 已生成」→ 预览器 iframe 路由产物
 ```
 
-关键文件：
-- [src/lib/designMd.ts](src/lib/designMd.ts) —— 官方格式解析器 + 归一化层（角色兜底）
-- [src/lib/tokenEngine.ts](src/lib/tokenEngine.ts) —— CSS 变量注入与事件广播
-- [src/styles/globals.css](src/styles/globals.css) —— Tailwind v4 `@theme inline` 映射层
-- [scripts/lint-designs.mjs](scripts/lint-designs.mjs) —— 官方 linter 批量校验
+- 把 `prompts/tasks/<slug>.md` 粘贴给 Claude Code / Codex / Cursor / Qoder 等
+  任何 agent，按产物契约生成 `index.html` 并提交，即完成一个规范的落地；
+- 可选全自动：`AGENT_CMD="claude -p" npm run generate -- --run`
+  （显式授权后由脚本派发本地 agent CLI）；
+- 已附带两份本次生成的基准产物：`enterprise`（秩序网格基准）与
+  `brutal-neo`（Variance 9/10 杂志编排 · Motion 0 零动效）——用于对照阅读差异。
+
+## 项目里保留的「智能」
+
+应用本体轻量，但为画廊与思想面板保留一个规范解析器：
+
+- [src/lib/designMd.ts](src/lib/designMd.ts)：frontmatter/yaml 块合并、`{token.ref}`
+  解引用、官方 schema 校验；**角色解析**（任意色卡命名 → 13 样板间角色，
+  亮度分布 + WCAG 对比度兜底）用于卡片色卡与 Token 试装条；
+- **散文消费**：Density/Variance/Motion 指标、Overview 摘录、Do's/Don'ts 条目
+  呈现于预览器的「设计思想」面板——提示词 + 思想可见，生成动作本身交给 agent；
+- [src/lib/generated.ts](src/lib/generated.ts)：glob 登记产物，自动切分已生成/待生成。
 
 ## 目录结构
 
 ```
 design/
-├── designs/                  # ★ 社区共建区（提 PR 只动这里）
-│   ├── README.md             #   贡献指南 + 角色契约 + 验收清单
-│   ├── enterprise/DESIGN.md          # 内置基准 5 套：enterprise / apple-minimal
-│   ├── apple-minimal/ · cyberpunk/   # /candy-glass / brutal-neo
-│   ├── candy-glass/ · brutal-neo/
-│   ├── minimalism-swiss-style/       # ┐ 收录自 designmd.app 的 7 份真实公开规范
-│   ├── acrylic-fluent/ · de-stijl-abstrato/       # │ 原文 verbatim，仅注入 gallery:
-│   ├── 8-bit-retro-terminal/ · cyber-tribal/      # │ 出处署名块（+1 处单位兼容修正）
-│   └── dsgov/ · stone/                             # ┘ gov.br 为 CC0/MIT 开源设计系统
-├── scripts/lint-designs.mjs  # 官方 linter 门禁
+├── prompts/
+│   ├── GOLDEN.md           # ★ 唯一需求事实源（含产物契约）
+│   └── tasks/              # npm run generate 合成（gitignore）
+├── designs/                # ★ 规范库：官方 DESIGN.md 单文件（内置 5 + 收录 7）
+│   └── README.md           #   贡献指南 + 收录政策 + 角色契约
+├── public/generated/       # ★ agent 生成产物：<slug>/index.html 自包含静态站
 ├── src/
-│   ├── lib/                  # designMd 解析器 · registry · tokenEngine · router · cssVars
-│   ├── pages/                # GalleryPage · SandboxPage
-│   ├── components/           # gallery / sandbox / shared / ui
-│   ├── data/mock.ts          # 样板间静态数据
-│   └── styles/globals.css    # Tailwind v4 @theme inline 映射层
-└── public/                   # favicon · _headers（Cloudflare 缓存/安全头）
+│   ├── lib/                # designMd · registry · tokenEngine · generated · router · agent · prompt
+│   ├── pages/              # GalleryPage · ViewerPage · PromptPage
+│   ├── components/         # gallery/DesignCard · shared/SpecPanel · shared/SourcePanel · ui
+│   └── styles/globals.css  # 外壳换肤映射（@theme inline → --d-*）
+└── scripts/                # lint-designs.mjs · generate.mjs
 ```
-
-## 样板间：7 个页面视图
-
-侧边栏导航（URL `page` 参数直达，主题切换保持当前页）：
-
-| 页面 | 覆盖场景 |
-| --- | --- |
-| 概览 | KPI 卡群、团队动态、收入构成、通知日志、部署状态 |
-| 数据表格 | 搜索、状态筛选、多列排序、复选批量操作（可删除）、分页 |
-| 组件库 | 按钮矩阵、徽章、头像堆叠、Tabs、开关/复选/单选/半选、进度、Alert、Tooltip、骨架屏、面包屑、模态框 |
-| 表单流程 | 分组长表单、订阅方案选择、滑块席位、实时密码校验、计数器 textarea、拖拽上传、危险区 |
-| 分析图表 | 柱状趋势、conic-gradient 环图、转化漏斗、color-mix 热力图（纯 Token 渲染，换肤即时重着色） |
-| 内容页面 | 排版样张（标题阶/引用/行内码/双语混排）、定价三档、博客卡片 |
-| 登录注册 | 双 Tab 认证流、社交登录、表单焦点态 |
-
-另有全局能力：源码对照抽屉（DESIGN.md 原文 + 解析后 Tokens）、密度实时覆写、空状态演示、换肤 Toast。
 
 ## 部署（Cloudflare Pages）
 
-**方式 A · Dashboard 连接 Git**
+Build command `npm run build`，输出目录 `dist`，Node 22；
+或 `npx wrangler pages deploy dist --project-name design-gholl-com`。
+`public/_headers` 随产物生效；hash 路由无需 SPA 重写。
 
-| 设置项 | 值 |
-| --- | --- |
-| Build command | `npm run build` |
-| Build output directory | `dist` |
-| Node version | `22` |
+## 贡献
 
-**方式 B · Wrangler CLI**
-
-```bash
-npm run build
-npx wrangler pages deploy dist --project-name design-gholl-com
-```
-
-hash 路由无需 SPA fallback 重写规则；`public/_headers` 会随产物自动生效。
-生产域名建议绑定 `design.gholl.com`（Pages → Custom domains）。
-
-## 贡献新规范
-
-见 [designs/README.md](designs/README.md)：放一份官方格式的 `DESIGN.md`，
-`npm run design:lint` 零 error 后提 PR——构建时自动出现在画廊。
+- **贡献规范**：放一份官方格式 `designs/<slug>/DESIGN.md`，`npm run design:lint`
+  零 error 提 PR（详见 [designs/README.md](designs/README.md)）；
+- **贡献生成产物**：跑 `npm run generate`，把你的 agent 产出的
+  `public/generated/<slug>/index.html` 提 PR——页面底部的生成信息条与
+  代码顶部的「决策溯源注释」是验收项（规范要求 agent 写明每个界面决策
+  来自规范的哪一行）；
+- **改进提示词**：GOLDEN.md 的每次修改都会改变所有规范的产出——请克制而珍重。
 
 ## License
 

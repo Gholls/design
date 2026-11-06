@@ -34,6 +34,12 @@ export interface NormalizedDesign {
   radius: { card: string; control: string; badge: string }
   density: number
   tableRow: string
+  /** 散文中的结构化指标（designmd.app 惯例），驱动版式与动效 */
+  metrics: { density: number | null; variance: number; motion: number }
+  /** 版式分级：structured ≤3 / expressive 4-6 / editorial ≥7 */
+  varianceBucket: 'structured' | 'expressive' | 'editorial'
+  motionScale: number
+  prose: { overview: string; dos: string[]; donts: string[] }
   warnings: string[]
 }
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Design } from '../../types'
+import { copyAgentPrompt, downloadDesignMd } from '../../lib/agent'
 
 interface SourcePanelProps {
   design: Design | null
@@ -96,6 +97,23 @@ export default function SourcePanel({ design, onClose }: SourcePanelProps) {
         <pre className="flex-1 overflow-auto whitespace-pre-wrap break-words px-5 py-4 text-xs leading-5 text-ink">
           {tab === 'source' ? design.markdown : tokensJson}
         </pre>
+        <footer className="flex flex-wrap items-center gap-2 border-t border-line px-5 py-3">
+          <button
+            onClick={() => copyAgentPrompt(design)}
+            className="cursor-pointer rounded-control border border-primary/50 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
+          >
+            📋 复制为 Agent 提示词（需求 + 规范全文）
+          </button>
+          <button
+            onClick={() => downloadDesignMd(design)}
+            className="cursor-pointer rounded-control border border-line bg-surface px-3 py-1.5 text-xs font-medium text-muted hover:text-ink"
+          >
+            ⤓ 下载 DESIGN.md
+          </button>
+          <span className="ml-auto font-mono text-[11px] text-muted">
+            同一提示词 + 本规范 → agent 产出当前页面
+          </span>
+        </footer>
       </aside>
     </div>
   )

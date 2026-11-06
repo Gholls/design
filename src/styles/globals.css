@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 /*
- * Token 映射层：所有 Tailwind 主题值都指向 --d-* 运行时变量。
- * `inline` 让工具类直接输出 var(--d-*)，因此在 <html> 上改写变量
- * 即可实时穿透到每一个已渲染的元素（画廊卡片则用局部作用域变量）。
- * fallback 值 = enterprise 基准主题，保证首帧无样式闪烁。
+ * Token 映射层：所有 Tailwind 主题值都指向 --d-* 运行时变量（画廊外壳换肤用）。
+ * 注意：样板间页面不在本应用内——它是 agent 按 prompts/GOLDEN.md + DESIGN.md
+ * 生成的静态站点（public/generated/<slug>/），其样式由生成物自治。
  */
 @theme inline {
   --color-bg: var(--d-colors-bg, #eef2f7);
@@ -56,18 +55,12 @@
   }
 }
 
-/* 描边宽度 Token：stroke-* 工具类，让粗野主义等主题能加粗边框 */
 @utility stroke-card {
   border-width: var(--d-strokes-card, 1px);
 }
 
 @utility stroke-control {
   border-width: var(--d-strokes-control, 1px);
-}
-
-/* 表格行高 Token */
-@utility row-h {
-  height: var(--d-spacing-table-row, 44px);
 }
 
 input,
@@ -82,45 +75,20 @@ pre {
 }
 
 @keyframes panel-in {
-  from {
-    transform: translateX(28px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(28px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes rise-in {
-  from {
-    transform: translateY(10px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.panel-in {
-  animation: panel-in 0.22s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-.fade-in {
-  animation: fade-in 0.18s ease-out both;
-}
-
-.rise-in {
-  animation: rise-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
+.panel-in { animation: panel-in 0.22s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.fade-in { animation: fade-in 0.18s ease-out both; }
+.rise-in { animation: rise-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both; }

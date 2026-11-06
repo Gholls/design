@@ -99,6 +99,10 @@ components:
 为高密度数据后台设计：冷静、可预期、不抢内容。主色只用于可操作元素与焦点态，
 层级依靠 1px 边框线与两级阴影完成。
 
+- Density: 6/10 — Dense
+- Variance: 2/10 — Structured
+- Motion: 3/10 — Subtle
+
 ## Colors
 
 配色根植于冷灰蓝基底与单一动作蓝。

@@ -18,6 +18,7 @@ export function applyDesign(design: Design, options: { announce?: boolean } = {}
   }
   root.style.fontSize = design.design.fontSizeBase
   root.dataset.design = design.slug
+  root.dataset.variance = design.design.varianceBucket
 
   try {
     localStorage.setItem(STORAGE_KEY, design.slug)

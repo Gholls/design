@@ -96,6 +96,10 @@ components:
 体系是绝佳的压力测试：2px 黑色描边 + 零模糊硬投影意味着任何「半透明叠色」
 技巧都必须重新校准。
 
+- Density: 4/10 — Balanced
+- Variance: 9/10 — Editorial
+- Motion: 0/10 — Static
+
 ## Colors
 
 主色是警示黄 `#ffd400`，其上必须用纯黑文字；`border` 就是 `#111111` 本身——

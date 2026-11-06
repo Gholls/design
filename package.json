@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "design:lint": "node scripts/lint-designs.mjs"
+    "design:lint": "node scripts/lint-designs.mjs",
+    "generate": "node scripts/generate.mjs"
   },
   "dependencies": {
     "js-yaml": "^5.5.0",

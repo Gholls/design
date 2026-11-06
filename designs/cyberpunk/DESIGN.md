@@ -95,6 +95,10 @@ components:
 反精致：拒绝圆角滑块与柔和投影，用直角、1px 描边和辉光阴影表达「机器界面」的
 冷酷感。适合开发者工具、监控面板、Web3 场景。
 
+- Density: 8/10 — Dense
+- Variance: 5/10 — Expressive
+- Motion: 7/10 — Energetic
+
 ## Colors
 
 深色底 `#0a0a12`，青 `#00f0ff` 为唯一主操作色（其上必须用深色字保证对比度），

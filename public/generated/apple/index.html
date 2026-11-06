@@ -1,310 +1,351 @@
 <!doctype html>
 <!--
-  GOLDEN PROMPT 产物 · 决策溯源
-  ─ Token 逐值来自 designs/apple/DESIGN.md（Action Blue #0066cc 唯一交互色 / canvas #fff /
-    canvas-parchment #f5f5f7 / surface-black #000 交替磁贴 / SF Pro 族 / 负字距）
-  ─ 散文指令：「UI退后让产品说话」「无装饰渐变，chrome 零阴影」「阴影只出现在商品图上」
-    → 全站唯一 shadow token 用于产品舞台层；导航无底色无描边
-  ─ components.button-primary：pill 9999px、链接式次级动作（underline on hover）
-  ─ Variance 低-中：整宽通栏磁贴交替明暗（品牌标志手法）；Density  airy：大留白
-  ─ Motion 品牌文气：克制的 200ms 淡入，无弹跳
+  GOLDEN PROMPT 产物 · GhollStudio · 规范：Apple-design-analysis
+  ─ 决策溯源
+  ─ Token：Action Blue #0066cc 唯一交互色 / ink #1d1d1f / canvas #fff / parchment #f5f5f7 /
+    surface-black #000 交替磁贴 / pill 控件 / 焦点 #0071e3 / 负字距 SF Pro
+  ─ 「摄影优先，UI 退后」：案例封面全部 CSS 光场构图；「chrome 零阴影，阴影只给产品图」
+    → 全站唯一 box-shadow 在 Hero 舞台
+  ─ Variance 低-中：整宽磁贴交替明暗；Density airy：分区 84px 呼吸
+  ─ Motion：.2s 淡过渡，无入场动画
 -->
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ProVision — Apple Design System 样板间</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GhollStudio · Apple System</title>
 <style>
-:root{
-  --primary:#0066cc;--primary-focus:#0071e3;--primary-on-dark:#2997ff;
-  --ink:#1d1d1f;--body:#1d1d1f;--body-muted:#cccccc;--ink-muted-48:#7a7a7a;
-  --hairline:#e0e0e0;--hairline-soft:#f0f0f0;
-  --canvas:#ffffff;--canvas-parchment:#f5f5f7;--surface-black:#000000;--surface-pearl:#fafafc;
-  --on-primary:#ffffff;--on-dark:#ffffff;
-  --r-xs:5px;--r-sm:8px;--r-md:11px;--r-lg:18px;--r-pill:9999px;
-  --s-xxs:4px;--s-xs:8px;--s-sm:12px;--s-md:17px;--s-lg:24px;--s-xl:32px;--s-xxl:48px;
-  --sh-product:0 3px 30px rgba(0,0,0,.12),0 3px 8px rgba(0,0,0,.04);
-  --font-display:'SF Pro Display',-apple-system,'SF Pro Text','PingFang SC',system-ui,sans-serif;
-  --font-text:'SF Pro Text',-apple-system,'PingFang SC',system-ui,sans-serif;
-}
-*{box-sizing:border-box;margin:0;transition:background-color .2s,color .2s,opacity .2s,border-color .2s}
-body{font:17px/1.47 var(--font-text);background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased}
-a{color:var(--primary);text-decoration:none}
-a:hover{text-decoration:underline}
-nav{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:var(--s-lg);padding:12px max(22px,5vw);background:rgba(255,255,255,.8);backdrop-filter:blur(20px);font-size:12px}
-.logo{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink)}
-.navlink{color:var(--ink);opacity:.85;font-weight:400}.navlink:hover{opacity:1;text-decoration:none}
-.navcta{margin-left:auto;background:var(--primary);color:var(--on-primary);border-radius:var(--r-pill);padding:6px 14px;font-weight:500;border:none;cursor:pointer;font-size:12px}
-.navcta:hover{background:var(--primary-focus)}
+:root{--blue:#0066cc;--blue-focus:#0071e3;--blue-dark:#2997ff;--ink:#1d1d1f;--mute:#7a7a7a;--mute2:#cccccc;--hair:#e0e0e0;--hair-soft:#f0f0f0;
+--canvas:#fff;--paper:#f5f5f7;--night:#000;--pearl:#fafafc;
+--r-xs:5px;--r-sm:8px;--r-md:11px;--r-lg:18px;--pill:9999px;
+--sh-stage:0 3px 30px rgba(0,0,0,.12),0 3px 8px rgba(0,0,0,.04);
+--font:-apple-system,'SF Pro Text','SF Pro Display','PingFang SC',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;transition:background-color .2s,color .2s,border-color .2s}
+body{font:16px/1.5 var(--font);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:40;height:52px;background:rgba(255,255,255,.8);backdrop-filter:saturate(1.6) blur(20px);border-bottom:1px solid var(--hair-soft)}
+.nav{display:flex;align-items:center;gap:26px;height:100%;max-width:1020px;margin:0 auto;padding:0 22px}
+.wm{font-weight:600;font-size:15px;color:var(--ink)}
+header nav{display:flex;gap:20px;margin:0 auto;font-size:12px}
+header nav a{color:var(--ink);opacity:.85}header nav a:hover{opacity:1;text-decoration:none}
+.seg{display:flex;gap:2px;background:var(--paper);border-radius:var(--pill);padding:3px}
+.seg button{border:none;background:none;border-radius:var(--pill);font:inherit;font-size:12px;font-weight:600;color:var(--mute);padding:6px 15px;cursor:pointer}
+.seg button.on{background:var(--canvas);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .view{display:none}.view.on{display:block}
-h1,h2,h3{font-family:var(--font-display);letter-spacing:-.02em}
-.hero{padding:80px 5vw 0;text-align:center}
-.hero h1{font-size:clamp(40px,6.5vw,64px);font-weight:600;line-height:1.07}
-.hero .sub{margin:14px auto 0;max-width:580px;color:var(--ink-muted-48);font-size:21px;line-height:1.4}
-.hero .links{margin-top:var(--s-lg)}
-.hero .links a{font-size:17px;margin:0 12px}
-.tile{margin-top:var(--s-xxl);padding:64px 5vw;text-align:center}
-.tile.dark{background:var(--surface-black);color:var(--on-dark)}
-.tile.dark h3{color:var(--on-dark)}
-.tile.dark .tsub{color:var(--body-muted)}
-.tile.paper{background:var(--canvas-parchment)}
-.stage{margin:34px auto 0;max-width:720px;aspect-ratio:16/9;border-radius:var(--r-lg);box-shadow:var(--sh-product);position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1c1e,#2c2c2e 55%,#48484c);display:grid;place-items:center}
-.stage::after{content:"";position:absolute;inset:auto 18% 12% 18%;height:6px;border-radius:3px;background:rgba(255,255,255,.28)}
-.stage .orb{width:42%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,#8ea2ff 45%,#303a68 75%);}
-.tsub{color:var(--ink-muted-48);font-size:15px}
-section.blk{padding:72px 5vw}
-section.blk h2{font-size:clamp(28px,4vw,40px);font-weight:600;text-align:center}
-.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s-lg);margin-top:var(--s-xl)}
-.feat .f{background:var(--surface-pearl);border-radius:var(--r-lg);padding:var(--s-lg)}
-.feat .f b{font-family:var(--font-display);font-size:19px}
-.feat .f p{color:var(--ink-muted-48);font-size:14px;margin-top:8px;line-height:1.5}
-.glyph{width:44px;height:44px;border-radius:var(--r-md);background:var(--primary);margin-bottom:14px;display:grid;place-items:center;color:var(--on-primary);font-size:20px}
-.strip{background:var(--canvas-parchment);text-align:center;padding:26px 5vw;color:var(--ink-muted-48);font-size:13px}
-.quote{max-width:720px;margin:0 auto;text-align:center;padding:72px 5vw}
-.quote p{font-family:var(--font-display);font-size:clamp(22px,3vw,28px);line-height:1.35;letter-spacing:-.01em}
-.quote small{display:block;margin-top:16px;color:var(--ink-muted-48);font-size:13px}
-.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--s-lg);max-width:980px;margin:var(--s-xl) auto 0}
-.plan{border:1px solid var(--hairline);border-radius:var(--r-lg);padding:26px;background:var(--canvas)}
-.plan.best{background:var(--surface-black);color:var(--on-dark);border-color:transparent}
-.plan h3{font-size:19px}.plan b{font-family:var(--font-display);font-size:32px;display:block;margin:10px 0}
-.plan ul{list-style:none;font-size:13.5px;color:var(--ink-muted-48);margin-top:12px}.plan.best ul{color:var(--body-muted)}
-.plan li{padding:5px 0}
-.plan .btn{display:block;text-align:center;margin-top:16px;border-radius:var(--r-pill);padding:9px 0;font-size:14px;font-weight:500;cursor:pointer;border:none;background:var(--canvas-parchment);color:var(--primary)}
-.plan.best .btn{background:var(--primary);color:var(--on-primary)}
-details.faq{max-width:680px;margin:0 auto;border-bottom:1px solid var(--hairline);padding:14px 4px}
-details.faq summary{cursor:pointer;font-weight:500;font-size:16px;list-style:none}
-details.faq summary::before{content:"﹢ ";color:var(--primary)}
-details.faq[open] summary::before{content:"﹣ "}
-details.faq p{color:var(--ink-muted-48);font-size:14.5px;padding:10px 0 4px}
-footer{background:var(--canvas-parchment);padding:48px 5vw 24px;font-size:12px;color:var(--ink-muted-48)}
-footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--s-lg)}
-footer h4{font-size:12px;color:var(--ink);margin-bottom:10px}
-footer a{display:block;color:var(--ink-muted-48);padding:3px 0}footer a:hover{color:var(--ink);text-decoration:none}
-.subrow{display:flex;gap:8px;max-width:320px;margin-top:24px}
-.subrow input{flex:1;border:1px solid var(--hairline);border-radius:var(--r-pill);padding:8px 14px;font:inherit;font-size:13px;background:var(--canvas)}
-.subrow button{border:none;border-radius:var(--r-pill);padding:8px 16px;background:var(--primary);color:var(--on-primary);cursor:pointer;font-size:13px}
-.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
-.app .side{background:var(--canvas-parchment);border-right:1px solid var(--hairline);padding:20px 12px;font-size:13px}
-.app .side a{display:block;color:var(--ink);opacity:.8;padding:7px 10px;border-radius:var(--r-sm)}
-.app .side a.on{background:var(--primary);color:var(--on-primary);opacity:1}
-.app .body{padding:28px 34px;background:var(--canvas)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s-md)}
-.kpi{background:var(--canvas-parchment);border-radius:var(--r-lg);padding:18px}
-.kpi b{font-family:var(--font-display);font-size:26px;display:block;font-variant-numeric:tabular-nums}
-.kpi span{font-size:12px;color:var(--ink-muted-48)}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:22px;background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-md);overflow:hidden}
-th{background:var(--surface-pearl);color:var(--ink-muted-48);font-weight:500;text-align:left;padding:10px 14px;font-size:11px}
+h1,h2,h3{font-weight:600;letter-spacing:-.022em}
+.hero{padding:86px 22px 34px;text-align:center}
+.hero h1{font-size:clamp(40px,6.6vw,64px);line-height:1.05}
+.hero p{font-size:21px;color:var(--mute);margin-top:14px;font-weight:400}
+.hero .links{margin-top:22px;font-size:17px;display:flex;gap:26px;justify-content:center}
+.stage{max-width:820px;margin:46px auto 0;aspect-ratio:16/9.2;border-radius:var(--r-lg);background:linear-gradient(180deg,#101012,#1d1f24 52%,#2e3138);box-shadow:var(--sh-stage);display:grid;place-items:center;position:relative;overflow:hidden}
+.stage::after{content:"";position:absolute;inset:auto 16% 10% 16%;height:5px;border-radius:3px;background:rgba(255,255,255,.25)}
+.stage .inner{width:82%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}
+.stage .inner div{background:rgba(255,255,255,.09);border-radius:var(--r-sm);padding:12px 13px;color:#f5f5f7}
+.stage .inner small{font-size:9.5px;color:#a9abaf;display:block}
+.stage .inner b{font-size:17px;font-variant-numeric:tabular-nums}
+.band{background:var(--paper);padding:26px 0;text-align:center;display:grid;grid-template-columns:repeat(4,1fr)}
+.band b{font-size:26px;display:block;letter-spacing:-.02em}
+.band span{font-size:12px;color:var(--mute)}
+section.svc{padding:84px 22px 10px;text-align:center}
+section.svc h2{font-size:clamp(28px,4.5vw,44px)}
+section.svc p{color:var(--mute);font-size:17px;margin-top:10px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:34px;text-align:left}
+.tile{border-radius:var(--r-lg);padding:30px;position:relative;overflow:hidden}
+.tile .light{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.65}
+.tile h3{font-size:26px;margin-top:8px}
+.tile p{font-size:14.5px;margin-top:8px;opacity:.75;max-width:34ch}
+.tile .more{display:inline-block;margin-top:14px;font-size:14px}
+.tile.paper{background:var(--paper);color:var(--ink)}
+.tile.night{background:var(--night);color:#f5f5f7}
+.tile.night .more{color:var(--blue-dark)}
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:34px}
+.case{border-radius:var(--r-lg);overflow:hidden;background:var(--pearl);border:1px solid var(--hair-soft)}
+.case .ph{aspect-ratio:4/3}
+.case .bd{padding:16px 18px;text-align:left}
+.case b{font-size:17px}.case p{font-size:12.5px;color:var(--mute);margin-top:4px}
+.case .res{color:var(--blue);font-weight:600;font-size:13px;margin-top:8px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px;text-align:left}
+.steps div{background:var(--paper);border-radius:var(--r-md);padding:18px;font-size:13px}
+.steps b{display:block;font-size:15px;margin-bottom:5px}
+.steps em{font-style:normal;color:var(--blue);font-weight:700;font-size:12px}
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+.quote{background:var(--paper);border-radius:var(--r-lg);padding:24px;font-size:16px;line-height:1.5;text-align:left}
+.quote small{display:block;margin-top:12px;color:var(--mute);font-size:12px}
+.price{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+.pl{background:var(--paper);border-radius:var(--r-lg);padding:24px;text-align:left}
+.pl.best{background:var(--night);color:#f5f5f7}
+.pl small{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.6}
+.pl b{display:block;font-size:28px;letter-spacing:-.02em;margin:6px 0 2px}
+.pl ul{list-style:none;font-size:13px;opacity:.75;margin:12px 0 16px}.pl li{padding:3px 0}
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;background:var(--paper);color:var(--ink);border-radius:var(--pill);padding:10px 19px;font:inherit;font-size:14px;font-weight:500;cursor:pointer}
+.btn:hover{background:var(--hair-soft)}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-focus)}
+.btn-line{background:transparent;color:var(--blue);padding:10px 4px}.btn-line:hover{text-decoration:underline}
+.btn-s{padding:6px 13px;font-size:12.5px}
+.btn:disabled{opacity:.4;pointer-events:none}
+.faq{max-width:680px;margin:34px auto 0;text-align:left}
+details{background:var(--paper);border-radius:var(--r-md);margin-bottom:8px;padding:0 16px}
+summary{cursor:pointer;font-weight:600;font-size:14.5px;padding:13px 0;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"﹢";color:var(--mute)}details[open] summary::after{content:"﹣"}
+details>div{border-top:1px solid var(--hair);padding:11px 0 13px;font-size:13.5px;color:var(--mute)}
+footer.site{background:var(--paper);padding:34px 22px 16px;font-size:11.5px;color:var(--mute);margin-top:70px;text-align:center}
+footer.site .cols{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.app{background:var(--paper);min-height:calc(100vh - 52px);padding:24px 0 40px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:var(--canvas);border-radius:var(--r-lg);padding:16px 18px}
+.kpi small{font-size:11px;color:var(--mute)}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi em{font-style:normal;font-size:11.5px;color:var(--blue);font-weight:600}
+.spark{display:flex;gap:3px;align-items:flex-end;height:20px;margin-top:6px}
+.spark i{flex:1;border-radius:3px;background:rgba(0,102,204,.22)}.spark i:last-child{background:var(--blue)}
+.panel{background:var(--canvas);border-radius:var(--r-lg);overflow:hidden;margin-top:12px}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;border-bottom:1px solid var(--hair-soft)}
+.phead b{font-size:15px}
+.phead .sub{font-size:11px;color:var(--mute);font-weight:400}
+.pjwall{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:14px 18px}
+.pj{background:var(--paper);border-radius:var(--r-md);padding:13px}
+.pj b{font-size:13px;display:block}.pj small{font-size:10.5px;color:var(--mute)}
+.pj .bar{height:5px;background:var(--hair);border-radius:var(--pill);margin:9px 0 7px;overflow:hidden}
+.pj .bar i{display:block;height:100%;background:var(--blue);border-radius:var(--pill)}
+.badge{display:inline-flex;gap:5px;align-items:center;border-radius:var(--pill);padding:2px 9px;font-size:10.5px;font-weight:600}
+.b-ok{background:#e6f4ea;color:#0b7a38}.b-run{background:#e8f1fb;color:var(--blue)}
+.b-warn{background:#fdf3e0;color:#8a5a00}.b-err{background:#fbeaea;color:#b32505}
+.tbar{display:flex;gap:8px;padding:11px 18px;flex-wrap:wrap;align-items:center}
+.tbar input,.tbar select{border:1px solid var(--hair);background:var(--canvas);border-radius:var(--pill);padding:7px 13px;font:inherit;font-size:12.5px;color:var(--ink)}
+.tbar input:focus,.tbar select:focus{outline:2.5px solid rgba(0,113,227,.5);border-color:var(--blue-focus)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--canvas);color:var(--mute);font-weight:500;font-size:11px;text-align:left;padding:9px 16px;cursor:pointer}
 th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
-td{padding:11px 14px;border-top:1px solid var(--hairline-soft)}
-.pill{display:inline-flex;align-items:center;gap:6px;border-radius:var(--r-pill);padding:3px 10px;font-size:11px;font-weight:600}
-.p-ok{background:#e6f7ec;color:#1a7f37}.p-run{background:#e8f1ff;color:var(--primary)}.p-warn{background:#fff4e0;color:#9a5b00}.p-err{background:#feeceb;color:var(--ink)}
-.formbar{display:flex;gap:10px;margin-top:24px;align-items:center;flex-wrap:wrap}
-.formbar input,.formbar select{border:1px solid var(--hairline);border-radius:var(--r-pill);padding:9px 14px;font:inherit;font-size:13px;background:var(--canvas)}
-.formbar input:focus,.formbar select:focus{outline:2px solid var(--primary-focus);outline-offset:0;border-color:transparent}
-.auth{display:grid;place-items:center;min-height:100vh;background:var(--canvas-parchment)}
-.authcard{width:min(380px,90vw);background:var(--canvas);border-radius:var(--r-lg);padding:34px;box-shadow:var(--sh-product)}
-.authcard h2{font-size:24px;text-align:center}
-.tabs{display:flex;gap:4px;background:var(--canvas-parchment);border-radius:var(--r-pill);padding:4px;margin:20px 0}
-.tabs button{flex:1;border:none;background:none;border-radius:var(--r-pill);padding:8px;cursor:pointer;font:inherit;font-size:13px}
-.tabs button.on{background:var(--canvas);box-shadow:0 1px 4px rgba(0,0,0,.08);font-weight:600}
-.field{margin-bottom:12px}.field label{font-size:12px;color:var(--ink-muted-48);display:block;margin-bottom:5px}
-.field input{width:100%;border:1px solid var(--hairline);border-radius:var(--r-sm);padding:11px 13px;font:inherit;font-size:14px}
-.field input:focus{outline:2px solid var(--primary);border-color:transparent}
-.big{width:100%;border:none;background:var(--primary);color:var(--on-primary);border-radius:var(--r-pill);padding:12px;font-size:15px;cursor:pointer;margin-top:8px}
-.gen{background:var(--surface-black);color:var(--body-muted);text-align:center;padding:16px;font-size:11.5px}
-@media(max-width:860px){.app{grid-template-columns:1fr}.app .side{display:flex;overflow:auto;border-right:none}nav{gap:10px}}
-</style></head>
-<body>
-<nav>
-  <span class="logo">ProVision</span>
-  <a class="navlink" data-goto="home" href="#">商城</a>
-  <a class="navlink" data-goto="prod" href="#">ProVision One</a>
-  <a class="navlink" data-goto="home" href="#">支持</a>
-  <a class="navlink" data-goto="auth" href="#">账户</a>
-  <button class="navcta" data-goto="app">进入后台</button><span style="display:flex;gap:2px;border:1px solid rgba(128,128,128,.45);border-radius:9999px;padding:2px;margin-left:10px"><button data-goto="home" style="cursor:pointer;border:0;border-radius:9999px;background:rgba(128,128,128,.2);padding:5px 12px;font-size:12px;font-weight:700;color:inherit">前台</button><button data-goto="app" style="cursor:pointer;border:0;border-radius:9999px;background:transparent;padding:5px 12px;font-size:12px;font-weight:700;color:inherit">后台</button></span>
-</nav>
-
+td{height:44px;padding:0 16px;border-top:1px solid var(--hair-soft)}
+tbody tr:hover td{background:var(--pearl)}
+td .id{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--mute)}
+td select{border:1px solid var(--hair);background:var(--canvas);border-radius:var(--pill);font:inherit;font-size:11.5px;font-weight:600;color:var(--ink);padding:3px 8px;cursor:pointer}
+td select:focus{outline:2.5px solid rgba(0,113,227,.5)}
+.log{padding:13px 18px;display:grid;gap:7px;max-height:190px;overflow:auto}
+.log div{display:flex;gap:9px;align-items:center;font-size:12px;color:var(--mute)}
+.log time{font-family:ui-monospace,Menlo;font-size:10.5px}
+.cols2{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.statgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:12px}
+.chart{height:150px;display:flex;align-items:flex-end;gap:8px;padding:16px}
+.chart>div{flex:1;display:grid;align-content:end;justify-items:center;gap:5px;height:100%}
+.chart i{width:100%;border-radius:4px 4px 0 0;background:rgba(0,102,204,.3)}.chart i.hot{background:var(--blue)}
+.chart span{font-size:9.5px;color:var(--mute)}
+.donut{width:118px;height:118px;border-radius:50%;margin:14px auto 6px;position:relative;background:conic-gradient(var(--blue) 0 38%,#5e5ce6 38% 62%,#34c759 62% 82%,#ff9f0a 82% 100%)}
+.donut::after{content:"";position:absolute;inset:19px;border-radius:50%;background:var(--canvas)}
+.legend{padding:0 16px 14px;display:grid;gap:4px;font-size:11.5px;color:var(--mute);text-align:left}
+.legend b{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:6px}
+.funnel{padding:15px 16px;display:grid;gap:8px;text-align:left}
+.funnel i{height:19px;border-radius:5px;display:flex;align-items:center;padding:0 9px;color:#fff;font-style:normal;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}
+.notif{padding:12px 16px;display:grid;gap:8px;max-height:230px;overflow:auto}
+.notif div{background:var(--paper);border-radius:var(--r-md);padding:10px 12px;font-size:12.5px;display:flex;gap:8px}
+.notif time{font-family:ui-monospace,Menlo;font-size:10.5px;color:var(--mute);margin-left:auto;white-space:nowrap}
+.empty{text-align:center;color:var(--mute);font-size:12.5px;padding:30px 14px;line-height:1.7}
+.comp{display:flex;gap:9px;flex-wrap:wrap;align-items:center;padding:14px 18px}
+.sw{width:42px;height:25px;border-radius:var(--pill);background:var(--hair);position:relative;border:none;cursor:pointer}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.sw.on{background:#34c753}.sw.on::after{left:19px}
+.tip{position:relative}.tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:10.5px;padding:4px 9px;border-radius:var(--r-xs);white-space:nowrap}
+.skel{height:11px;border-radius:6px;background:var(--hair-soft)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;place-items:center;z-index:60;padding:20px}
+.modal.on{display:grid}
+.mbox{width:min(540px,100%);max-height:92vh;overflow:auto;background:var(--canvas);border-radius:var(--r-lg)}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid var(--hair-soft)}
+.mbody{padding:16px 20px;display:grid;gap:12px;text-align:left}
+.mfoot{display:flex;justify-content:flex-end;gap:9px;padding:14px 20px;border-top:1px solid var(--hair-soft)}
+.fg label{display:block;font-size:11.5px;font-weight:600;color:var(--mute);margin-bottom:4px}
+.fg input,.fg select,.fg textarea{width:100%;border:1px solid var(--hair);border-radius:var(--r-sm);padding:10px 12px;font:inherit;font-size:14px;background:var(--canvas);color:var(--ink)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:2.5px solid rgba(0,113,227,.5);border-color:var(--blue-focus)}
+.fg .bad{border-color:#b32505}
+.fg .msg{font-size:10.5px;color:#b32505;min-height:13px;margin-top:3px}
+.grow2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dz{border:1.5px dashed var(--hair);border-radius:var(--r-md);padding:18px;text-align:center;color:var(--mute);font-size:12.5px;background:var(--paper)}
+.icon-btn{width:28px;height:28px;border-radius:50%;border:none;background:var(--paper);color:var(--mute);cursor:pointer;font-size:13px}
+.auth{display:grid;place-items:center;min-height:calc(100vh - 52px);background:var(--paper);padding:30px}
+.acard{width:min(380px,100%);background:var(--canvas);border-radius:var(--r-lg);padding:30px;text-align:center}
+.tabs{display:flex;background:var(--paper);border-radius:var(--pill);padding:3px;margin:16px 0}
+.tabs button{flex:1;border:none;background:none;border-radius:var(--pill);font:inherit;font-size:13px;font-weight:600;color:var(--mute);padding:8px;cursor:pointer}
+.tabs button.on{background:var(--canvas);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:12.5px;border-radius:var(--pill);padding:9px 18px;z-index:80;display:none}
+.gen{text-align:center;font-size:11px;color:var(--mute);padding:14px}
+@media(max-width:860px){.tiles,.quotes,.statgrid,.cols2{grid-template-columns:1fr}.cases,.steps,.price,.kpis{grid-template-columns:repeat(2,1fr)}.band{grid-template-columns:repeat(2,1fr)}.pjwall{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<header><div class="nav">
+  <span class="wm">GhollStudio</span>
+  <nav><a href="#" data-goto="home">服务</a><a href="#" data-goto="home">案例</a><a href="#" data-goto="home">合作</a><a href="#" data-goto="auth">账户</a></nav>
+  <span class="seg" id="seg"><button data-goto="home" class="on">前台</button><button data-goto="app">后台</button></span>
+  <button class="btn btn-p btn-s" style="margin-left:14px" data-goto="app">进入后台</button>
+</div></header>
 <main>
-<!-- 官网首页 -->
 <div class="view on" id="v-home">
-  <header class="hero">
-    <h1>ProVision One</h1>
-    <h1 style="font-size:clamp(22px,3vw,34px);font-weight:400;color:var(--ink-muted-48)">轻，成了一种力量。</h1>
-    <p class="sub">现搭载全新 P1 芯片，续航整整一天。最 Pro 的 Pro，比以往更轻薄。</p>
-    <p class="links"><a href="#" data-goto="prod">了解更多 ›</a><a href="#" data-goto="app">购买 ›</a></p>
-    <div class="tile"><div class="stage"><span class="orb"></span></div>
-      <p class="tsub" style="margin-top:14px">仅 ¥9999 起 · 3.6 英寸至 12.9 英寸全系可选</p>
-    </div>
-  </header>
-
-  <div class="tile dark">
-    <h3 style="font-family:var(--font-display);font-size:30px;font-weight:600">ProVision Air</h3>
-    <p class="tsub" style="color:var(--body-muted)">超乎想象的轻，超乎想象地强。</p>
-    <div class="stage" style="background:linear-gradient(180deg,#101012,#202228 60%,#3a3d45);max-width:560px;aspect-ratio:16/10"><span class="orb" style="background:radial-gradient(circle at 30% 30%,#fff,#9fd8c8 50%,#2b4c46 80%)"></span></div>
-  </div>
-
-  <div class="strip">已有超过 200 家创意工作室与开发团队选择 ProVision 系统 · 财富 500 强采用率 92%</div>
-
-  <section class="blk" id="feat">
-    <h2>细节处，皆是革命</h2>
-    <div class="feat">
-      <div class="f"><span class="glyph">✦</span><b>P1 芯片</b><p>16 核神经引擎，实时抠像与 4K 视频直出，安静到不存在。</p></div>
-      <div class="f"><span class="glyph" style="background:var(--ink)">◐</span><b>Liquid 视网膜</b><p>120Hz 自适应刷新，原彩与 P3 广色域让每一稿颜色都可信。</p></div>
-      <div class="f"><span class="glyph" style="background:linear-gradient(135deg,#2997ff,#5e5bd6)">⌾</span><b>全天候续航</b><p>18 小时电影播放。一天充一次电的时代结束了。</p></div>
-      <div class="f"><span class="glyph" style="background:#1a7f37">❖</span><b>隐私内建</b><p>面容数据只留在设备里。隐私不是功能，是底线。</p></div>
+  <section class="hero">
+    <h1>把你的产品，<br>交给我们收尾。</h1>
+    <p>GhollStudio。设计系统、交付、AI 流水线与运维。<br>仅此而已，也足矣。</p>
+    <div class="links"><a href="#" data-goto="app">委托项目 ›</a><a href="#" data-goto="home">看看案例 ›</a></div>
+    <div class="stage"><div class="inner">
+      <div><small>本月交付</small><b>6</b></div><div><small>待审核</small><b>3</b></div><div><small>月营收</small><b>¥48万</b></div>
+    </div></div>
+  </section>
+  <div class="band"><div><b>128</b><span>已交付项目</span></div><div><b>6</b><span>在售服务</span></div><div><b>4.9</b><span>客户均分</span></div><div><b>12</b><span>覆盖城市</span></div></div>
+  <section class="svc"><h2>四条服务线。<br>每一种都足够专注。</h2><p>不卖人天。每条线都有独立的验收标准。</p>
+    <div class="tiles">
+      <div class="tile paper"><span class="light">设计系统</span><h3>Token 工程，像芯片一样精密。</h3><p>把品牌规范编译成变量体系，Figma 与代码仓库同一条命脉。</p><a class="more" href="#" data-goto="app">预约体检 ›</a></div>
+      <div class="tile night"><span class="light">Web · 小程序</span><h3>双周一版，像发布会一样。</h3><p>灰度、回滚与监控写进合同。交付物在浏览器里可演示。</p><a class="more" href="#" data-goto="app">查看排期 ›</a></div>
+      <div class="tile night"><span class="light">AI 流水线</span><h3>模型上岗，指标说话。</h3><p>检索增强、工作流编排、评测基线 —— 以你定义的指标验收。</p><a class="more" href="#" data-goto="app">评估可行性 ›</a></div>
+      <div class="tile paper"><span class="light">运维 · 审计</span><h3>安静地常在。</h3><p>SLA 99.9 起，季度安全审计与成本复盘，存在感降到最低。</p><a class="more" href="#" data-goto="app">获取白皮书 ›</a></div>
     </div>
   </section>
-
-  <div class="tile paper">
-    <h3 style="font-family:var(--font-display);font-size:26px;font-weight:600">为创作而生的一整套</h3>
-    <p class="tsub" style="margin-top:8px">ProVision One · ProVision Air · Studio Display · Magic Keyboard</p>
-    <div style="display:flex;gap:14px;justify-content:center;margin-top:26px;flex-wrap:wrap">
-      <div style="width:170px;aspect-ratio:4/3;border-radius:var(--r-md);background:linear-gradient(160deg,#e8e8ed,#d5d5db);box-shadow:var(--sh-product)"></div>
-      <div style="width:170px;aspect-ratio:4/3;border-radius:var(--r-md);background:linear-gradient(160deg,#2a2a2d,#4b4b53);box-shadow:var(--sh-product)"></div>
-      <div style="width:170px;aspect-ratio:4/3;border-radius:var(--r-md);background:linear-gradient(160deg,#f7f7f9,#c9c9d1);box-shadow:var(--sh-product)"></div>
+  <section class="svc"><h2>案例。事实，不是形容词。</h2>
+    <div class="cases">
+      <div class="case"><div class="ph" style="background:radial-gradient(circle at 26% 24%,#fff,#dfe9f5 40%,#8fb8e8 75%,#1b4a86)"></div><div class="bd"><b>ProVision 商城</b><p>硬件品牌全球商城重构，LCP 2.1s → 0.9s。</p><p class="res">转化率 +34%</p></div></div>
+      <div class="case"><div class="ph" style="background:radial-gradient(circle at 70% 30%,#f7f7f9,#c9cbd6 45%,#4a4f66 80%,#14161f)"></div><div class="bd"><b>Atlas 财务台</b><p>月结 6 天 → 8 小时，全操作可审计回放。</p><p class="res">月结人力 -75%</p></div></div>
+      <div class="case"><div class="ph" style="background:radial-gradient(circle at 40% 70%,#f2fbf4,#a4dfb8 45%,#2c7a4b 85%,#0c2a1a)"></div><div class="bd"><b>Slot 预约云</b><p>时区感知排程系统，开源版 4.2k star。</p><p class="res">爽约率 -41%</p></div></div>
     </div>
-  </div>
-
-  <div class="quote">
-    <p>「我们把整个后期流程搬上了 ProVision。<br>它在片场安静地消失，只留下作品。」</p>
-    <small>—— 陈导，《海雾》摄影指导</small>
-  </div>
-
-  <section class="blk">
-    <h2>选择你的 ProVision</h2>
+  </section>
+  <section class="svc"><h2>怎么合作</h2>
+    <div class="steps">
+      <div><em>01</em><b>需求体检</b>90 分钟工作坊，产出范围与风险清单。</div>
+      <div><em>02</em><b>方案与报价</b>固定价与里程碑，无隐藏人天。</div>
+      <div><em>03</em><b>双周迭代</b>每双周一个可演示版本。</div>
+      <div><em>04</em><b>验收与运维</b>验收标准写进合同，季度复盘。</div>
+    </div>
+    <div class="quotes">
+      <div class="quote">「工作室把设计规范变成代码资产。现在新产品线的设计成本几乎为零。」<small>陈总监 · ProVision 硬件</small></div>
+      <div class="quote">「唯一把『月结人力降四分之三』写进验收条款、再兑现的团队。」<small>CFO 周 · 云栖支付</small></div>
+    </div>
+  </section>
+  <section class="svc"><h2>合作模式</h2>
     <div class="price">
-      <div class="plan"><h3>ProVision Air</h3><b>¥5,999</b>
-        <ul><li>11 英寸 Liquid 视网膜</li><li>12 小时续航</li><li>256GB 存储</li></ul>
-        <a class="btn" href="#" data-goto="app">购买</a></div>
-      <div class="plan best"><h3>ProVision One</h3><b>¥9,999</b>
-        <ul><li>13 英寸 P3 广色域</li><li>P1 芯片 · 16 核神经引擎</li><li>全天候续航 · 雷雳 5</li></ul>
-        <a class="btn" href="#" data-goto="app">购买</a></div>
-      <div class="plan"><h3>ProVision Studio</h3><b>¥18,999</b>
-        <ul><li>16 英寸 mini-LED</li><li>P1 Ultra · 32GB 起步</li><li>桌面级色彩引擎</li></ul>
-        <a class="btn" href="#" data-goto="app">购买</a></div>
+      <div class="pl"><small>起步 · 单项目</small><b>¥12万起</b><ul><li>需求体检</li><li>8-12 周交付</li><li>90 天质保</li></ul><a class="more" style="color:var(--blue)" href="#" data-goto="app">咨询 ›</a></div>
+      <div class="pl best"><small>标准 · 最受欢迎</small><b>¥6万/月</b><ul><li>常驻小组 2-3 人</li><li>双周演示节奏</li><li>设计系统共建</li></ul><a class="more" style="color:var(--blue-dark)" href="#" data-goto="app">预约档期 ›</a></div>
+      <div class="pl"><small>驻场 · 深度</small><b>面议</b><ul><li>全流程嵌入</li><li>SLA 与审计承诺</li></ul><a class="more" style="color:var(--blue)" href="#" data-goto="home">联系 ›</a></div>
+    </div>
+    <div class="faq">
+      <details open><summary>如何报价？</summary><div>需求体检后固定报价 + 里程碑拆分；变更走书面变更单。</div></details>
+      <details><summary>资产归谁？</summary><div>验收即完整移交：仓库、设计源文件、Token 体系、部署脚本。</div></details>
+      <details><summary>只接设计系统咨询吗？</summary><div>可以，典型周期 4-6 周。</div></details>
+      <details><summary>出问题谁负责？</summary><div>每条线有验收标准与质保期；运维线 SLA 违约按月抵扣。</div></details>
     </div>
   </section>
-
-  <section class="blk" style="padding-top:20px">
-    <h2>常见问题</h2>
-    <details class="faq" open><summary>AppleCare 服务涵盖意外损坏吗？</summary><p>涵盖。ProVision One 每年提供两次意外损坏快速换新，电池健康低于 80% 免费更换。</p></details>
-    <details class="faq"><summary>可以在门店以旧换新吗？</summary><p>可以。任意机型与状态的旧设备均可评估折抵，门店现场完成数据迁移。</p></details>
-    <details class="faq"><summary>教育与企业管理有专属方案吗？</summary><p>提供教育商店与批量部署工具，管理员可通过设备管理平台静默分发 App。</p></details>
-    <details class="faq"><summary>发货需要多久？</summary><p>现货型号通常 1-2 个工作日送达；定制配置约 2-3 周。</p></details>
-  </section>
-
-  <footer>
-    <div class="cols">
-      <div><h4>商店</h4><a>购买 Mac</a><a>购买 iPad</a><a>配件</a><a>以旧换新</a></div>
-      <div><h4>服务</h4><a>AppleCare</a><a>iCloud+</a><a>Genius -bar 支持</a></div>
-      <div><h4>企业</h4><a>商务方案</a><a>教育</a><a>开发者</a></div>
-      <div><h4>关于</h4><a>环境责任</a><a>供应链</a><a>隐私</a></div>
-    </div>
-    <div class="subrow"><input placeholder="订阅新品与活动资讯"><button>订阅</button></div>
-    <p style="margin-top:22px">Copyright 2026 ProVision 样板间（演示用，非官方站点）</p>
-  </footer>
+  <footer class="site"><div class="cols"><a>服务</a><a>案例</a><a>工作原则</a><a>招聘</a><a>开放规范库</a><a>hi@ghollstudio.com</a></div>
+  <div style="display:flex;gap:8px;margin-top:18px;max-width:340px"><input placeholder="订阅工作室月报" style="flex:1;border:1px solid var(--line);border-radius:var(--pill);padding:8px 14px;font:inherit;font-size:12.5px;background:var(--canvas);color:var(--ink)"><button class="btn btn-p btn-s">订阅</button></div>
+  <p style="margin-top:16px">GhollStudio 软件工作室 · 由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</p></footer>
 </div>
 
-<!-- 产品深页 -->
-<div class="view" id="v-prod">
-  <section class="blk" style="max-width:1100px;margin:0 auto">
-    <p class="tsub"><a href="#" data-goto="home">‹ ProVision</a> / ProVision One</p>
-    <h2 style="text-align:left;font-size:clamp(30px,4.5vw,44px);margin-top:8px">为专业工作流<br>重新定义「性能」一词</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:36px;align-items:center">
-      <div>
-        <p style="font-size:16px;color:var(--ink);line-height:1.6">P1 芯片把渲染、转录、抠像这些原本属于工作站的任务交给一块 12 平方毫米的硅片。在下面的导出实测中，ProVision One 与上一代台式工作站用时几乎相同——而它只重 1.24 千克。</p>
-        <p class="links" style="margin-top:18px"><a href="#" data-goto="app">技术规格 ›</a></p>
-      </div>
-      <div class="stage" style="margin:0;background:linear-gradient(165deg,#0a1a2e,#123a5e 55%,#1e5f8f)">
-        <div style="width:78%;display:grid;gap:12px">
-          <div style="background:rgba(255,255,255,.14);border-radius:8px;height:34px;width:100%"></div>
-          <div style="background:rgba(41,151,255,.55);border-radius:8px;height:34px;width:72%"></div>
-          <div style="background:rgba(255,255,255,.10);border-radius:8px;height:34px;width:85%"></div>
-          <div style="color:#fff;font-size:12px;font-family:var(--font-text)">8K 时间线 · 实时播放不降帧</div>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:48px;border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden">
-      <table style="margin:0;border:none">
-        <thead><tr><th>导出任务</th><th>上一代工作站</th><th class="num">ProVision One</th></tr></thead>
-        <tbody>
-          <tr><td>10 分钟 4K ProRes</td><td>04:12</td><td class="num"><b>04:05</b></td></tr>
-          <tr><td>RAW 照片批量 ×1,000</td><td>01:38</td><td class="num"><b>01:41</b></td></tr>
-          <tr><td>神经风格迁移 ×200</td><td>08:02</td><td class="num"><b>05:56</b></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="tsub" style="text-align:center;margin-top:22px">数据来自 2026 年 10 月实验室环境实测，结果因配置而异。</p>
-  </section>
-  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</div>
-</div>
-
-<!-- 应用后台 -->
-<div class="view" id="v-app">
-  <div class="app">
-    <div class="side">
-      <a class="on" href="#">概览</a><a href="#">订单</a><a href="#">库存</a><a href="#">服务计划</a><a href="#">门店</a>
-    </div>
-    <div class="body">
-      <h2 style="font-family:var(--font-display);font-size:26px">概览</h2>
-      <p class="tsub" style="margin:4px 0 22px">本周 · 2026-11-06</p>
-      <div class="kpis">
-        <div class="kpi"><span>营收</span><b>¥2,841,900</b><span class="p-ok" style="margin-top:8px">↑ 8.4%</span></div>
-        <div class="kpi"><span>订单</span><b>1,426</b><span class="p-run" style="margin-top:8px">处理中 122</span></div>
-        <div class="kpi"><span>AppleCare 激活</span><b>94.2%</b><span class="p-ok" style="margin-top:8px">↑ 1.1%</span></div>
-      </div>
-      <div class="formbar">
-        <input placeholder="搜索订单号 / 客户…" style="flex:1;max-width:260px">
-        <select><option>全部渠道</option><option>门店</option><option>在线商店</option><option>教育渠道</option></select>
-        <span class="pill p-warn" style="margin-left:auto"><span id="sw" onclick="this.className='pill p-ok';this.textContent='库存预警 已开启'" style="cursor:pointer">库存预警 点击关闭</span></span>
-      </div>
-      <table>
-        <thead><tr><th id="thsort" style="cursor:pointer">金额 ⇅</th><th>订单</th><th>配置</th><th>渠道</th><th>状态</th></tr></thead>
-        <tbody id="tb"></tbody>
-      </table>
-      <div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <button class="big" style="width:auto;padding:10px 22px;margin:0">主要操作</button>
-        <button class="big" style="width:auto;padding:10px 22px;margin:0;background:var(--canvas-parchment);color:var(--primary)">次要</button>
-        <button class="big" style="width:auto;padding:10px 22px;margin:0;background:transparent;border:1px solid var(--hairline);color:var(--ink-muted-48)" disabled>禁用</button>
-        <span class="pill p-err">已退款</span><span class="pill p-ok">已交付</span>
-      </div>
-      <div style="margin-top:30px;border:1px dashed var(--hairline);border-radius:var(--r-lg);padding:44px;text-align:center;color:var(--ink-muted-48);font-size:13px">
-        暂无服务工单 —— 空状态遵循「chrome 退后」原则：仅一条虚线框与一句说明。
-      </div>
-    </div>
+<div class="view" id="v-app"><div class="wrap">
+  <h2 style="font-size:21px;letter-spacing:-.02em;text-align:left">后台 · Studio 控制台</h2>
+  <div class="kpis">
+    <div class="kpi"><small>本月交付</small><b id="kpi-deliver">6</b><em>↑ 20% 环比</em><div class="spark"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:64%"></i><i style="height:88%"></i></div></div>
+    <div class="kpi"><small>进行中项目</small><b id="kpi-active">7</b><em>↑ 2</em><div class="spark"><i style="height:52%"></i><i style="height:48%"></i><i style="height:60%"></i><i style="height:58%"></i><i style="height:72%"></i><i style="height:80%"></i></div></div>
+    <div class="kpi"><small>待审核队列</small><b id="kpi-review">3</b><em>需今日清空</em></div>
+    <div class="kpi"><small>月营收</small><b>¥482,000</b><em>↑ 8.4%</em></div>
   </div>
-  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</div>
-</div>
-
-<!-- 认证 -->
-<div class="view" id="v-auth">
-  <div class="auth">
-    <div class="authcard">
-      <h2>Apple 账户</h2>
-      <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">创建账户</button></div>
-      <div class="field"><label>Apple 账户</label><input value="hi@gholl.com" style="background:var(--canvas-parchment)"></div>
-      <div class="field"><label>密码</label><input type="password" value="design-systems"></div>
-      <div class="field" id="reg" style="display:none"><label>确认密码</label><input type="password" placeholder="再输入一次"></div>
-      <button class="big">登录</button>
-      <p style="text-align:center;font-size:12px;color:var(--ink-muted-48);margin-top:16px">受设备端面容验证保护 · <a href="#">忘记密码？</a></p>
-    </div>
+  <div class="cols2">
+    <div class="panel"><div class="phead"><b>项目卡片墙</b><span style="display:flex;gap:7px"><button class="btn btn-s" data-open-modal>+ 新建项目</button><button class="btn btn-line btn-s" id="clear-pj">清空</button></span></div><div class="pjwall" id="pjwall"></div></div>
+    <div class="panel"><div class="phead"><b>通知中心</b><span style="display:flex;gap:6px"><button class="btn btn-s" id="nt-add">新增</button><button class="btn btn-line btn-s" id="nt-clear">清空</button></span></div><div class="notif" id="notif"></div></div>
   </div>
-  <div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成</div>
-</div>
+  <div class="panel">
+    <div class="phead"><b>工单与复核</b><span class="sub">行内下拉改审核状态 → 自动记入复核记录</span></div>
+    <div class="tbar"><input id="q" placeholder="筛选工单 / 项目 / 客户…" style="max-width:230px"><select id="fs"><option value="">全部状态</option><option>待审核</option><option>复核通过</option><option>驳回重做</option><option>已上架</option></select><span style="margin-left:auto;font-size:11px;color:var(--mute)" id="cnt"></span></div>
+    <table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table>
+  </div>
+  <div class="panel"><div class="phead"><b>复核记录</b><span class="sub">状态驱动流水</span></div><div class="log" id="log"></div></div>
+  <div class="statgrid">
+    <div class="panel" style="margin-top:0"><div class="phead"><b>月度交付（个）</b><select id="range" style="border:1px solid var(--hair);border-radius:var(--pill);padding:3px 10px;font:inherit;font-size:11.5px"><option value="12">近 12 月</option><option value="6">近 6 月</option></select></div><div class="chart" id="bars"></div></div>
+    <div class="panel" style="margin-top:0"><div class="phead"><b>服务类型占比</b></div><div class="donut"></div><div class="legend"><span><b style="background:var(--blue)"></b>Web 交付 38%</span><span><b style="background:#5e5ce6"></b>设计系统 24%</span><span><b style="background:#34c759"></b>AI 流水线 20%</span><span><b style="background:#ff9f0a"></b>运维审计 18%</span></div></div>
+    <div class="panel" style="margin-top:0"><div class="phead"><b>线索 → 签约</b></div><div class="funnel" id="funnel"></div></div>
+  </div>
+  <div class="panel"><div class="phead"><b>组件带</b><span class="sub">面包屑：后台 / 组件带</span></div><div class="comp">
+    <button class="btn btn-p btn-s">主要</button><button class="btn btn-s">次操作</button><button class="btn btn-s" style="background:#34c759;color:#fff">成功动作</button><button class="btn btn-s" style="background:#ff3b30;color:#fff">危险</button><button class="btn btn-line btn-s">幽灵</button><button class="btn btn-s" disabled>禁用</button>
+    <span class="badge b-ok">已上架</span><span class="badge b-run">复核通过</span><span class="badge b-warn">待审核</span><span class="badge b-err">驳回重做</span>
+    <button class="sw on" onclick="this.classList.toggle('on')"></button>
+    <button class="btn btn-s tip" data-tip="唯一阴影留给产品图（规范原文）">Tooltip</button>
+    <span style="display:grid;gap:6px;width:120px"><span class="skel" style="width:90%"></span><span class="skel"></span><span class="skel" style="width:60%"></span></span>
+  </div></div>
+</div></div>
+
+<div class="view" id="v-auth"><div class="auth"><div class="acard">
+  <h3 style="font-size:21px">GhollStudio 账户</h3>
+  <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">注册工作室</button></div>
+  <div class="fg" style="margin-bottom:10px"><input value="hi@gholl.com"></div>
+  <div class="fg" style="margin-bottom:10px"><input type="password" value="design"></div>
+  <div class="fg" id="regf" style="display:none;margin-bottom:10px"><input placeholder="工作室名称"></div>
+  <button class="btn btn-p" style="width:100%" data-goto="app">进入后台</button>
+  <p style="font-size:11.5px;color:var(--mute);margin-top:14px">面容与指纹 · 设备端验证</p>
+</div></div></div>
 </main>
-<div class="gen" id="homefoot">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成 · 全站唯一阴影仅用于产品舞台（规范原文）</div>
-
+<div class="modal" id="modal"><div class="mbox">
+  <div class="mhdr"><b style="font-size:15px">新建项目</b><button class="icon-btn" data-close>✕</button></div>
+  <div class="mbody">
+    <div class="fg"><label>项目名称 *</label><input id="m-name" placeholder="例：结算中心重构"><div class="msg" id="m-name-msg"></div></div>
+    <div class="grow2">
+      <div class="fg"><label>类型</label><select id="m-type"><option>Web 交付</option><option>设计系统</option><option>AI 流水线</option><option>运维审计</option></select></div>
+      <div class="fg"><label>负责人</label><select id="m-owner"><option>林晚舟</option><option>周墨白</option><option>苏见月</option><option>陈屿</option></select></div>
+    </div>
+    <div class="grow2">
+      <div class="fg"><label>开始日期</label><input type="date" value="2026-11-10"></div>
+      <div class="fg"><label>预计工期：<b id="m-weeks">8</b> 周</label><input type="range" min="2" max="24" value="8" id="m-range" style="accent-color:var(--blue)"></div>
+    </div>
+    <div class="fg"><label>标签</label><input id="m-tags" placeholder="逗号分隔"></div>
+    <div class="fg"><label>项目简介（<span id="m-count">0</span>/200）</label><textarea id="m-desc" rows="3" maxlength="200"></textarea></div>
+    <div class="dz">⇪ 拖拽需求文档，或点击选择（≤20MB）</div>
+  </div>
+  <div class="mfoot"><button class="btn" data-close>取消</button><button class="btn btn-p" id="m-save">保存并开始排期</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Apple-design-analysis」生成 · GhollStudio 产品内核 v1</div>
 <script>
-const views={home:'v-home',prod:'v-prod',app:'v-app',auth:'v-auth'};
-document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();const k=el.dataset.goto;
-  Object.values(views).forEach(v=>document.getElementById(v).classList.toggle('on',v===views[k]))
-  window.scrollTo(0,0)}));
-const ODS=[[8999,'DH-1120','ProVision One 13" · 1TB · 雷雳 5','在线商店','p-ok','已交付'],[12998,'DH-1121','ProVision Studio 16" 定制','门店','p-run','处理中'],[5999,'DH-1122','ProVision Air 11" 星夜蓝','教育渠道','p-warn','待支付'],[21997,'DH-1123','ProVision One ×2 商务采购','门店','p-ok','已交付'],[6798,'DH-1124','ProVision Air + Magic 键盘','在线商店','p-err','已退款'],[3999,'DH-1125','Studio Display 标准玻璃','在线商店','p-run','处理中'],[16999,'DH-1126','ProVision Studio M 支架套装','企业直销','p-ok','已交付'],[10998,'DH-1127','ProVision One 换购升级','门店','p-warn','待支付']];
-let asc=false;const tb=document.getElementById('tb');
-function draw(){const rows=[...ODS].sort((a,b)=>asc?a[0]-b[0]:b[0]-a[0]);
-  tb.innerHTML=rows.map(o=>`<tr><td class="num" style="font-weight:600">¥${o[0].toLocaleString()}</td><td>#${o[1]}</td><td>${o[2]}</td><td style="color:var(--ink-muted-48)">${o[3]}</td><td><span class="pill ${o[4]}">${o[5]}</span></td></tr>`).join('')}
-document.getElementById('thsort').onclick=()=>{asc=!asc;draw()};draw();
-document.getElementById('ti').onclick=()=>{document.getElementById('ti').className='on';document.getElementById('tu').className='';document.getElementById('reg').style.display='none'};
-document.getElementById('tu').onclick=()=>{document.getElementById('tu').className='on';document.getElementById('ti').className='';document.getElementById('reg').style.display='block'};
-</script>
-</body>
-</html>
+const views={home:'v-home',app:'v-app',auth:'v-auth'};
+function goto(k){document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',k!=='auth'&&b.dataset.goto===k));Object.values(views).forEach(v=>document.getElementById(v).classList.toggle('on',v==='v-'+k));scrollTo(0,0)}
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();goto(el.dataset.goto)}));
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+let PJ=[['Atlas 对账模块','设计系统','周墨白',86,'b-run','进行中'],['Slot 排期引擎','Web 交付','林晚舟',62,'b-run','进行中'],['ProVision 小程序','AI 流水线','苏见月',24,'b-warn','待启动'],['Nimbus 数据看板','Web 交付','陈屿',48,'b-run','进行中'],['海雾品牌官网','设计系统','林晚舟',92,'b-ok','复核通过'],['灯塔运维接入','运维审计','周墨白',15,'b-warn','待启动']];
+let WO=[['GS-118','Atlas 对账','云栖支付','UAT','待审核',128000,'11-05 09:42'],['GS-117','ProVision 商城','ProVision','已上架','已上架',246000,'11-05 08:31'],['GS-116','Nimbus 看板','沧海数据','联调','待审核',86000,'11-04 22:10'],['GS-115','Slot 排期','青柠出行','开发','复核通过',52000,'11-04 18:02'],['GS-114','品牌官网改版','海雾传媒','设计','驳回重做',36000,'11-04 15:47'],['GS-113','灯塔运维','Lumen','接入','已上架',98000,'11-03 20:15'],['GS-112','Token 工程咨询','几何建筑','顾问','待审核',44000,'11-03 11:20'],['GS-111','支付灰度','云栖支付','发布','复核通过',156000,'11-02 17:35']];
+let LOG=[['09:42','复核通过','GS-116 · 苏见月'],['昨天','已上架','GS-117 · 周墨白'],['昨天','驳回重做','GS-114 · 林晚舟']];
+let NT=[['11-05 09:42','Atlas 对账进入 UAT，等待复核'],['11-05 08:31','ProVision 商城二期已上架'],['11-04 22:10','新工单 GS-116 已分派']];
+const STS=['待审核','复核通过','驳回重做','已上架'];
+const BADGE={'待审核':'b-warn','复核通过':'b-run','驳回重做':'b-err','已上架':'b-ok'};
+function drawPJ(){const w=document.getElementById('pjwall');
+  w.innerHTML=PJ.length?PJ.map(p=>`<div class="pj"><b>${p[0]}</b><small>${p[1]} · ${p[2]}</small><div class="bar"><i style="width:${p[3]}%"></i></div><span class="badge ${p[4]}">${p[5]} ${p[3]}%</span></div>`).join('')+`<div class="pj" style="border:1.5px dashed var(--hair);background:transparent;display:grid;place-items:center;color:var(--mute);font-size:12px;cursor:pointer" data-open-modal>＋ 新项目</div>`:`<div class="empty" style="grid-column:1/-1">卡片墙已清空 —— 点「+ 新建项目」重新开张。</div>`;
+  w.querySelectorAll('[data-open-modal]').forEach(el=>el.onclick=openModal)}
+let asc=false;
+function drawWO(){const q=document.getElementById('q').value,s=document.getElementById('fs').value;
+  let list=WO.filter(w=>(!s||w[4]===s)&&(!q||(w[0]+w[1]+w[2]).toLowerCase().includes(q.toLowerCase())));
+  list.sort((a,b)=>asc?b[5]-a[5]:a[5]-b[5]);
+  document.getElementById('tb').innerHTML=list.map(w=>`<tr><td class="id">${w[0]}</td><td style="font-weight:600">${w[1]}</td><td style="color:var(--mute)">${w[2]}</td><td>${w[3]}</td><td><select data-id="${w[0]}">${STS.map(x=>`<option ${x===w[4]?'selected':''}>${x}</option>`).join('')}</select></td><td class="num" style="font-weight:600">¥${w[5].toLocaleString()}</td><td class="num" style="color:var(--mute);font-size:11px">${w[6]}</td></tr>`).join('');
+  document.getElementById('tb').querySelectorAll('select').forEach(sel=>sel.onchange=()=>{
+    const w=WO.find(x=>x[0]===sel.dataset.id);w[4]=sel.value;
+    LOG.unshift([new Date().toTimeString().slice(0,5),sel.value,w[0]+' · '+w[1]]);
+    document.getElementById('kpi-review').textContent=WO.filter(x=>x[4]==='待审核').length;
+    drawLog();drawWO();toast(`${w[0]} → ${sel.value}`)
+  });
+  document.getElementById('cnt').textContent=`${list.length} / ${WO.length} 单`}
+function drawLog(){document.getElementById('log').innerHTML=LOG.map(l=>`<div><time>${l[0]}</time><span class="badge ${BADGE[l[1]]||'b-run'}">${l[1]}</span><span>${l[2]}</span></div>`).join('')}
+function drawNT(){document.getElementById('notif').innerHTML=NT.length?NT.map(n=>`<div><span style="flex:1">${n[1]}</span><time>${n[0]}</time></div>`).join(''):`<div class="empty">通知中心是空的。<br>好消息不会迟到 —— 点「新增」试一条。</div>`}
+document.getElementById('nt-add').onclick=()=>{NT.unshift([new Date().toTimeString().slice(0,5),'工单 GS-119 复核通过，可安排发布']);drawNT()};
+document.getElementById('nt-clear').onclick=()=>{NT=[];drawNT()};
+document.getElementById('clear-pj').onclick=()=>{PJ=[];drawPJ();document.getElementById('kpi-active').textContent=0};
+document.getElementById('srt').onclick=()=>{asc=!asc;drawWO()};
+document.getElementById('q').oninput=drawWO;document.getElementById('fs').onchange=drawWO;
+const modal=document.getElementById('modal');
+function openModal(){modal.classList.add('on');document.getElementById('m-name').focus()}
+document.querySelectorAll('[data-open-modal]').forEach(el=>el.onclick=openModal);
+modal.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>modal.classList.remove('on'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('on')});
+document.getElementById('m-range').oninput=e=>document.getElementById('m-weeks').textContent=e.target.value;
+const desc=document.getElementById('m-desc'),cntEl=document.getElementById('m-count');desc.oninput=()=>cntEl.textContent=desc.value.length;
+document.getElementById('m-save').onclick=()=>{
+  const name=document.getElementById('m-name'),msg=document.getElementById('m-name-msg');
+  if(!name.value.trim()){name.classList.add('bad');msg.textContent='项目名称必填';name.focus();return}
+  name.classList.remove('bad');msg.textContent='';
+  PJ.unshift([name.value,document.getElementById('m-type').value,document.getElementById('m-owner').value,0,'b-warn','待启动']);
+  WO.unshift(['GS-'+(119+WO.length%40),name.value,'新客户','启动','待审核',Math.ceil(Math.random()*200)*1000,'刚刚']);
+  drawPJ();drawWO();document.getElementById('kpi-active').textContent=PJ.length;modal.classList.remove('on');name.value='';desc.value='';cntEl.textContent='0';
+  toast('项目已创建 · 工单进入待审核队列')};
+const BAR12=[3,4,2,5,6,4,7,6,8,7,9,6];let range=12;
+function drawBars(){const d=BAR12.slice(12-range),max=Math.max(...d);
+  document.getElementById('bars').innerHTML=d.map((v,i)=>`<div><i class="${i===d.length-1?'hot':''}" style="height:${v/max*100}%"></i><span>${11-range+i+2}月</span></div>`).join('')}
+document.getElementById('range').onchange=e=>{range=+e.target.value;drawBars()};
+const F=[['线索',100],['体检会',54],['方案报价',32],['签约',18],['续聘',11]];
+document.getElementById('funnel').innerHTML=F.map((f,i)=>`<div style="display:flex;gap:8px;align-items:center;font-size:11px;color:var(--mute)"><span style="width:46px">${f[0]}</span><div style="flex:1"><i style="width:${f[1]}%;background:rgba(0,102,204,${1-i*.16})">${f[1]}%</i></div></div>`).join('');
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className='';regf.style.display='none'};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className='';regf.style.display='block'};
+drawPJ();drawWO();drawLog();drawNT();drawBars();
+</script></body></html>

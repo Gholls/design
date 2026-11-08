@@ -66,7 +66,7 @@ export default function GalleryPage() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <a href="#/prompt" className={buttonClass('secondary', 'sm', 'stroke-control font-mono')}>
+            <a href="/prompt" className={buttonClass('secondary', 'sm', 'stroke-control font-mono')}>
               GOLDEN PROMPT
             </a>
             <input
@@ -89,7 +89,7 @@ export default function GalleryPage() {
             awesome-design-md
           </a>
           {' '}的 74 个真实品牌设计系统分析；样板间由 code agent 依
-          <a href="#/prompt" className="mx-1 text-primary underline decoration-line">黄金提示词</a>
+          <a href="/prompt" className="mx-1 text-primary underline decoration-line">黄金提示词</a>
           逐规范生成静态站点。已生成 {generatedCount} / {designs.length}。
         </p>
       </header>
@@ -134,7 +134,7 @@ export default function GalleryPage() {
               key={design.slug}
               design={design}
               onViewSource={setSource}
-              onPreview={(d) => navigate(`/preview?theme=${d.slug}`)}
+              onPreview={(d) => navigate(`/design/${d.slug}`)}
             />
           ))}
         </div>
@@ -167,7 +167,7 @@ export default function GalleryPage() {
               VoltAgent/awesome-design-md
             </a>
             {' · '}生成: code agent +{' '}
-            <a href="#/prompt" className="underline decoration-line hover:text-ink">GOLDEN PROMPT</a>
+            <a href="/prompt" className="underline decoration-line hover:text-ink">GOLDEN PROMPT</a>
           </span>
           <span>npm run design:lint · npm run generate · MIT</span>
         </div>

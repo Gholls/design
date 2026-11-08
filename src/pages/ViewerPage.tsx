@@ -23,12 +23,12 @@ export default function ViewerPage({ theme }: { theme?: string }) {
     <div className="flex h-screen flex-col overflow-hidden">
       {/* 预览器工具栏 */}
       <header className="flex h-13 shrink-0 flex-wrap items-center gap-2 border-b border-line bg-surface px-3 py-2">
-        <a href="#/" className={buttonClass('ghost', 'sm')}>← 画廊</a>
+        <a href="/" className={buttonClass('ghost', 'sm')}>← 画廊</a>
         <span className="hidden h-5 w-px bg-line sm:block" />
         <select
           aria-label="切换设计规范"
           value={design.slug}
-          onChange={(e) => navigate(`/preview?theme=${e.target.value}`)}
+          onChange={(e) => navigate(`/design/${e.target.value}`)}
           className="h-8 cursor-pointer rounded-control border border-line bg-surface-alt px-2 text-xs font-medium outline-none focus:border-primary"
         >
           {designs.map((d) => (
@@ -84,7 +84,7 @@ export default function ViewerPage({ theme }: { theme?: string }) {
                 <h2 className="mt-3 font-display text-lg font-bold">「{design.design.name}」尚无生成产物</h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted">
                   本项目不提供样板间代码——它由任意 code agent 依{' '}
-                  <a href="#/prompt" className="text-primary underline decoration-line">黄金提示词</a>
+                  <a href="/prompt" className="text-primary underline decoration-line">黄金提示词</a>
                   {' '}加本规范生成。复制下面的任务交给 agent，产出物放入{' '}
                   <code className="rounded bg-surface px-1 py-0.5 font-mono text-xs">public/generated/{design.slug}/index.html</code>
                   ，即可在此路由到静态站点。
@@ -104,7 +104,7 @@ export default function ViewerPage({ theme }: { theme?: string }) {
         <aside style={styleFromVars(design.design.vars)} className="hidden w-72 shrink-0 overflow-y-auto border-l border-line bg-surface p-3.5 xl:block">
           <div className="flex items-baseline justify-between gap-2">
             <h2 className="font-display text-sm font-bold">{design.design.name}</h2>
-            <a href="#/prompt" className="text-[11px] text-primary hover:underline">提示词 ↗</a>
+            <a href="/prompt" className="text-[11px] text-primary hover:underline">提示词 ↗</a>
           </div>
           <p className="mt-1 text-[11px] leading-4 text-muted">{design.design.summary}</p>
           <div className="mt-4">

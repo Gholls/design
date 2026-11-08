@@ -18,7 +18,7 @@ export default function PromptPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="flex items-center justify-between gap-3">
-        <a href="#/" className={buttonClass('ghost', 'sm')}>← 画廊</a>
+        <a href="/" className={buttonClass('ghost', 'sm')}>← 画廊</a>
         <button onClick={copy} className={buttonClass(copied ? 'primary' : 'secondary', 'sm', 'stroke-control')}>
           {copied ? '✓ 已复制' : '复制提示词全文'}
         </button>

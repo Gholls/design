@@ -17,7 +17,8 @@
     "index": "tsx scripts/build-index.mjs",
     "predev": "npm run index",
     "prebuild": "npm run index",
-    "deploy": "npm run build && npx wrangler pages deploy dist --project-name design-gholl-com"
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name design-gholl-com",
+    "postbuild": "node scripts/prerender-meta.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

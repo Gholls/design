@@ -1,0 +1,147 @@
+# Design.md Gallery
+
+> 同一份黄金提示词 × 79 套真实品牌 DESIGN.md 规范 = 79 种截然不同的产品页面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。
+
+关键事实：
+- 数据格式：Google Labs design.md（YAML frontmatter + 散文指令），全库经官方 CLI lint，0 error
+- 数据来源：VoltAgent/awesome-design-md（MIT，真实品牌）+ 内置实验规范
+- 每个规范对应一个自包含静态样板间：GhollStudio 软件工作室的前台官网 + 后台控制台（表单/弹窗/统计/审核下拉/卡片全部可交互）
+- 技术栈：Vite + React + Tailwind v4，Cloudflare Pages 纯静态；规范原文以 Markdown 直接可读
+
+## 核心入口
+
+- [画廊首页](https://design.gholl.com/)：全部规范卡片与预览入口
+- [GOLDEN PROMPT 黄金提示词](https://design.gholl.com/prompt)：驱动所有样板间的同一份提示词全文
+- [规范索引 JSON](https://design.gholl.com/design-index.json)：机器可读的归一化 Token 索引
+- [站点地图](https://design.gholl.com/sitemap.xml)
+
+## 设计规范原文（Markdown，AI 可直接读取）
+
+- [Enterprise Admin](https://design.gholl.com/designs/enterprise.md)：面向 B 端 SaaS 管理后台的标准规范：克制的云蓝主色、清晰的层级阴影与适中的圆角，信息密度优先。
+- [Apple Minimal](https://design.gholl.com/designs/apple-minimal.md)：苹果式极简：浅灰底、系统字体、大圆角与极柔和的环境阴影，留白即层级。
+- [Cyberpunk](https://design.gholl.com/designs/cyberpunk.md)：暗夜霓虹：近黑底、青/品红高对比强调、直角切边与发光描边，等宽字体主导的终端气质。
+- [Candy Glass](https://design.gholl.com/designs/candy-glass.md)：糖果玻璃：暖桃底色、玫红主调、超大圆角与有色阴影，活泼但不失层次的生长型产品语言。
+- [Brutal Neo](https://design.gholl.com/designs/brutal-neo.md)：新粗野主义：米纸底、2px 纯黑描边、硬投影零模糊、警示黄主色，一切边界都掷地有声。
+- [1win Analysis](https://design.gholl.com/designs/1win.md)：An analysis of 1win's design language — a near-black crypto casino and sportsbook built on Inter at heavy weig
+- [Airbnb-design-analysis](https://design.gholl.com/designs/airbnb.md)：A warm, generous consumer marketplace anchored on a clean white canvas and Airbnb Rausch (#ff385c), the single
+- [Airtable-design-analysis](https://design.gholl.com/designs/airtable.md)：A sober, editorial workflow-software interface anchored on white canvas and dark-ink type, where brand voltage
+- [Al Jazeera Analysis](https://design.gholl.com/designs/aljazeera.md)：An analysis of Al Jazeera's design language — a hard-news editorial system built on flat white paper and dense
+- [Apple-design-analysis](https://design.gholl.com/designs/apple.md)：A photography-first interface that turns marketing into a museum gallery. Edge-to-edge product tiles alternate
+- [Binance-design-analysis](https://design.gholl.com/designs/binance.md)：A confident financial-platform interface anchored on a deep near-black canvas, where Binance's iconic yellow (
+- [BMW-M-design-analysis](https://design.gholl.com/designs/bmw-m.md)：A motorsport-engineering interface anchored on a near-black canvas with white BMW Type Next Latin display head
+- [BMW-design-analysis](https://design.gholl.com/designs/bmw.md)：BMW's corporate site — distinct from BMW M's motorsport-bombastic variant, this is a measured and settled corp
+- [Bugatti-design-analysis](https://design.gholl.com/designs/bugatti.md)：An austere luxury-automotive interface that uses near-pure black canvas, white uppercase letterspaced display,
+- [Cal.com-design-analysis](https://design.gholl.com/designs/cal.md)：A clean, calendar-software-first interface anchored on white canvas with black primary CTAs and custom Cal San
+- [Claude-design-analysis](https://design.gholl.com/designs/claude.md)：A warm-canvas editorial interface for Anthropic's Claude product. The system anchors on a tinted cream canvas 
+- [Clay-design-analysis](https://design.gholl.com/designs/clay.md)：A vibrant claymation-meets-data interface for Clay.com (GTM data-orchestration platform). Anchors on white can
+- [ClickHouse-design-analysis](https://design.gholl.com/designs/clickhouse.md)：A high-performance database interface anchored on near-pure black canvas with electric yellow as the brand vol
+- [Cohere-design-analysis](https://design.gholl.com/designs/cohere.md)：Cohere's 2026 web system is a controlled enterprise AI interface built from stark white editorial space, deep 
+- [Coinbase-design-analysis](https://design.gholl.com/designs/coinbase.md)：An institutional-grade crypto exchange whose marketing surfaces read like a quietly-confident financial-servic
+- [Composio-design-analysis](https://design.gholl.com/designs/composio.md)：A developer-tools brand for AI-agent tool integration whose marketing surfaces lean into a dark, technical aes
+- [Cursor-design-analysis](https://design.gholl.com/designs/cursor.md)：An AI-first code editor whose marketing site reads like a quietly-confident developer-tools brand with a warm-
+- [Dell 1996 Inspired](https://design.gholl.com/designs/dell-1996.md)：An inspired interpretation of Dell.com's 1996 design language — a catalog-era enterprise web design built arou
+- [DJI Analysis](https://design.gholl.com/designs/dji.md)：An analysis of DJI's design language — a product-photography showroom for drones and cameras, where full-bleed
+- [ElevenLabs-design-analysis](https://design.gholl.com/designs/elevenlabs.md)：A voice-AI brand whose marketing surfaces read like a quietly editorial print magazine. The base canvas is off
+- [Expo-design-analysis](https://design.gholl.com/designs/expo.md)：A React Native developer-platform whose marketing site reads like a quietly-confident infrastructure brand. Th
+- [Ferrari-design-analysis](https://design.gholl.com/designs/ferrari.md)：A luxury-automotive brand whose marketing surfaces read as cinematic editorial. The base canvas is **near-blac
+- [Figma-design-analysis](https://design.gholl.com/designs/figma.md)：A confident black-and-white editorial frame interrupted by oversized, hand-cut pastel color blocks. The market
+- [Framer-design-analysis](https://design.gholl.com/designs/framer.md)：A confident dark-canvas builder marketing site that treats the page like a working artboard — pure black surfa
+- [HashiCorp-design-analysis](https://design.gholl.com/designs/hashicorp.md)：An enterprise-infrastructure marketing canvas built around a near-black ground (#000000) and a system of per-p
+- [HP-design-analysis](https://design.gholl.com/designs/hp.md)：An inspired interpretation of HP's design language — a white-paper enterprise-consumer system anchored by HP E
+- [IBM-design-analysis](https://design.gholl.com/designs/ibm.md)：An enterprise-marketing canvas faithful to Carbon Design System: white surfaces, charcoal type, IBM Blue (#0f6
+- [Intercom-design-analysis](https://design.gholl.com/designs/intercom.md)：An editorial customer-service marketing canvas built around a soft cream-white ground, charcoal type set in Sa
+- [Jobright Analysis](https://design.gholl.com/designs/jobright.md)：An analysis of Jobright's design language — an AI job-hunting platform built on an energetic spring-mint green
+- [Linear-design-analysis](https://design.gholl.com/designs/linear-app.md)：A near-black product-focused marketing canvas built around #010102 (the deepest dark surface of any tool in th
+- [Mercury Analysis](https://design.gholl.com/designs/mercury.md)：An analysis of Mercury's design language — a fintech system that moves between a deep ink-violet night world o
+- [Meta-design-analysis](https://design.gholl.com/designs/meta.md)：Meta's design system spans hardware commerce (Quest VR, Ray-Ban Meta AI glasses) and brand surfaces with a con
+- [MiniMax-design-analysis](https://design.gholl.com/designs/minimax.md)：MiniMax presents itself as a premium AI infrastructure brand through a striking duality — bold black-pill CTAs
+- [Mintlify-design-analysis](https://design.gholl.com/designs/mintlify.md)：Mintlify presents documentation infrastructure with a dual-mode aesthetic — atmospheric sky-gradient marketing
+- [Miro-design-analysis](https://design.gholl.com/designs/miro.md)：Miro presents itself as the AI-powered visual workspace through a confident, almost playful brand voice — anch
+- [Mistral-AI-design-analysis](https://design.gholl.com/designs/mistral-ai.md)：Mistral AI brands itself with a singular signature — atmospheric sunset gradients (mustard, orange, deep red) 
+- [MongoDB-design-analysis](https://design.gholl.com/designs/mongodb.md)：MongoDB carries a strong dual-mode visual identity — dark deep-teal hero bands with bright MongoDB green ({col
+- [mydealz Analysis](https://design.gholl.com/designs/mydealz.md)：An analysis of mydealz's design language — a high-density German deals-community system built on a confident b
+- [NerdWallet Analysis](https://design.gholl.com/designs/nerdwallet.md)：An analysis of NerdWallet's design language — a personal-finance comparison platform built almost entirely fro
+- [Nike-design-analysis](https://design.gholl.com/designs/nike.md)：A photography-first commerce system built on extreme typographic contrast — towering uppercase Futura display 
+- [Nintendo.com (2001) Analysis](https://design.gholl.com/designs/nintendo-2001.md)：An analysis of Nintendo.com's 2001 design language — a brushed-periwinkle "console chrome" interface where eve
+- [Notion-design-analysis](https://design.gholl.com/designs/notion.md)：Notion presents itself as the all-in-one workspace through a confident, illustration-rich brand voice — anchor
+- [NVIDIA-design-analysis](https://design.gholl.com/designs/nvidia.md)：An engineering-grade marketing system organized around two surface modes — a deep black canvas for hero and fo
+- [Ollama-design-analysis](https://design.gholl.com/designs/ollama.md)：An almost defiantly minimal documentation-first system that treats the home page like a Markdown README — pape
+- [OpenCode-design-analysis](https://design.gholl.com/designs/opencode-ai.md)：A terminal-native marketing system rendered entirely in Berkeley Mono — every word on the page, from the hero 
+- [Oracle Analysis](https://design.gholl.com/designs/oracle.md)：An analysis of Oracle's design language — an enterprise system built on a warm neutral ladder rather than a co
+- [Oura Analysis](https://design.gholl.com/designs/oura.md)：An analysis of Oura's design language — a warm-paper wellness system that pairs a high-contrast Editorial seri
+- [Pinterest-design-analysis](https://design.gholl.com/designs/pinterest.md)：A photography-first discovery system organized around the Pinterest Red CTA, the masonry pin grid, and a soft 
+- [PlayStation-design-analysis](https://design.gholl.com/designs/playstation.md)：A three-surface marketing system organized around alternating black, white, and PlayStation Blue chapters that
+- [PostHog-design-analysis](https://design.gholl.com/designs/posthog.md)：A playful developer-tools system rendered on a warm cream canvas with hand-drawn hedgehog mascots dotted acros
+- [Raycast-design-analysis](https://design.gholl.com/designs/raycast.md)：Raycast's marketing system reads like an extended product screenshot. The chrome IS the in-product chrome at m
+- [Renault-design-analysis](https://design.gholl.com/designs/renault.md)：Renault's web presence pairs the freshly-modernised Renault diamond (the 2021 flat-line rhombus mark) with a s
+- [Replicate-design-analysis](https://design.gholl.com/designs/replicate.md)：Replicate's marketing surfaces pair the warm-cream developer-tools aesthetic of an indie ML playground with a 
+- [Resend-design-analysis](https://design.gholl.com/designs/resend.md)：Resend's marketing surfaces sit on a near-pure black canvas with off-white text and a single signature color —
+- [Revolut-design-analysis](https://design.gholl.com/designs/revolut.md)：Revolut's marketing surfaces pair a stark black canvas with the brand's cobalt-violet (`#494fdf`) and a wide a
+- [SAP Analysis](https://design.gholl.com/designs/sap.md)：An analysis of SAP's design language — an enterprise system that keeps almost everything on white and spends i
+- [Sentri-Inspired-design-analysis](https://design.gholl.com/designs/sentry.md)：An inspired interpretation of Sentri's design language — a developer-tools brand built on a deep purple-violet
+- [Shopifi-Inspired-design-analysis](https://design.gholl.com/designs/shopify.md)：An inspired interpretation of Shopifi's design language — a cinematic commerce platform that runs two parallel
+- [Slacc-Inspired-design-analysis](https://design.gholl.com/designs/slack.md)：An inspired interpretation of Slacc's design language — a workplace messaging brand built on a deep aubergine 
+- [Spacex-Inspired-design-analysis](https://design.gholl.com/designs/spacex.md)：An inspired interpretation of Spasex's design language — a mission-oriented aerospace brand built on pure blac
+- [Stripi-Inspired-design-analysis](https://design.gholl.com/designs/stripe.md)：An inspired interpretation of Stripi's design language — a financial-infrastructure brand built on a deep navy
+- [Supabaze-Inspired-design-analysis](https://design.gholl.com/designs/supabase.md)：An inspired interpretation of Supabaze's design language — an open-source database platform built on a clean w
+- [Superhumon-Inspired-design-analysis](https://design.gholl.com/designs/superhuman.md)：An inspired interpretation of Superhumon's design language — a fast-email productivity brand split between an 
+- [Together-AI-Inspired-design-analysis](https://design.gholl.com/designs/together-ai.md)：An inspired interpretation of Together AI's design language — an AI infrastructure platform whose surface alte
+- [Uber-Inspired-design-analysis](https://design.gholl.com/designs/uber.md)：An inspired interpretation of Uber's design language — a transportation-and-delivery super-app brand whose web
+- [Vercel-Inspired-design-analysis](https://design.gholl.com/designs/vercel.md)：An inspired interpretation of Vercel's design language — a developer-platform brand whose surface is a stark b
+- [Vodafone-Inspired-design-analysis](https://design.gholl.com/designs/vodafone.md)：An inspired interpretation of Vodafone's design language — a telecom super-brand whose web surface alternates 
+- [Voltagent-Inspired-design-analysis](https://design.gholl.com/designs/voltagent.md)：An inspired interpretation of Voltagent's design language — a developer-focused AI agent engineering platform 
+- [Warp-Inspired-design-analysis](https://design.gholl.com/designs/warp.md)：An inspired interpretation of Warp's design language — an agentic terminal-and-development-environment brand w
+- [Webflow-Inspired-design-analysis](https://design.gholl.com/designs/webflow.md)：An inspired interpretation of Webflow's design language — a visual web development platform whose surface cont
+- [Wired-Inspired-design-analysis](https://design.gholl.com/designs/wired.md)：An inspired interpretation of Wired's design language — a flagship technology-magazine brand whose surface is 
+- [Wise-Inspired-design-analysis](https://design.gholl.com/designs/wise.md)：An inspired interpretation of Wise's design language — a global money-transfer brand whose surface combines an
+- [xAI-Inspired-design-analysis](https://design.gholl.com/designs/x-ai.md)：An inspired interpretation of xAI's design language — Elon Musk's frontier-AI company whose web surface is a s
+- [Zapier-Inspired-design-analysis](https://design.gholl.com/designs/zapier.md)：An inspired interpretation of Zapier's design language — a workflow-automation platform whose surface combines
+
+## 已生成样板间（自包含 HTML）
+
+- [1win 样板间](https://design.gholl.com/generated/1win/index.html)
+- [airbnb 样板间](https://design.gholl.com/generated/airbnb/index.html)
+- [airtable 样板间](https://design.gholl.com/generated/airtable/index.html)
+- [aljazeera 样板间](https://design.gholl.com/generated/aljazeera/index.html)
+- [apple 样板间](https://design.gholl.com/generated/apple/index.html)
+- [apple-minimal 样板间](https://design.gholl.com/generated/apple-minimal/index.html)
+- [binance 样板间](https://design.gholl.com/generated/binance/index.html)
+- [bmw 样板间](https://design.gholl.com/generated/bmw/index.html)
+- [bmw-m 样板间](https://design.gholl.com/generated/bmw-m/index.html)
+- [brutal-neo 样板间](https://design.gholl.com/generated/brutal-neo/index.html)
+- [bugatti 样板间](https://design.gholl.com/generated/bugatti/index.html)
+- [cal 样板间](https://design.gholl.com/generated/cal/index.html)
+- [candy-glass 样板间](https://design.gholl.com/generated/candy-glass/index.html)
+- [claude 样板间](https://design.gholl.com/generated/claude/index.html)
+- [clay 样板间](https://design.gholl.com/generated/clay/index.html)
+- [clickhouse 样板间](https://design.gholl.com/generated/clickhouse/index.html)
+- [cohere 样板间](https://design.gholl.com/generated/cohere/index.html)
+- [coinbase 样板间](https://design.gholl.com/generated/coinbase/index.html)
+- [composio 样板间](https://design.gholl.com/generated/composio/index.html)
+- [cursor 样板间](https://design.gholl.com/generated/cursor/index.html)
+- [cyberpunk 样板间](https://design.gholl.com/generated/cyberpunk/index.html)
+- [dell-1996 样板间](https://design.gholl.com/generated/dell-1996/index.html)
+- [dji 样板间](https://design.gholl.com/generated/dji/index.html)
+- [elevenlabs 样板间](https://design.gholl.com/generated/elevenlabs/index.html)
+- [enterprise 样板间](https://design.gholl.com/generated/enterprise/index.html)
+- [expo 样板间](https://design.gholl.com/generated/expo/index.html)
+- [ferrari 样板间](https://design.gholl.com/generated/ferrari/index.html)
+- [figma 样板间](https://design.gholl.com/generated/figma/index.html)
+- [framer 样板间](https://design.gholl.com/generated/framer/index.html)
+- [hashicorp 样板间](https://design.gholl.com/generated/hashicorp/index.html)
+- [hp 样板间](https://design.gholl.com/generated/hp/index.html)
+- [ibm 样板间](https://design.gholl.com/generated/ibm/index.html)
+- [intercom 样板间](https://design.gholl.com/generated/intercom/index.html)
+- [jobright 样板间](https://design.gholl.com/generated/jobright/index.html)
+- [linear-app 样板间](https://design.gholl.com/generated/linear-app/index.html)
+- [mercury 样板间](https://design.gholl.com/generated/mercury/index.html)
+- [meta 样板间](https://design.gholl.com/generated/meta/index.html)
+- [minimax 样板间](https://design.gholl.com/generated/minimax/index.html)
+- [mintlify 样板间](https://design.gholl.com/generated/mintlify/index.html)
+- [notion 样板间](https://design.gholl.com/generated/notion/index.html)
+- [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
+- [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
+
+## 可选
+
+- [GitHub 仓库](https://github.com/Gholls/design)：MIT 开源，贡献规范见仓库 README

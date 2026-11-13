@@ -170,6 +170,7 @@
 - [together-ai 样板间](https://design.gholl.com/generated/together-ai/index.html)
 - [uber 样板间](https://design.gholl.com/generated/uber/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
+- [vodafone 样板间](https://design.gholl.com/generated/vodafone/index.html)
 
 ## 可选
 

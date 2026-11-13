@@ -150,6 +150,7 @@
 - [ollama 样板间](https://design.gholl.com/generated/ollama/index.html)
 - [opencode-ai 样板间](https://design.gholl.com/generated/opencode-ai/index.html)
 - [oracle 样板间](https://design.gholl.com/generated/oracle/index.html)
+- [oura 样板间](https://design.gholl.com/generated/oura/index.html)
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 

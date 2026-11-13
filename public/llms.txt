@@ -168,6 +168,7 @@
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [superhuman 样板间](https://design.gholl.com/generated/superhuman/index.html)
 - [together-ai 样板间](https://design.gholl.com/generated/together-ai/index.html)
+- [uber 样板间](https://design.gholl.com/generated/uber/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 
 ## 可选

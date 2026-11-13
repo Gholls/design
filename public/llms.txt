@@ -177,6 +177,7 @@
 - [wired 样板间](https://design.gholl.com/generated/wired/index.html)
 - [wise 样板间](https://design.gholl.com/generated/wise/index.html)
 - [x-ai 样板间](https://design.gholl.com/generated/x-ai/index.html)
+- [zapier 样板间](https://design.gholl.com/generated/zapier/index.html)
 
 ## 可选
 

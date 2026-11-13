@@ -144,7 +144,9 @@
 - [mydealz 样板间](https://design.gholl.com/generated/mydealz/index.html)
 - [nerdwallet 样板间](https://design.gholl.com/generated/nerdwallet/index.html)
 - [nike 样板间](https://design.gholl.com/generated/nike/index.html)
+- [nintendo-2001 样板间](https://design.gholl.com/generated/nintendo-2001/index.html)
 - [notion 样板间](https://design.gholl.com/generated/notion/index.html)
+- [oracle 样板间](https://design.gholl.com/generated/oracle/index.html)
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 

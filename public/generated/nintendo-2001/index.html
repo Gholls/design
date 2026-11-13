@@ -1,0 +1,498 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · GhollStudio · 规范：Nintendo 2001
+  ─ 决策溯源（逐值取自 designs/nintendo-2001/DESIGN.md）
+  ─ 三声部：冷色机身 canvas #7a8aba / periwinkle #8ba1d4 / chrome-indigo #3d4f97；
+    carbon #21242e 命令层（导航/页脚/右栏按钮）带 halftone 点阵；暖色只做指路：
+    nav-gold #e48600 导航词、amber #ecab37 工具 chips/徽章、signal #f68d1f 一切前进/Submit。
+  ─ 每个区域都是 beveled plate：顶缘亮线 + chrome-indigo 底缘硬阴影（Elevation 表，无柔阴影）；
+    大面板 chamfer 切角（clip-path 45°），圆角只给 logo pill / 气泡 / 圆箭头（rounded.full）。
+  ─ 字体：Arial / Arial Black（规范 Font Family 原文，无 webfont）；display 44px/900 白字描边+硬投影；
+    ui-label 11px/700/0.5px 大写丝印声；body 12px/400/1.4；micro 10px。像素字体（Silkscreen/VT323）
+    因素材离线自包含约束降级为系统 Arial 小字号。
+  ─ components 对照：nav-bar(carbon+halftone,28px) / subnav-strip(canvas-soft) / logo-pill(白底红字 full)
+    / button-primary(amber,xs,pressed→nav-gold) / button-submit(signal) / button-secondary(carbon)
+    / section-label-bar(canvas) / news-row(platinum,sm) / info-box(白,sm,amber tab) / form-panel(platinum,md)
+    / text-input(白,hairline 1px,xs) / select-dropdown(carbon 1px 硬边) / dotted-divider(muted-indigo 点线)
+    / esrb-badge→转译为工作室信任标记 / footer-bar(carbon,chamfer,micro)。
+  ─ 语义色转译：error=#e60012（规范原文与品牌红共用）；ok=systems-teal #206479、run=chrome-indigo、
+    warn=amber（徽章=utility mark，规范 Do 原文）；steady-state 不引入规范外彩色。
+  ─ conic 环图为现代语法 → 依任务许可降级为色段条，保留 .donut/.legend 类名结构。
+  ─ 数据与交互契约 1:1 继承 public/generated/enterprise/index.html（PJ/WO/LOG/NT 与全部函数逐字保留）；
+    现代交互（行内审核/弹窗/通知/排序）全部以 2001 年硬件面板语法诚实呈现：硬切状态、无过渡动画。
+  ─ 布局：~820px 固定画布居中（Layout 原文）；<720px 按规范 Responsive Strategy 现代移植条款堆叠右栏、
+    折叠双导航；520px 无横向溢出。Density 高、面板 butt together（Whitespace Philosophy 原文）。
+-->
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GhollStudio · Nintendo 2001</title>
+<style>
+:root{
+  --primary:#e60012;--signal:#f68d1f;--amber:#ecab37;--gold:#e48600;
+  --canvas:#7a8aba;--sky:#9fbee7;--lavender:#acace7;--ice:#c0d5e6;--peri:#8ba1d4;
+  --indigo:#3d4f97;--mindigo:#60619c;--platinum:#dedede;--surface:#ffffff;--carbon:#21242e;
+  --hairline:#5a5f8c;--ink:#21242e;--ink-soft:#3d4f97;--on:#ffffff;--muted:#60619c;
+  --teal:#206479;--gamesred:#a7282b;
+  --ok:#206479;--warn:#ecab37;--err:#e60012;--accent:#f68d1f;
+  --row:26px;
+  --font:Arial,Helvetica,'PingFang SC','Microsoft YaHei',sans-serif;
+  --disp:'Arial Black','Arial Bold',Arial,'PingFang SC',sans-serif;
+  --halftone:radial-gradient(rgba(159,190,231,.14) 1px,transparent 1.4px);
+  --brush:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);
+}
+*{box-sizing:border-box;margin:0}
+body{font:400 12px/1.4 var(--font);color:var(--ink);background:var(--canvas);background-image:var(--brush)}
+a{color:var(--ink-soft);font-weight:700;text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:820px;margin:0 auto;padding:0 12px}
+button{font-family:var(--font)}
+/* ── 命令层：masthead + 双导航 ── */
+.masthead{max-width:820px;margin:0 auto;padding:8px 12px 4px;display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.mascot{width:20px;height:28px;position:relative;flex:none}
+.mascot i{position:absolute;top:0;left:0;width:4px;height:4px;background:transparent;
+  box-shadow:4px 0 var(--primary),8px 0 var(--primary),12px 0 var(--primary),
+  0 4px var(--primary),16px 4px var(--primary),0 8px var(--primary),
+  0 12px var(--primary),8px 12px var(--primary),12px 12px var(--primary),16px 12px var(--primary),
+  0 16px var(--primary),16px 16px var(--primary),0 20px var(--primary),16px 20px var(--primary),
+  4px 24px var(--primary),8px 24px var(--primary),12px 24px var(--primary)}
+.bubble{background:var(--surface);color:var(--carbon);border:1px solid var(--carbon);border-radius:10px;padding:8px;font:400 10px/1.3 var(--font);position:relative;max-width:250px}
+.bubble::after{content:"";position:absolute;left:-5px;bottom:6px;width:8px;height:8px;background:var(--surface);border-left:1px solid var(--carbon);border-bottom:1px solid var(--carbon);transform:rotate(45deg)}
+.msearch{margin-left:auto;display:flex;gap:4px;align-items:center}
+.msearch input{width:150px}
+.navbar{background:var(--carbon);background-image:var(--halftone);background-size:4px 4px;border-top:1px solid var(--mindigo);border-bottom:2px solid var(--indigo)}
+.nav{display:flex;align-items:center;gap:12px;min-height:28px;padding:4px 12px;flex-wrap:wrap}
+.logo-pill{background:var(--surface);border:1px solid var(--carbon);border-radius:9999px;padding:2px 10px;font:900 13px/1.2 var(--disp);color:var(--primary);letter-spacing:0;white-space:nowrap}
+.nav nav{display:flex;gap:2px;flex-wrap:wrap}
+.nav nav a{color:var(--gold);font:700 13px/1 var(--font);letter-spacing:.5px;padding:6px 8px}
+.nav nav a:hover{color:var(--amber);text-decoration:none;background:rgba(159,190,231,.12)}
+.chip{background:var(--amber);color:var(--carbon);border:1px solid var(--indigo);border-radius:2px;font:700 10px/1 var(--font);letter-spacing:.5px;padding:4px 8px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.chip:active{background:var(--gold)}
+.seg{display:flex;gap:2px;border:1px solid var(--indigo);background:var(--carbon);padding:2px;margin-left:auto}
+.seg button{border:1px solid transparent;background:transparent;color:var(--sky);font:700 11px/1 var(--font);letter-spacing:.5px;padding:5px 12px;cursor:pointer}
+.seg button.on{background:var(--amber);color:var(--carbon);border-color:var(--indigo);box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.subnav{background:var(--sky);border-bottom:1px solid var(--indigo)}
+.subnav .wrap{display:flex;gap:0;flex-wrap:wrap;padding:4px 12px}
+.subnav a{color:var(--ink);font:700 11px/1.1 var(--font);letter-spacing:.5px;padding:2px 10px;border-right:1px solid var(--mindigo)}
+.subnav a:last-child{border-right:none}
+/* ── 按钮（beveled chip，硬底影，按下位移） ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--indigo);border-radius:2px;background:var(--amber);color:var(--carbon);font:700 11px/1.1 var(--font);letter-spacing:.5px;padding:6px 12px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 2px 0 var(--indigo)}
+.btn:active{background:var(--gold);transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-p{background:var(--signal);color:var(--on);border-color:#9c5a12}
+.btn-p:active{background:var(--gold);color:var(--carbon)}
+.btn-x{background:var(--gold);color:var(--carbon)}
+.btn-e{background:var(--err);color:var(--on);border-color:#7d0009}
+.btn-e:active{background:#a7282b}
+.btn-g{background:transparent;color:var(--ink-soft);border-color:transparent;box-shadow:none}
+.btn-g:active{background:rgba(61,79,151,.15);transform:none}
+.btn-s{padding:4px 8px;font-size:10px}
+.btn:disabled{opacity:.45;pointer-events:none}
+.arrow{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:9999px;background:var(--signal);color:var(--on);border:1px solid #9c5a12;font:700 12px/1 var(--font);cursor:pointer;flex:none;box-shadow:0 2px 0 var(--indigo)}
+.arrow:active{transform:translateY(2px);box-shadow:none}
+.chev{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:2px;background:var(--signal);color:var(--on);font:700 10px/1 var(--font);flex:none}
+/* ── 面板通用 ── */
+.view{display:none}.view.on{display:block}
+.card{background:var(--surface);border:1px solid var(--indigo);border-radius:4px;box-shadow:inset 0 1px 0 #fff,0 2px 0 var(--indigo)}
+.plate{background:var(--peri);border:1px solid var(--indigo);border-top-color:#c3cdec;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 2px 0 var(--indigo);border-radius:4px}
+.chamfer{clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.labelbar{background:var(--canvas);background-image:var(--brush);color:var(--ink);font:700 11px/1.1 var(--font);letter-spacing:.5px;padding:8px;border-bottom:1px solid var(--indigo);border-top:1px solid rgba(255,255,255,.4);display:flex;align-items:center;gap:6px}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px;background:var(--canvas);background-image:var(--brush);border-bottom:1px solid var(--indigo);border-top:1px solid rgba(255,255,255,.4);flex-wrap:wrap}
+.hdr b{font:700 11px/1.1 var(--font);letter-spacing:.5px;color:var(--ink)}
+.sec{font:700 11px/1.1 var(--font);letter-spacing:.5px;color:var(--ink);background:var(--canvas);background-image:var(--brush);border:1px solid var(--indigo);border-top-color:#c3cdec;padding:8px;margin-top:32px;display:flex;align-items:center;gap:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.secd{color:var(--ink-soft);margin-top:6px;max-width:64ch;font-size:12px}
+/* ── 前台 hero ── */
+.hero{margin-top:16px;background:var(--lavender);background-image:radial-gradient(rgba(255,255,255,.25) 1px,transparent 1.5px);background-size:6px 6px;border:1px solid var(--indigo);padding:16px;display:grid;grid-template-columns:1.05fr 1fr;gap:16px;align-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 3px 0 var(--indigo)}
+.eyebrow{display:inline-block;background:var(--amber);color:var(--carbon);border:1px solid var(--indigo);border-radius:2px;font:700 10px/1 var(--font);letter-spacing:.5px;padding:4px 8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+h1{font:900 44px/1.05 var(--disp);color:#fff;-webkit-text-stroke:2px var(--indigo);text-shadow:3px 3px 0 var(--carbon);margin-top:12px;letter-spacing:0}
+.sub{font:700 15px/1.3 var(--font);color:var(--carbon);margin-top:12px;max-width:44ch}
+.links{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap}
+.console-shot{padding:0;overflow:hidden;background:var(--peri)}
+.mini-k{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px}
+.mini-k>div{background:var(--surface);border:1px solid var(--hairline);border-radius:2px;padding:4px 8px;box-shadow:inset 0 1px 2px rgba(61,79,151,.25)}
+.mini-k small{font:700 10px/1.1 var(--font);letter-spacing:.5px;color:var(--ink-soft);display:block}
+.mini-k b{font:900 15px/1.2 var(--disp);color:var(--carbon)}
+.band{background:var(--carbon);background-image:var(--halftone);background-size:4px 4px;border-block:2px solid var(--indigo);margin-top:16px;padding:8px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}
+.band b{display:block;font:900 20px/1.2 var(--disp);color:var(--surface)}
+.band span{font:400 10px/1.3 var(--font);color:var(--sky)}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.svc{padding:8px;background:var(--peri);border:1px solid var(--indigo);border-top-color:#c3cdec;border-radius:4px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 2px 0 var(--indigo)}
+.svc i{font-style:normal;width:26px;height:26px;border-radius:2px;display:grid;place-items:center;background:var(--carbon);color:var(--amber);font-weight:700;border:1px solid var(--indigo)}
+.svc b{display:block;font:700 11px/1.2 var(--font);letter-spacing:.5px;margin-top:8px;color:var(--ink)}
+.svc p{color:var(--ink);font-size:12px;margin-top:4px}
+.case{padding:0;overflow:hidden;background:var(--carbon);border:1px solid var(--indigo);border-radius:4px;box-shadow:0 2px 0 var(--indigo)}
+.case .pic{height:96px;border-bottom:2px solid var(--indigo);position:relative}
+.case .pic b{position:absolute;left:8px;bottom:6px;font:900 16px/1 var(--disp);color:#fff;-webkit-text-stroke:1px var(--carbon);text-shadow:2px 2px 0 var(--carbon)}
+.pic-circuit{background:var(--teal);background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.14) 0 1px,transparent 1px 12px),repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 1px,transparent 1px 12px)}
+.pic-race{background:var(--gamesred);background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.16) 0 3px,transparent 3px 14px)}
+.pic-lav{background:var(--lavender);background-image:radial-gradient(rgba(255,255,255,.35) 1px,transparent 1.5px);background-size:5px 5px}
+.case .bd{padding:8px;background:var(--surface)}
+.case .bd>b{font:700 12px/1.4 var(--font);color:var(--ink-soft)}
+.case p{color:var(--ink);font-size:12px;margin-top:4px}
+.case .res{color:var(--carbon);font-weight:700;font-size:12px;margin-top:6px}
+.tagrow{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.tag{font:400 10px/1.3 var(--font);color:var(--ink-soft);background:var(--platinum);border:1px solid var(--hairline);border-radius:2px;padding:1px 6px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
+.step{padding:12px 8px 8px;position:relative;background:var(--platinum);border:1px solid var(--hairline);border-radius:4px;box-shadow:inset 0 1px 0 #fff,0 2px 0 var(--indigo)}
+.step b{font:700 11px/1.2 var(--font);letter-spacing:.5px}
+.step p{font-size:12px;color:var(--ink);margin-top:4px}
+.step i{font-style:normal;position:absolute;top:-8px;left:8px;background:var(--amber);color:var(--carbon);border:1px solid var(--indigo);font:700 10px/1 var(--font);border-radius:2px;padding:3px 7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.quote{padding:0;overflow:hidden}
+.quote .qt{background:var(--amber);color:var(--carbon);font:700 10px/1 var(--font);letter-spacing:.5px;padding:4px 8px;border-bottom:1px solid var(--indigo);display:inline-block;border-radius:0 0 2px 0}
+.quote p{font-size:12px;line-height:1.5;padding:8px 12px 0}
+.quote footer{display:flex;justify-content:space-between;margin-top:8px;padding:6px 12px;border-top:1px dotted var(--mindigo);font:400 10px/1.3 var(--font);color:var(--ink-soft)}
+.price .pl{padding:12px;background:var(--sky);border:1px solid var(--hairline);border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 0 var(--indigo)}
+.price .pl.best{background:var(--carbon);background-image:var(--halftone);background-size:4px 4px;color:var(--on);border-color:var(--indigo)}
+.pl small{color:var(--ink-soft);font:700 10px/1.1 var(--font);letter-spacing:.5px}
+.pl.best small{color:var(--amber)}
+.pl b{display:block;font:900 24px/1.2 var(--disp);margin:6px 0 2px;color:var(--carbon)}
+.pl.best b{color:#fff;text-shadow:2px 2px 0 var(--indigo)}
+.pl ul{list-style:none;font-size:12px;color:var(--ink);margin:8px 0 12px;padding:0}
+.pl.best ul{color:var(--sky)}
+.pl li{padding:2px 0}
+.pl li::before{content:"✓ ";color:var(--gold);font-weight:700}
+.pl.best li::before{color:var(--amber)}
+.faq{margin-top:12px}
+details{background:var(--platinum);border:1px solid var(--hairline);border-radius:4px;margin-bottom:4px;padding:0 8px;box-shadow:inset 0 1px 0 #fff}
+summary{cursor:pointer;font:700 12px/1.4 var(--font);color:var(--ink-soft);list-style:none;padding:8px 0;display:flex;justify-content:space-between;align-items:center;gap:8px}
+summary::after{content:"▸";display:grid;place-items:center;width:18px;height:18px;border-radius:2px;background:var(--signal);color:#fff;font-size:10px;flex:none}
+details[open] summary::after{content:"▾"}
+details>div{border-top:1px dotted var(--mindigo);padding:8px 0;color:var(--ink);font-size:12px}
+footer.site{background:var(--carbon);background-image:var(--halftone);background-size:4px 4px;border-top:2px solid var(--indigo);margin-top:32px;padding:16px 0;font:400 10px/1.3 var(--font);color:var(--sky)}
+footer.site .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+footer.site h4{font:700 11px/1.1 var(--font);letter-spacing:.5px;color:var(--surface);margin-bottom:6px}
+footer.site a{color:var(--sky);display:block;padding:2px 0;font-weight:400}
+footer.site a:hover{color:var(--amber)}
+.subrow{display:flex;gap:4px;margin-top:12px;max-width:320px}
+.subrow input{flex:1;min-width:0}
+.trust{display:flex;gap:6px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.esrb{background:var(--amber);color:var(--carbon);border:1px solid var(--indigo);border-radius:2px;font:700 10px/1.3 var(--font);padding:2px 4px}
+.esrb-sq{width:20px;height:20px;background:var(--surface);color:var(--carbon);border:1px solid var(--carbon);border-radius:2px;display:grid;place-items:center;font:700 11px/1 var(--font)}
+/* ── 表单原语 ── */
+input,select,textarea{font:400 12px/1.4 var(--font);color:var(--ink);background:var(--surface);border:1px solid var(--hairline);border-radius:2px;padding:4px}
+select{border:1px solid var(--carbon);padding:3px 4px}
+input:focus,select:focus,textarea:focus{outline:1px dotted var(--indigo);outline-offset:1px}
+/* ── 后台 ── */
+.app{padding:12px 0 32px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.kpi{padding:8px;background:var(--peri);border:1px solid var(--indigo);border-top-color:#c3cdec;border-radius:4px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 2px 0 var(--indigo)}
+.kpi small{font:700 10px/1.1 var(--font);letter-spacing:.5px;color:var(--ink-soft);display:block}
+.kpi b{font:900 21px/1.2 var(--disp);color:var(--carbon);display:block;margin-top:2px}
+.kpi em{font-style:normal;font:700 10px/1.1 var(--font)}
+.up{color:var(--teal)}.dn{color:var(--err)}
+.spark{display:flex;gap:2px;align-items:flex-end;height:20px;margin-top:6px}
+.spark i{flex:1;background:var(--mindigo)}.spark i:last-child{background:var(--carbon)}
+.cols2{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:8px}
+.pjwall{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:8px}
+.pj{border:1px solid var(--hairline);border-radius:4px;padding:8px;background:var(--platinum);box-shadow:inset 0 1px 0 #fff}
+.pj b{font:700 12px/1.3 var(--font);display:block;color:var(--ink)}
+.pj small{font:400 10px/1.3 var(--font);color:var(--ink-soft)}
+.pj .bar{height:8px;background:var(--surface);border:1px solid var(--hairline);border-radius:2px;margin-top:6px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(61,79,151,.3)}
+.pj .bar i{display:block;height:100%;background:var(--indigo);background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0 2px,transparent 2px 5px)}
+.badge{display:inline-flex;gap:4px;align-items:center;border-radius:2px;border:1px solid;padding:1px 6px;font:700 10px/1.4 var(--font);margin-top:6px;background:var(--surface)}
+.badge::before{content:"";width:5px;height:5px;background:currentColor;flex:none}
+.b-ok{color:var(--teal);border-color:var(--teal)}
+.b-run{color:var(--indigo);border-color:var(--indigo)}
+.b-warn{color:var(--carbon);background:var(--amber);border-color:var(--indigo)}
+.b-err{color:var(--err);border-color:var(--err)}
+.tbar{display:flex;gap:4px;align-items:center;padding:8px;border-bottom:1px solid var(--indigo);flex-wrap:wrap;background:var(--sky)}
+.tbar input{max-width:220px;flex:1;min-width:120px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--sky);color:var(--ink);font:700 10px/1.1 var(--font);letter-spacing:.5px;text-align:left;padding:4px 8px;border-bottom:1px solid var(--indigo);cursor:pointer;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{height:var(--row);padding:2px 8px;border-top:1px solid var(--hairline);background:var(--surface)}
+tbody tr:nth-child(even) td{background:var(--platinum)}
+tbody tr:hover td{background:var(--ice)}
+td select{font:700 11px/1.2 var(--font);padding:2px 4px;cursor:pointer}
+td .id{font-family:'Courier New',Courier,monospace;font-size:11px;color:var(--ink-soft)}
+.log{max-height:220px;overflow:auto;padding:8px;display:grid;gap:4px;background:var(--surface)}
+.log div{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--ink);background:var(--platinum);border:1px solid var(--hairline);border-radius:4px;padding:4px 8px}
+.log time{color:var(--ink-soft);font-family:'Courier New',Courier,monospace;font-size:10px;flex:none}
+.statgrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;margin-top:8px}
+.chart{height:150px;display:flex;align-items:flex-end;gap:4px;padding:8px;background:var(--surface)}
+.chart>div{flex:1;display:grid;grid-template-rows:1fr auto;align-items:end;justify-items:center;gap:4px;align-content:end;height:100%;min-width:0}
+.chart i{width:100%;background:var(--peri);border:1px solid var(--indigo);border-bottom:none}
+.chart i.hot{background:var(--carbon)}
+.chart span{font:400 10px/1.3 var(--font);color:var(--ink-soft);white-space:nowrap}
+.donut{display:flex;height:22px;margin:16px 8px 8px;border:1px solid var(--indigo);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 0 var(--indigo)}
+.donut i{display:block;height:100%}
+.legend{padding:0 8px 8px;display:grid;gap:4px;font-size:12px;color:var(--ink)}
+.legend b{width:8px;height:8px;display:inline-block;margin-right:6px;border:1px solid var(--indigo)}
+.funnel{padding:8px;display:grid;gap:6px;background:var(--surface)}
+.funnel i{height:18px;background:var(--indigo)!important;color:var(--on);font-style:normal;font:700 10px/1 var(--font);display:flex;align-items:center;padding:0 8px;border:1px solid var(--carbon);white-space:nowrap;overflow:hidden}
+.funnel>div:nth-child(2) i{opacity:.85}
+.funnel>div:nth-child(3) i{opacity:.7}
+.funnel>div:nth-child(4) i{opacity:.55}
+.funnel>div:nth-child(5) i{opacity:.4}
+.notif{padding:8px;display:grid;gap:4px;max-height:230px;overflow:auto;background:var(--surface)}
+.notif div{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--hairline);border-radius:4px;background:var(--platinum);padding:4px 8px;font-size:12px}
+.notif em{width:7px;height:7px;margin-top:4px;font-style:normal;flex:none;border:1px solid var(--carbon)}
+.notif time{font-family:'Courier New',Courier,monospace;font-size:10px;color:var(--ink-soft)}
+.empty{text-align:center;color:var(--ink-soft);font-size:12px;padding:24px 12px;line-height:1.6;background:var(--sky);border:1px dashed var(--indigo);border-radius:4px}
+.comp{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px;background:var(--surface)}
+.sw{width:36px;height:18px;border-radius:2px;background:var(--platinum);border:1px solid var(--carbon);position:relative;cursor:pointer;box-shadow:inset 0 1px 2px rgba(61,79,151,.35);padding:0}
+.sw::after{content:"";position:absolute;top:1px;left:1px;width:14px;height:14px;background:var(--surface);border:1px solid var(--indigo);box-shadow:0 1px 0 var(--indigo)}
+.sw.on{background:var(--amber)}.sw.on::after{left:19px}
+.tip{position:relative}
+.tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--carbon);color:var(--sky);font:400 10px/1.3 var(--font);padding:4px 8px;border:1px solid var(--indigo);border-radius:2px;white-space:nowrap;z-index:5}
+.skel{height:10px;background:var(--platinum);border:1px solid var(--hairline);border-radius:2px;box-shadow:inset 0 1px 2px rgba(61,79,151,.25)}
+/* ── 模态（硬边对话框，无柔阴影） ── */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(33,36,46,.65);display:none;place-items:center;padding:16px}
+.modal.on{display:grid}
+.mbox{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--platinum);border:2px solid var(--indigo);border-radius:6px;box-shadow:4px 4px 0 rgba(33,36,46,.55)}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:var(--carbon);background-image:var(--halftone);background-size:4px 4px;color:var(--sky);border-bottom:2px solid var(--indigo)}
+.mhdr b{font:700 11px/1.1 var(--font);letter-spacing:.5px}
+.mbody{padding:12px;display:grid;gap:8px}
+.mfoot{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px;border-top:1px dotted var(--mindigo)}
+.fg label{display:block;font:700 12px/1.4 var(--font);color:var(--ink);margin-bottom:2px}
+.fg input,.fg select,.fg textarea{width:100%}
+.fg .bad{border-color:var(--err);outline:1px dotted var(--err)}
+.fg .msg{font:400 10px/1.3 var(--font);margin-top:2px;min-height:13px}
+.grow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dz{border:1px dashed var(--mindigo);border-radius:4px;padding:12px;text-align:center;color:var(--ink-soft);font-size:12px;background:var(--surface)}
+/* ── 认证 ── */
+.auth{min-height:60vh;display:grid;place-items:center;padding:24px 0}
+.acard{width:min(380px,100%);padding:0;overflow:hidden;background:var(--platinum)}
+.acard .inner{padding:16px}
+.tabs{display:flex;background:var(--carbon);border:1px solid var(--indigo);padding:2px;margin:12px 0;gap:2px}
+.tabs button{flex:1;border:1px solid transparent;background:transparent;font:700 11px/1.1 var(--font);letter-spacing:.5px;color:var(--sky);padding:6px;cursor:pointer}
+.tabs button.on{background:var(--amber);color:var(--carbon);border-color:var(--indigo);box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.gen{text-align:center;font:400 10px/1.3 var(--font);color:var(--sky);padding:8px 12px;background:var(--carbon);border-top:1px solid var(--indigo)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--carbon);background-image:var(--halftone);background-size:4px 4px;color:var(--sky);font:700 12px/1.4 var(--font);border:1px solid var(--indigo);border-left:4px solid var(--amber);border-radius:2px;padding:8px 16px;box-shadow:3px 3px 0 var(--indigo);z-index:80;display:none;max-width:92vw}
+/* ── 左轨旋转 tab（宽屏装饰） ── */
+.rail{position:absolute;left:-24px;top:140px;display:grid;gap:2px}
+.rail span{writing-mode:vertical-rl;background:var(--carbon);color:var(--sky);font:700 10px/1 var(--font);letter-spacing:.5px;padding:8px 4px;border:1px solid var(--indigo)}
+.chrome{position:relative}
+@media(max-width:1000px){.rail{display:none}}
+@media(max-width:920px){.hero,.cols2,.statgrid{grid-template-columns:1fr}.grid4,.steps{grid-template-columns:repeat(2,1fr)}.pjwall{grid-template-columns:1fr 1fr}.nav nav{display:none}}
+@media(max-width:720px){.grid3,.price{grid-template-columns:1fr}.band{grid-template-columns:repeat(2,1fr)}footer.site .cols{grid-template-columns:repeat(2,1fr)}.msearch{margin-left:0;width:100%}.msearch input{flex:1;width:auto}}
+@media(max-width:560px){h1{font-size:30px;-webkit-text-stroke:1.5px var(--indigo)}.kpis{grid-template-columns:1fr 1fr}.grow2{grid-template-columns:1fr}.nav{gap:6px}.seg{margin-left:0}.subnav a{padding:2px 6px}.chart span{font-size:9px}}
+</style></head><body>
+<header>
+  <div class="masthead">
+    <span class="mascot" aria-hidden="true"><i></i></span>
+    <span class="bubble">欢迎来到 GhollStudio！本机已通电，档期读取中…</span>
+    <span class="msearch"><input placeholder="检索交付案例…" aria-label="检索"><button class="chip" type="button" onclick="toast('示例检索：正式站点将返回交付档案')">GO</button></span>
+  </div>
+  <div class="navbar"><div class="wrap nav">
+    <span class="logo-pill">GhollStudio</span>
+    <nav><a href="#" data-goto="home">服务</a><a href="#" data-goto="home">案例</a><a href="#" data-goto="home">定价</a><a href="#" data-goto="auth">登录</a></nav>
+    <span class="seg" id="seg"><button data-goto="home" class="on">前台</button><button data-goto="app">后台</button></span>
+    <button class="btn btn-p btn-s" data-goto="app">进入后台</button>
+  </div></div>
+  <div class="subnav"><div class="wrap">
+    <a href="#" data-goto="home">客户支持</a><a href="#" data-goto="home">工作室</a><a href="#" data-goto="home">全球交付</a><a href="#" data-goto="home">隐私</a><a href="#" data-goto="home">开放规范库</a><a href="#" data-goto="home">联系</a>
+  </div></div>
+</header>
+<main class="chrome"><div class="rail" aria-hidden="true"><span>TOP 10 交付</span><span>客户精选</span><span>验收评级</span></div>
+<!-- ══ 前台 ══ -->
+<div class="view on" id="v-home"><div class="wrap">
+  <section class="hero chamfer">
+    <div><span class="eyebrow">● 承接中 · 本月余 3 档期</span>
+      <h1>把你的产品，<br>交给我们收尾。</h1>
+      <p class="sub">GhollStudio 是一间四人起家的软件工作室：设计系统落地、Web 与小程序交付、AI 流水线、长期运维 —— 一个合同，全生命周期。</p>
+      <div class="links"><button class="btn btn-p" data-goto="app">委托项目</button><button class="btn" data-goto="home">看案例</button><span class="arrow" aria-hidden="true">▸</span></div>
+    </div>
+    <div class="plate console-shot"><div class="mini-k"><div><small>本月交付</small><b>6</b></div><div><small>待审核</small><b>3</b></div><div><small>月营收</small><b>¥48万</b></div></div>
+      <div style="overflow-x:auto"><table><thead><tr><th>工单</th><th>项目</th><th class="num">金额</th><th>状态</th></tr></thead><tbody>
+      <tr><td class="id">GS-118</td><td>Atlas 对账模块</td><td class="num">¥128,000</td><td><span class="badge b-ok" style="margin:0">已上架</span></td></tr>
+      <tr><td class="id">GS-119</td><td>Slot 排期引擎</td><td class="num">¥86,000</td><td><span class="badge b-run" style="margin:0">复核通过</span></td></tr>
+      <tr><td class="id">GS-120</td><td>ProVision 小程序</td><td class="num">¥52,000</td><td><span class="badge b-warn" style="margin:0">待审核</span></td></tr></tbody></table></div>
+    </div>
+  </section>
+</div>
+<div class="band"><div><b>128</b><span>已交付项目</span></div><div><b>6</b><span>在售服务</span></div><div><b>4.9</b><span>客户均分</span></div><div><b>12</b><span>覆盖城市</span></div></div>
+<div class="wrap">
+  <h2 class="sec">≡ 四条服务线</h2><p class="secd">每条线都有独立的验收标准 —— 不卖人天，卖可复核的交付物。</p>
+  <div class="grid4">
+    <div class="svc"><i>◈</i><b>设计系统与 Token 工程</b><p>把品牌规范编译成变量体系，打通 Figma 与代码仓库。</p></div>
+    <div class="svc"><i>▦</i><b>Web · 小程序交付</b><p>双周迭代上线；灰度、回滚与监控在合同里。</p></div>
+    <div class="svc"><i>✦</i><b>AI 集成流水线</b><p>检索增强、工作流编排、评测基线 —— 以指标验收。</p></div>
+    <div class="svc"><i>▤</i><b>长期运维与审计</b><p>SLA 99.9 起；季度安全审计与成本复盘报告。</p></div>
+  </div>
+  <h2 class="sec">≡ 案例</h2>
+  <div class="grid3">
+    <div class="case"><div class="pic pic-circuit"><b>ProVision</b></div><div class="bd">
+      <b>ProVision 商城 <span class="chev" aria-hidden="true">▸</span></b><p>硬件品牌的全球商城重构，LCP 2.1s→0.9s。</p><p class="res">转化率 +34%</p><div class="tagrow"><span class="tag">电商</span><span class="tag">Design Tokens</span></div></div></div>
+    <div class="case"><div class="pic pic-race"><b>Atlas</b></div><div class="bd">
+      <b>Atlas 财务台 <span class="chev" aria-hidden="true">▸</span></b><p>月结 6 天→8 小时；全部操作可审计回放。</p><p class="res">月结人力 -75%</p><div class="tagrow"><span class="tag">金融后台</span><span class="tag">审计</span></div></div></div>
+    <div class="case"><div class="pic pic-lav"><b>Slot</b></div><div class="bd">
+      <b>Slot 预约云 <span class="chev" aria-hidden="true">▸</span></b><p>时区感知的团队排程系统，开源版获 4.2k star。</p><p class="res">爽约率 -41%</p><div class="tagrow"><span class="tag">SaaS</span><span class="tag">开源</span></div></div></div>
+  </div>
+  <h2 class="sec">≡ 怎么合作</h2>
+  <div class="steps">
+    <div class="step"><i>1</i><b>需求体检</b><p>一场 90 分钟工作坊，产出范围与风险清单。</p></div>
+    <div class="step"><i>2</i><b>方案与报价</b><p>固定价 + 里程碑，无隐藏人天。</p></div>
+    <div class="step"><i>3</i><b>双周迭代交付</b><p>每双周可演示版本，审核队列透明。</p></div>
+    <div class="step"><i>4</i><b>验收与运维</b><p>验收标准写进合同；运维季度复盘。</p></div>
+  </div>
+  <div class="grid3" style="margin-top:16px">
+    <div class="card quote"><span class="qt">客户评价 · 01</span><p>「工作室把我们的设计规范变成代码资产 —— 现在新产品线的设计成本几乎为零。」</p><footer><span>陈总监 · ProVision 硬件</span><span>11-02</span></footer></div>
+    <div class="card quote"><span class="qt">客户评价 · 02</span><p>「唯一一个把『月结人力降四分之三』写进验收条款再兑现的团队。」</p><footer><span>CFO 周 · 云栖支付</span><span>10-19</span></footer></div>
+    <div class="card quote" style="display:grid;place-items:center;color:var(--ink-soft);font-size:12px;padding:16px">案例评价持续更新中</div>
+  </div>
+  <h2 class="sec">≡ 合作模式</h2>
+  <div class="grid3 price">
+    <div class="pl"><small>起步 · 单项目</small><b>¥12万起</b><ul><li>需求体检</li><li>8-12 周交付</li><li>90 天质保</li></ul><button class="btn" style="width:100%" data-goto="app">咨询</button></div>
+    <div class="pl best"><small>标准 · 推荐</small><b>¥6万/月</b><ul><li>常驻小组 2-3 人</li><li>双周演示节奏</li><li>设计系统共建</li></ul><button class="btn btn-p" style="width:100%" data-goto="app">预约档期</button></div>
+    <div class="pl"><small>驻场 · 深度</small><b>面议</b><ul><li>全流程嵌入</li><li>SLA 与审计承诺</li></ul><button class="btn" style="width:100%" data-goto="home">联系工作室</button></div>
+  </div>
+  <h2 class="sec">≡ 常见问题</h2>
+  <div class="faq">
+    <details open><summary>如何报价？</summary><div>需求体检后给出固定报价与里程碑拆分；范围变更走书面变更单，费用提前确认。</div></details>
+    <details><summary>代码和设计资产归谁？</summary><div>验收即完整移交：仓库、设计源文件、Token 体系与部署脚本都在你名下。</div></details>
+    <details><summary>能只接设计系统咨询吗？</summary><div>可以。Token 工程线可独立签约，典型周期 4-6 周。</div></details>
+    <details><summary>出问题谁负责？</summary><div>每条服务线有验收标准与质保期；运维线 SLA 违约按月抵扣。</div></details>
+  </div>
+</div>
+<footer class="site chamfer"><div class="wrap"><div class="cols">
+  <div><h4>服务</h4><a>设计系统</a><a>Web 交付</a><a>AI 流水线</a><a>运维审计</a></div>
+  <div><h4>工作室</h4><a>团队</a><a>工作原则</a><a>招聘</a></div>
+  <div><h4>资源</h4><a>开放规范库</a><a>交付清单模板</a><a>技术博客</a></div>
+  <div><h4>联系</h4><a>hi@ghollstudio.com</a><a>微信 / 邮件预约</a></div>
+</div><div class="subrow"><input placeholder="订阅工作室月报" aria-label="订阅工作室月报"><button class="btn btn-p btn-s" onclick="toast('已订阅工作室月报（演示）')">订阅</button></div>
+<div class="trust"><span class="esrb">GHOLLSTUDIO · 隐私认证</span><span class="esrb-sq">E</span><span>交付评级 E = 人人可验收</span></div>
+<p style="margin-top:12px">© 2026 GhollStudio · 本页面由 AI agent 依规范生成 · 最佳浏览窗口 820×600</p></div></footer></div>
+
+<!-- ══ 后台 ══ -->
+<div class="view" id="v-app"><div class="wrap app">
+  <div class="labelbar">≡ 后台 · 控制台总览<span style="margin-left:auto;font-weight:400;color:var(--ink-soft)">SYSTEM OK · 数据实时</span></div>
+  <div class="kpis">
+    <div class="kpi"><small>本月交付</small><b id="kpi-deliver">6</b><em class="up">↑ 20%</em><div class="spark"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:64%"></i><i style="height:88%"></i></div></div>
+    <div class="kpi"><small>进行中项目</small><b id="kpi-active">7</b><em class="up">↑ 2</em><div class="spark"><i style="height:52%"></i><i style="height:48%"></i><i style="height:60%"></i><i style="height:58%"></i><i style="height:72%"></i><i style="height:80%"></i></div></div>
+    <div class="kpi"><small>待审核队列</small><b id="kpi-review">3</b><em class="dn">需今日清空</em></div>
+    <div class="kpi"><small>月营收</small><b>¥482,000</b><em class="up">↑ 8.4%</em></div>
+  </div>
+  <div class="cols2">
+    <div class="card">
+      <div class="hdr"><b>≡ 后台 · 项目卡片墙</b><span style="display:flex;gap:4px"><button class="btn btn-s" data-open-modal>+ 新建项目</button><button class="btn btn-g btn-s" id="clear-pj">清空</button></span></div>
+      <div class="pjwall" id="pjwall"></div>
+    </div>
+    <div class="card">
+      <div class="hdr"><b>≡ 后台 · 通知中心</b><span style="display:flex;gap:4px"><button class="btn btn-s" id="nt-add">新增</button><button class="btn btn-g btn-s" id="nt-clear">清空</button></span></div>
+      <div class="notif" id="notif"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:8px">
+    <div class="hdr"><b>≡ 后台 · 工单与复核</b><span style="font-size:10px;color:var(--ink-soft)">行内下拉改审核状态 → 自动进入复核记录</span></div>
+    <div class="tbar"><input id="q" placeholder="筛选工单 / 项目 / 客户…"><select id="fs"><option value="">全部状态</option><option>待审核</option><option>复核通过</option><option>驳回重做</option><option>已上架</option></select><span style="margin-left:auto;font:400 10px/1.3 var(--font);color:var(--ink-soft)" id="cnt"></span></div>
+    <div style="overflow-x:auto"><table><thead><tr><th>单号</th><th>项目</th><th>客户</th><th>阶段</th><th>审核状态</th><th class="num" id="srt">金额 ⇅</th><th class="num">更新</th></tr></thead><tbody id="tb"></tbody></table></div>
+  </div>
+  <div class="cols2" style="grid-template-columns:1fr">
+    <div class="card"><div class="hdr"><b>≡ 后台 · 复核记录</b><span style="font-size:10px;color:var(--ink-soft)">状态驱动的操作流水</span></div><div class="log" id="log"></div></div>
+  </div>
+  <div class="statgrid">
+    <div class="card"><div class="hdr"><b>≡ 后台 · 月度交付（个）</b><select id="range"><option value="12">近 12 月</option><option value="6">近 6 月</option></select></div><div class="chart" id="bars"></div></div>
+    <div class="card"><div class="hdr"><b>≡ 后台 · 服务类型占比</b></div>
+      <div class="donut" role="img" aria-label="服务类型占比：Web 交付 38%，设计系统 24%，AI 流水线 20%，运维审计 18%"><i style="width:38%;background:#3d4f97"></i><i style="width:24%;background:#60619c"></i><i style="width:20%;background:#206479"></i><i style="width:18%;background:#9fbee7"></i></div>
+      <div class="legend"><span><b style="background:#3d4f97"></b>Web 交付 38%</span><span><b style="background:#60619c"></b>设计系统 24%</span><span><b style="background:#206479"></b>AI 流水线 20%</span><span><b style="background:#9fbee7"></b>运维审计 18%</span><span style="font:400 10px/1.3 var(--font);color:var(--ink-soft)">环图依时代语法降级为色段条</span></div></div>
+    <div class="card"><div class="hdr"><b>≡ 后台 · 线索 → 签约</b></div><div class="funnel" id="funnel"></div></div>
+  </div>
+  <div class="card" style="margin-top:8px"><div class="hdr"><b>≡ 后台 · 组件带</b><span style="font:400 10px/1.3 var(--font);color:var(--ink-soft)">面包屑：后台 / 组件带</span></div>
+    <div class="comp">
+      <button class="btn btn-p btn-s">主要</button><button class="btn btn-s">次要</button><button class="btn btn-x btn-s">强调</button><button class="btn btn-e btn-s">危险</button><button class="btn btn-g btn-s">幽灵</button><button class="btn btn-s" disabled>禁用</button>
+      <span class="badge b-ok" style="margin:0">已上架</span><span class="badge b-run" style="margin:0">复核通过</span><span class="badge b-warn" style="margin:0">待审核</span><span class="badge b-err" style="margin:0">驳回重做</span>
+      <button class="sw on" onclick="this.classList.toggle('on')" aria-label="开关"></button>
+      <button class="btn btn-s tip" data-tip="硬切状态，无过渡动画（2001 语法）">Tooltip</button>
+      <span style="display:grid;gap:4px;width:120px"><span class="skel" style="width:90%"></span><span class="skel"></span><span class="skel" style="width:60%"></span></span>
+    </div></div>
+</div></div>
+
+<!-- ══ 认证 ══ -->
+<div class="view" id="v-auth"><div class="wrap"><div class="auth"><div class="card acard">
+  <div class="labelbar">≡ 后台 · 通行认证</div>
+  <div class="inner">
+  <b style="font:700 12px/1.4 var(--font)">登录 Studio</b>
+  <div class="tabs"><button class="on" id="ti">登录</button><button id="tu">注册工作室</button></div>
+  <div class="fg" style="margin-bottom:8px"><label>邮箱</label><input value="hi@gholl.com"></div>
+  <div class="fg" id="pwf"><label>密码</label><input type="password" id="pw" value="design"></div>
+  <div class="fg" id="regf" style="display:none"><label>工作室名称</label><input placeholder="My Studio"></div>
+  <label style="display:flex;gap:6px;font:400 10px/1.3 var(--font);color:var(--ink-soft);align-items:center;margin:8px 0 12px"><input type="checkbox" checked style="width:auto">30 天免登录 · 注册即同意服务条款</label>
+  <button class="btn btn-p" style="width:100%" data-goto="app">进入后台</button>
+  </div>
+</div></div></div></div>
+</main>
+
+<!-- 新建项目模态 -->
+<div class="modal" id="modal"><div class="mbox">
+  <div class="mhdr"><b>≡ 后台 · 新建项目</b><button class="btn btn-g btn-s" data-close style="color:var(--sky)">✕</button></div>
+  <div class="mbody">
+    <div class="fg"><label>项目名称 *</label><input id="m-name" placeholder="例：结算中心重构"><div class="msg" id="m-name-msg" style="color:var(--err)"></div></div>
+    <div class="grow2">
+      <div class="fg"><label>类型</label><select id="m-type"><option>Web 交付</option><option>设计系统</option><option>AI 流水线</option><option>运维审计</option></select></div>
+      <div class="fg"><label>负责人</label><select id="m-owner"><option>林晚舟</option><option>周墨白</option><option>苏见月</option><option>陈屿</option></select></div>
+    </div>
+    <div class="grow2">
+      <div class="fg"><label>开始日期</label><input type="date" id="m-date" value="2026-11-10"></div>
+      <div class="fg"><label>预计工期：<b id="m-weeks">8</b> 周</label><input type="range" min="2" max="24" value="8" id="m-range"></div>
+    </div>
+    <div class="fg"><label>标签</label><input id="m-tags" placeholder="逗号分隔，例：后台, 支付"></div>
+    <div class="fg"><label>项目简介（<span id="m-count">0</span>/200）</label><textarea id="m-desc" rows="3" maxlength="200" placeholder="一句话说明验收目标…"></textarea></div>
+    <div class="dz">⇪ 点击选择需求文档（≤20MB），或将文件拖入此处</div>
+  </div>
+  <div class="mfoot"><button class="btn btn-g" data-close>取消</button><button class="btn btn-p" id="m-save">保存并开始排期</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<div class="gen">由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Nintendo 2001」生成 · GhollStudio 产品内核 v1</div>
+<script>
+/* 视图切换 */
+const views={home:'v-home',app:'v-app',auth:'v-auth'};
+function goto(k){document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.goto===k&&k!=='auth'));Object.values(views).forEach(v=>document.getElementById(v).classList.toggle('on',v==='v-'+k));scrollTo(0,0)}
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();goto(el.dataset.goto)}));
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+/* 数据 */
+let PJ=[['Atlas 对账模块','设计系统','周墨白',86,'b-run','进行中'],['Slot 排期引擎','Web 交付','林晚舟',62,'b-run','进行中'],['ProVision 小程序','AI 流水线','苏见月',24,'b-warn','待启动'],['Nimbus 数据看板','Web 交付','陈屿',48,'b-run','进行中'],['海雾品牌官网','设计系统','林晚舟',92,'b-ok','复核通过'],['灯塔运维接入','运维审计','周墨白',15,'b-warn','待启动']];
+let WO=[['GS-118','Atlas 对账','云栖支付','UAT','待审核',128000,'11-05 09:42'],['GS-117','ProVision 商城','ProVision','已上架','已上架',246000,'11-05 08:31'],['GS-116','Nimbus 看板','沧海数据','联调','待审核',86000,'11-04 22:10'],['GS-115','Slot 排期','青柠出行','开发','复核通过',52000,'11-04 18:02'],['GS-114','品牌官网改版','海雾传媒','设计','驳回重做',36000,'11-04 15:47'],['GS-113','灯塔运维','Lumen','接入','已上架',98000,'11-03 20:15'],['GS-112','Token 工程咨询','几何建筑','顾问','待审核',44000,'11-03 11:20'],['GS-111','支付灰度','云栖支付','发布','复核通过',156000,'11-02 17:35']];
+let LOG=[['09:42','复核通过','GS-116 · 苏见月'],['昨天','已上架','GS-117 · 周墨白'],['昨天','驳回重做','GS-114 · 林晚舟']];
+let NT=[[0,'11-05 09:42','Atlas 对账进入 UAT，等待复核','b-warn'],[1,'11-05 08:31','ProVision 商城二期已上架','b-ok'],[2,'11-04 22:10','新工单 GS-116 已分派','b-run']];
+const STS=['待审核','复核通过','驳回重做','已上架'];
+const BADGE={'待审核':'b-warn','复核通过':'b-run','驳回重做':'b-err','已上架':'b-ok'};
+function drawPJ(){const w=document.getElementById('pjwall');
+  w.innerHTML=PJ.length?PJ.map((p,i)=>`<div class="pj"><b>${p[0]}</b><small>${p[1]} · ${p[2]}</small><div class="bar"><i style="width:${p[3]}%"></i></div><span class="badge ${p[4]}">${p[5]} ${p[3]}%</span></div>`).join('')+`<div class="pj" style="display:grid;place-items:center;border-style:dashed;color:var(--muted);font-size:11.5px;cursor:pointer" data-open-modal>＋ 新项目</div>`:`<div class="empty" style="grid-column:1/-1">项目卡片墙已清空 —— 点「+ 新建项目」重新开张。</div>`;
+  w.querySelectorAll('[data-open-modal]').forEach(el=>el.onclick=openModal)}
+function drawWO(){const q=document.getElementById('q').value,s=document.getElementById('fs').value;
+  let list=WO.filter(w=>(!s||w[4]===s)&&(!q||(w[0]+w[1]+w[2]).toLowerCase().includes(q.toLowerCase())));
+  list.sort((a,b)=>asc? b[5]-a[5] : a[5]-b[5]);
+  document.getElementById('tb').innerHTML=list.map(w=>`<tr><td class="id">${w[0]}</td><td style="font-weight:600">${w[1]}</td><td style="color:var(--muted)">${w[2]}</td><td>${w[3]}</td><td><select data-id="${w[0]}">${STS.map(x=>`<option ${x===w[4]?'selected':''}>${x}</option>`).join('')}</select></td><td class="num" style="font-weight:700">¥${w[5].toLocaleString()}</td><td class="num" style="color:var(--muted);font-size:11px">${w[6]}</td></tr>`).join('');
+  document.getElementById('tb').querySelectorAll('select').forEach(sel=>sel.onchange=()=>{
+    const w=WO.find(x=>x[0]===sel.dataset.id);w[4]=sel.value;
+    LOG.unshift([new Date().toTimeString().slice(0,5),sel.value,w[0]+' · '+w[1]]);
+    if(sel.value!=='待审核')document.getElementById('kpi-review').textContent=WO.filter(x=>x[4]==='待审核').length;
+    drawLog();drawWO();toast(`${w[0]} → ${sel.value}（已记入复核记录）`)
+  });
+  document.getElementById('cnt').textContent=`${list.length} / ${WO.length} 单 · 待审核 ${WO.filter(w=>w[4]==='待审核').length}`}
+function drawLog(){document.getElementById('log').innerHTML=LOG.map(l=>`<div><time>${l[0]}</time><span class="badge ${BADGE[l[1]]||'b-run'}" style="margin:0">${l[1]}</span><span>${l[2]}</span></div>`).join('')}
+function drawNT(){const n=document.getElementById('notif');
+  n.innerHTML=NT.length?NT.map(t=>`<div><em class="${t[3]}" style="background:var(--${({'b-warn':'warn','b-ok':'ok','b-run':'primary','b-err':'err'})[t[3]]})"></em><div style="flex:1"><p>${t[2]}</p><time>${t[1]}</time></div></div>`).join(''):`<div class="empty">通知中心是空的。<br>好消息不会迟到，只会先到 —— 点「新增」试一条。</div>`}
+document.getElementById('nt-add').onclick=()=>{NT.unshift([9,new Date().toTimeString().slice(0,5),'工单 GS-119 复核通过，可安排发布','b-ok']);drawNT()};
+document.getElementById('nt-clear').onclick=()=>{NT=[];drawNT()};
+document.getElementById('clear-pj').onclick=()=>{PJ=[];drawPJ();document.getElementById('kpi-active').textContent=0};
+/* 排序 */
+let asc=false;document.getElementById('srt').onclick=()=>{asc=!asc;drawWO()};
+document.getElementById('q').oninput=drawWO;document.getElementById('fs').onchange=drawWO;
+/* 模态与表单 */
+const modal=document.getElementById('modal');
+function openModal(){modal.classList.add('on');document.getElementById('m-name').focus()}
+document.querySelectorAll('[data-open-modal]').forEach(el=>el.onclick=openModal);
+modal.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>modal.classList.remove('on'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('on')});
+document.getElementById('m-range').oninput=e=>document.getElementById('m-weeks').textContent=e.target.value;
+const desc=document.getElementById('m-desc'),cnt=document.getElementById('m-count');desc.oninput=()=>cnt.textContent=desc.value.length;
+document.getElementById('m-save').onclick=()=>{
+  const name=document.getElementById('m-name'),msg=document.getElementById('m-name-msg');
+  if(!name.value.trim()){name.classList.add('bad');msg.textContent='项目名称必填';name.focus();return}
+  name.classList.remove('bad');msg.textContent='';
+  PJ.unshift([name.value,document.getElementById('m-type').value,document.getElementById('m-owner').value,0,'b-warn','待启动']);
+  drawPJ();document.getElementById('kpi-active').textContent=PJ.length;
+  WO.unshift(['GS-'+(119+WO.length%40),name.value,'新客户','启动','待审核',Math.ceil(Math.random()*200)*1000,'刚刚']);
+  drawWO();modal.classList.remove('on');name.value='';desc.value='';cnt.textContent='0';
+  toast('项目已创建：进入卡片墙，工单落入待审核队列')};
+/* 图表 */
+const BAR12=[3,4,2,5,6,4,7,6,8,7,9,6];let range=12;
+function drawBars(){const data=BAR12.slice(12-range);const max=Math.max(...data);
+  document.getElementById('bars').innerHTML=data.map((v,i)=>`<div><i class="${i===data.length-1?'hot':''}" style="height:${v/max*100}%"></i><span>${11-range+i+2>12?'':(11-range+i+2)+'月'}</span></div>`).join('')}
+document.getElementById('range').onchange=e=>{range=+e.target.value;drawBars()};
+const F=[['线索',100],['体检会',54],['方案报价',32],['签约',18],['续聘',11]];
+document.getElementById('funnel').innerHTML=F.map((f,i)=>`<div style="display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted)"><span style="width:44px">${f[0]}</span><div style="flex:1"><i style="width:${f[1]}%;background:rgba(37,99,235,${1-i*0.16})">${f[1]}%</i></div></div>`).join('');
+document.getElementById('ti').onclick=()=>{ti.className='on';tu.className='';regf.style.display='none'};
+document.getElementById('tu').onclick=()=>{tu.className='on';ti.className='';regf.style.display='block'};
+drawPJ();drawWO();drawLog();drawNT();drawBars();
+</script></body></html>

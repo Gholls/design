@@ -164,6 +164,7 @@
 - [shopify 样板间](https://design.gholl.com/generated/shopify/index.html)
 - [slack 样板间](https://design.gholl.com/generated/slack/index.html)
 - [spacex 样板间](https://design.gholl.com/generated/spacex/index.html)
+- [stripe 样板间](https://design.gholl.com/generated/stripe/index.html)
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 

@@ -14,7 +14,8 @@ interface DesignCardProps {
 /** Token 试装条：仅演示该规范的颜色/圆角/阴影气质，不是样板间（样板间由 agent 生成） */
 function TokenFitting() {
   return (
-    <div className="bg-bg px-4 py-3.5">
+    // 顶部留白避开绝对定位的来源/状态徽章，避免徽章压住「Aa」字样
+    <div className="bg-bg px-4 pb-3.5 pt-10">
       <div className="flex items-center justify-between">
         <span className="rounded-control bg-primary px-3 py-1.5 text-xs font-semibold text-on-primary shadow-control">
           主操作
@@ -87,8 +88,8 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className="truncate font-display text-sm font-bold">{d.name}</h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="line-clamp-2 min-w-0 break-words font-display text-sm font-bold leading-snug">{d.name}</h3>
           <span className="shrink-0 font-mono text-[10px] text-muted">
             D{d.metrics.density ?? '–'} · V{d.metrics.variance} · M{d.metrics.motion}
           </span>
@@ -96,13 +97,13 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
 
         <p className="line-clamp-2 text-xs leading-relaxed text-muted">{d.summary}</p>
 
-        <div className="mt-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-1">
             {SWATCH_ROLES.map((role) => (
               <span
                 key={role}
                 title={`${role}: ${d.roles[role]}`}
-                className="h-4 w-4 rounded-full border border-line"
+                className="h-3.5 w-3.5 rounded-full border border-line"
                 style={{ backgroundColor: d.roles[role] }}
               />
             ))}
@@ -116,7 +117,7 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
               {'</>'}
             </button>
             <button onClick={() => onPreview(design)} className={buttonClass('primary', 'sm')}>
-              {generated ? '⚡ 预览站点' : '⚡ 预览'}
+              ⚡ 预览
             </button>
           </div>
         </div>

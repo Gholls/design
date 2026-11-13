@@ -88,9 +88,9 @@ export default function GalleryPage() {
           <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
             awesome-design-md
           </a>
-          {' '}的 74 个真实品牌设计系统分析；样板间由 code agent 依
-          <a href="/prompt" className="mx-1 text-primary underline decoration-line">黄金提示词</a>
-          逐规范生成静态站点。已生成 {generatedCount} / {designs.length}。
+          {' '}的 <span className="whitespace-nowrap">74 个真实品牌</span>设计系统分析；样板间由 code agent 依
+          <a href="/prompt" className="mx-1 whitespace-nowrap text-primary underline decoration-line">黄金提示词</a>
+          逐规范生成静态站点。已生成 <span className="whitespace-nowrap">{generatedCount} / {designs.length}</span>。
         </p>
       </header>
 
@@ -108,7 +108,7 @@ export default function GalleryPage() {
         ))}
         {hotTags.length > 0 ? (
           <>
-            <span className="mx-1 h-4 w-px bg-line" />
+            <span className="mx-1 hidden h-4 w-px bg-line sm:inline-block" />
             {hotTags.map((t) => (
               <button
                 key={t}

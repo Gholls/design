@@ -439,6 +439,27 @@ const withFamily = (family: string | undefined): string => {
   return f.includes(',') ? f : `${f}${SANS_FALLBACK}`
 }
 
+function parseGalleryTags(raw: unknown): string[] {
+  const clean = (list: unknown[]) => list.map((t) => String(t).trim()).filter(Boolean)
+  if (Array.isArray(raw)) return clean(raw)
+  if (typeof raw !== 'string') return []
+  const text = raw.trim()
+  if (text.startsWith('[')) {
+    let parsed: unknown = null
+    try {
+      parsed = JSON.parse(text)
+    } catch {
+      parsed = null
+    }
+    if (Array.isArray(parsed)) return clean(parsed)
+  }
+  return text
+    .replace(/^\[|\]$/g, '')
+    .split(',')
+    .map((t) => t.trim().replace(/^["']|["']$/g, ''))
+    .filter(Boolean)
+}
+
 export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: string[], markdown = ''): NormalizedDesign {
   const warnings = [...parseWarnings]
   const insights = readProse(markdown)
@@ -582,7 +603,7 @@ export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: str
     author: gallery.author || 'gholl',
     source: gallery.source || '',
     order: Number(gallery.order ?? 99),
-    tags: (gallery.tags ?? '').split(',').map((t) => t.trim()).filter(Boolean),
+    tags: parseGalleryTags(gallery.tags),
     roles,
     colors: colorsRaw,
     typography,

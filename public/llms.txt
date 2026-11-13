@@ -151,6 +151,7 @@
 - [opencode-ai 样板间](https://design.gholl.com/generated/opencode-ai/index.html)
 - [oracle 样板间](https://design.gholl.com/generated/oracle/index.html)
 - [oura 样板间](https://design.gholl.com/generated/oura/index.html)
+- [pinterest 样板间](https://design.gholl.com/generated/pinterest/index.html)
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 

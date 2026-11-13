@@ -154,6 +154,7 @@
 - [pinterest 样板间](https://design.gholl.com/generated/pinterest/index.html)
 - [playstation 样板间](https://design.gholl.com/generated/playstation/index.html)
 - [posthog 样板间](https://design.gholl.com/generated/posthog/index.html)
+- [raycast 样板间](https://design.gholl.com/generated/raycast/index.html)
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 

@@ -1,1 +1,3 @@
-/* /index.html 200
+# 仅保留旧版 /preview?theme=<slug> 的兼容重写。
+# 禁止使用 /* /index.html 200：Workers 静态资源会判定其自我循环（规则再次匹配 /index.html）。
+/preview /index.html 200

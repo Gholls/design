@@ -160,6 +160,7 @@
 - [resend 样板间](https://design.gholl.com/generated/resend/index.html)
 - [revolut 样板间](https://design.gholl.com/generated/revolut/index.html)
 - [sap 样板间](https://design.gholl.com/generated/sap/index.html)
+- [sentry 样板间](https://design.gholl.com/generated/sentry/index.html)
 - [supabase 样板间](https://design.gholl.com/generated/supabase/index.html)
 - [vercel 样板间](https://design.gholl.com/generated/vercel/index.html)
 

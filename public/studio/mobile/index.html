@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>GhollStudio · 移动端</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.5h7A1.5 1.5 0 0 1 19 10v7.5A1.5 1.5 0 0 1 17.5 19h-13A1.5 1.5 0 0 1 3 17.5z"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a3 3 0 0 0 0 6v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a3 3 0 0 0 0-6z"/><path d="M13 5v14" stroke-dasharray="2 3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.5-5.5 7-5.5s6.2 1.9 7 5.5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6v6c0 4-2.8 6.8-7 8.5C7.8 18.8 5 16 5 12V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M3.5 9.5h17M7 14.5h4"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10M14 8l4 4-4 4M9 12h9"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12 20 4l-5 16-3.5-7z"/><path d="m11.5 13 8.5-9"/></symbol>
+  <symbol id="i-home-indicator" viewBox="0 0 140 6"><rect width="140" height="6" rx="3"/></symbol>
+</svg>
+
+<div class="stage">
+  <div class="device">
+    <div class="screen" id="screen">
+      <div class="statusbar">
+        <span class="sb-time">9:41</span>
+        <span class="sb-icons">
+          <svg width="17" height="12" viewBox="0 0 17 12" aria-hidden="true"><rect x="0" y="7" width="3" height="5" rx="0.6" fill="currentColor"/><rect x="4.5" y="5" width="3" height="7" rx="0.6" fill="currentColor"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.6" fill="currentColor"/><rect x="13.5" y="0" width="3" height="12" rx="0.6" fill="currentColor"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M8 11.2 5.2 8.4a4 4 0 0 1 5.6 0zM3.2 6.4 1 4.2a9.9 9.9 0 0 1 14 0l-2.2 2.2a6.7 6.7 0 0 0-9.6 0z" fill="currentColor"/></svg>
+          <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true"><rect x="0.5" y="0.5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="1.8" fill="currentColor"/><rect x="22.6" y="4" width="1.8" height="4" rx="0.9" fill="currentColor" opacity=".45"/></svg>
+        </span>
+      </div>
+      <div class="island" aria-hidden="true"></div>
+
+      <header class="appbar">
+        <div class="appbar-title" id="appbarTitle">GhollStudio</div>
+        <div class="appbar-actions">
+          <button class="iconbtn" id="ctxNew" aria-label="新建"><svg class="icon"><use href="#i-plus"/></svg></button>
+          <button class="iconbtn" id="searchBtn" aria-label="搜索"><svg class="icon"><use href="#i-search"/></svg></button>
+          <button class="iconbtn" id="bellBtn" aria-label="通知"><svg class="icon"><use href="#i-bell"/></svg><span class="badge-dot" id="bellDot">4</span></button>
+        </div>
+      </header>
+
+      <main class="content" id="content">
+        <section class="view on" id="v-home"><div id="homeBody"></div></section>
+
+        <section class="view" id="v-projects">
+          <div class="screen-pad">
+            <div class="large-title">项目</div>
+            <p class="screen-sub" id="projectSub"></p>
+            <label class="searchfield">
+              <svg class="icon"><use href="#i-search"/></svg>
+              <input id="projectSearch" placeholder="搜索项目、客户、负责人" autocomplete="off">
+            </label>
+            <div class="chips" id="projectChips"></div>
+          </div>
+          <div id="projectList" class="card-list"></div>
+        </section>
+
+        <section class="view" id="v-tickets">
+          <div class="screen-pad">
+            <div class="large-title">工单</div>
+            <p class="screen-sub" id="ticketSub"></p>
+            <div class="chips" id="ticketChips"></div>
+          </div>
+          <div id="ticketList" class="list"></div>
+          <div class="list-foot" id="ticketFoot"></div>
+        </section>
+
+        <section class="view" id="v-messages">
+          <div class="screen-pad">
+            <div class="large-title">消息</div>
+            <p class="screen-sub">项目群、设计系统与运维通知</p>
+          </div>
+          <div id="convList" class="list"></div>
+        </section>
+
+        <section class="view" id="v-me">
+          <div class="screen-pad">
+            <div class="large-title">我的</div>
+          </div>
+          <div class="profile-card">
+            <span class="avatar avatar-lg" style="--hue:#f06a6a">林</span>
+            <div class="profile-main">
+              <b>林晚舟</b>
+              <span>设计负责人 · GhollStudio</span>
+            </div>
+            <button class="iconbtn"><svg class="icon"><use href="#i-more"/></svg></button>
+          </div>
+          <div class="stat-strip">
+            <div><b>128</b><span>已交付</span></div>
+            <div><b>7</b><span>进行中</span></div>
+            <div><b>4.9</b><span>客户评分</span></div>
+          </div>
+          <div class="setting-group">
+            <div class="setting-row">
+              <span class="setting-icon" style="--hue:#5a3fff"><svg class="icon"><use href="#i-moon"/></svg></span>
+              <div class="setting-main"><b>深色模式</b><span>跟随 Asana 炭黑表面</span></div>
+              <button class="switch" id="themeSwitch" data-act="toggle-theme" aria-label="切换深色模式"></button>
+            </div>
+            <div class="setting-row">
+              <span class="setting-icon" style="--hue:#f06a6a"><svg class="icon"><use href="#i-bell"/></svg></span>
+              <div class="setting-main"><b>推送通知</b><span>审核与里程碑变更</span></div>
+              <button class="switch on" data-act="toggle-switch" aria-label="切换推送通知"></button>
+            </div>
+            <div class="setting-row">
+              <span class="setting-icon" style="--hue:#4ecbc4"><svg class="icon"><use href="#i-shield"/></svg></span>
+              <div class="setting-main"><b>触感反馈</b><span>完成与切换时的软触感</span></div>
+              <button class="switch on" data-act="toggle-switch" aria-label="切换触感反馈"></button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <button class="setting-row" data-act="team">
+              <span class="setting-icon" style="--hue:#f1bd6c"><svg class="icon"><use href="#i-user"/></svg></span>
+              <div class="setting-main"><b>团队与权限</b><span>4 位成员 · 2 个外部协作者</span></div>
+              <svg class="icon chev"><use href="#i-chevron"/></svg>
+            </button>
+            <button class="setting-row" data-act="billing">
+              <span class="setting-icon" style="--hue:#62d26f"><svg class="icon"><use href="#i-card"/></svg></span>
+              <div class="setting-main"><b>订阅与账单</b><span>标准档 · 下一期 12-01</span></div>
+              <svg class="icon chev"><use href="#i-chevron"/></svg>
+            </button>
+            <button class="setting-row" data-act="audit">
+              <span class="setting-icon" style="--hue:#8da3b0"><svg class="icon"><use href="#i-settings"/></svg></span>
+              <div class="setting-main"><b>交付与审计</b><span>最近审计 10-28 · SLA 99.97%</span></div>
+              <svg class="icon chev"><use href="#i-chevron"/></svg>
+            </button>
+          </div>
+          <div class="screen-pad">
+            <button class="btn btn-ghost btn-block" data-act="logout"><svg class="icon"><use href="#i-logout"/></svg>退出登录</button>
+            <p class="spec-note">设计语言：Asana iOS · awesome-ios-design-md</p>
+          </div>
+        </section>
+      </main>
+
+      <div class="thread" id="thread" aria-hidden="true">
+        <header class="thread-head">
+          <button class="iconbtn" id="threadBack" aria-label="返回"><svg class="icon"><use href="#i-back"/></svg></button>
+          <div class="thread-title"><b id="threadName"></b><span id="threadMeta"></span></div>
+          <button class="iconbtn" aria-label="更多"><svg class="icon"><use href="#i-more"/></svg></button>
+        </header>
+        <div class="thread-body" id="threadBody"></div>
+        <form class="composer" id="composer">
+          <input id="composerInput" placeholder="发消息…" autocomplete="off">
+          <button class="sendbtn" id="sendBtn" type="submit" aria-label="发送"><svg class="icon"><use href="#i-send"/></svg></button>
+        </form>
+      </div>
+
+      <nav class="tabbar" id="tabbar" aria-label="主导航">
+        <button class="tab on" data-tab="home"><svg class="icon"><use href="#i-home"/></svg><span>首页</span></button>
+        <button class="tab" data-tab="projects"><svg class="icon"><use href="#i-folder"/></svg><span>项目</span></button>
+        <button class="tab" data-tab="tickets"><svg class="icon"><use href="#i-ticket"/></svg><span>工单</span></button>
+        <button class="tab" data-tab="messages"><svg class="icon"><use href="#i-chat"/></svg><span>消息</span></button>
+        <button class="tab" data-tab="me"><svg class="icon"><use href="#i-user"/></svg><span>我的</span></button>
+        <span class="home-indicator"><svg viewBox="0 0 140 6"><use href="#i-home-indicator"/></svg></span>
+      </nav>
+
+      <div class="search" id="search" aria-hidden="true">
+        <div class="search-top">
+          <label class="searchfield">
+            <svg class="icon"><use href="#i-search"/></svg>
+            <input id="globalSearch" placeholder="搜索项目、工单、消息" autocomplete="off">
+          </label>
+          <button class="textbtn" id="searchCancel">取消</button>
+        </div>
+        <div class="search-body" id="searchBody"></div>
+      </div>
+
+      <div class="sheet" id="sheet" aria-hidden="true">
+        <div class="sheet-panel" role="dialog" aria-modal="true">
+          <div class="sheet-grab"></div>
+          <div class="sheet-head"><b id="sheetTitle"></b><button class="iconbtn" id="sheetClose" aria-label="关闭"><svg class="icon"><use href="#i-x"/></svg></button></div>
+          <div class="sheet-body" id="sheetBody"></div>
+          <div class="sheet-foot" id="sheetFoot"></div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast" role="status"></div>
+    </div>
+  </div>
+
+  <aside class="side">
+    <a class="backlink" href="../">← 跨端主页</a>
+    <div class="side-badge">移动端 · v1</div>
+    <h1>GhollStudio<br>移动端</h1>
+    <p>同一套交付系统，按 Asana iOS 的列表、珊瑚色 FAB、完成圆环与底部标签栏重建。所有数据与网站、桌面端共用。</p>
+    <div class="side-block">
+      <span class="side-label">设计语言</span>
+      <b>Asana iOS</b>
+      <span>awesome-ios-design-md</span>
+    </div>
+    <div class="side-block">
+      <span class="side-label">已实现</span>
+      <ul>
+        <li>5 个标签页 + 推送式会话</li>
+        <li>项目详情 / 工单状态 / 新建表单</li>
+        <li>全局搜索、通知中心、深色模式</li>
+      </ul>
+    </div>
+    <div class="swatches" aria-hidden="true">
+      <i style="background:#f06a6a"></i><i style="background:#62d26f"></i><i style="background:#4ecbc4"></i><i style="background:#f8df72"></i><i style="background:#f26fd3"></i><i style="background:#4573d2"></i>
+    </div>
+    <button class="btn btn-quiet" data-act="toggle-theme"><svg class="icon"><use href="#i-moon"/></svg>切换深色 / 浅色</button>
+  </aside>
+</div>
+
+<script src="../shared/data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

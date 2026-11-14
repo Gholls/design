@@ -1,0 +1,97 @@
+:root {
+  --font: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --canvas: #ffffff;
+  --surface: #f9f8f8;
+  --surface-2: #f0efef;
+  --divider: #edebe9;
+  --border: #e8e6e4;
+  --text: #1e1f21;
+  --text-2: #6d6e6f;
+  --text-3: #9ca3a6;
+  --coral: #f06a6a;
+  --coral-pressed: #d85b5b;
+  --coral-tint: rgba(240, 106, 106, 0.12);
+  --link: #4573d2;
+  --green: #62d26f;
+  --red: #e8384f;
+  --yellow: #f8df72;
+  --aqua: #4ecbc4;
+  --orange: #f1bd6c;
+  --magenta: #f26fd3;
+  --indigo: #5a3fff;
+  --plum: #4573d2;
+  --cool: #8da3b0;
+  --scrim: rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-sheet: 0 -4px 24px rgba(0, 0, 0, 0.18);
+  --shadow-fab: 0 8px 20px rgba(240, 106, 106, 0.45);
+  --r-4: 4px;
+  --r-8: 8px;
+  --r-10: 10px;
+  --r-12: 12px;
+  --r-16: 16px;
+  --r-pill: 999px;
+  --inset: 18px;
+  --t-title: 800 32px/1.15 var(--font);
+  --t-nav: 700 26px/1.2 var(--font);
+  --t-section: 700 22px/1.25 var(--font);
+  --t-sub: 600 18px/1.3 var(--font);
+  --t-body: 400 16px/1.5 var(--font);
+  --t-row: 500 15px/1.35 var(--font);
+  --t-label: 700 13px/1.2 var(--font);
+  --t-meta: 400 14px/1.35 var(--font);
+  --t-pill: 600 12px/1 var(--font);
+  --t-btn: 600 15px/1 var(--font);
+  --t-action: 600 14px/1 var(--font);
+  --t-tab: 600 10px/1 var(--font);
+}
+
+[data-theme="dark"] {
+  --canvas: #1e1f21;
+  --surface: #252628;
+  --surface-2: #2e2f31;
+  --divider: #35363a;
+  --border: #3a3b3f;
+  --text: #f5f4f2;
+  --text-2: #a9a9aa;
+  --text-3: #6f7073;
+  --coral-tint: rgba(240, 106, 106, 0.18);
+  --shadow-card: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: var(--t-body);
+  color: var(--text);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--coral-tint);
+}

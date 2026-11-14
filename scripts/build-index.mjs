@@ -85,6 +85,7 @@ writeFileSync(
 const urls = [
   { loc: `${BASE}/`, priority: '1.0', freq: 'weekly' },
   { loc: `${BASE}/prompt`, priority: '0.9', freq: 'weekly' },
+  { loc: `${BASE}/studio/`, priority: '0.8', freq: 'monthly' },
   ...index.map((d) => ({ loc: `${BASE}/design/${d.slug}`, priority: '0.8', freq: 'monthly' })),
   ...generated.map((s) => ({ loc: `${BASE}/generated/${s}/index.html`, priority: '0.5', freq: 'monthly' })),
 ]
@@ -112,6 +113,7 @@ const llms = [
   '',
   `- [画廊首页](${BASE}/)：全部规范卡片与预览入口`,
   `- [GOLDEN PROMPT 黄金提示词](${BASE}/prompt)：驱动所有样板间的同一份提示词全文`,
+  `- [跨端样板间](${BASE}/studio/)：同一套 GhollStudio 数据，在网站 / 移动端 / 桌面端三种表面上的设计实验`,
   `- [规范索引 JSON](${BASE}/design-index.json)：机器可读的归一化 Token 索引`,
   `- [站点地图](${BASE}/sitemap.xml)`,
   '',

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="GhollStudio 跨端样板间：同一套交付系统，在网站、移动端、桌面端三种表面上的设计语言实验。">
+<title>GhollStudio · 跨端样板间</title>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./">
+    <span class="brand-mark">G</span>
+    <span>GhollStudio<span class="brand-sub">跨端样板间</span></span>
+  </a>
+  <div class="top-actions">
+    <span class="spec-chip">Asana iOS · awesome-ios-design-md</span>
+    <a class="ghost-link" href="/">规范画廊</a>
+    <a class="ghost-link" href="/prompt">GOLDEN PROMPT</a>
+    <button class="theme-btn" id="themeBtn" aria-label="切换深色模式">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">ONE STUDIO · THREE SURFACES</span>
+        <h1>一个工作室，<br><em>三种表面</em>。</h1>
+        <p>同一套 GhollStudio 交付系统，在网站、移动端、桌面端保持一致的数据、语气与验收标准。设计语言取自 <b>Asana iOS</b>：珊瑚色单一强调、可扫描列表、完成圆环与底部标签栏。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#mobile">查看移动端</a>
+          <a class="btn btn-quiet" href="#structure">代码结构</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="token-card">
+          <span class="token-label">DESIGN TOKENS</span>
+          <div class="token-swatches">
+            <i style="--c:#f06a6a"></i><i style="--c:#62d26f"></i><i style="--c:#4ecbc4"></i><i style="--c:#f8df72"></i><i style="--c:#f26fd3"></i><i style="--c:#4573d2"></i>
+          </div>
+          <div class="token-row"><span>Asana Coral</span><b>#F06A6A</b></div>
+          <div class="token-row"><span>Canvas / Dark</span><b>#FFFFFF / #1E1F21</b></div>
+          <div class="token-row"><span>Type</span><b>Inter 10–32pt</b></div>
+          <div class="token-row"><span>Grid</span><b>4pt · inset 18pt</b></div>
+        </div>
+      </div>
+    </div>
+    <nav class="platforms" id="platforms" aria-label="平台模块">
+      <a href="#web" data-platform="web"><span class="p-index">01</span><span><b>网站</b><small>Browser surface</small></span><em>下一步</em></a>
+      <a href="#mobile" data-platform="mobile" class="on"><span class="p-index">02</span><span><b>移动端</b><small>iOS app surface</small></span><em class="live">已实现</em></a>
+      <a href="#desktop" data-platform="desktop"><span class="p-index">03</span><span><b>桌面端</b><small>Desktop console</small></span><em>规划中</em></a>
+    </nav>
+  </section>
+
+  <section class="module" id="web" data-module="web">
+    <div class="module-head">
+      <span class="module-no">01</span>
+      <div>
+        <h2>网站</h2>
+        <p>公开官网与项目入口：品牌叙事、案例、定价与登录，承接 SEO 与投放落地。</p>
+      </div>
+      <span class="status">下一步 · 待实现</span>
+    </div>
+    <div class="module-body">
+      <div class="preview preview-web">
+        <div class="browser">
+          <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">ghollstudio.com</span><span class="browser-menu">⋯</span></div>
+          <div class="browser-page">
+            <div class="mini-nav"><b>GhollStudio</b><span>服务 · 案例 · 定价</span><i>进入后台</i></div>
+            <div class="mini-hero">
+              <div><small>承接中 · 本月余 3 席</small><h3>把你的产品，<br>交给我们收尾。</h3><p>设计系统 · Web 与小程序 · AI 流水线 · 长期运维</p><span class="mini-btn">委托项目</span></div>
+              <div class="mini-pane"><span></span><span></span><span></span><b>本月交付 6</b><b>待审核 3</b></div>
+            </div>
+            <div class="mini-stats"><span><b>128</b>已交付</span><span><b>6</b>在售服务</span><span><b>4.9</b>客户均分</span></div>
+            <div class="mini-cards"><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="module-info">
+        <h3>共享同一份数据</h3>
+        <p>项目、工单、客户与里程碑从 <code>shared/data.js</code> 读取；网站只改变呈现密度，不复制业务状态。</p>
+        <ul>
+          <li>营销页 + 项目入口 + 登录</li>
+          <li>桌面宽版栅格与滚动叙事</li>
+          <li>与移动端共用 Token 和状态文案</li>
+        </ul>
+        <button class="btn btn-disabled" disabled>即将开放</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="module module-live" id="mobile" data-module="mobile">
+    <div class="module-head">
+      <span class="module-no">02</span>
+      <div>
+        <h2>移动端</h2>
+        <p>五个标签覆盖审核、沟通与新建项目；点开预览即可操作。</p>
+      </div>
+      <span class="status live">已实现 · v1</span>
+    </div>
+    <div class="module-body">
+      <div class="preview preview-mobile">
+        <div class="phone-mini">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <iframe src="mobile/?embed=1" title="GhollStudio 移动端预览" loading="lazy"></iframe>
+          </div>
+        </div>
+        <a class="preview-shade" href="mobile/" aria-label="进入移动端"></a>
+      </div>
+      <div class="module-info">
+        <h3>五个标签，覆盖交付全流程</h3>
+        <p>Asana iOS 的列表语法 + 珊瑚色创建入口。点击预览直接进入可交互原型：改工单状态、发消息、建项目都会即时反馈。</p>
+        <ul class="feature-list">
+          <li><b>首页</b>今日交付、KPI、团队动态</li>
+          <li><b>项目</b>筛选、进度、里程碑详情</li>
+          <li><b>工单</b>状态下拉、金额、复核记录</li>
+          <li><b>消息</b>会话列表与推送式聊天</li>
+          <li><b>我的</b>深色模式、通知、团队权限</li>
+        </ul>
+        <div class="module-actions">
+          <a class="btn btn-primary" href="mobile/">进入移动端</a>
+          <a class="btn btn-quiet" href="mobile/?embed=1" target="_blank" rel="noreferrer">独立窗口打开</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="module" id="desktop" data-module="desktop">
+    <div class="module-head">
+      <span class="module-no">03</span>
+      <div>
+        <h2>桌面端</h2>
+        <p>交付控制台：侧边导航、项目卡片墙、工单表格、统计图表与审核流水，面向长时间驻留。</p>
+      </div>
+      <span class="status">规划中</span>
+    </div>
+    <div class="module-body">
+      <div class="preview preview-desktop">
+        <div class="desktop">
+          <div class="desktop-bar"><span class="dots"><i></i><i></i><i></i></span><span>GhollStudio · Studio 控制台</span></div>
+          <div class="desktop-body">
+            <aside class="d-side">
+              <b>G</b>
+              <span class="on">交付总览</span><span>项目</span><span>工单</span><span>统计</span><span>组件</span>
+            </aside>
+            <div class="d-main">
+              <div class="d-kpis"><div><small>本月交付</small><b>6</b></div><div><small>进行中</small><b>7</b></div><div><small>待审核</small><b>3</b></div><div><small>月营收</small><b>¥48万</b></div></div>
+              <div class="d-grid">
+                <div class="d-table"><span>GS-118</span><b>Atlas 对账</b><i>待审核</i><em>¥128,000</em><span>GS-117</span><b>ProVision</b><i>已上架</i><em>¥246,000</em><span>GS-116</span><b>Nimbus</b><i>待审核</i><em>¥86,000</em></div>
+                <div class="d-chart"><i style="height:38%"></i><i style="height:56%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:62%"></i><i style="height:88%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="module-info">
+        <h3>同一套状态，不同的密度</h3>
+        <p>桌面端沿用移动端的项目与工单模型，但把导航收进侧栏、把列表升级为可排序表格，并加入 6/12 月统计。</p>
+        <ul>
+          <li>侧栏 + 主区，适合宽屏驻留</li>
+          <li>行内审核下拉与复核记录</li>
+          <li>柱状、环图与线索漏斗</li>
+        </ul>
+        <button class="btn btn-disabled" disabled>即将开放</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="structure" id="structure">
+    <div class="structure-head">
+      <span class="eyebrow">CODE STRUCTURE</span>
+      <h2>先分表面，再分组件。</h2>
+      <p>三个平台共享 <code>tokens.css</code> 与 <code>data.js</code>；每个表面只拥有自己的外壳、布局和交互，不复制业务数据。</p>
+    </div>
+    <div class="structure-grid">
+      <div class="tree-card">
+        <span class="tree-label">public/studio/</span>
+<pre><code>index.html          跨端主页（三个模块）
+home.css / home.js  模块布局与平台切换
+shared/
+  tokens.css        Asana iOS token 映射
+  data.js           GhollStudio 业务数据
+mobile/
+  index.html        iOS App 外壳
+  app.css           列表 / 表单 / 标签栏
+  app.js            状态机与交互
+web/                （下一步）
+desktop/            （下一步）</code></pre>
+      </div>
+      <div class="rule-list">
+        <div><span>01</span><b>数据只有一个来源</b><p><code>shared/data.js</code> 暴露项目、工单、消息与通知；各端只读同一份结构。</p></div>
+        <div><span>02</span><b>Token 只有一个来源</b><p><code>shared/tokens.css</code> 管颜色、字阶、间距与圆角；深色模式只切变量。</p></div>
+        <div><span>03</span><b>外壳各自独立</b><p>移动端用标签栏，桌面端用侧栏，网站用长滚动叙事；共享的是内容而不是布局。</p></div>
+        <div><span>04</span><b>交互按端落地</b><p>移动端用底部 sheet、推送式聊天与顶栏创建入口；桌面端用表格、弹窗与快捷键。</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div>
+    <b>GhollStudio</b>
+    <span>跨端样板间 · 移动端 v1</span>
+  </div>
+  <div class="foot-meta">
+    <span>设计语言：<a href="https://github.com/Meliwat/awesome-ios-design-md">Asana iOS</a></span>
+    <span>产品内核：GOLDEN PROMPT</span>
+    <span>© 2026 GhollStudio</span>
+  </div>
+</footer>
+
+<script src="shared/data.js"></script>
+<script src="home.js"></script>
+</body>
+</html>

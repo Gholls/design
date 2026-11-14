@@ -12,6 +12,7 @@
 
 - [画廊首页](https://design.gholl.com/)：全部规范卡片与预览入口
 - [GOLDEN PROMPT 黄金提示词](https://design.gholl.com/prompt)：驱动所有样板间的同一份提示词全文
+- [跨端样板间](https://design.gholl.com/studio/)：同一套 GhollStudio 数据，在网站 / 移动端 / 桌面端三种表面上的设计实验
 - [规范索引 JSON](https://design.gholl.com/design-index.json)：机器可读的归一化 Token 索引
 - [站点地图](https://design.gholl.com/sitemap.xml)
 

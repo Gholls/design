@@ -68,6 +68,11 @@ export default function GalleryPage() {
             </span>
           </div>
           <div className="flex items-center gap-2">
+            <span className="hidden sm:inline-flex">
+              <a href="/studio/" className={buttonClass('secondary', 'sm', 'stroke-control font-mono')}>
+                跨端样板间
+              </a>
+            </span>
             <a href="/prompt" className={buttonClass('secondary', 'sm', 'stroke-control font-mono')}>
               GOLDEN PROMPT
             </a>
@@ -174,6 +179,8 @@ export default function GalleryPage() {
             </a>
             {' · '}生成: code agent +{' '}
             <a href="/prompt" className="underline decoration-line hover:text-ink">GOLDEN PROMPT</a>
+            {' · '}
+            <a href="/studio/" className="underline decoration-line hover:text-ink">跨端样板间</a>
           </span>
           <span>npm run design:lint · npm run generate · MIT</span>
         </div>

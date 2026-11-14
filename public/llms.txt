@@ -1,6 +1,6 @@
 # Design.md Gallery
 
-> 同一份黄金提示词 × 81 套真实品牌 DESIGN.md 规范 = 网站与移动端两种表面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。
+> 同一份黄金提示词 × 279 套真实品牌 DESIGN.md 规范 = 网站与移动端两种表面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。
 
 关键事实：
 - 数据格式：Google Labs design.md（YAML frontmatter + 散文指令），全库经官方 CLI lint，0 error
@@ -99,6 +99,204 @@
 - [Zapier-Inspired-design-analysis](https://design.gholl.com/designs/zapier.md)：An inspired interpretation of Zapier's design language — a workflow-automation platform whose surface combines
 - [Spotify iOS](https://design.gholl.com/designs/ios-spotify.md)：音乐流媒体 App 的暗色设计系统：近黑画布、单一 Spotify Green、专辑封面驱动的动态渐变、密集列表与全屏 Now Playing。
 - [Strava iOS](https://design.gholl.com/designs/ios-strava.md)：运动记录 App 的设计系统：白色/煤黑双主题、单一 Strava Orange、数据即品牌的大号统计、路线地图与活动卡片。
+- [Bumble iOS](https://design.gholl.com/designs/ios-bumble.md)：Bumble's iOS app is unapologetically loud. Where Hinge whispers on cream paper and Tinder neon-flames at you, 
+- [Coffee Meets Bagel iOS](https://design.gholl.com/designs/ios-coffee-meets-bagel.md)：Coffee Meets Bagel's iOS app is a *relaxed first date over coffee*, rendered as software. Where swipe-apps are
+- [Feeld iOS](https://design.gholl.com/designs/ios-feeld.md)：Feeld's iOS app is the dating app for the open-minded — non-monogamy, kink, queer, exploratory — and its desig
+- [Grindr iOS](https://design.gholl.com/designs/ios-grindr.md)：Grindr's iOS app is an unapologetically dark, photo-first grid. The canvas is pure black (#000000) — not the s
+- [happn iOS](https://design.gholl.com/designs/ios-happn.md)：happn's entire product — and therefore its design system — is built around a single, very specific idea: the p
+- [Hinge iOS](https://design.gholl.com/designs/ios-hinge.md)：Hinge's iOS app reads like a personal journal printed on warm uncoated paper. The canvas is a soft off-white —
+- [Match iOS](https://design.gholl.com/designs/ios-match.md)：Match's iOS app is built around one hero object: the full-bleed profile card. Open the app and the entire scre
+- [OkCupid iOS](https://design.gholl.com/designs/ios-okcupid.md)：OkCupid's iOS app is a bright, friendly, question-driven matchmaker. The canvas is clean white (#FFFFFF) with 
+- [Plenty of Fish iOS](https://design.gholl.com/designs/ios-plenty-of-fish.md)：Plenty of Fish (POF) is one of the original mass-market dating apps, and its iOS design system reflects that h
+- [Raya iOS](https://design.gholl.com/designs/ios-raya.md)：Raya's iOS app is the most uncompromisingly monochrome interface in consumer dating. There is no brand color —
+- [The League iOS](https://design.gholl.com/designs/ios-the-league.md)：The League's iOS app is a black-tie members' club rendered as software. Open it and the entire screen is a nea
+- [Tinder iOS](https://design.gholl.com/designs/ios-tinder.md)：Tinder's iOS app is built around a single, unforgettable gesture: the swipe. Every primary screen is really ju
+- [Acorns iOS](https://design.gholl.com/designs/ios-acorns.md)：Acorns' iOS app is a friendly, optimistic micro-investing app built on one idea: investing should feel approac
+- [Apple Wallet iOS](https://design.gholl.com/designs/ios-apple-wallet.md)：Apple Wallet is a vault rendered as a stage. The canvas is true black (#000000) — not Apple's usual dark gray 
+- [Binance iOS](https://design.gholl.com/designs/ios-binance.md)：Binance's iOS app is a dark, dense, data-first trading terminal compressed into a phone. The default and domin
+- [Cash App iOS](https://design.gholl.com/designs/ios-cash-app.md)：Cash App is a fintech rendered as a pop-art club flyer. The canvas is near-black, the type is loud, the accent
+- [Charles Schwab iOS](https://design.gholl.com/designs/ios-charles-schwab.md)：The Charles Schwab iOS app is the digital lobby of a 50-year-old brokerage — confident, trustworthy, and built
+- [Chime iOS](https://design.gholl.com/designs/ios-chime.md)：Chime's iOS app is a calm, confidence-building money dashboard built around one number: how much you can spend
+- [Coinbase iOS](https://design.gholl.com/designs/ios-coinbase.md)：Coinbase is the crypto exchange rendered as a serious institutional financial product. The canvas is white, th
+- [Crypto.com iOS](https://design.gholl.com/designs/ios-crypto-com.md)：Crypto.com's iOS app is a premium, dark, navy-tinted financial super-app. Where Binance feels like a bare trad
+- [eBay iOS](https://design.gholl.com/designs/ios-ebay.md)：eBay's iOS app is a clean, utilitarian white canvas (#FFFFFF) built for one thing: scanning a deep catalog of 
+- [Etsy iOS](https://design.gholl.com/designs/ios-etsy.md)：Etsy's iOS app is a warm, handcrafted marketplace built on a soft cream canvas (#FAF5EF) that signals "handmad
+- [Fidelity iOS](https://design.gholl.com/designs/ios-fidelity.md)：Fidelity's iOS app is institutional calm rendered as software. It is the home screen of one of the largest bro
+- [Klarna iOS](https://design.gholl.com/designs/ios-klarna.md)：Klarna's iOS app is a soft, friendly shopping-and-payments space whose whole personality is *smooth*. The canv
+- [Monzo iOS](https://design.gholl.com/designs/ios-monzo.md)：Monzo's iOS app is built around one unforgettable object: the Hot Coral debit card (#FF3464). That coral is th
+- [Nubank iOS](https://design.gholl.com/designs/ios-nubank.md)：Nubank's iOS app is the most single-mindedly purple product in fintech. The brand color — Nu Purple (#820AD1) 
+- [PayPal iOS](https://design.gholl.com/designs/ios-paypal.md)：PayPal is the elder statesman of fintech rendered as a friendly, recognizable consumer-finance utility. The ca
+- [Revolut iOS](https://design.gholl.com/designs/ios-revolut.md)：Revolut's iOS app is a near-black financial cockpit where money looks engineered, not nostalgic. The canvas si
+- [Robinhood iOS](https://design.gholl.com/designs/ios-robinhood.md)：Robinhood is a brokerage rendered as a clean tech consumer product. The canvas is white, the chart is the hero
+- [SoFi iOS](https://design.gholl.com/designs/ios-sofi.md)：SoFi's iOS app is a premium one-stop financial command center — banking, investing, borrowing, and rewards und
+- [Venmo iOS](https://design.gholl.com/designs/ios-venmo.md)：Venmo's iOS app is one of the few fintech apps that feels like a social network, not a bank — and that's the w
+- [Walmart iOS](https://design.gholl.com/designs/ios-walmart.md)：Walmart's iOS app is an unapologetically bright, white-canvas retail environment built for speed and trust. Th
+- [Webull iOS](https://design.gholl.com/designs/ios-webull.md)：Webull's iOS app is a dark-native trading terminal in your pocket. Where Fidelity or Schwab present a calm bro
+- [Wise iOS](https://design.gholl.com/designs/ios-wise.md)：Wise's iOS app (formerly TransferWise) is a bright, confident money app whose entire personality is *transpare
+- [AllTrails iOS](https://design.gholl.com/designs/ios-alltrails.md)：AllTrails' iOS app is a clean, outdoorsy light space organized around two things: the map and the trail card. 
+- [Apple Fitness iOS](https://design.gholl.com/designs/ios-apple-fitness.md)：Apple Fitness is the purest expression of "the data *is* the brand" in Apple's app catalog. The entire identit
+- [Calm iOS](https://design.gholl.com/designs/ios-calm.md)：Calm's iOS app is a night sky you can fall asleep inside. The defining surface is a full-screen vertical gradi
+- [Fitbit iOS](https://design.gholl.com/designs/ios-fitbit.md)：Fitbit's iOS app is a warm, encouraging health dashboard organized around a single screen: Today. The atmosphe
+- [Flo iOS](https://design.gholl.com/designs/ios-flo.md)：Flo's iOS app is a soft, reassuring light space built around one circular object: the cycle wheel. The canvas 
+- [Garmin Connect iOS](https://design.gholl.com/designs/ios-garmin-connect.md)：Garmin Connect's iOS app is a data cockpit. Where consumer fitness apps soften their numbers behind illustrati
+- [Headspace iOS](https://design.gholl.com/designs/ios-headspace.md)：Headspace is a hand-drawn morning — warm, slow, and humanly imperfect. Where Nike Run Club is a stadium and St
+- [Hevy iOS](https://design.gholl.com/designs/ios-hevy.md)：Hevy's iOS app is a dark-first, gym-floor instrument. Open it and you are not greeted by marketing chrome — yo
+- [MyFitnessPal iOS](https://design.gholl.com/designs/ios-myfitnesspal.md)：MyFitnessPal's iOS app is a calorie ledger trying its hardest not to feel like one. Where Strava is theatrical
+- [Nike Run Club iOS](https://design.gholl.com/designs/ios-nike-run-club.md)：Nike Run Club is a stadium tunnel — black walls, white spotlights, a runner sprinting into them. The canvas is
+- [Noom iOS](https://design.gholl.com/designs/ios-noom.md)：Noom is a behavior-change app dressed as a friendly coach, and the design reflects that the entire time. The a
+- [Oura iOS](https://design.gholl.com/designs/ios-oura.md)：Oura's iOS app is a dark instrument panel for the body. The canvas is a deep, slightly cool charcoal (#0B0B0F)
+- [Peloton iOS](https://design.gholl.com/designs/ios-peloton.md)：Peloton's iOS app is a boutique fitness studio in pure black. The entire experience is engineered to feel like
+- [Runna iOS](https://design.gholl.com/designs/ios-runna.md)：Runna is a structured-training app for runners, and its design feels like a coach's plan come to life: confide
+- [Sleep Cycle iOS](https://design.gholl.com/designs/ios-sleep-cycle.md)：Sleep Cycle is a bedside app, and every design decision flows from that single fact: the screen is the last th
+- [Strong iOS](https://design.gholl.com/designs/ios-strong.md)：Strong's iOS app is one of the most disciplined, content-first interfaces in fitness software. Open it and the
+- [WHOOP iOS](https://design.gholl.com/designs/ios-whoop.md)：WHOOP's iOS app is a *performance instrument panel for the human body*. Where MyFitnessPal is a friendly ledge
+- [Zwift iOS](https://design.gholl.com/designs/ios-zwift.md)：Zwift's iOS app is a window into a video game. Unlike a typical fitness tracker, the dominant surface is not a
+- [Chipotle iOS](https://design.gholl.com/designs/ios-chipotle.md)：Chipotle's iOS app is built like a foil-wrapped burrito: warm, hand-made, and stripped to the essentials. The 
+- [Deliveroo iOS](https://design.gholl.com/designs/ios-deliveroo.md)：Deliveroo's iOS app is a single-brand-color food delivery experience. The canvas is pure white (#FFFFFF) and t
+- [Domino's iOS](https://design.gholl.com/designs/ios-dominos.md)：Domino's iOS app is built around a single, famous moment of anticipation: the pizza tracker. The canvas is cle
+- [DoorDash iOS](https://design.gholl.com/designs/ios-doordash.md)：DoorDash's iOS app is warm, appetizing, and unapologetically commercial — a design optimized for one job: turn
+- [Grubhub iOS](https://design.gholl.com/designs/ios-grubhub.md)：Grubhub's iOS app is an appetite-first food delivery marketplace. The canvas is pure white (#FFFFFF) and every
+- [Instacart iOS](https://design.gholl.com/designs/ios-instacart.md)：Instacart's iOS app is a bright, grocery-aisle catalog engineered around a single repeated motion: add an item
+- [McDonald's iOS](https://design.gholl.com/designs/ios-mcdonalds.md)：McDonald's iOS app is a loyalty-and-ordering machine wearing the most recognizable brand colors on earth. The 
+- [OpenTable iOS](https://design.gholl.com/designs/ios-opentable.md)：OpenTable's iOS app is a clean, confident restaurant-reservation utility. The canvas is bright white (#FFFFFF)
+- [Panera iOS](https://design.gholl.com/designs/ios-panera.md)：Panera's iOS app feels like walking into a warm bakery-café. The canvas is a soft warm white (#FFFFFF with cre
+- [Resy iOS](https://design.gholl.com/designs/ios-resy.md)：Resy's iOS app reads like a curated dining magazine that happens to book tables. The canvas is pure black (#00
+- [Starbucks iOS](https://design.gholl.com/designs/ios-starbucks.md)：Starbucks' iOS app is a thoughtful, warm retail experience wrapped around a single, rewards-heavy hero: your S
+- [Swiggy iOS](https://design.gholl.com/designs/ios-swiggy.md)：Swiggy's iOS app is appetite-driven commerce. The entire visual language exists to do one thing: make you hung
+- [Taco Bell iOS](https://design.gholl.com/designs/ios-taco-bell.md)：Taco Bell's iOS app is a neon, dark-first ordering playground. Unlike most QSR apps that sit on white, Taco Be
+- [Uber Eats iOS](https://design.gholl.com/designs/ios-uber-eats.md)：Uber Eats' iOS app is a bright, photo-first marketplace built on a pure white canvas (#FFFFFF) where food phot
+- [Yelp iOS](https://design.gholl.com/designs/ios-yelp.md)：Yelp's iOS app is a trust engine wearing a clean white skin. The entire product exists to answer one question 
+- [Zomato iOS](https://design.gholl.com/designs/ios-zomato.md)：Zomato's iOS app is a dual-purpose restaurant platform: it is both a food-delivery app and a dining-out / disc
+- [Discord iOS](https://design.gholl.com/designs/ios-discord.md)：Discord's iOS app is a dark-first community UI built around one load-bearing color: Blurple (#5865F2). Open th
+- [GroupMe iOS](https://design.gholl.com/designs/ios-groupme.md)：GroupMe's iOS app is a friendly, high-energy group-messaging surface built around one idea: a group chat shoul
+- [iMessage iOS](https://design.gholl.com/designs/ios-imessage.md)：iMessage is the canonical iOS conversation surface — and arguably the most-imitated chat UI on the planet. Its
+- [KakaoTalk iOS](https://design.gholl.com/designs/ios-kakaotalk.md)：KakaoTalk's iOS app is the everyday super-app of South Korea — messaging at its core, with gifting, payments, 
+- [Kik iOS](https://design.gholl.com/designs/ios-kik.md)：Kik is a username-based messenger whose entire product premise — and therefore its design — is anonymity witho
+- [LINE iOS](https://design.gholl.com/designs/ios-line.md)：LINE's iOS app is a messaging surface where the sticker is the unit of expression. Most messengers treat stick
+- [Messenger iOS](https://design.gholl.com/designs/ios-messenger.md)：Messenger's iOS app is the most expressive mainstream messaging surface — playful, colorful, and built for rea
+- [Signal iOS](https://design.gholl.com/designs/ios-signal.md)：Signal's iOS app is the calmest messaging surface on the platform, and the calm is the point. There is no feed
+- [Skype iOS](https://design.gholl.com/designs/ios-skype.md)：Skype is Microsoft's veteran video-and-voice-calling app, and its design DNA is unmistakably call-first. Long 
+- [Slack iOS](https://design.gholl.com/designs/ios-slack.md)：Slack's iOS app is defined by a single unmistakable color: Slack Aubergine (#4A154B), the deep wine-purple of 
+- [Telegram iOS](https://design.gholl.com/designs/ios-telegram.md)：Telegram's iOS app is a messenger that lets the user's taste dominate the chrome. Out of the box it ships a co
+- [Threema iOS](https://design.gholl.com/designs/ios-threema.md)：Threema's iOS app is a privacy-first messenger, and its entire visual language is engineered around one promis
+- [Viber iOS](https://design.gholl.com/designs/ios-viber.md)：Viber is a Rakuten-owned messaging and free-calling app whose entire visual identity is built around one color
+- [WeChat iOS](https://design.gholl.com/designs/ios-wechat.md)：WeChat's iOS app is not really a messaging app — it's an operating system wearing a chat app's clothes, and th
+- [WhatsApp iOS](https://design.gholl.com/designs/ios-whatsapp.md)：WhatsApp's iOS app is a utility-first messenger dressed in a narrow, signature palette of green, teal, and whi
+- [Zalo iOS](https://design.gholl.com/designs/ios-zalo.md)：Zalo is Vietnam's #1 messaging app and a full super-app — chat, calls, social timeline (Nhật ký), Zalo Pay, Of
+- [Amazon iOS](https://design.gholl.com/designs/ios-amazon.md)：Amazon's iOS app is a relentlessly functional storefront — a design that has been A/B-tested down to the pixel
+- [Cal AI iOS](https://design.gholl.com/designs/ios-cal-ai.md)：Cal AI's iOS app is a dark, editorial calorie-tracker that treats your meals the way a photography portfolio t
+- [Character.AI iOS](https://design.gholl.com/designs/ios-character-ai.md)：Character.AI's iOS app exists to do one thing exceptionally well: let you have a believable, immersive convers
+- [ChatGPT iOS](https://design.gholl.com/designs/ios-chatgpt.md)：ChatGPT's iOS app is a master class in deliberate minimalism. The canvas is pure white (#FFFFFF) in light mode
+- [Claude iOS](https://design.gholl.com/designs/ios-claude.md)：Claude's iOS app feels like an AI assistant rendered on a piece of warm paper. Anthropic deliberately rejected
+- [Microsoft Copilot iOS](https://design.gholl.com/designs/ios-copilot.md)：Microsoft Copilot's iOS app is a warm, approachable assistant wrapped in Microsoft's Fluent design language. T
+- [DeepSeek iOS](https://design.gholl.com/designs/ios-deepseek.md)：DeepSeek's iOS app is a focused, near-monochrome chat interface organized around one idea: show the model thin
+- [Duolingo iOS](https://design.gholl.com/designs/ios-duolingo.md)：Duolingo's iOS app is a cartoon classroom in your pocket. The canvas is a clean snow white (#FFFFFF) interrupt
+- [Google Gemini iOS](https://design.gholl.com/designs/ios-gemini.md)：Google Gemini's iOS app is a calm, conversational surface where the only chrome is the conversation itself. Th
+- [GitHub iOS](https://design.gholl.com/designs/ios-github.md)：GitHub's iOS app is the Primer design system rendered for mobile — a developer's tool that is dense, informati
+- [Gmail iOS](https://design.gholl.com/designs/ios-gmail.md)：Gmail's iOS app is a Material You inbox that inherits Google's multicolor brand DNA while staying clean enough
+- [Goodreads iOS](https://design.gholl.com/designs/ios-goodreads.md)：Goodreads' iOS app feels like a well-worn personal library rendered on a screen. The defining gesture of the e
+- [Grok iOS](https://design.gholl.com/designs/ios-grok.md)：Grok's iOS app is a true-black terminal for a conversation with an AI that lives inside X. The canvas is pure 
+- [Kindle iOS](https://design.gholl.com/designs/ios-kindle.md)：Kindle's iOS app exists to disappear. Its entire design philosophy is that the reading page *is* the product, 
+- [Life360 iOS](https://design.gholl.com/designs/ios-life360.md)：Life360's iOS app is a map-first family safety app, and almost everything about its design serves one job: let
+- [Midjourney iOS](https://design.gholl.com/designs/ios-midjourney.md)：Midjourney's iOS app is a gallery first and a tool second. The canvas is true black (#000000) — not a warm cha
+- [Perplexity iOS](https://design.gholl.com/designs/ios-perplexity.md)：Perplexity's iOS app is the answer engine made tactile. Where ChatGPT and Claude are chat surfaces optimized f
+- [Postman iOS](https://design.gholl.com/designs/ios-postman.md)：Postman's iOS app is a developer instrument, not a consumer app — and it looks like one. It opens on a neutral
+- [Substack iOS](https://design.gholl.com/designs/ios-substack.md)：Substack's iOS app is built around a single belief: the writing is the product, and the writer's voice deserve
+- [Vercel iOS](https://design.gholl.com/designs/ios-vercel.md)：Vercel's iOS app is the most uncompromisingly minimal developer tool on the App Store. It opens on pure black 
+- [Amazon Music iOS](https://design.gholl.com/designs/ios-amazon-music.md)：Amazon Music's iOS app is built on a deep teal-navy canvas (#0C1B22) — not a neutral grey or pure black, but a
+- [Apple Music iOS](https://design.gholl.com/designs/ios-apple-music.md)：Apple Music's iOS app is the flagship showcase of Apple's own design language — a first-party experience that 
+- [Audible iOS](https://design.gholl.com/designs/ios-audible.md)：Audible's iOS app is a literary listening room rendered in software. The canvas is a warm charcoal (#1A1A1A) —
+- [Bandcamp iOS](https://design.gholl.com/designs/ios-bandcamp.md)：Bandcamp's iOS app is a paper-first, editorial music marketplace whose entire identity is built on one belief:
+- [Deezer iOS](https://design.gholl.com/designs/ios-deezer.md)：Deezer's iOS app is a dark-native music player whose entire identity rests on one move: a violet-tinted near-b
+- [iHeartRadio iOS](https://design.gholl.com/designs/ios-iheartradio.md)：iHeartRadio's iOS app is a live-radio-first audio platform whose identity rests on a warm maroon-black canvas 
+- [Overcast iOS](https://design.gholl.com/designs/ios-overcast.md)：Overcast is the audiophile's podcast app, designed by Marco Arment as a single-developer labor of love, and it
+- [Pandora iOS](https://design.gholl.com/designs/ios-pandora.md)：Pandora's iOS app is built around the thumb — the up/down gesture that has been its defining interaction since
+- [Pocket Casts iOS](https://design.gholl.com/designs/ios-pocket-casts.md)：Pocket Casts is the connoisseur's podcast app, and its iOS design reflects that: a confident, dark-first inter
+- [Shazam iOS](https://design.gholl.com/designs/ios-shazam.md)：Shazam's iOS app is a single-purpose instrument, and its design is ruthlessly devoted to that one purpose: pre
+- [SoundCloud iOS](https://design.gholl.com/designs/ios-soundcloud.md)：SoundCloud's iOS app is built around one idea that no other audio app has: the waveform *is* the interface. Ev
+- [TIDAL iOS](https://design.gholl.com/designs/ios-tidal.md)：TIDAL's iOS app is the most austere player in music streaming, and that austerity is the brand. The canvas is 
+- [YouTube Music iOS](https://design.gholl.com/designs/ios-youtube-music.md)：YouTube Music's iOS app is a dark-only, album-art-forward music environment built on a near-black canvas (#030
+- [Apple Notes iOS](https://design.gholl.com/designs/ios-apple-notes.md)：Apple Notes is Apple's most quietly opinionated app — a 16-year exercise in restraint. Where every other Apple
+- [Asana iOS](https://design.gholl.com/designs/ios-asana.md)：Asana's iOS app is a calm, structured productivity surface whose entire personality comes from one warm color 
+- [Bear iOS](https://design.gholl.com/designs/ios-bear.md)：Bear's iOS app is a writer's instrument disguised as a design system. The whole product is built around one id
+- [Canva iOS](https://design.gholl.com/designs/ios-canva.md)：Canva's iOS app is a friendly, confidence-building creation tool. Its whole personality says *you can design t
+- [ClickUp iOS](https://design.gholl.com/designs/ios-clickup.md)：ClickUp's iOS app is a dense, feature-maximal productivity surface whose personality is the brand gradient and
+- [Craft iOS](https://design.gholl.com/designs/ios-craft.md)：Craft's iOS app is a *beautifully crafted document editor* — the antithesis of a spreadsheet-y productivity to
+- [Dropbox iOS](https://design.gholl.com/designs/ios-dropbox.md)：Dropbox's iOS app is a calm, paper-white workspace built around one idea: your files should feel as legible an
+- [Evernote iOS](https://design.gholl.com/designs/ios-evernote.md)：Evernote's iOS app is a calm, long-form reading and capture surface. It is the original "second brain" — a pla
+- [Figma iOS](https://design.gholl.com/designs/ios-figma.md)：Figma's iOS app is not a design tool. The desktop app is the design tool — Figma for iPhone is a *companion ap
+- [Google Calendar iOS](https://design.gholl.com/designs/ios-google-calendar.md)：Google Calendar's iOS app is the densest information surface in the Google portfolio — a week of meetings, bir
+- [Grammarly iOS](https://design.gholl.com/designs/ios-grammarly.md)：Grammarly's iOS app is a *calm writing surface wrapped around an opinionated assistant*. The canvas is pure wh
+- [Jira iOS](https://design.gholl.com/designs/ios-jira.md)：Jira's iOS app is a work-tracking instrument — dense, structured, and deliberately utilitarian. Where consumer
+- [Linear iOS](https://design.gholl.com/designs/ios-linear.md)：Linear's iOS app is a near-black command surface built for speed. The canvas sits at #08090A — darker than Spo
+- [Microsoft Teams iOS](https://design.gholl.com/designs/ios-microsoft-teams.md)：Microsoft Teams' iOS app is an organizational nervous system rendered as an app. Its job is to collapse chat, 
+- [Miro iOS](https://design.gholl.com/designs/ios-miro.md)：Miro's iOS app is built around one radical idea: an infinite canvas in your pocket. Where most productivity ap
+- [monday.com iOS](https://design.gholl.com/designs/ios-monday.md)：monday.com's iOS app is a loud, color-coded work operating system whose entire personality is the colorful boa
+- [Notion iOS](https://design.gholl.com/designs/ios-notion.md)：Notion's iOS app is an almost-invisible design system. The canvas is pure white (#FFFFFF) with barely any chro
+- [Obsidian iOS](https://design.gholl.com/designs/ios-obsidian.md)：Obsidian's iOS app is a dark workshop for thought. It treats your notes as a personal knowledge graph stored a
+- [Things 3 iOS](https://design.gholl.com/designs/ios-things-3.md)：Things 3's iOS app is a study in calm. Where most task managers are dense, colorful dashboards, Things is a qu
+- [Todoist iOS](https://design.gholl.com/designs/ios-todoist.md)：Todoist's iOS app is a quiet, productive workshop. Where most task apps reach for kanban boards, color-coded b
+- [Trello iOS](https://design.gholl.com/designs/ios-trello.md)：Trello's iOS app is a tactile, board-first workspace where the content *is* the layout. Unlike most apps, Trel
+- [Zoom iOS](https://design.gholl.com/designs/ios-zoom.md)：Zoom's iOS app is built around one moment: the call. Everything else — the Meetings list, Team Chat, Mail, Pho
+- [BeReal iOS](https://design.gholl.com/designs/ios-bereal.md)：BeReal's iOS app is a deliberate rejection of the polished social-media aesthetic. The interface is a true-bla
+- [Bluesky iOS](https://design.gholl.com/designs/ios-bluesky.md)：Bluesky's iOS app is a clean, friendly, sky-bright timeline that feels open and uncluttered. The default light
+- [Clubhouse iOS](https://design.gholl.com/designs/ios-clubhouse.md)：Clubhouse's iOS app feels like a warm, well-lit hallway in someone's home rather than a tech product. The canv
+- [Facebook iOS](https://design.gholl.com/designs/ios-facebook.md)：Facebook's iOS app is a utility dashboard — dense, function-first, colorful, and recognizable from 25 paces by
+- [Flickr iOS](https://design.gholl.com/designs/ios-flickr.md)：Flickr's iOS app is a photography-first design system where the *image* is the entire interface and chrome is 
+- [Gas iOS](https://design.gholl.com/designs/ios-gas.md)：Gas's iOS app is deliberately, unapologetically *joyful*. It is an anonymous compliments app built for high-sc
+- [Instagram iOS](https://design.gholl.com/designs/ios-instagram.md)：Instagram's iOS app is a study in chromatic restraint punctuated by one unforgettable gradient. The entire chr
+- [Lemon8 iOS](https://design.gholl.com/designs/ios-lemon8.md)：Lemon8's iOS app is a digital lifestyle magazine. Where most social apps default to a single-column feed of fu
+- [LinkedIn iOS](https://design.gholl.com/designs/ios-linkedin.md)：LinkedIn's iOS app is a content-first professional newsroom. The canvas is a soft, desaturated cream (#F3F2EF)
+- [Locket iOS](https://design.gholl.com/designs/ios-locket.md)：Locket's iOS app is built around a single, radical idea: the app is not the destination — the Home Screen widg
+- [Mastodon iOS](https://design.gholl.com/designs/ios-mastodon.md)：Mastodon's iOS app is a calm, readable, content-first timeline that feels closer to a well-set magazine than t
+- [Nextdoor iOS](https://design.gholl.com/designs/ios-nextdoor.md)：Nextdoor's iOS app feels like a friendly community bulletin board, not a tech product. The defining choice is 
+- [Pinterest iOS](https://design.gholl.com/designs/ios-pinterest.md)：Pinterest's iOS app is a content-first, photo-driven canvas where the interface all but disappears so user-gen
+- [Quora iOS](https://design.gholl.com/designs/ios-quora.md)：Quora's iOS app is a bright, paper-white reading environment built around a single tension: a question deserve
+- [Reddit iOS](https://design.gholl.com/designs/ios-reddit.md)：Reddit's iOS app is a card-based community reader organized around the single most recognizable interactive co
+- [Snapchat iOS](https://design.gholl.com/designs/ios-snapchat.md)：Snapchat's iOS app is a camera that happens to have messaging, maps, and a video feed attached — not the other
+- [Threads iOS](https://design.gholl.com/designs/ios-threads.md)：Threads is Meta's answer to text-first social networking — a sister-app to Instagram that trades photos for co
+- [TikTok iOS](https://design.gholl.com/designs/ios-tiktok.md)：TikTok's iOS app is a full-bleed black canvas that exists to get out of the way of a single vertical video. Fr
+- [Tumblr iOS](https://design.gholl.com/designs/ios-tumblr.md)：Tumblr's iOS app is a deep-navy canvas built for an endlessly scrolling dashboard of expressive, multi-format 
+- [Vero iOS](https://design.gholl.com/designs/ios-vero.md)：Vero's iOS app is the anti-feed. Its entire reason to exist is a reaction against algorithmic timelines, engag
+- [Vimeo iOS](https://design.gholl.com/designs/ios-vimeo.md)：Vimeo's iOS app is a screening room, not a feed. Where consumer video apps fight for attention with bright chr
+- [VSCO iOS](https://design.gholl.com/designs/ios-vsco.md)：VSCO's iOS app is a darkroom, not an app. The entire editing experience lives on a pure-black canvas (#000000 
+- [X (Twitter) iOS](https://design.gholl.com/designs/ios-x-twitter.md)：X's iOS app is a newsroom collapsed into a phone screen. The default canvas is pure black (#000000) — a delibe
+- [Airbnb iOS](https://design.gholl.com/designs/ios-airbnb.md)：Airbnb's iOS app is an editorial magazine for places to stay. The canvas is white, photography is the hero, an
+- [Apple Maps iOS](https://design.gholl.com/designs/ios-apple-maps.md)：Apple Maps is the canonical reference for what a system-native iOS map should feel like — a soft cream-paper c
+- [Booking.com iOS](https://design.gholl.com/designs/ios-booking.md)：Booking.com's iOS app is dense, blue, and relentlessly conversion-focused — an information-rich travel marketp
+- [Citymapper iOS](https://design.gholl.com/designs/ios-citymapper.md)：Citymapper's iOS app is a transit nerd's instrument panel disguised as a friendly app. Its whole reason to exi
+- [Delta iOS](https://design.gholl.com/designs/ios-delta.md)：Fly Delta's iOS app is a calm, navy-grounded travel concierge that organizes itself entirely around one questi
+- [Expedia iOS](https://design.gholl.com/designs/ios-expedia.md)：Expedia's iOS app is a deal-forward travel marketplace wrapped in a confident, trip-blue identity. The light c
+- [Flighty iOS](https://design.gholl.com/designs/ios-flighty.md)：Flighty's iOS app is a deep, premium black canvas (#0B0B0F) that treats live flight data like an instrument pa
+- [Google Maps iOS](https://design.gholl.com/designs/ios-google-maps.md)：Google Maps' iOS app is a pure map-first interface — the earth is the canvas and the UI is a handful of floati
+- [Hopper iOS](https://design.gholl.com/designs/ios-hopper.md)：Hopper's iOS app is a clean, confident white canvas (#FFFFFF) built around a single emotional idea: *should yo
+- [KAYAK iOS](https://design.gholl.com/designs/ios-kayak.md)：KAYAK's iOS app is a metasearch instrument — a tool, not a store. Where Expedia sells you a stay, KAYAK *compa
+- [Lyft iOS](https://design.gholl.com/designs/ios-lyft.md)：Lyft's iOS app is a full-screen map with a friendly card floating over it. There is no tab bar — the map *is* 
+- [Marriott Bonvoy iOS](https://design.gholl.com/designs/ios-marriott-bonvoy.md)：Marriott Bonvoy's iOS app is a premium hotel-booking and loyalty product, and its visual language is engineere
+- [Skyscanner iOS](https://design.gholl.com/designs/ios-skyscanner.md)：Skyscanner's iOS app is a calm, white, decision-making instrument. It is not a lifestyle travel app full of wa
+- [Southwest iOS](https://design.gholl.com/designs/ios-southwest.md)：Southwest's iOS app is built around a single product truth that no other airline shares: there are no assigned
+- [Tripadvisor iOS](https://design.gholl.com/designs/ios-tripadvisor.md)：Tripadvisor's iOS app is a bright, optimistic travel canvas built on pure white (#FFFFFF) with a single electr
+- [Turo iOS](https://design.gholl.com/designs/ios-turo.md)：Turo's iOS app is Airbnb-for-cars, and like Airbnb, its design philosophy is that the photo is the product. Op
+- [Uber iOS](https://design.gholl.com/designs/ios-uber.md)：Uber's iOS app is built around a single, enormous object: the map. Every primary screen — Home, Searching, On 
+- [United iOS](https://design.gholl.com/designs/ios-united-airlines.md)：The United iOS app is a deep-navy, business-class-feeling travel tool that organizes itself around the *journe
+- [Vrbo iOS](https://design.gholl.com/designs/ios-vrbo.md)：Vrbo's iOS app is a whole-home vacation-rental marketplace, and its entire visual language is built around one
+- [Waze iOS](https://design.gholl.com/designs/ios-waze.md)：Waze's iOS app is a community-driven driving game disguised as a navigation app. Where Apple Maps wants you to
+- [Apple TV iOS](https://design.gholl.com/designs/ios-apple-tv.md)：The Apple TV app is the most *restrained* streaming surface Apple ships. Its philosophy is the opposite of bro
+- [Crunchyroll iOS](https://design.gholl.com/designs/ios-crunchyroll.md)：Crunchyroll's iOS app is a cinema for anime. The entire experience is built on a true-black OLED canvas (#0000
+- [Disney+ iOS](https://design.gholl.com/designs/ios-disney-plus.md)：Disney+'s iOS app is a cinema lobby rendered in deep space-navy. The canvas is #0A0E2A — a rich midnight blue,
+- [ESPN iOS](https://design.gholl.com/designs/ios-espn.md)：ESPN's iOS app is a live scoreboard that happens to also be a newsroom. Everything in the design serves one go
+- [Hulu iOS](https://design.gholl.com/designs/ios-hulu.md)：Hulu's iOS app is a content-dense streaming surface built on a near-black canvas (#0B0C0F) that pushes thumbna
+- [Kick iOS](https://design.gholl.com/designs/ios-kick.md)：Kick's iOS app has one of the most aggressive, single-minded color identities of any major app: a near-black c
+- [Max iOS](https://design.gholl.com/designs/ios-max.md)：Max's iOS app is a prestige-cinema surface built on a deep, saturated purple canvas (#12053A) that feels less 
+- [Netflix iOS](https://design.gholl.com/designs/ios-netflix.md)：Netflix's iOS app is a cinematic dark canvas where poster art does all the heavy lifting. From the moment you 
+- [Paramount+ iOS](https://design.gholl.com/designs/ios-paramount-plus.md)：Paramount+'s iOS app is a network-bundle streaming surface built on a deep, confident navy. It is dark-only — 
+- [Peacock iOS](https://design.gholl.com/designs/ios-peacock.md)：Peacock's iOS app is a cinematic, glow-in-the-dark streaming surface built around a single idea: the catalog i
+- [Plex iOS](https://design.gholl.com/designs/ios-plex.md)：Plex's iOS app is a calm, personal home cinema. Unlike commercial streamers it is not selling a catalog — it i
+- [Pluto TV iOS](https://design.gholl.com/designs/ios-pluto-tv.md)：Pluto TV's iOS app is, more than almost any other streaming app, one screen: the Live TV channel guide (EPG). 
+- [Prime Video iOS](https://design.gholl.com/designs/ios-prime-video.md)：Prime Video's iOS app is a cinema-store hybrid built on a dark navy canvas (#0F171E) — not a neutral black, bu
+- [Tubi iOS](https://design.gholl.com/designs/ios-tubi.md)：Tubi's iOS app is built around a single, unmistakable idea: free movies and TV, paid for by ads, presented lik
+- [Twitch iOS](https://design.gholl.com/designs/ios-twitch.md)：Twitch's iOS app is a live-first surface built on a near-black canvas (#0E0E10) that keeps the focus on stream
+- [YouTube iOS](https://design.gholl.com/designs/ios-youtube.md)：YouTube's iOS app is a content-forward canvas whose entire job is to surface a 16:9 thumbnail and let you tap 
 
 ## 已生成样板间（自包含 HTML）
 

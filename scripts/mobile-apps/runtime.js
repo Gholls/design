@@ -1,0 +1,58 @@
+const APP=__APP__;
+const state={tab:0,likes:new Set(),sheetId:null,query:'',liveOpen:false,playing:false,elapsed:0,timer:null};
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+let toastTimer;
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),1700)}
+function artHTML(a,cls='art'){return `<span class="${cls}" style="--c1:${a.c1};--c2:${a.c2}"><span>${esc(a.label)}</span></span>`}
+function hero(b){return `<section class="hero" style="--c1:${b.art.c1};--c2:${b.art.c2}"><div class="hero-art">${esc(b.art.label)}</div><div class="hero-copy"><small>${esc(b.kicker||'')}</small><b>${esc(b.title)}</b><p>${esc(b.sub||'')}</p></div>${b.cta?`<button class="hero-btn" ${b.cta.live?'data-live':'data-toast="'+esc(b.cta.label)+'"'}>${esc(b.cta.label)}</button>`:''}</section>`}
+function stats(b){return `<div class="stats cols3">${b.items.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>`}
+function rail(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 项</span></div></div>`:''}<div class="rail">${b.items.map(x=>`<button class="tile" data-open="${esc(x.id)}">${artHTML(x.art)}<b>${esc(x.title)}</b><small>${esc(x.sub||'')}</small></button>`).join('')}</div>`}
+function posters(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 部</span></div></div>`:''}<div class="posters">${b.items.map(x=>`<button class="poster" data-open="${esc(x.id)}">${artHTML(x.art)}<b>${esc(x.title)}</b><small>${esc(x.sub||'')}</small></button>`).join('')}</div>`}
+function list(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.rows.length} 条</span></div></div>`:''}<div class="list">${b.rows.map(x=>`<button class="row" data-open="${esc(x.id)}">${x.art?artHTML(x.art):'<span class="art" style="--c1:var(--surface2);--c2:var(--surface)"></span>'}<span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">${esc(x.meta||'')}</span></button>`).join('')}</div>`}
+function chips(b){return `<div class="chips">${b.items.map((x,i)=>`<button class="chip ${i===0?'on':''}" data-chip>${esc(x)}</button>`).join('')}</div>`}
+function chart(b){const max=Math.max(...b.values,1);return `<div class="chart"><div class="chart-head"><span>${esc(b.title)}</span><span>${esc(b.unit||'')}</span></div><div class="bars">${b.values.map((v,i)=>`<div><i class="${i===b.values.length-1?'hot':''}" style="height:${Math.max(6,v/max*100)}%"></i><span>${esc(b.labels[i]||'')}</span></div>`).join('')}</div></div>`}
+function tools(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 个</span></div></div>`:''}<div class="tools">${b.items.map(([label,sub,tag],i)=>`<button class="tool" data-chip><i>${esc(tag||label.slice(0,2))}</i><div><b>${esc(label)}</b><span>${esc(sub)}</span></div></button>`).join('')}</div>`}
+function tasks(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.rows.filter(x=>x.done).length}/${b.rows.length}</span></div></div>`:''}<div class="tasks">${b.rows.map(x=>`<button class="task ${x.done?'done':''}" data-task="${esc(x.id)}"><span class="check ${x.done?'done':''}"><svg class="icon"><use href="#i-check"/></svg></span><span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span></button>`).join('')}</div>`}
+function swipe(b){return `<div class="swipe"><div class="art" style="--c1:${b.item.art.c1};--c2:${b.item.art.c2}"><span class="swipe-name">${esc(b.item.name)}</span><span class="swipe-sub">${esc(b.item.sub)}</span></div><div class="swipe-actions"><button class="pass" data-act="pass" aria-label="跳过"><svg class="icon"><use href="#i-close"/></svg></button><button class="like" data-act="like" data-id="${esc(b.item.id)}" aria-label="喜欢"><svg class="icon"><use href="#i-heart"/></svg></button></div></div>`}
+function profile(b){return `<div class="profile"><span class="avatar" style="--hue:var(--primary)">${esc(b.art.label)}</span><div><b>${esc(b.name)}</b><span>${esc(b.sub)}</span></div></div><div class="profile-stats">${b.stats.map(([k,v])=>`<div><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join('')}</div>`}
+function settings(b){return `<div class="settings">${b.rows.map(([t,s,on])=>`<div class="setting"><div class="setting-main"><b>${esc(t)}</b><span>${esc(s)}</span></div><button class="switch ${on?'on':''}" data-switch aria-label="${esc(t)}"></button></div>`).join('')}</div>`}
+function note(b){return `<p class="note">${esc(b.text)}</p>`}
+function bubbles(b){const msgs=b.messages||[];return `<div class="bubbles">${msgs.map(m=>`<div class="bubble ${m[0]}">${esc(m[1])}<time>${esc(m[2]||'')}</time></div>`).join('')}</div>`}
+function composer(b){return `<form class="composer" data-composer><input placeholder="${esc(b.placeholder||'发消息…')}" autocomplete="off"><button type="submit">发送</button></form>`}
+function promptBlock(b){return `<form class="prompt" data-prompt><input placeholder="${esc(b.placeholder||'描述你的任务…')}" autocomplete="off"><button type="submit">${esc(b.button||'发送')}</button></form>`}
+function block(b){switch(b.type){case'hero':return hero(b);case'stats':return stats(b);case'rail':return rail(b);case'posters':return posters(b);case'list':return list(b);case'chips':return chips(b);case'chart':return chart(b);case'tools':return tools(b);case'tasks':return tasks(b);case'swipe':return swipe(b);case'profile':return profile(b);case'settings':return settings(b);case'note':return note(b);case'bubbles':return bubbles(b);case'composer':return composer(b);case'prompt':return promptBlock(b);default:return ''}}
+function current(){return APP.tabs[state.tab]}
+function render(){const t=current();$('#title').textContent=t.label;$('#sub').textContent=`${APP.app} · ${APP.domain==='tools'?'工具':APP.domain==='music'?'音乐':APP.domain==='fitness'?'运动':APP.domain==='finance'?'金融':APP.domain==='messaging'?'消息':APP.domain==='video'?'视频':APP.domain==='food'?'餐饮':APP.domain==='travel'?'旅行':APP.domain==='dating'?'约会':APP.domain==='productivity'?'效率':'社交'}样板间`;$('#avatar').textContent=APP.app.slice(0,1);$('#content').innerHTML=`<section class="view on" id="v-${t.id}">${(APP.screens[t.id]||[]).map(block).join('')}</section>`;$('#tabbar').innerHTML=APP.tabs.map((x,i)=>`<button class="tab ${i===state.tab?'on':''}" data-tab="${i}"><svg class="icon"><use href="#i-${x.icon}"/></svg><span>${esc(x.label)}</span></button>`).join('')+`<span class="homebar"></span>`}
+function openSheet(id){const d=APP.details[id];if(!d)return;closeSearch();state.sheetId=id;$('#sheetTitle').textContent=d.title;$('#sheetBody').innerHTML=d.blocks.map(block).join('');$('#sheet').classList.add('on');$('#sheetBody').scrollTop=0}
+function closeSheet(){$('#sheet').classList.remove('on')}
+function openSearch(){state.query='';$('#searchInput').value='';renderSearch('');$('#searchview').classList.add('on');setTimeout(()=>$('#searchInput').focus(),60)}
+function closeSearch(){$('#searchview').classList.remove('on')}
+function renderSearch(q){const key=q.trim().toLowerCase();const rows=(APP.search||[]).filter(x=>!key||(x.title+' '+x.sub).toLowerCase().includes(key));$('#searchResults').innerHTML=rows.length?`<div class="list">${rows.map(x=>`<button class="row" data-open="${esc(x.id)}"><span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">→</span></button>`).join('')}</div>`:`<p class="note">没有找到「${esc(q)}」。</p>`}
+function openLive(){const l=APP.live;if(!l){toast('此样板间暂无播放/记录流程');return}state.liveOpen=true;state.elapsed=0;state.playing=true;$('#liveBg').style=`--c1:${l.art.c1};--c2:${l.art.c2}`;$('#liveArt').textContent=l.art.label;$('#liveTitle').textContent=l.title;$('#liveSub').textContent=l.sub;$('#liveKicker').textContent=l.kind==='music'?'NOW PLAYING':l.kind==='fitness'?'RECORDING':'PLAYING';$('#live').classList.add('on');updateLive();clearInterval(state.timer);state.timer=setInterval(()=>{if(state.liveOpen&&state.playing){state.elapsed+=1;updateLive()}},1000)}
+function updateLive(){const l=APP.live;const dur=l.duration||1;const sec=state.elapsed;$('#liveTime').textContent=l.kind==='fitness'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:l.kind==='music'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:'';$('#liveFill').style.width=Math.min(100,sec/(l.kind==='fitness'?60:dur)*100)+'%';$('#livePlay').innerHTML=`<svg class="icon"><use href="#i-${state.playing?'pause':'play'}"/></svg>`}
+function closeLive(){state.liveOpen=false;state.playing=false;clearInterval(state.timer);$('#live').classList.remove('on')}
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-tab]');if(tab){state.tab=Number(tab.dataset.tab);render();return}
+  const open=e.target.closest('[data-open]');if(open&&!e.target.closest('.sheet')){openSheet(open.dataset.open);return}
+  const live=e.target.closest('[data-live]');if(live){openLive();return}
+  const hint=e.target.closest('[data-toast]');if(hint){toast(hint.dataset.toast+' · 演示入口');return}
+  const task=e.target.closest('[data-task]');if(task){const id=task.dataset.task;for(const s of Object.values(APP.screens))for(const b of s)if(b.type==='tasks')for(const r of b.rows)if(r.id===id)r.done=!r.done;for(const d of Object.values(APP.details))for(const b of d.blocks)if(b.type==='tasks')for(const r of b.rows)if(r.id===id)r.done=!r.done;render();if(state.sheetId)openSheet(state.sheetId);toast('任务状态已更新');return}
+  const chip=e.target.closest('[data-chip]');if(chip){$$('.chip').forEach(c=>c.classList.toggle('on',c===chip));return}
+  const sw=e.target.closest('[data-switch]');if(sw){sw.classList.toggle('on');toast(sw.classList.contains('on')?'已开启':'已关闭');return}
+  const act=e.target.closest('[data-act]');if(act){if(act.dataset.act==='like'){toast('已喜欢')}else{toast('已跳过')}return}
+})
+$('#searchBtn').addEventListener('click',openSearch)
+$('#searchClose').addEventListener('click',closeSearch)
+$('#searchInput').addEventListener('input',e=>renderSearch(e.target.value))
+$('#sheetClose').addEventListener('click',closeSheet)
+$('#sheet').addEventListener('click',e=>{if(e.target===$('#sheet'))closeSheet()})
+$('#liveClose').addEventListener('click',closeLive)
+$('#livePlay').addEventListener('click',()=>{state.playing=!state.playing;updateLive();toast(state.playing?'继续':'已暂停')})
+$('#liveMain').addEventListener('click',()=>{closeLive();toast(APP.live?.kind==='fitness'?'记录已保存':'已结束播放')})
+function submitHandler(e){const form=e.target.closest('[data-composer]');if(form){e.preventDefault();const input=$('input',form);const v=input.value.trim();if(!v)return;const d=APP.details[state.sheetId];if(d){const b=d.blocks.find(x=>x.type==='bubbles');if(b){(b.messages||(b.messages=[])).push(['me',v,'刚刚']);}openSheet(state.sheetId);toast('已发送')}return}const pr=e.target.closest('[data-prompt]');if(pr){e.preventDefault();const v=$('input',pr).value.trim();if(v){toast('已提交：'+v);$('input',pr).value=''}}}
+$('#content').addEventListener('submit',submitHandler)
+$('#sheetBody').addEventListener('submit',submitHandler)
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();closeSearch();if(state.liveOpen)closeLive()}})
+render()

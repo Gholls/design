@@ -1,0 +1,272 @@
+<!doctype html>
+<!--
+  GOLDEN PROMPT 产物 · Audible · 规范：Audible iOS
+  决策溯源：见 designs/ios-audible/DESIGN.md（colors / typography / rounded / spacing / components）
+  ─ canvas #1A1A1A · surface #2A2A2A · text #FFFFFF · primary #FF9900
+  ─ 字体 Inter · card 16px / control 12px
+  ─ 领域：音乐；共享手机外壳与交互，领域页面按规范气质重建
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1A1A1A">
+<title>Audible · Audible iOS</title>
+<style>
+:root{
+--bg:#1A1A1A;--surface:#2A2A2A;--surface2:#343434;--text:#FFFFFF;--muted:#B0B0B0;--border:#3A3A3A;
+--primary:#FF9900;--on-primary:#000000;--accent:#E68A00;--ok:#16A34A;--warn:#D97706;--danger:#E5484D;
+--r-card:16px;--r-ctl:12px;--r-pill:9999px;
+--font:Inter, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+--shadow:0 12px 32px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;transition:background-color .18s ease,color .18s ease,border-color .18s ease}
+html,body{height:100%}
+body{background:#0a0a0a;color:var(--text);font:400 15px/1.45 var(--font);display:grid;place-items:center;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input{font:inherit;color:inherit;border:0;outline:0;background:none}
+::-webkit-scrollbar{width:0;height:0}
+.app{position:relative;width:390px;height:844px;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--text)}
+.icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.statusbar{display:flex;align-items:center;justify-content:space-between;height:42px;padding:2px 22px 0;font:600 13px/1 var(--font);flex:none}
+.statusbar svg{display:block}
+.appbar{display:flex;align-items:center;gap:10px;padding:4px 16px 8px;flex:none}
+.appbar div{flex:1;min-width:0}
+.appbar h1{font:700 26px/1.15 var(--font);letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.appbar .sub{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
+.iconbtn:active{background:var(--surface2)}
+.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary);font:700 11px/1 var(--font);flex:none}
+.content{position:relative;flex:1;min-height:0;overflow:hidden}
+.view{display:none;height:100%;overflow-y:auto;padding-bottom:86px}
+.view.on{display:block;animation:vin .18s ease-out}
+@keyframes vin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.tabbar{position:relative;z-index:20;display:grid;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
+.tab{display:grid;justify-items:center;gap:3px;padding:3px 0;color:var(--muted);font:600 10px/1 var(--font)}
+.tab .icon{width:23px;height:23px;stroke-width:1.7}
+.tab.on{color:var(--primary)}
+.tab.on .icon{stroke-width:2.2}
+.homebar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:99px;background:var(--text);opacity:.5}
+.section{padding:16px 16px 0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.section-head b{font:700 19px/1.25 var(--font);letter-spacing:-.2px}
+.section-head span{font:600 11px/1 var(--font);color:var(--muted)}
+.hero{position:relative;margin:0 16px;padding:18px;border-radius:var(--r-card);overflow:hidden;background:linear-gradient(135deg,var(--c1),var(--c2));min-height:170px;display:flex;align-items:flex-end;color:#fff}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.48))}
+.hero-art{position:relative;z-index:1;width:84px;height:84px;border-radius:var(--r-ctl);background:rgba(255,255,255,.2);display:grid;place-items:center;font:800 24px/1 var(--font);flex:none;margin-right:14px;backdrop-filter:blur(6px)}
+.hero-copy{position:relative;z-index:1;flex:1;min-width:0}
+.hero-copy small{font:700 10px/1 var(--font);letter-spacing:1px;opacity:.85;text-transform:uppercase}
+.hero-copy b{display:block;font:700 22px/1.15 var(--font);letter-spacing:-.3px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero-copy p{font:400 12px/1.4 var(--font);opacity:.85;margin-top:3px}
+.hero-btn{position:absolute;right:16px;bottom:16px;z-index:2;min-height:36px;padding:0 14px;border-radius:var(--r-pill);background:var(--primary);color:var(--on-primary);font:700 12px/1 var(--font)}
+.stats{display:grid;gap:8px;margin:12px 16px 0;padding:12px;border-radius:var(--r-card);background:var(--surface)}
+.stats.cols3{grid-template-columns:repeat(3,1fr)}
+.stats small{display:block;font:600 10px/1 var(--font);letter-spacing:.4px;color:var(--muted)}
+.stats b{display:block;font:800 19px/1.2 var(--font);font-variant-numeric:tabular-nums;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail{display:flex;gap:12px;overflow-x:auto;padding:2px 16px 4px}
+.tile{flex:none;width:128px;text-align:left}
+.art{position:relative;width:100%;aspect-ratio:1;border-radius:var(--r-ctl);overflow:hidden;background:linear-gradient(145deg,var(--c1),var(--c2));display:grid;place-items:center;color:#fff;font:800 20px/1 var(--font)}
+.art::before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;right:-18%;top:-24%;background:rgba(255,255,255,.16)}
+.art span{position:relative;z-index:1}
+.tile b{display:block;font:600 14px/1.3 var(--font);margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile small{display:block;font:400 12px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.posters{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:2px 16px 4px}
+.poster{text-align:left}
+.poster .art{aspect-ratio:2/3;font-size:15px}
+.poster b{display:block;font:600 12px/1.3 var(--font);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.poster small{display:block;font:400 10px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list{display:grid;padding:0 16px}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);text-align:left;width:100%}
+.row:last-child{border-bottom:0}
+.row .art{width:44px;height:44px;aspect-ratio:auto;font-size:13px;flex:none}
+.row-main{flex:1;min-width:0}
+.row-main b{display:block;font:600 15px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-main span{display:block;font:400 12px/1.4 var(--font);color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-meta{font:600 11px/1.2 var(--font);color:var(--muted);font-variant-numeric:tabular-nums;flex:none;text-align:right}
+.chips{display:flex;gap:7px;padding:2px 16px 14px;overflow-x:auto}
+.chip{flex:none;padding:6px 11px;border-radius:var(--r-pill);background:var(--surface);color:var(--text);font:600 11px/1 var(--font);white-space:nowrap}
+.chip.on{background:var(--text);color:var(--bg)}
+.chart{margin:12px 16px 0;padding:14px;border-radius:var(--r-card);background:var(--surface)}
+.chart-head{display:flex;justify-content:space-between;font:600 12px/1.2 var(--font);color:var(--muted);margin-bottom:10px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:116px}
+.bars div{flex:1;display:grid;grid-template-rows:1fr auto;align-items:end;justify-items:center;gap:4px;height:100%}
+.bars i{width:100%;border-radius:3px 3px 0 0;background:var(--surface2)}
+.bars i.hot{background:var(--primary)}
+.bars span{font:500 9px/1.2 var(--font);color:var(--muted)}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:2px 16px}
+.tool{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r-ctl);background:var(--surface);text-align:left}
+.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary);font-style:normal;font:700 11px/1 var(--font);flex:none}
+.tool div{min-width:0}
+.tool b{display:block;font:600 13px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool span{display:block;font:400 10px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tasks{display:grid;padding:0 16px}
+.task{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--border);text-align:left;width:100%}
+.check{width:20px;height:20px;border:1.5px solid var(--muted);border-radius:50%;display:grid;place-items:center;margin-top:1px;flex:none;color:transparent}
+.check.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.check .icon{width:11px;height:11px;stroke-width:3}
+.task.done .row-main b{color:var(--muted);text-decoration:line-through}
+.swipe{margin:4px 16px;position:relative}
+.swipe .art{aspect-ratio:3/4;border-radius:18px;font-size:34px;justify-items:start;align-items:end;padding:18px;display:flex;flex-direction:column;justify-content:flex-end}
+.swipe-name{font:800 26px/1.1 var(--font);color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.swipe-sub{font:500 13px/1.4 var(--font);color:rgba(255,255,255,.86);margin-top:3px}
+.swipe-actions{display:flex;justify-content:center;gap:14px;margin-top:14px}
+.swipe-actions button{width:52px;height:52px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--text)}
+.swipe-actions .pass{color:var(--danger)}
+.swipe-actions .like{background:var(--primary);color:var(--on-primary)}
+.profile{display:flex;align-items:center;gap:12px;padding:6px 16px 12px}
+.profile .avatar{width:62px;height:62px;font-size:20px}
+.profile b{display:block;font:700 23px/1.2 var(--font)}
+.profile span{font:400 12px/1.4 var(--font);color:var(--muted)}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 16px 12px;padding:12px;border-radius:var(--r-card);background:var(--surface);text-align:center}
+.profile-stats b{display:block;font:800 19px/1.1 var(--font);font-variant-numeric:tabular-nums}
+.profile-stats span{font:400 10px/1.3 var(--font);color:var(--muted)}
+.settings{display:grid;margin:0 16px;border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden}
+.setting{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border);text-align:left}
+.setting:last-child{border-bottom:0}
+.setting-main{flex:1;min-width:0}
+.setting-main b{display:block;font:600 14px/1.35 var(--font)}
+.setting-main span{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:2px}
+.switch{width:44px;height:26px;border-radius:99px;background:var(--surface2);position:relative;flex:none;transition:background .18s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .18s}
+.switch.on{background:var(--primary)}
+.switch.on::after{transform:translateX(18px)}
+.note{margin:16px;padding:12px 14px;border-radius:var(--r-ctl);background:var(--surface);font:400 11px/1.6 var(--font);color:var(--muted);text-align:center}
+.bubbles{display:flex;flex-direction:column;gap:8px;padding:4px 0 10px}
+.bubble{max-width:82%;padding:9px 12px;border-radius:14px;background:var(--surface);font:400 14px/1.45 var(--font);color:var(--text)}
+.bubble.me{align-self:flex-end;background:var(--primary);color:var(--on-primary);border-bottom-right-radius:4px}
+.bubble.them{align-self:flex-start;border-bottom-left-radius:4px}
+.bubble time{display:block;margin-top:2px;font:400 9px/1.3 var(--font);opacity:.65}
+.composer{display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--border)}
+.composer input{flex:1;min-width:0;height:40px;padding:0 12px;border-radius:var(--r-ctl);background:var(--surface);color:var(--text);font:400 14px/1.3 var(--font)}
+.composer button{height:40px;padding:0 14px;border-radius:var(--r-pill);background:var(--primary);color:var(--on-primary);font:700 12px/1 var(--font);flex:none}
+.prompt{display:flex;gap:8px;margin:12px 16px 0;padding:8px;border:1px solid var(--border);border-radius:calc(var(--r-card) + 4px);background:var(--surface)}
+.prompt input{flex:1;min-width:0;height:38px;padding:0 10px;font:400 13px/1.3 var(--font);color:var(--text)}
+.prompt button{padding:0 14px;border-radius:var(--r-ctl);background:var(--primary);color:var(--on-primary);font:700 12px/1 var(--font);flex:none}
+.sheet{position:absolute;inset:0;z-index:60;display:flex;align-items:flex-end;background:rgba(0,0,0,.48);opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
+.sheet.on{opacity:1;visibility:visible}
+.sheet-panel{width:100%;max-height:84%;display:flex;flex-direction:column;background:var(--bg);border-radius:18px 18px 0 0;box-shadow:var(--shadow);transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1)}
+.sheet.on .sheet-panel{transform:none}
+.grab{width:36px;height:4px;border-radius:99px;background:var(--border);margin:8px auto 2px;flex:none}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 8px;flex:none}
+.sheet-head b{font:700 18px/1.3 var(--font)}
+.sheet-body{flex:1;min-height:0;overflow-y:auto;padding:0 16px 24px}
+.searchview{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;background:var(--bg);opacity:0;visibility:hidden;transition:opacity .16s,visibility .16s}
+.searchview.on{opacity:1;visibility:visible}
+.searchbar{display:flex;align-items:center;gap:8px;margin:46px 16px 10px;padding:0 12px;height:42px;border-radius:var(--r-ctl);background:var(--surface);color:var(--muted);flex:none}
+.searchbar input{flex:1;min-width:0;color:var(--text);font:400 14px/1.3 var(--font)}
+.search-results{flex:1;overflow-y:auto}
+.live{position:absolute;inset:0;z-index:70;display:none;flex-direction:column;color:#fff;padding:50px 22px 26px}
+.live.on{display:flex}
+.live-bg{position:absolute;inset:0;background:linear-gradient(160deg,var(--c1),var(--c2));opacity:.92}
+.live-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.75))}
+.live-head,.live-main,.live-actions{position:relative;z-index:1}
+.live-head{display:flex;justify-content:space-between;align-items:center;font:700 10px/1 var(--font);letter-spacing:1.2px}
+.live-main{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.live-art{width:190px;height:190px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;font:800 42px/1 var(--font);margin-bottom:22px}
+.live-main h2{font:700 22px/1.2 var(--font)}
+.live-main p{font:400 13px/1.4 var(--font);opacity:.8;margin-top:4px}
+.live-time{font:900 46px/1 var(--font);font-variant-numeric:tabular-nums;margin:18px 0 0}
+.live-progress{width:100%;height:4px;border-radius:99px;background:rgba(255,255,255,.25);margin-top:18px;overflow:hidden}
+.live-progress i{display:block;height:100%;width:0;background:#fff;border-radius:99px}
+.live-actions{display:flex;justify-content:center;gap:18px;padding-top:22px}
+.live-actions button{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center}
+.live-actions .main{background:#fff;color:#111;width:66px;height:66px}
+.live-actions .icon{width:24px;height:24px;fill:currentColor;stroke:none}
+.toast{position:absolute;left:50%;bottom:92px;z-index:90;max-width:calc(100% - 40px);padding:9px 14px;border-radius:var(--r-ctl);background:var(--text);color:var(--bg);font:600 12px/1.4 var(--font);text-align:center;opacity:0;transform:translate(-50%,8px);transition:opacity .18s,transform .18s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:430px){.app{width:100vw;height:100dvh}}
+@media(min-width:431px){body{padding:24px}.app{border-radius:32px;box-shadow:0 40px 90px rgba(0,0,0,.6)}}
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+<symbol id="i-library" viewBox="0 0 24 24"><path d="M4 5v14M8 5v14M12 5v14M16 5v14"/><path d="m19 6 1.5 12"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.5-5.5 7-5.5s6.2 1.9 7 5.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><path d="M4 5h2l2.2 10.2a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 4.6-7 9-7 9z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.2 5.2L4 17v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.3 2.3-2.7-2.7z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+</svg>
+<div class="app" id="app">
+  <div class="statusbar"><span>9:41</span><span style="display:flex;gap:5px;align-items:center"><svg width="17" height="11" viewBox="0 0 17 12"><rect x="0" y="7" width="3" height="5" rx=".6" fill="currentColor"/><rect x="4.5" y="5" width="3" height="7" rx=".6" fill="currentColor"/><rect x="9" y="2.5" width="3" height="9.5" rx=".6" fill="currentColor"/><rect x="13.5" y="0" width="3" height="12" rx=".6" fill="currentColor"/></svg><svg width="16" height="11" viewBox="0 0 16 12"><path d="M8 11.2 5.2 8.4a4 4 0 0 1 5.6 0zM3.2 6.4 1 4.2a9.9 9.9 0 0 1 14 0l-2.2 2.2a6.7 6.7 0 0 0-9.6 0z" fill="currentColor"/></svg><svg width="24" height="11" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="1.8" fill="currentColor"/></svg></span></div>
+  <header class="appbar"><div><h1 id="title"></h1><span class="sub" id="sub"></span></div><button class="iconbtn" id="searchBtn" aria-label="搜索"><svg class="icon"><use href="#i-search"/></svg></button><span class="avatar" id="avatar">A</span></header>
+  <main class="content" id="content"></main>
+  <nav class="tabbar" id="tabbar"></nav>
+  <div class="sheet" id="sheet"><div class="sheet-panel"><div class="grab"></div><div class="sheet-head"><b id="sheetTitle"></b><button class="iconbtn" id="sheetClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="sheet-body" id="sheetBody"></div></div></div>
+  <div class="searchview" id="searchview"><div class="searchbar"><svg class="icon" style="width:18px;height:18px"><use href="#i-search"/></svg><input id="searchInput" placeholder="搜索 音乐 内容" autocomplete="off"><button class="iconbtn" id="searchClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="search-results" id="searchResults"></div></div>
+  <div class="live" id="live"><div class="live-bg" id="liveBg"></div><div class="live-head"><span id="liveKicker">LIVE</span><button class="iconbtn" id="liveClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="live-main"><div class="live-art" id="liveArt"></div><h2 id="liveTitle"></h2><p id="liveSub"></p><div class="live-time" id="liveTime"></div><div class="live-progress"><i id="liveFill"></i></div></div><div class="live-actions"><button id="livePlay" aria-label="播放/暂停"><svg class="icon"><use href="#i-pause"/></svg></button><button class="main" id="liveMain" aria-label="结束"><svg class="icon"><use href="#i-stop"/></svg></button></div></div>
+  <div class="toast" id="toast" role="status"></div>
+</div>
+<script>
+const APP={"app":"Audible","name":"Audible iOS","domain":"music","tabs":[{"id":"home","label":"首页","icon":"home"},{"id":"search","label":"搜索","icon":"search"},{"id":"library","label":"音乐库","icon":"library"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"hero","kicker":"继续收听","title":"Neon Ledger","sub":"Audible Sound · 第 2 首","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"cta":{"label":"播放","live":true}},{"type":"rail","title":"最近播放","items":[{"id":"a1","title":"Neon Ledger","sub":"Audible Sessions","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"a2","title":"Afterglow","sub":"林晚舟","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"}},{"id":"a3","title":"Low Orbit","sub":"周墨白","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"}},{"id":"a4","title":"Paper Planes","sub":"苏见月","art":{"label":"PP","c1":"#E5484D","c2":"#E68A00"}},{"id":"a5","title":"Glasshouse","sub":"陈屿","art":{"label":"GH","c1":"#FF9900","c2":"#343434"}}]},{"type":"list","title":"为你打造","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"}},{"id":"t4","title":"Telemetry","sub":"Low Orbit · 4:12","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"}}]},{"type":"rail","title":"新发行","items":[{"id":"a2","title":"Afterglow","sub":"林晚舟","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"}},{"id":"a3","title":"Low Orbit","sub":"周墨白","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"}},{"id":"a4","title":"Paper Planes","sub":"苏见月","art":{"label":"PP","c1":"#E5484D","c2":"#E68A00"}},{"id":"a5","title":"Glasshouse","sub":"陈屿","art":{"label":"GH","c1":"#FF9900","c2":"#343434"}}]}],"search":[{"type":"chips","items":["全部","音乐","播客"]},{"type":"posters","title":"浏览全部","items":[{"id":"a1","title":"Neon Ledger","sub":"Audible Sessions","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"a2","title":"Afterglow","sub":"林晚舟","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"}},{"id":"a3","title":"Low Orbit","sub":"周墨白","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"}},{"id":"a4","title":"Paper Planes","sub":"苏见月","art":{"label":"PP","c1":"#E5484D","c2":"#E68A00"}},{"id":"a5","title":"Glasshouse","sub":"陈屿","art":{"label":"GH","c1":"#FF9900","c2":"#343434"}}]},{"type":"list","title":"热门曲目","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"}},{"id":"t4","title":"Telemetry","sub":"Low Orbit · 4:12","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"}}]}],"library":[{"type":"list","title":"播放列表","rows":[{"id":"pl1","title":"Deep Work","sub":"24 首","meta":"24"},{"id":"pl2","title":"交付日","sub":"18 首","meta":"18"},{"id":"pl3","title":"夜航","sub":"31 首","meta":"31"}]},{"type":"list","title":"已喜欢的歌曲","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"}},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"}}]}],"me":[{"type":"profile","name":"林晚舟","sub":"Audible · 设计负责人","art":{"label":"林","c1":"#D97706","c2":"#FF9900"},"stats":[["本月","42h"],["艺人","38"],["歌单","12"]]},{"type":"settings","rows":[["高品质音频","Wi-Fi 下 320kbps",true],["离线模式","只播放已下载",false],["动态封面","跟随专辑取色",true]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Audible iOS」生成 · 音乐领域样板间"}]},"details":{"a1":{"title":"Neon Ledger","blocks":[{"type":"hero","kicker":"ALBUM","title":"Neon Ledger","sub":"Audible Sessions","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["曲目","3"],["时长","11 分钟"],["年份","2026"]]},{"type":"list","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"meta":"3:42"}]}]},"a2":{"title":"Afterglow","blocks":[{"type":"hero","kicker":"ALBUM","title":"Afterglow","sub":"林晚舟","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["曲目","3"],["时长","11 分钟"],["年份","2026"]]},{"type":"list","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"meta":"3:42"}]}]},"a3":{"title":"Low Orbit","blocks":[{"type":"hero","kicker":"ALBUM","title":"Low Orbit","sub":"周墨白","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["曲目","3"],["时长","11 分钟"],["年份","2026"]]},{"type":"list","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"meta":"3:42"}]}]},"a4":{"title":"Paper Planes","blocks":[{"type":"hero","kicker":"ALBUM","title":"Paper Planes","sub":"苏见月","art":{"label":"PP","c1":"#E5484D","c2":"#E68A00"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["曲目","3"],["时长","11 分钟"],["年份","2026"]]},{"type":"list","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"meta":"3:42"}]}]},"a5":{"title":"Glasshouse","blocks":[{"type":"hero","kicker":"ALBUM","title":"Glasshouse","sub":"陈屿","art":{"label":"GH","c1":"#FF9900","c2":"#343434"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["曲目","3"],["时长","11 分钟"],["年份","2026"]]},{"type":"list","rows":[{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"meta":"3:42"},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"meta":"3:42"}]}]},"t1":{"title":"Night Shift","blocks":[{"type":"hero","kicker":"TRACK","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["时长","3:42"],["音质","无损"],["播放","2.3M"]]},{"type":"note","text":"点击播放进入全屏 Now Playing，支持进度、上一首/下一首与队列。"}]},"t2":{"title":"Static Bloom","blocks":[{"type":"hero","kicker":"TRACK","title":"Static Bloom","sub":"Neon Ledger · 2:58","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["时长","3:42"],["音质","无损"],["播放","2.3M"]]},{"type":"note","text":"点击播放进入全屏 Now Playing，支持进度、上一首/下一首与队列。"}]},"t3":{"title":"Slow Motion","blocks":[{"type":"hero","kicker":"TRACK","title":"Slow Motion","sub":"Afterglow · 3:18","art":{"label":"AG","c1":"#E68A00","c2":"#16A34A"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["时长","3:42"],["音质","无损"],["播放","2.3M"]]},{"type":"note","text":"点击播放进入全屏 Now Playing，支持进度、上一首/下一首与队列。"}]},"t4":{"title":"Telemetry","blocks":[{"type":"hero","kicker":"TRACK","title":"Telemetry","sub":"Low Orbit · 4:12","art":{"label":"LO","c1":"#D97706","c2":"#FF9900"},"cta":{"label":"播放","live":true}},{"type":"stats","items":[["时长","3:42"],["音质","无损"],["播放","2.3M"]]},{"type":"note","text":"点击播放进入全屏 Now Playing，支持进度、上一首/下一首与队列。"}]}},"live":{"kind":"music","title":"Night Shift","sub":"Neon Ledger · 3:42","art":{"label":"NL","c1":"#FF9900","c2":"#E68A00"},"duration":222},"search":[{"id":"a1","title":"Neon Ledger","sub":"Audible Sessions"},{"id":"a2","title":"Afterglow","sub":"林晚舟"},{"id":"a3","title":"Low Orbit","sub":"周墨白"},{"id":"a4","title":"Paper Planes","sub":"苏见月"},{"id":"a5","title":"Glasshouse","sub":"陈屿"},{"id":"t1","title":"Night Shift","sub":"Neon Ledger · 3:42"},{"id":"t2","title":"Static Bloom","sub":"Neon Ledger · 2:58"},{"id":"t3","title":"Slow Motion","sub":"Afterglow · 3:18"},{"id":"t4","title":"Telemetry","sub":"Low Orbit · 4:12"}]};
+const state={tab:0,likes:new Set(),sheetId:null,query:'',liveOpen:false,playing:false,elapsed:0,timer:null};
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+let toastTimer;
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),1700)}
+function artHTML(a,cls='art'){return `<span class="${cls}" style="--c1:${a.c1};--c2:${a.c2}"><span>${esc(a.label)}</span></span>`}
+function hero(b){return `<section class="hero" style="--c1:${b.art.c1};--c2:${b.art.c2}"><div class="hero-art">${esc(b.art.label)}</div><div class="hero-copy"><small>${esc(b.kicker||'')}</small><b>${esc(b.title)}</b><p>${esc(b.sub||'')}</p></div>${b.cta?`<button class="hero-btn" ${b.cta.live?'data-live':'data-toast="'+esc(b.cta.label)+'"'}>${esc(b.cta.label)}</button>`:''}</section>`}
+function stats(b){return `<div class="stats cols3">${b.items.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>`}
+function rail(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 项</span></div></div>`:''}<div class="rail">${b.items.map(x=>`<button class="tile" data-open="${esc(x.id)}">${artHTML(x.art)}<b>${esc(x.title)}</b><small>${esc(x.sub||'')}</small></button>`).join('')}</div>`}
+function posters(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 部</span></div></div>`:''}<div class="posters">${b.items.map(x=>`<button class="poster" data-open="${esc(x.id)}">${artHTML(x.art)}<b>${esc(x.title)}</b><small>${esc(x.sub||'')}</small></button>`).join('')}</div>`}
+function list(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.rows.length} 条</span></div></div>`:''}<div class="list">${b.rows.map(x=>`<button class="row" data-open="${esc(x.id)}">${x.art?artHTML(x.art):'<span class="art" style="--c1:var(--surface2);--c2:var(--surface)"></span>'}<span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">${esc(x.meta||'')}</span></button>`).join('')}</div>`}
+function chips(b){return `<div class="chips">${b.items.map((x,i)=>`<button class="chip ${i===0?'on':''}" data-chip>${esc(x)}</button>`).join('')}</div>`}
+function chart(b){const max=Math.max(...b.values,1);return `<div class="chart"><div class="chart-head"><span>${esc(b.title)}</span><span>${esc(b.unit||'')}</span></div><div class="bars">${b.values.map((v,i)=>`<div><i class="${i===b.values.length-1?'hot':''}" style="height:${Math.max(6,v/max*100)}%"></i><span>${esc(b.labels[i]||'')}</span></div>`).join('')}</div></div>`}
+function tools(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 个</span></div></div>`:''}<div class="tools">${b.items.map(([label,sub,tag],i)=>`<button class="tool" data-chip><i>${esc(tag||label.slice(0,2))}</i><div><b>${esc(label)}</b><span>${esc(sub)}</span></div></button>`).join('')}</div>`}
+function tasks(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.rows.filter(x=>x.done).length}/${b.rows.length}</span></div></div>`:''}<div class="tasks">${b.rows.map(x=>`<button class="task ${x.done?'done':''}" data-task="${esc(x.id)}"><span class="check ${x.done?'done':''}"><svg class="icon"><use href="#i-check"/></svg></span><span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span></button>`).join('')}</div>`}
+function swipe(b){return `<div class="swipe"><div class="art" style="--c1:${b.item.art.c1};--c2:${b.item.art.c2}"><span class="swipe-name">${esc(b.item.name)}</span><span class="swipe-sub">${esc(b.item.sub)}</span></div><div class="swipe-actions"><button class="pass" data-act="pass" aria-label="跳过"><svg class="icon"><use href="#i-close"/></svg></button><button class="like" data-act="like" data-id="${esc(b.item.id)}" aria-label="喜欢"><svg class="icon"><use href="#i-heart"/></svg></button></div></div>`}
+function profile(b){return `<div class="profile"><span class="avatar" style="--hue:var(--primary)">${esc(b.art.label)}</span><div><b>${esc(b.name)}</b><span>${esc(b.sub)}</span></div></div><div class="profile-stats">${b.stats.map(([k,v])=>`<div><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join('')}</div>`}
+function settings(b){return `<div class="settings">${b.rows.map(([t,s,on])=>`<div class="setting"><div class="setting-main"><b>${esc(t)}</b><span>${esc(s)}</span></div><button class="switch ${on?'on':''}" data-switch aria-label="${esc(t)}"></button></div>`).join('')}</div>`}
+function note(b){return `<p class="note">${esc(b.text)}</p>`}
+function bubbles(b){const msgs=b.messages||[];return `<div class="bubbles">${msgs.map(m=>`<div class="bubble ${m[0]}">${esc(m[1])}<time>${esc(m[2]||'')}</time></div>`).join('')}</div>`}
+function composer(b){return `<form class="composer" data-composer><input placeholder="${esc(b.placeholder||'发消息…')}" autocomplete="off"><button type="submit">发送</button></form>`}
+function promptBlock(b){return `<form class="prompt" data-prompt><input placeholder="${esc(b.placeholder||'描述你的任务…')}" autocomplete="off"><button type="submit">${esc(b.button||'发送')}</button></form>`}
+function block(b){switch(b.type){case'hero':return hero(b);case'stats':return stats(b);case'rail':return rail(b);case'posters':return posters(b);case'list':return list(b);case'chips':return chips(b);case'chart':return chart(b);case'tools':return tools(b);case'tasks':return tasks(b);case'swipe':return swipe(b);case'profile':return profile(b);case'settings':return settings(b);case'note':return note(b);case'bubbles':return bubbles(b);case'composer':return composer(b);case'prompt':return promptBlock(b);default:return ''}}
+function current(){return APP.tabs[state.tab]}
+function render(){const t=current();$('#title').textContent=t.label;$('#sub').textContent=`${APP.app} · ${APP.domain==='tools'?'工具':APP.domain==='music'?'音乐':APP.domain==='fitness'?'运动':APP.domain==='finance'?'金融':APP.domain==='messaging'?'消息':APP.domain==='video'?'视频':APP.domain==='food'?'餐饮':APP.domain==='travel'?'旅行':APP.domain==='dating'?'约会':APP.domain==='productivity'?'效率':'社交'}样板间`;$('#avatar').textContent=APP.app.slice(0,1);$('#content').innerHTML=`<section class="view on" id="v-${t.id}">${(APP.screens[t.id]||[]).map(block).join('')}</section>`;$('#tabbar').innerHTML=APP.tabs.map((x,i)=>`<button class="tab ${i===state.tab?'on':''}" data-tab="${i}"><svg class="icon"><use href="#i-${x.icon}"/></svg><span>${esc(x.label)}</span></button>`).join('')+`<span class="homebar"></span>`}
+function openSheet(id){const d=APP.details[id];if(!d)return;closeSearch();state.sheetId=id;$('#sheetTitle').textContent=d.title;$('#sheetBody').innerHTML=d.blocks.map(block).join('');$('#sheet').classList.add('on');$('#sheetBody').scrollTop=0}
+function closeSheet(){$('#sheet').classList.remove('on')}
+function openSearch(){state.query='';$('#searchInput').value='';renderSearch('');$('#searchview').classList.add('on');setTimeout(()=>$('#searchInput').focus(),60)}
+function closeSearch(){$('#searchview').classList.remove('on')}
+function renderSearch(q){const key=q.trim().toLowerCase();const rows=(APP.search||[]).filter(x=>!key||(x.title+' '+x.sub).toLowerCase().includes(key));$('#searchResults').innerHTML=rows.length?`<div class="list">${rows.map(x=>`<button class="row" data-open="${esc(x.id)}"><span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">→</span></button>`).join('')}</div>`:`<p class="note">没有找到「${esc(q)}」。</p>`}
+function openLive(){const l=APP.live;if(!l){toast('此样板间暂无播放/记录流程');return}state.liveOpen=true;state.elapsed=0;state.playing=true;$('#liveBg').style=`--c1:${l.art.c1};--c2:${l.art.c2}`;$('#liveArt').textContent=l.art.label;$('#liveTitle').textContent=l.title;$('#liveSub').textContent=l.sub;$('#liveKicker').textContent=l.kind==='music'?'NOW PLAYING':l.kind==='fitness'?'RECORDING':'PLAYING';$('#live').classList.add('on');updateLive();clearInterval(state.timer);state.timer=setInterval(()=>{if(state.liveOpen&&state.playing){state.elapsed+=1;updateLive()}},1000)}
+function updateLive(){const l=APP.live;const dur=l.duration||1;const sec=state.elapsed;$('#liveTime').textContent=l.kind==='fitness'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:l.kind==='music'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:'';$('#liveFill').style.width=Math.min(100,sec/(l.kind==='fitness'?60:dur)*100)+'%';$('#livePlay').innerHTML=`<svg class="icon"><use href="#i-${state.playing?'pause':'play'}"/></svg>`}
+function closeLive(){state.liveOpen=false;state.playing=false;clearInterval(state.timer);$('#live').classList.remove('on')}
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-tab]');if(tab){state.tab=Number(tab.dataset.tab);render();return}
+  const open=e.target.closest('[data-open]');if(open&&!e.target.closest('.sheet')){openSheet(open.dataset.open);return}
+  const live=e.target.closest('[data-live]');if(live){openLive();return}
+  const hint=e.target.closest('[data-toast]');if(hint){toast(hint.dataset.toast+' · 演示入口');return}
+  const task=e.target.closest('[data-task]');if(task){const id=task.dataset.task;for(const s of Object.values(APP.screens))for(const b of s)if(b.type==='tasks')for(const r of b.rows)if(r.id===id)r.done=!r.done;for(const d of Object.values(APP.details))for(const b of d.blocks)if(b.type==='tasks')for(const r of b.rows)if(r.id===id)r.done=!r.done;render();if(state.sheetId)openSheet(state.sheetId);toast('任务状态已更新');return}
+  const chip=e.target.closest('[data-chip]');if(chip){$$('.chip').forEach(c=>c.classList.toggle('on',c===chip));return}
+  const sw=e.target.closest('[data-switch]');if(sw){sw.classList.toggle('on');toast(sw.classList.contains('on')?'已开启':'已关闭');return}
+  const act=e.target.closest('[data-act]');if(act){if(act.dataset.act==='like'){toast('已喜欢')}else{toast('已跳过')}return}
+})
+$('#searchBtn').addEventListener('click',openSearch)
+$('#searchClose').addEventListener('click',closeSearch)
+$('#searchInput').addEventListener('input',e=>renderSearch(e.target.value))
+$('#sheetClose').addEventListener('click',closeSheet)
+$('#sheet').addEventListener('click',e=>{if(e.target===$('#sheet'))closeSheet()})
+$('#liveClose').addEventListener('click',closeLive)
+$('#livePlay').addEventListener('click',()=>{state.playing=!state.playing;updateLive();toast(state.playing?'继续':'已暂停')})
+$('#liveMain').addEventListener('click',()=>{closeLive();toast(APP.live?.kind==='fitness'?'记录已保存':'已结束播放')})
+function submitHandler(e){const form=e.target.closest('[data-composer]');if(form){e.preventDefault();const input=$('input',form);const v=input.value.trim();if(!v)return;const d=APP.details[state.sheetId];if(d){const b=d.blocks.find(x=>x.type==='bubbles');if(b){(b.messages||(b.messages=[])).push(['me',v,'刚刚']);}openSheet(state.sheetId);toast('已发送')}return}const pr=e.target.closest('[data-prompt]');if(pr){e.preventDefault();const v=$('input',pr).value.trim();if(v){toast('已提交：'+v);$('input',pr).value=''}}}
+$('#content').addEventListener('submit',submitHandler)
+$('#sheetBody').addEventListener('submit',submitHandler)
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();closeSearch();if(state.liveOpen)closeLive()}})
+render()
+</script>
+</body>
+</html>

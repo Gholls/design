@@ -18,6 +18,7 @@ export default function ViewerPage({ theme }: { theme?: string }) {
   }
 
   const url = generatedUrl(design.slug)
+  const isMobile = design.design.platform === 'mobile'
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">
@@ -68,15 +69,28 @@ export default function ViewerPage({ theme }: { theme?: string }) {
 
       <div className="flex min-h-0 flex-1">
         {/* 生成产物 iframe */}
-        <main className="relative min-w-0 flex-1 bg-surface-alt">
+        <main className={`relative min-w-0 flex-1 bg-surface-alt ${isMobile ? 'grid place-items-start justify-center overflow-auto p-6' : ''}`}>
           {url ? (
-            <iframe
-              key={`${design.slug}-${reloadKey}`}
-              title={`${design.design.name} 样板间（agent 生成）`}
-              src={url}
-              className="h-full w-full border-0 bg-white"
-              sandbox="allow-scripts allow-same-origin allow-modals"
-            />
+            isMobile ? (
+              <div className="relative shrink-0 rounded-[52px] border-[10px] border-[#0b0b0c] bg-[#0b0b0c] shadow-2xl">
+                <span className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-[#0b0b0c]" />
+                <iframe
+                  key={`${design.slug}-${reloadKey}`}
+                  title={`${design.design.name} 移动端样板间`}
+                  src={url}
+                  className="block h-[844px] w-[390px] rounded-[42px] border-0 bg-white"
+                  sandbox="allow-scripts allow-same-origin allow-modals"
+                />
+              </div>
+            ) : (
+              <iframe
+                key={`${design.slug}-${reloadKey}`}
+                title={`${design.design.name} 样板间（agent 生成）`}
+                src={url}
+                className="h-full w-full border-0 bg-white"
+                sandbox="allow-scripts allow-same-origin allow-modals"
+              />
+            )
           ) : (
             <div className="grid h-full place-items-center p-6">
               <div className="max-w-md text-center">

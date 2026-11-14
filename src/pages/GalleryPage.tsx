@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { IndexedDesign } from '../types'
 import { designs, defaultDesign, skippedSlugs } from '../lib/registry'
-import { generatedCount, generatedUrl } from '../lib/generated'
+import { generatedUrl } from '../lib/generated'
 import { navigate } from '../lib/router'
 import { styleFromVars } from '../lib/cssVars'
 import { buttonClass } from '../components/ui/styles'
@@ -9,6 +9,7 @@ import DesignCard from '../components/gallery/DesignCard'
 import SourcePanel from '../components/shared/SourcePanel'
 
 type Category = 'all' | 'builtin' | 'community' | 'generated'
+type Platform = 'web' | 'mobile' | 'desktop'
 
 const CATEGORY_LABEL: Record<Category, string> = {
   all: '全部',
@@ -19,25 +20,69 @@ const CATEGORY_LABEL: Record<Category, string> = {
 
 const PAGE_STEP = 48
 
+const PLATFORMS: Array<{ id: Platform; label: string; en: string; blurb: string }> = [
+  { id: 'web', label: '网站', en: 'WEB', blurb: '官网、商城与产品站' },
+  { id: 'mobile', label: '移动端', en: 'MOBILE', blurb: 'iOS / Android App' },
+  { id: 'desktop', label: '桌面端', en: 'DESKTOP', blurb: '控制台与桌面工具' },
+]
+
+function PlatformIcon({ id }: { id: Platform }) {
+  if (id === 'mobile') {
+    return (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
+        <path d="M10.5 18.5h3" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  if (id === 'desktop') {
+    return (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <rect x="2.5" y="4" width="19" height="12.5" rx="2" />
+        <path d="M9 20h6M12 16.5V20" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="2.5" y="3.5" width="19" height="17" rx="2.5" />
+      <path d="M2.5 8.5h19" />
+      <circle cx="5.5" cy="6" r=".6" fill="currentColor" />
+    </svg>
+  )
+}
+
 export default function GalleryPage() {
   const [source, setSource] = useState<IndexedDesign | null>(null)
+  const [platform, setPlatform] = useState<Platform>('web')
   const [category, setCategory] = useState<Category>('all')
   const [tag, setTag] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [shown, setShown] = useState(PAGE_STEP)
 
+  const counts = useMemo(
+    () => ({
+      web: designs.filter((d) => d.design.platform === 'web').length,
+      mobile: designs.filter((d) => d.design.platform === 'mobile').length,
+      desktop: designs.filter((d) => d.design.platform === 'desktop').length,
+    }),
+    [],
+  )
+
+  const pool = useMemo(() => designs.filter((d) => d.design.platform === platform), [platform])
+
   const hotTags = useMemo(() => {
     const count = new Map<string, number>()
-    for (const d of designs) for (const t of d.design.tags) count.set(t, (count.get(t) ?? 0) + 1)
+    for (const d of pool) for (const t of d.design.tags) count.set(t, (count.get(t) ?? 0) + 1)
     return [...count.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([t]) => t)
-  }, [])
+  }, [pool])
 
   const tagOptions = tag && !hotTags.includes(tag) ? [tag, ...hotTags] : hotTags
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
     setShown(PAGE_STEP)
-    return designs.filter((d) => {
+    return pool.filter((d) => {
       if (category === 'builtin' && d.design.source) return false
       if (category === 'community' && !d.design.source) return false
       if (category === 'generated' && generatedUrl(d.slug) === null) return false
@@ -45,7 +90,7 @@ export default function GalleryPage() {
       if (q && !(d.design.name + d.design.summary + d.design.tags.join(' ')).toLowerCase().includes(q)) return false
       return true
     })
-  }, [category, tag, query])
+  }, [category, tag, query, pool])
 
   return (
     <div className="min-h-screen">
@@ -79,7 +124,7 @@ export default function GalleryPage() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="搜索规范或标签…"
+              placeholder={`搜索${PLATFORMS.find((p) => p.id === platform)?.label}规范或标签…`}
               className="hidden h-8 w-36 rounded-control border border-line bg-surface px-2.5 text-xs outline-none placeholder:text-muted focus:border-primary sm:block"
             />
           </div>
@@ -95,11 +140,49 @@ export default function GalleryPage() {
           <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
             awesome-design-md
           </a>
-          {' '}的 <span className="whitespace-nowrap">74 个真实品牌</span>设计系统分析；样板间由 code agent 依
+          {' '}与{' '}
+          <a href="https://github.com/Meliwat/awesome-ios-design-md" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
+            awesome-ios-design-md
+          </a>
+          {' '}的真实品牌设计系统分析；样板间由 code agent 依
           <a href="/prompt" className="mx-1 whitespace-nowrap text-primary underline decoration-line">黄金提示词</a>
-          逐规范生成静态站点。已生成 <span className="whitespace-nowrap">{generatedCount} / {designs.length}</span>。
+          逐规范生成静态站点。<span className="whitespace-nowrap">网站 {counts.web} · 移动端 {counts.mobile} · 桌面端 {counts.desktop}</span>。
         </p>
       </header>
+
+      <section className="mx-auto max-w-7xl px-4 pb-5">
+        <div className="grid gap-3 md:grid-cols-3">
+          {PLATFORMS.map((p) => {
+            const active = platform === p.id
+            return (
+              <button
+                key={p.id}
+                onClick={() => {
+                  setPlatform(p.id)
+                  setCategory('all')
+                  setTag(null)
+                }}
+                className={`group cursor-pointer rounded-xl border p-4 text-left transition-colors ${
+                  active ? 'border-primary bg-primary/5' : 'border-line bg-surface hover:border-primary/50'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className={`inline-flex items-center gap-2 font-mono text-[10px] tracking-wide ${active ? 'text-primary' : 'text-muted'}`}>
+                    <PlatformIcon id={p.id} />
+                    {p.en}
+                  </span>
+                  <span className="font-mono text-[11px] tabular-nums text-muted">{counts[p.id]} 套</span>
+                </div>
+                <div className="mt-3 flex items-baseline justify-between gap-2">
+                  <span className="font-display text-lg font-bold">{p.label}</span>
+                  <span className={`text-[11px] ${active ? 'text-primary' : 'text-muted'}`}>{active ? '当前分类' : '进入 →'}</span>
+                </div>
+                <p className="mt-1 text-xs text-muted">{p.blurb}</p>
+              </button>
+            )
+          })}
+        </div>
+      </section>
 
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-1.5 px-4 pb-6">
         {(['all', 'generated', 'builtin', 'community'] as const).map((c) => (
@@ -150,7 +233,7 @@ export default function GalleryPage() {
           ))}
         </div>
         {visible.length === 0 ? (
-          <p className="py-16 text-center text-sm text-muted">没有匹配的规范，换个关键词试试。</p>
+          <p className="py-16 text-center text-sm text-muted">这个分类下没有匹配的规范，换个关键词试试。</p>
         ) : null}
         {shown < visible.length ? (
           <div className="mt-8 flex justify-center">

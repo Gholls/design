@@ -18,6 +18,7 @@ export interface NormalizedDesign {
   source: string
   order: number
   tags: string[]
+  platform: 'web' | 'mobile' | 'desktop'
   /** 样板间契约角色色（13 个），已做别名解析与亮度兜底 */
   roles: Record<string, string>
   colors: TokenGroup

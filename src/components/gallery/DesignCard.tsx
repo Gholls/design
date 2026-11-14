@@ -92,7 +92,7 @@ export default function DesignCard({ design, onViewSource, onPreview, onTag }: D
         <div className="flex items-start justify-between gap-2">
           <h3 className="line-clamp-2 min-w-0 break-words font-display text-sm font-bold leading-snug">{d.name}</h3>
           <span className="shrink-0 font-mono text-[10px] text-muted">
-            D{d.metrics.density ?? '–'} · V{d.metrics.variance} · M{d.metrics.motion}
+            {d.platform === 'mobile' ? 'iOS · ' : ''}D{d.metrics.density ?? '–'} · V{d.metrics.variance} · M{d.metrics.motion}
           </span>
         </div>
 

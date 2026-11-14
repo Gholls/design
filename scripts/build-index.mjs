@@ -20,6 +20,7 @@ const UI_FIELDS = [
   'source',
   'order',
   'tags',
+  'platform',
   'roles',
   'vars',
   'fontSizeBase',
@@ -101,7 +102,7 @@ const oneLine = (s) => (s || '').replace(/\s+/g, ' ').trim().slice(0, 110)
 const llms = [
   '# Design.md Gallery',
   '',
-  '> 同一份黄金提示词 × 79 套真实品牌 DESIGN.md 规范 = 79 种截然不同的产品页面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。',
+  `> 同一份黄金提示词 × ${index.length} 套真实品牌 DESIGN.md 规范 = 网站与移动端两种表面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。`,
   '',
   '关键事实：',
   `- 数据格式：Google Labs design.md（YAML frontmatter + 散文指令），全库经官方 CLI lint，0 error`,

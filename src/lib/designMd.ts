@@ -604,6 +604,9 @@ export function normalizeDesign(tree: YamlTree, slug: string, parseWarnings: str
     source: gallery.source || '',
     order: Number(gallery.order ?? 99),
     tags: parseGalleryTags(gallery.tags),
+    platform: ['web', 'mobile', 'desktop'].includes(String(gallery.platform))
+      ? (String(gallery.platform) as 'web' | 'mobile' | 'desktop')
+      : 'web',
     roles,
     colors: colorsRaw,
     typography,

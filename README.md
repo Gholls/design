@@ -4,11 +4,11 @@
 
 本项目不内置样板间代码。它只拥有三样东西：
 
-1. **规范数据** —— `designs/<slug>/DESIGN.md` 共 **80 套**：5 套内置基准 +
-   74 套收录自 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)
-   （MIT，网站/营销页分析）+ 1 套起始的移动端规范收录自
+1. **规范数据** —— `designs/<slug>/DESIGN.md`：5 套内置基准 + 74 套收录自
+   [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)
+   （MIT，网站/营销页分析）+ 持续增加的移动端 App 分析收录自
    [Meliwat/awesome-ios-design-md](https://github.com/Meliwat/awesome-ios-design-md)
-   （MIT，App 设计分析）；
+   （MIT）；
 2. **黄金提示词** —— `prompts/GOLDEN.md`，样板间的全部需求与约束都在这一份文字里；
 3. **轻量站点** —— 画廊（分页/搜索/筛选）、设计思想面板、生成状态，以及路由到
    agent 生成产物（`public/generated/<slug>/index.html`）的预览器。

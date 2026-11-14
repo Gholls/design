@@ -499,6 +499,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://design.gholl.com/design/ios-strava</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://design.gholl.com/generated/1win/index.html</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
@@ -698,6 +704,12 @@
   </url>
   <url>
     <loc>https://design.gholl.com/generated/ios-spotify/index.html</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://design.gholl.com/generated/ios-strava/index.html</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

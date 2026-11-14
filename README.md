@@ -4,10 +4,11 @@
 
 本项目不内置样板间代码。它只拥有三样东西：
 
-1. **规范数据** —— `designs/<slug>/DESIGN.md` 共 **79 套**：5 套内置基准 +
+1. **规范数据** —— `designs/<slug>/DESIGN.md` 共 **80 套**：5 套内置基准 +
    74 套收录自 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)
-   （MIT，对 Apple / Airbnb / Claude / Figma / Linear 等真实品牌设计系统的
-   结构化分析，单向同步、除署名块外 verbatim）；
+   （MIT，网站/营销页分析）+ 1 套起始的移动端规范收录自
+   [Meliwat/awesome-ios-design-md](https://github.com/Meliwat/awesome-ios-design-md)
+   （MIT，App 设计分析）；
 2. **黄金提示词** —— `prompts/GOLDEN.md`，样板间的全部需求与约束都在这一份文字里；
 3. **轻量站点** —— 画廊（分页/搜索/筛选）、设计思想面板、生成状态，以及路由到
    agent 生成产物（`public/generated/<slug>/index.html`）的预览器。
@@ -17,7 +18,7 @@ Density/Variance/Motion 指标、Do's & Don'ts）的胜利，而非代码分支�
 
 - 技术栈：**Vite 7 + React 19 + Tailwind CSS v4 + js-yaml + Cloudflare Pages**
 - 官方工具链：**@google/design.md** lint 门禁（`npm run design:lint`）
-- URL：`/#/` 画廊 · `/#/preview?theme=<slug>` 预览产物 · `/#/prompt` 提示词全文
+- URL：`/` 画廊（网站 / 移动端 / 桌面端）· `/design/<slug>` 预览产物 · `/prompt` 提示词全文 · `/studio/` 跨端样板间
 - 协议：**MIT**（[LICENSE](LICENSE)）
 
 ## 快速开始

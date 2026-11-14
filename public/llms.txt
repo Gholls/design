@@ -1,6 +1,6 @@
 # Design.md Gallery
 
-> 同一份黄金提示词 × 79 套真实品牌 DESIGN.md 规范 = 79 种截然不同的产品页面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。
+> 同一份黄金提示词 × 80 套真实品牌 DESIGN.md 规范 = 网站与移动端两种表面。开源（MIT）设计规范画廊与 AI 生成样板间平台，托管于 design.gholl.com。
 
 关键事实：
 - 数据格式：Google Labs design.md（YAML frontmatter + 散文指令），全库经官方 CLI lint，0 error
@@ -97,6 +97,7 @@
 - [Wise-Inspired-design-analysis](https://design.gholl.com/designs/wise.md)：An inspired interpretation of Wise's design language — a global money-transfer brand whose surface combines an
 - [xAI-Inspired-design-analysis](https://design.gholl.com/designs/x-ai.md)：An inspired interpretation of xAI's design language — Elon Musk's frontier-AI company whose web surface is a s
 - [Zapier-Inspired-design-analysis](https://design.gholl.com/designs/zapier.md)：An inspired interpretation of Zapier's design language — a workflow-automation platform whose surface combines
+- [Spotify iOS](https://design.gholl.com/designs/ios-spotify.md)：音乐流媒体 App 的暗色设计系统：近黑画布、单一 Spotify Green、专辑封面驱动的动态渐变、密集列表与全屏 Now Playing。
 
 ## 已生成样板间（自包含 HTML）
 
@@ -133,6 +134,7 @@
 - [hp 样板间](https://design.gholl.com/generated/hp/index.html)
 - [ibm 样板间](https://design.gholl.com/generated/ibm/index.html)
 - [intercom 样板间](https://design.gholl.com/generated/intercom/index.html)
+- [ios-spotify 样板间](https://design.gholl.com/generated/ios-spotify/index.html)
 - [jobright 样板间](https://design.gholl.com/generated/jobright/index.html)
 - [linear-app 样板间](https://design.gholl.com/generated/linear-app/index.html)
 - [mercury 样板间](https://design.gholl.com/generated/mercury/index.html)

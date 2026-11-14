@@ -253,7 +253,7 @@ gallery:
   order: 181
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/wired"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["媒体", "新闻", "衬线", "编辑排版"]
 ------
 
 

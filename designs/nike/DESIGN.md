@@ -261,7 +261,7 @@ gallery:
   order: 144
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/nike"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["体育", "消费品牌", "高对比", "大写标题"]
 ------
 
 ## Overview

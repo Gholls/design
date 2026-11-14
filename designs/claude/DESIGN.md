@@ -301,7 +301,7 @@ gallery:
   order: 111
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/claude"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "编辑排版", "衬线", "暖色"]
 ------
 
 ## Overview

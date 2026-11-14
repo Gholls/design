@@ -236,7 +236,7 @@ gallery:
   order: 165
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/slack"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["协作", "社交", "明亮", "胶囊按钮"]
 ------
 
 ## Overview

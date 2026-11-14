@@ -197,7 +197,7 @@ gallery:
   order: 114
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/cohere"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "企业服务", "明亮", "大圆角"]
 ------
 
 ## Overview

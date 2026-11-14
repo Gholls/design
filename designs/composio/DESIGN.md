@@ -260,7 +260,7 @@ gallery:
   order: 116
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/composio"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "AI", "暗色", "等宽"]
 ------
 
 ## Overview

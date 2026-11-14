@@ -276,7 +276,7 @@ gallery:
   order: 105
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/apple"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["消费电子", "极简", "留白", "大圆角"]
 ------
 
 ## Overview

@@ -369,7 +369,7 @@ gallery:
   order: 143
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/nerdwallet"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["金融科技", "媒体", "明亮", "高密度"]
 ------
 
 

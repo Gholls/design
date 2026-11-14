@@ -294,7 +294,7 @@ gallery:
   order: 184
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/zapier"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["自动化", "生产力", "明亮", "胶囊按钮"]
 ------
 
 

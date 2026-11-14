@@ -258,7 +258,7 @@ gallery:
   order: 132
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/linear.app"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["生产力", "开发者工具", "暗色", "极简"]
 ------
 
 ## Overview

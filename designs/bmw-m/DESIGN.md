@@ -245,7 +245,7 @@ gallery:
   order: 107
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/bmw-m"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["汽车", "暗色", "运动", "高对比"]
 ------
 
 ## Overview

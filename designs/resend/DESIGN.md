@@ -267,7 +267,7 @@ gallery:
   order: 158
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/resend"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "邮件", "暗色", "极简"]
 ------
 
 ## Overview

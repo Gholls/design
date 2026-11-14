@@ -5,7 +5,7 @@ description: 新粗野主义：米纸底、2px 纯黑描边、硬投影零模糊
 gallery:
   order: 5
   author: gholl
-  tags: [brutalism, 高对比, 硬阴影, editorial]
+  tags: ["实验风格", "明亮", "粗野", "零动效"]
 colors:
   bg: "#f4f1ea"
   surface: "#ffffff"

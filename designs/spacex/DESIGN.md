@@ -151,7 +151,7 @@ gallery:
   order: 166
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/spacex"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["航空", "科技", "暗色", "大写标题"]
 ------
 
 ## Overview

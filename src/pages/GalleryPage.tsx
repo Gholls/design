@@ -28,9 +28,11 @@ export default function GalleryPage() {
 
   const hotTags = useMemo(() => {
     const count = new Map<string, number>()
-    for (const d of designs) for (const t of d.design.tags.slice(0, 3)) count.set(t, (count.get(t) ?? 0) + 1)
+    for (const d of designs) for (const t of d.design.tags) count.set(t, (count.get(t) ?? 0) + 1)
     return [...count.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([t]) => t)
   }, [])
+
+  const tagOptions = tag && !hotTags.includes(tag) ? [tag, ...hotTags] : hotTags
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -72,7 +74,7 @@ export default function GalleryPage() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={`搜索 ${designs.length} 套规范…`}
+              placeholder="搜索规范或标签…"
               className="hidden h-8 w-36 rounded-control border border-line bg-surface px-2.5 text-xs outline-none placeholder:text-muted focus:border-primary sm:block"
             />
           </div>
@@ -106,10 +108,10 @@ export default function GalleryPage() {
             {CATEGORY_LABEL[c]}
           </button>
         ))}
-        {hotTags.length > 0 ? (
+        {tagOptions.length > 0 ? (
           <>
             <span className="mx-1 hidden h-4 w-px bg-line sm:inline-block" />
-            {hotTags.map((t) => (
+            {tagOptions.map((t) => (
               <button
                 key={t}
                 onClick={() => setTag(tag === t ? null : t)}
@@ -135,6 +137,10 @@ export default function GalleryPage() {
               design={design}
               onViewSource={setSource}
               onPreview={(d) => navigate(`/design/${d.slug}`)}
+              onTag={(t) => {
+                setTag(t)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
             />
           ))}
         </div>

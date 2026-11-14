@@ -272,7 +272,7 @@ gallery:
   order: 122
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/ferrari"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["汽车", "奢侈品", "暗色", "高对比"]
 ------
 
 ## Overview

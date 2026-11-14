@@ -271,7 +271,7 @@ gallery:
   order: 108
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/bmw"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["汽车", "企业服务", "明亮", "小圆角"]
 ------
 
 ## Overview

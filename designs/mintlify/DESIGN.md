@@ -453,7 +453,7 @@ gallery:
   order: 138
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/mintlify"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["文档", "开发者工具", "明亮", "等宽"]
 ------
 
 ## Overview

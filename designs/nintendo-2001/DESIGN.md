@@ -345,7 +345,7 @@ gallery:
   order: 145
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/nintendo-2001"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["游戏", "复古", "明亮", "高饱和"]
 ------
 
 

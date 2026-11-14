@@ -518,7 +518,7 @@ gallery:
   order: 119
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/dji"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["硬件", "摄影", "明亮", "极简"]
 ------
 
 

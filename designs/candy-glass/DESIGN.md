@@ -5,7 +5,7 @@ description: 糖果玻璃：暖桃底色、玫红主调、超大圆角与有色�
 gallery:
   order: 4
   author: gholl
-  tags: [gradient, playful, 有色阴影, growth]
+  tags: ["消费品牌", "明亮", "大圆角", "柔和"]
 colors:
   bg: "#fff7ed"
   surface: "#ffffff"

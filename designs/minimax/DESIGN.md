@@ -381,7 +381,7 @@ gallery:
   order: 137
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/minimax"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "企业服务", "明亮", "高饱和"]
 ------
 
 ## Overview

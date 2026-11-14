@@ -357,7 +357,7 @@ gallery:
   order: 154
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/posthog"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "数据分析", "明亮", "手绘"]
 ------
 
 ## Overview

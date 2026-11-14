@@ -334,7 +334,7 @@ gallery:
   order: 151
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/oura"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["医疗健康", "硬件", "明亮", "大圆角"]
 ------
 
 

@@ -9,6 +9,7 @@ interface DesignCardProps {
   design: IndexedDesign
   onViewSource: (design: IndexedDesign) => void
   onPreview: (design: IndexedDesign) => void
+  onTag: (tag: string) => void
 }
 
 /** Token 试装条：仅演示该规范的颜色/圆角/阴影气质，不是样板间（样板间由 agent 生成） */
@@ -54,7 +55,7 @@ function sourceHost(url: string): string {
   }
 }
 
-export default function DesignCard({ design, onViewSource, onPreview }: DesignCardProps) {
+export default function DesignCard({ design, onViewSource, onPreview, onTag }: DesignCardProps) {
   const d = design.design
   const generated = generatedUrl(design.slug) !== null
 
@@ -96,6 +97,18 @@ export default function DesignCard({ design, onViewSource, onPreview }: DesignCa
         </div>
 
         <p className="line-clamp-2 text-xs leading-relaxed text-muted">{d.summary}</p>
+
+        <div className="flex flex-wrap gap-1">
+          {d.tags.map((t) => (
+            <button
+              key={t}
+              onClick={() => onTag(t)}
+              className="cursor-pointer rounded-badge border border-line px-1.5 py-0.5 text-[10px] leading-none text-muted hover:border-primary hover:text-primary"
+            >
+              {t}
+            </button>
+          ))}
+        </div>
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex min-w-0 items-center gap-1">

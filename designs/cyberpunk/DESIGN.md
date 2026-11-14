@@ -5,7 +5,7 @@ description: 暗夜霓虹：近黑底、青/品红高对比强调、直角切边
 gallery:
   order: 3
   author: gholl
-  tags: [dark, neon, monospace, 赛博]
+  tags: ["游戏", "暗色", "霓虹", "等宽"]
 colors:
   bg: "#0a0a12"
   surface: "#12121d"

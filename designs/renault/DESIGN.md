@@ -267,7 +267,7 @@ gallery:
   order: 156
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/renault"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["汽车", "明亮", "高对比", "小圆角"]
 ------
 
 ## Overview

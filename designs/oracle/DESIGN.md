@@ -413,7 +413,7 @@ gallery:
   order: 150
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/oracle"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["企业服务", "B端后台", "衬线", "留白"]
 ------
 
 

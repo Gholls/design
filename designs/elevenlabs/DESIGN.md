@@ -255,7 +255,7 @@ gallery:
   order: 120
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/elevenlabs"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "语音", "编辑排版", "极简"]
 ------
 
 ## Overview

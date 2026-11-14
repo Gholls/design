@@ -320,7 +320,7 @@ gallery:
   order: 135
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/mercury"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["金融科技", "银行", "暗色", "精致"]
 ------
 
 

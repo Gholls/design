@@ -307,7 +307,7 @@ gallery:
   order: 147
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/nvidia"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["硬件", "AI", "暗色", "科技感"]
 ------
 
 ## Overview

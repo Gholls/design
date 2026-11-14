@@ -392,7 +392,7 @@ gallery:
   order: 176
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/vercel"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "基础设施", "暗色", "极简"]
 ------
 
 

@@ -357,7 +357,7 @@ gallery:
   order: 162
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/sap"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["企业服务", "B端后台", "明亮", "高密度"]
 ------
 ## Overview
 

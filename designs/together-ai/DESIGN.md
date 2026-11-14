@@ -330,7 +330,7 @@ gallery:
   order: 174
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/together.ai"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "基础设施", "暗色", "渐变"]
 ------
 
 

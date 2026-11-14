@@ -274,7 +274,7 @@ gallery:
   order: 110
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/cal"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["生产力", "SaaS", "极简", "明亮"]
 ------
 
 ## Overview

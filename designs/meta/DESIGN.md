@@ -351,7 +351,7 @@ gallery:
   order: 136
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/meta"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["社交", "消费电子", "明亮", "高饱和"]
 ------
 
 ## Overview

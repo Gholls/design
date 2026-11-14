@@ -295,7 +295,7 @@ gallery:
   order: 112
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/clay"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["营销", "数据分析", "明亮", "大圆角"]
 ------
 
 ## Overview

@@ -255,7 +255,7 @@ gallery:
   order: 128
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/intercom"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["客户服务", "企业服务", "明亮", "柔和"]
 ------
 
 ## Overview

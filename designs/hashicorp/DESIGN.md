@@ -266,7 +266,7 @@ gallery:
   order: 125
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/hashicorp"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["基础设施", "企业服务", "暗色", "等宽"]
 ------
 
 ## Overview

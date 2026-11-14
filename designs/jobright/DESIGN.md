@@ -279,7 +279,7 @@ gallery:
   order: 129
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/jobright"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["招聘", "AI", "明亮", "大圆角"]
 ------
 
 

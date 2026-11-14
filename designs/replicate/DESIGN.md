@@ -291,7 +291,7 @@ gallery:
   order: 157
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/replicate"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "开发者工具", "明亮", "等宽"]
 ------
 
 ## Overview

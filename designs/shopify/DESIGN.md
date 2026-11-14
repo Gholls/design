@@ -266,7 +266,7 @@ gallery:
   order: 164
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/shopify"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["电商", "企业服务", "暗色", "高对比"]
 ------
 
 ## Overview

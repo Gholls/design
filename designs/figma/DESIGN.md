@@ -273,7 +273,7 @@ gallery:
   order: 123
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/figma"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["设计工具", "协作", "明亮", "高饱和"]
 ------
 
 ## Overview

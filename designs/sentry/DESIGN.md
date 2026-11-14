@@ -275,7 +275,7 @@ gallery:
   order: 163
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/sentry"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "安全", "暗色", "高饱和"]
 ------
 
 ## Overview

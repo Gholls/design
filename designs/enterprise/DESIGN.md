@@ -5,7 +5,7 @@ description: 面向 B 端 SaaS 管理后台的标准规范：克制的云蓝主�
 gallery:
   order: 1
   author: gholl
-  tags: [saas, admin, b端, 默认主题]
+  tags: ["企业服务", "B端后台", "高密度", "小圆角"]
 colors:
   bg: "#eef2f7"
   surface: "#ffffff"

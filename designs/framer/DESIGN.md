@@ -256,7 +256,7 @@ gallery:
   order: 124
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/framer"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["设计工具", "开发者工具", "暗色", "强动效"]
 ------
 
 ## Overview

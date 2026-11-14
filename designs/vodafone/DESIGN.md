@@ -275,7 +275,7 @@ gallery:
   order: 177
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/vodafone"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["通信", "消费品牌", "明亮", "高对比"]
 ------
 
 

@@ -326,7 +326,7 @@ gallery:
   order: 126
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/hp"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["硬件", "企业服务", "明亮", "小圆角"]
 ------
 
 ## Overview

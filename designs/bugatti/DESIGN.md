@@ -205,7 +205,7 @@ gallery:
   order: 109
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/bugatti"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["汽车", "奢侈品", "暗色", "大写标题"]
 ------
 
 ## Overview

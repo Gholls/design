@@ -293,7 +293,7 @@ gallery:
   order: 142
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/mydealz"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["电商", "社区", "高密度", "明亮"]
 ------
 
 

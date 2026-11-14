@@ -246,7 +246,7 @@ gallery:
   order: 169
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/stripe"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["支付", "金融科技", "明亮", "渐变"]
 ------
 
 ## Overview

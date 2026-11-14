@@ -329,7 +329,7 @@ gallery:
   order: 102
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/airbnb"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["旅行", "消费品牌", "明亮", "大圆角"]
 ------
 
 ## Overview

@@ -267,7 +267,7 @@ gallery:
   order: 121
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/expo"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "移动开发", "明亮", "小圆角"]
 ------
 
 ## Overview

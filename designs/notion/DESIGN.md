@@ -446,7 +446,7 @@ gallery:
   order: 146
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/notion"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["生产力", "协作", "明亮", "极简"]
 ------
 
 ## Overview

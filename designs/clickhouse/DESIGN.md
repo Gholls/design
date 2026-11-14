@@ -290,7 +290,7 @@ gallery:
   order: 113
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/clickhouse"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["数据库", "开发者工具", "暗色", "高对比"]
 ------
 
 ## Overview

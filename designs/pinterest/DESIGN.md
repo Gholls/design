@@ -284,7 +284,7 @@ gallery:
   order: 152
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/pinterest"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["社交", "视觉发现", "明亮", "大圆角"]
 ------
 
 ## Overview

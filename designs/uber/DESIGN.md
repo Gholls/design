@@ -323,7 +323,7 @@ gallery:
   order: 175
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/uber"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["出行", "消费品牌", "明亮", "高对比"]
 ------
 
 

@@ -5,7 +5,7 @@ description: 苹果式极简：浅灰底、系统字体、大圆角与极柔和�
 gallery:
   order: 2
   author: gholl
-  tags: [minimal, apple, 留白, 大圆角]
+  tags: ["消费电子", "极简", "留白", "大圆角"]
 colors:
   bg: "#f5f5f7"
   surface: "#ffffff"

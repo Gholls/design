@@ -439,7 +439,7 @@ gallery:
   order: 139
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/miro"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["协作", "生产力", "暗色", "手绘"]
 ------
 
 ## Overview

@@ -227,7 +227,7 @@ gallery:
   order: 101
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/1win"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["博彩", "暗色", "高饱和", "游戏化"]
 ------
 
 

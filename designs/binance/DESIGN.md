@@ -334,7 +334,7 @@ gallery:
   order: 106
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/binance"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["加密", "金融科技", "暗色", "高对比"]
 ------
 
 ## Overview

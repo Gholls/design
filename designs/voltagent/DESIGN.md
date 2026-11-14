@@ -280,7 +280,7 @@ gallery:
   order: 178
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/voltagent"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["开发者工具", "AI", "暗色", "霓虹"]
 ------
 
 

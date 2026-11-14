@@ -302,7 +302,7 @@ gallery:
   order: 115
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/coinbase"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["加密", "金融科技", "明亮", "小圆角"]
 ------
 
 ## Overview

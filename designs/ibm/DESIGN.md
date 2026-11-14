@@ -262,7 +262,7 @@ gallery:
   order: 127
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/ibm"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["企业服务", "基础设施", "明亮", "网格"]
 ------
 
 ## Overview

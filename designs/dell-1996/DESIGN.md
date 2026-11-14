@@ -346,7 +346,7 @@ gallery:
   order: 118
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/dell-1996"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["硬件", "企业服务", "复古", "高密度"]
 ------
 
 

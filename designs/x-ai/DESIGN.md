@@ -241,7 +241,7 @@ gallery:
   order: 183
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/x.ai"
-  tags: ["真实品牌", "awesome-design-md"]
+  tags: ["AI", "科技", "暗色", "极简"]
 ------
 
 

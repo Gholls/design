@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { IndexedDesign } from '../../types'
 import { styleFromVars } from '../../lib/cssVars'
 import { generatedUrl } from '../../lib/generated'
@@ -25,6 +26,9 @@ export default function DesignCard({ design, onViewSource, onPreview, onTag }: D
   const generated = generatedUrl(design.slug) !== null
   const tags = d.tags.slice(0, 4)
   const swatches = SWATCH_ROLES.map((role) => d.roles[role]).filter((c, i, all) => all.indexOf(c) === i)
+  const [thumbFailed, setThumbFailed] = useState(false)
+  const showThumb = generated && !thumbFailed
+  const thumb = `/thumbnails/${design.slug}.webp`
 
   return (
     <article className="g-card">
@@ -35,17 +39,47 @@ export default function DesignCard({ design, onViewSource, onPreview, onTag }: D
         </span>
       </div>
 
-      <div className="g-specimen" style={styleFromVars(d.vars)} aria-hidden="true">
-        <span className="g-specimen-lines" />
-        <span className="g-specimen-aa">Aa</span>
-        <span className="g-specimen-sample">把你的产品，交给我们收尾。</span>
-        <span className="g-specimen-btn">主操作</span>
-        <span className="g-specimen-dots">
-          {swatches.map((c, i) => (
-            <i key={i} style={{ background: c }} />
-          ))}
-        </span>
-        <span className="g-specimen-meta">TOKENS / {Object.keys(d.roles).length}</span>
+      {showThumb ? (
+        <div
+          className={`g-preview ${d.platform === 'mobile' ? 'is-mobile' : ''}`}
+        >
+          {d.platform === 'mobile' ? (
+            <span className="g-preview-phone">
+              <img
+                src={thumb}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                onError={() => setThumbFailed(true)}
+              />
+            </span>
+          ) : (
+            <img
+              src={thumb}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              onError={() => setThumbFailed(true)}
+            />
+          )}
+        </div>
+      ) : (
+        <div className="g-specimen" style={styleFromVars(d.vars)} aria-hidden="true">
+          <span className="g-specimen-lines" />
+          <span className="g-specimen-aa">Aa</span>
+          <span className="g-specimen-sample">把你的产品，交给我们收尾。</span>
+          <span className="g-specimen-btn">主操作</span>
+          <span className="g-specimen-dots">
+            {swatches.map((c, i) => (
+              <i key={i} style={{ background: c }} />
+            ))}
+          </span>
+          <span className="g-specimen-meta">TOKENS / {Object.keys(d.roles).length}</span>
+        </div>
+      )}
+
+      <div className="g-card-palette" aria-hidden="true">
+        {swatches.map((c, i) => <i key={i} style={{ background: c }} />)}
       </div>
 
       <div className="g-card-body">

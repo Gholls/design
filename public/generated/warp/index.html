@@ -14,9 +14,7 @@
 :root{
 --bg:#2b2622;--surface:#3a332e;--surface2:#433d38;--text:#f7f5f0;--muted:#9b9893;--border:#3f3a36;
 --primary:#f7f5f0;--on-primary:#2b2622;--accent:#f7f5f0;--ok:#16a34a;--warn:#d97706;--danger:#dc2626;
---r-card:6px;--r-ctl:4px;
---font:Inter, system-ui, -apple-system, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
---shadow:0 24px 64px rgba(0,0,0,.55);
+--r-card:6px;--r-ctl:4px;--font:Inter, system-ui, -apple-system, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;--shadow:0 24px 64px rgba(0,0,0,.55);
 }
 *{box-sizing:border-box;margin:0}
 html,body{height:100%}
@@ -148,41 +146,206 @@ kbd{font:inherit;font-size:11px;color:var(--muted);border:1px solid var(--border
 .ai-bot{line-height:1.7;font-size:12.5px;color:var(--muted)}
 .ai-bot code{background:color-mix(in srgb,var(--text) 8%,transparent);padding:1px 5px;border-radius:4px;font-size:11.5px}
 @media (max-width:900px){.body{grid-template-columns:200px 1fr}.right{display:none}}
+
+.crumb{color:var(--muted);font-size:11.5px;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,var(--text) 6%,transparent)}
+.tbtn{height:26px;padding:0 9px;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-ctl);font-size:11.5px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.tbtn:hover{color:var(--text)}
+.tbtn[aria-pressed="true"]{color:var(--text);border-color:color-mix(in srgb,var(--primary) 45%,var(--border))}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:16px;overflow:auto;align-content:start}
+.tile{border:1px solid var(--border);border-radius:var(--r-card);padding:10px;display:grid;gap:6px}
+.tile .ph{height:56px;border-radius:6px;background:linear-gradient(120deg,var(--primary),var(--accent));opacity:.75}
+.tile b{font-size:12.5px}
+.tile small{color:var(--muted);font-size:11px}
+.simple{display:grid;align-content:start;padding:8px 12px;overflow:auto}
+.simple-row{display:flex;align-items:center;gap:10px;height:40px;border:0;background:transparent;border-bottom:1px solid var(--border);text-align:left;color:var(--text);font-size:12.5px}
+.simple-row:hover{background:color-mix(in srgb,var(--text) 4%,transparent)}
+.simple-row small{margin-left:auto;color:var(--muted);font-size:11px}
+.wk{padding:12px 16px;overflow:auto}
+.wk h4{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:10px 0 6px}
+.wk ul{list-style:none;padding:0;display:grid;gap:4px}
+.wk li{display:flex;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border)}
+.wk li span:last-child{margin-left:auto;color:var(--muted);font-size:11px}
+.pal{position:fixed;inset:0;display:none;place-items:start center;padding-top:12vh;background:rgba(0,0,0,.38);z-index:50}
+.pal.on{display:grid}
+.pal-box{width:min(560px,92vw);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
+.pal-input{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.pal-input input{flex:1;border:0;background:transparent;color:var(--text);font:inherit;outline:none}
+.pal-list{max-height:320px;overflow:auto;padding:6px;display:grid;gap:2px}
+.pal-row{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;padding:9px 10px;border-radius:var(--r-ctl);text-align:left;font-size:12.5px}
+.pal-row span{flex:1}
+.pal-row.on{background:color-mix(in srgb,var(--primary) 16%,transparent)}
+.pal-empty{padding:14px 12px;color:var(--muted);font-size:12px}
+
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5"/></symbol><symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4h-.5A2.5 2.5 0 0 1 4 13.5z"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5"/></symbol><symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4h-.5A2.5 2.5 0 0 1 4 13.5z"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol></svg>
 <div class="win" role="application" aria-label="Warp 桌面样板间">
   <div class="titlebar">
     <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-    <span class="win-title">GhollStudio · <b>Warp</b> — Warp-Inspired-design-analysis</span>
-    <span class="win-tools">终端</span>
+    <span class="win-title">GhollStudio · <b>Warp</b></span>
+    <span class="crumb" id="crumb">构建</span>
+    <span class="win-tools">
+      
+      <button class="tbtn" id="palette-open" aria-label="打开命令面板">⌘K 命令面板</button>
+      <span>终端</span>
+    </span>
   </div>
   <div class="body">
-    <aside class="side" aria-label="侧栏">
-    <div class="nav-group">
-      <span class="nav-title">会话</span>
-      <button class="nav-item on"><svg class="ic" aria-hidden="true"><use href="#i-terminal"/></svg><span>gholl/design</span></button><button class="nav-item"><svg class="ic" aria-hidden="true"><use href="#i-terminal"/></svg><span>api-gateway</span></button><button class="nav-item"><svg class="ic" aria-hidden="true"><use href="#i-terminal"/></svg><span>infra</span></button>
-    </div></aside>
-    <main class="main">
-      <div class="toolbar"><div class="tb-left"><span class="branch">main</span><span class="ch-sub">~/gholl/design</span></div><div class="tb-right"><button class="btn ">新会话</button></div></div>
-      <div class="term">
-        <div class="tblock"><code><span class="prompt">❯</span> npm run build</code></div>
-        <pre class="tout">tsc --noEmit
-vite build
-✓ built in 1.43s
-postbuild · 279 个 meta 壳</pre>
-        <div class="tblock"><code><span class="prompt">❯</span> npm run design:lint</code></div>
-        <pre class="tout">共校验 279 份规范：0 errors，6485 warnings</pre>
-        <div class="tblock"><code><span class="prompt">❯</span> git status --short</code></div>
-        <pre class="tout"> M scripts/desktop-apps/generate.mjs
- M public/generated/figma/index.html
-?? .omo/</pre>
-        <div class="tblock"><code><span class="prompt">❯</span> <span class="caret"></span></code></div>
-      </div></main>
+    <aside class="side" id="nav" aria-label="侧栏"><div class="nav-group"><span class="nav-title">工作区</span><button class="nav-item on" data-nav="0" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-terminal"/></svg><span>构建</span></button><button class="nav-item" data-nav="1"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>规范校验</span></button><button class="nav-item" data-nav="2"><svg class="ic" aria-hidden="true"><use href="#i-code"/></svg><span>Git</span></button></div></aside>
+    <main class="main" id="main"></main>
     
   </div>
-  <div class="statusbar"><span>&lt;span&gt;#f7f5f0&lt;/span&gt;&lt;span&gt;zsh · node 22&lt;/span&gt;</span><span>Warp-Inspired-design-analysis</span></div>
+  <div class="statusbar"><span id="status">构建通过</span><span>Warp-Inspired-design-analysis</span></div>
 </div>
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="命令面板">
+  <div class="pal-box">
+    <div class="pal-input"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="palette-input" placeholder="搜索命令…" aria-label="搜索命令" autocomplete="off"><kbd>Esc 关闭</kbd></div>
+    <div class="pal-list" id="palette-list" role="listbox"></div>
+  </div>
+</div>
+<script>window.__DESK__={"title":"Warp","screens":[{"label":"构建","main":"\u003cdiv class=\"toolbar\">\u003cdiv class=\"tb-left\">\u003cspan class=\"branch\">main\u003c/span>\u003cspan class=\"ch-sub\">~/gholl/design\u003c/span>\u003c/div>\u003cdiv class=\"tb-right\">\u003cbutton class=\"btn \">新会话\u003c/button>\u003c/div>\u003c/div>\u003cdiv class=\"term\">\u003cdiv class=\"tblock\">\u003ccode>\u003cspan class=\"prompt\">❯\u003c/span> npm run build\u003c/code>\u003c/div>\u003cpre class=\"tout\">tsc --noEmit\nvite build\n✓ built in 1.43s\npostbuild · 279 个 meta 壳\u003c/pre>\u003cdiv class=\"tblock\">\u003ccode>\u003cspan class=\"prompt\">❯\u003c/span> \u003cspan class=\"caret\">\u003c/span>\u003c/code>\u003c/div>\u003c/div>","right":"","status":"构建通过"},{"label":"规范校验","main":"\u003cdiv class=\"toolbar\">\u003cdiv class=\"tb-left\">\u003cspan class=\"branch\">main\u003c/span>\u003cspan class=\"ch-sub\">~/gholl/design\u003c/span>\u003c/div>\u003cdiv class=\"tb-right\">\u003c/div>\u003c/div>\u003cdiv class=\"term\">\u003cdiv class=\"tblock\">\u003ccode>\u003cspan class=\"prompt\">❯\u003c/span> npm run design:lint\u003c/code>\u003c/div>\u003cpre class=\"tout\">共校验 279 份规范：0 errors，6485 warnings\u003c/pre>\u003cdiv class=\"tblock\">\u003ccode>\u003cspan class=\"prompt\">❯\u003c/span> node scripts/desktop-apps/generate.mjs\u003c/code>\u003c/div>\u003cpre class=\"tout\">✓ figma\n✓ notion\n✓ linear-app\n✓ raycast\n✓ slack\n✓ warp\n✓ superhuman\n✓ cursor\ngenerated 8 / 8 desktop samples\u003c/pre>\u003c/div>","right":"","status":"0 errors"},{"label":"Git","main":"\u003cdiv class=\"toolbar\">\u003cdiv class=\"tb-left\">\u003cspan class=\"branch\">main\u003c/span>\u003cspan class=\"ch-sub\">~/gholl/design\u003c/span>\u003c/div>\u003cdiv class=\"tb-right\">\u003c/div>\u003c/div>\u003cdiv class=\"term\">\u003cdiv class=\"tblock\">\u003ccode>\u003cspan class=\"prompt\">❯\u003c/span> git status --short\u003c/code>\u003c/div>\u003cpre class=\"tout\"> M scripts/desktop-apps/generate.mjs\n M public/generated/figma/index.html\n?? scripts/desktop-apps/runtime.js\u003c/pre>\u003cdiv class=\"tblock\">\u003ccode>\u003cspan class=\"prompt\">❯\u003c/span> \u003cspan class=\"caret\">\u003c/span>\u003c/code>\u003c/div>\u003c/div>","right":"","status":"1 变更"}],"commands":[{"label":"构建","hint":"⌘ 1","screen":0},{"label":"规范校验","hint":"⌘ 2","screen":1},{"label":"Git","hint":"⌘ 3","screen":2}],"themeAlt":false}</script>
+<script>const D = window.__DESK__
+const $ = (s) => document.querySelector(s)
+const navEl = $('#nav')
+const mainEl = $('#main')
+const rightEl = $('#right')
+const statusEl = $('#status')
+const crumbEl = $('#crumb')
+const palEl = $('#palette')
+const palInput = $('#palette-input')
+const palList = $('#palette-list')
+const themeBtn = $('#theme')
+
+let cur = 0
+let palItems = []
+let palIdx = 0
+
+function setScreen(i) {
+  const s = D.screens[i]
+  if (!s) return
+  cur = i
+  mainEl.innerHTML = s.main
+  if (rightEl) rightEl.innerHTML = s.right || ''
+  mainEl.scrollTop = 0
+  if (statusEl) statusEl.textContent = s.status || D.status
+  if (crumbEl) crumbEl.textContent = s.label
+  if (navEl) {
+    navEl.querySelectorAll('[data-nav]').forEach((b) => {
+      const on = Number(b.dataset.nav) === i
+      b.classList.toggle('on', on)
+      if (on) b.setAttribute('aria-current', 'page')
+      else b.removeAttribute('aria-current')
+    })
+  }
+  document.title = `${D.title} · ${s.label}`
+}
+
+if (navEl) {
+  navEl.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-nav]')
+    if (b) setScreen(Number(b.dataset.nav))
+  })
+}
+
+function paintPalette() {
+  palList.innerHTML = palItems.length
+    ? palItems
+        .map(
+          (c, i) =>
+            `<button class="pal-row${i === palIdx ? ' on' : ''}" data-cmd="${i}" role="option" aria-selected="${i === palIdx}"><span>${c.label}</span>${c.hint ? `<kbd>${c.hint}</kbd>` : ''}</button>`,
+        )
+        .join('')
+    : '<p class="pal-empty">没有匹配的命令</p>'
+}
+
+function filterPalette(q) {
+  const key = q.trim().toLowerCase()
+  palItems = D.commands.filter((c) => !key || c.label.toLowerCase().includes(key))
+  palIdx = 0
+  paintPalette()
+}
+
+function openPalette() {
+  palEl.classList.add('on')
+  palInput.value = ''
+  filterPalette('')
+  palInput.focus()
+}
+
+function closePalette() {
+  palEl.classList.remove('on')
+}
+
+function runCommand(i) {
+  const c = palItems[i]
+  if (!c) return
+  closePalette()
+  if (typeof c.screen === 'number') setScreen(c.screen)
+}
+
+palInput.addEventListener('input', () => filterPalette(palInput.value))
+palList.addEventListener('mousemove', (e) => {
+  const r = e.target.closest('[data-cmd]')
+  if (!r) return
+  const i = Number(r.dataset.cmd)
+  if (i !== palIdx) {
+    palIdx = i
+    paintPalette()
+  }
+})
+palList.addEventListener('click', (e) => {
+  const r = e.target.closest('[data-cmd]')
+  if (r) runCommand(Number(r.dataset.cmd))
+})
+palEl.addEventListener('click', (e) => {
+  if (e.target === palEl) closePalette()
+})
+
+function toggleTheme() {
+  if (!D.themeAlt) return
+  const root = document.documentElement
+  const alt = root.dataset.theme !== 'alt'
+  root.dataset.theme = alt ? 'alt' : ''
+  if (themeBtn) themeBtn.setAttribute('aria-pressed', String(alt))
+}
+
+document.addEventListener('keydown', (e) => {
+  const meta = e.metaKey || e.ctrlKey
+  if (meta && e.key.toLowerCase() === 'k') {
+    e.preventDefault()
+    if (palEl.classList.contains('on')) closePalette()
+    else openPalette()
+    return
+  }
+  if (meta && e.shiftKey && e.key.toLowerCase() === 'l') {
+    e.preventDefault()
+    toggleTheme()
+    return
+  }
+  if (!palEl.classList.contains('on')) return
+  const n = palItems.length
+  if (e.key === 'Escape') {
+    e.preventDefault()
+    closePalette()
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault()
+    palIdx = n ? (palIdx + 1) % n : 0
+    paintPalette()
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault()
+    palIdx = n ? (palIdx - 1 + n) % n : 0
+    paintPalette()
+  } else if (e.key === 'Enter') {
+    e.preventDefault()
+    runCommand(palIdx)
+  }
+})
+
+const palBtn = $('#palette-open')
+if (palBtn) palBtn.addEventListener('click', openPalette)
+if (themeBtn) themeBtn.addEventListener('click', toggleTheme)
+setScreen(0)
+</script>
 </body>
 </html>

@@ -14,9 +14,7 @@
 :root{
 --bg:#07080a;--surface:#0d0d0d;--surface2:#191919;--text:#f4f4f6;--muted:#898a8c;--border:#242728;
 --primary:#ffffff;--on-primary:#000000;--accent:#ffffff;--ok:#59d499;--warn:#d97706;--danger:#ff6161;
---r-card:10px;--r-ctl:8px;
---font:Inter, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
---shadow:0 24px 64px rgba(0,0,0,.55);
+--r-card:10px;--r-ctl:8px;--font:Inter, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;--shadow:0 24px 64px rgba(0,0,0,.55);
 }
 *{box-sizing:border-box;margin:0}
 html,body{height:100%}
@@ -148,31 +146,206 @@ kbd{font:inherit;font-size:11px;color:var(--muted);border:1px solid var(--border
 .ai-bot{line-height:1.7;font-size:12.5px;color:var(--muted)}
 .ai-bot code{background:color-mix(in srgb,var(--text) 8%,transparent);padding:1px 5px;border-radius:4px;font-size:11.5px}
 @media (max-width:900px){.body{grid-template-columns:200px 1fr}.right{display:none}}
+
+.crumb{color:var(--muted);font-size:11.5px;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,var(--text) 6%,transparent)}
+.tbtn{height:26px;padding:0 9px;border:1px solid var(--border);background:var(--surface);border-radius:var(--r-ctl);font-size:11.5px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.tbtn:hover{color:var(--text)}
+.tbtn[aria-pressed="true"]{color:var(--text);border-color:color-mix(in srgb,var(--primary) 45%,var(--border))}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:16px;overflow:auto;align-content:start}
+.tile{border:1px solid var(--border);border-radius:var(--r-card);padding:10px;display:grid;gap:6px}
+.tile .ph{height:56px;border-radius:6px;background:linear-gradient(120deg,var(--primary),var(--accent));opacity:.75}
+.tile b{font-size:12.5px}
+.tile small{color:var(--muted);font-size:11px}
+.simple{display:grid;align-content:start;padding:8px 12px;overflow:auto}
+.simple-row{display:flex;align-items:center;gap:10px;height:40px;border:0;background:transparent;border-bottom:1px solid var(--border);text-align:left;color:var(--text);font-size:12.5px}
+.simple-row:hover{background:color-mix(in srgb,var(--text) 4%,transparent)}
+.simple-row small{margin-left:auto;color:var(--muted);font-size:11px}
+.wk{padding:12px 16px;overflow:auto}
+.wk h4{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:10px 0 6px}
+.wk ul{list-style:none;padding:0;display:grid;gap:4px}
+.wk li{display:flex;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--border)}
+.wk li span:last-child{margin-left:auto;color:var(--muted);font-size:11px}
+.pal{position:fixed;inset:0;display:none;place-items:start center;padding-top:12vh;background:rgba(0,0,0,.38);z-index:50}
+.pal.on{display:grid}
+.pal-box{width:min(560px,92vw);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);box-shadow:var(--shadow);overflow:hidden}
+.pal-input{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.pal-input input{flex:1;border:0;background:transparent;color:var(--text);font:inherit;outline:none}
+.pal-list{max-height:320px;overflow:auto;padding:6px;display:grid;gap:2px}
+.pal-row{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;padding:9px 10px;border-radius:var(--r-ctl);text-align:left;font-size:12.5px}
+.pal-row span{flex:1}
+.pal-row.on{background:color-mix(in srgb,var(--primary) 16%,transparent)}
+.pal-empty{padding:14px 12px;color:var(--muted);font-size:12px}
+
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5"/></symbol><symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4h-.5A2.5 2.5 0 0 1 4 13.5z"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5"/></symbol><symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4h-.5A2.5 2.5 0 0 1 4 13.5z"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol></svg>
 <div class="win" role="application" aria-label="Raycast 桌面样板间">
   <div class="titlebar">
     <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-    <span class="win-title">GhollStudio · <b>Raycast</b> — Raycast-design-analysis</span>
-    <span class="win-tools">启动器</span>
+    <span class="win-title">GhollStudio · <b>Raycast</b></span>
+    <span class="crumb" id="crumb">命令面板</span>
+    <span class="win-tools">
+      
+      <button class="tbtn" id="palette-open" aria-label="打开命令面板">⌘K 命令面板</button>
+      <span>启动器</span>
+    </span>
   </div>
   <div class="body">
     
-    <main class="main">
-      <div class="launcher">
-        <div class="cmd">
-          <div class="cmd-input"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span>搜索应用与命令…</span><kbd>⌘K</kbd></div>
-          <div class="cmd-group">建议</div>
-          <button class="cmd-row"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg><span>打开 GhollStudio</span><kbd>⌘ 1</kbd></button><button class="cmd-row"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg><span>新建事务</span><kbd>⌘ N</kbd></button><button class="cmd-row"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><span>切换深浅外观</span><kbd>⌘ ⇧ L</kbd></button>
-          <div class="cmd-group">最近文件</div>
-          <button class="cmd-row"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span>设计规范 · notion</span><kbd></kbd></button><button class="cmd-row"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg><span>第 46 周路线图</span><kbd></kbd></button>
-        </div>
-      </div></main>
+    <main class="main" id="main"></main>
     
   </div>
-  <div class="statusbar"><span>命令面板</span><span>Raycast-design-analysis</span></div>
+  <div class="statusbar"><span id="status">命令面板</span><span>Raycast-design-analysis</span></div>
 </div>
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="命令面板">
+  <div class="pal-box">
+    <div class="pal-input"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input id="palette-input" placeholder="搜索命令…" aria-label="搜索命令" autocomplete="off"><kbd>Esc 关闭</kbd></div>
+    <div class="pal-list" id="palette-list" role="listbox"></div>
+  </div>
+</div>
+<script>window.__DESK__={"title":"Raycast","screens":[{"label":"命令面板","main":"\u003cdiv class=\"launcher\">\u003cdiv class=\"cmd\">\u003cdiv class=\"cmd-input\">\u003csvg class=\"ic\" aria-hidden=\"true\">\u003cuse href=\"#i-search\"/>\u003c/svg>\u003cspan>搜索应用与命令…\u003c/span>\u003ckbd>⌘K\u003c/kbd>\u003c/div>\u003cdiv class=\"cmd-group\">建议\u003c/div>\u003cbutton class=\"cmd-row\">\u003csvg class=\"ic\" aria-hidden=\"true\">\u003cuse href=\"#i-grid\"/>\u003c/svg>\u003cspan>打开 GhollStudio\u003c/span>\u003ckbd>⌘ 1\u003c/kbd>\u003c/button>\u003cbutton class=\"cmd-row\">\u003csvg class=\"ic\" aria-hidden=\"true\">\u003cuse href=\"#i-layers\"/>\u003c/svg>\u003cspan>新建事务\u003c/span>\u003ckbd>⌘ N\u003c/kbd>\u003c/button>\u003cbutton class=\"cmd-row\">\u003csvg class=\"ic\" aria-hidden=\"true\">\u003cuse href=\"#i-sun\"/>\u003c/svg>\u003cspan>切换深浅外观\u003c/span>\u003ckbd>⌘ ⇧ L\u003c/kbd>\u003c/button>\u003cdiv class=\"cmd-group\">最近文件\u003c/div>\u003cbutton class=\"cmd-row\">\u003csvg class=\"ic\" aria-hidden=\"true\">\u003cuse href=\"#i-file\"/>\u003c/svg>\u003cspan>设计规范 · notion\u003c/span>\u003ckbd>\u003c/kbd>\u003c/button>\u003cbutton class=\"cmd-row\">\u003csvg class=\"ic\" aria-hidden=\"true\">\u003cuse href=\"#i-grid\"/>\u003c/svg>\u003cspan>第 46 周路线图\u003c/span>\u003ckbd>\u003c/kbd>\u003c/button>\u003c/div>\u003c/div>","right":"","status":"命令面板"}],"commands":[{"label":"命令面板","hint":"⌘ 1","screen":0}],"themeAlt":false}</script>
+<script>const D = window.__DESK__
+const $ = (s) => document.querySelector(s)
+const navEl = $('#nav')
+const mainEl = $('#main')
+const rightEl = $('#right')
+const statusEl = $('#status')
+const crumbEl = $('#crumb')
+const palEl = $('#palette')
+const palInput = $('#palette-input')
+const palList = $('#palette-list')
+const themeBtn = $('#theme')
+
+let cur = 0
+let palItems = []
+let palIdx = 0
+
+function setScreen(i) {
+  const s = D.screens[i]
+  if (!s) return
+  cur = i
+  mainEl.innerHTML = s.main
+  if (rightEl) rightEl.innerHTML = s.right || ''
+  mainEl.scrollTop = 0
+  if (statusEl) statusEl.textContent = s.status || D.status
+  if (crumbEl) crumbEl.textContent = s.label
+  if (navEl) {
+    navEl.querySelectorAll('[data-nav]').forEach((b) => {
+      const on = Number(b.dataset.nav) === i
+      b.classList.toggle('on', on)
+      if (on) b.setAttribute('aria-current', 'page')
+      else b.removeAttribute('aria-current')
+    })
+  }
+  document.title = `${D.title} · ${s.label}`
+}
+
+if (navEl) {
+  navEl.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-nav]')
+    if (b) setScreen(Number(b.dataset.nav))
+  })
+}
+
+function paintPalette() {
+  palList.innerHTML = palItems.length
+    ? palItems
+        .map(
+          (c, i) =>
+            `<button class="pal-row${i === palIdx ? ' on' : ''}" data-cmd="${i}" role="option" aria-selected="${i === palIdx}"><span>${c.label}</span>${c.hint ? `<kbd>${c.hint}</kbd>` : ''}</button>`,
+        )
+        .join('')
+    : '<p class="pal-empty">没有匹配的命令</p>'
+}
+
+function filterPalette(q) {
+  const key = q.trim().toLowerCase()
+  palItems = D.commands.filter((c) => !key || c.label.toLowerCase().includes(key))
+  palIdx = 0
+  paintPalette()
+}
+
+function openPalette() {
+  palEl.classList.add('on')
+  palInput.value = ''
+  filterPalette('')
+  palInput.focus()
+}
+
+function closePalette() {
+  palEl.classList.remove('on')
+}
+
+function runCommand(i) {
+  const c = palItems[i]
+  if (!c) return
+  closePalette()
+  if (typeof c.screen === 'number') setScreen(c.screen)
+}
+
+palInput.addEventListener('input', () => filterPalette(palInput.value))
+palList.addEventListener('mousemove', (e) => {
+  const r = e.target.closest('[data-cmd]')
+  if (!r) return
+  const i = Number(r.dataset.cmd)
+  if (i !== palIdx) {
+    palIdx = i
+    paintPalette()
+  }
+})
+palList.addEventListener('click', (e) => {
+  const r = e.target.closest('[data-cmd]')
+  if (r) runCommand(Number(r.dataset.cmd))
+})
+palEl.addEventListener('click', (e) => {
+  if (e.target === palEl) closePalette()
+})
+
+function toggleTheme() {
+  if (!D.themeAlt) return
+  const root = document.documentElement
+  const alt = root.dataset.theme !== 'alt'
+  root.dataset.theme = alt ? 'alt' : ''
+  if (themeBtn) themeBtn.setAttribute('aria-pressed', String(alt))
+}
+
+document.addEventListener('keydown', (e) => {
+  const meta = e.metaKey || e.ctrlKey
+  if (meta && e.key.toLowerCase() === 'k') {
+    e.preventDefault()
+    if (palEl.classList.contains('on')) closePalette()
+    else openPalette()
+    return
+  }
+  if (meta && e.shiftKey && e.key.toLowerCase() === 'l') {
+    e.preventDefault()
+    toggleTheme()
+    return
+  }
+  if (!palEl.classList.contains('on')) return
+  const n = palItems.length
+  if (e.key === 'Escape') {
+    e.preventDefault()
+    closePalette()
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault()
+    palIdx = n ? (palIdx + 1) % n : 0
+    paintPalette()
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault()
+    palIdx = n ? (palIdx - 1 + n) % n : 0
+    paintPalette()
+  } else if (e.key === 'Enter') {
+    e.preventDefault()
+    runCommand(palIdx)
+  }
+})
+
+const palBtn = $('#palette-open')
+if (palBtn) palBtn.addEventListener('click', openPalette)
+if (themeBtn) themeBtn.addEventListener('click', toggleTheme)
+setScreen(0)
+</script>
 </body>
 </html>

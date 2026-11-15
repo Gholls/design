@@ -7,16 +7,16 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/travel/uber"
-  tags: ["旅行", "移动 App", "暗色"]
+  tags: ["旅行", "移动 App", "明亮"]
 colors:
-  bg: "#000000"
+  bg: "#FFFFFF"
   primary: "#000000"
   on-primary: "#FFFFFF"
   primary-pressed: "#000000"
-  accent: "#FFFFFF"
-  canvas: "#000000"
+  accent: "#757575"
+  canvas: "#FFFFFF"
   surface: "#1A1A1A"
-  surface-alt: "#262626"
+  surface-alt: "#EFEFEF"
   border: "#3A3A3A"
   divider: "#3A3A3A"
   text: "#FFFFFF"
@@ -145,7 +145,7 @@ components:
     textColor: "#FFFFFF"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#000000"
+    backgroundColor: "#FFFFFF"
     textColor: "#AFAFAF"
     rounded: "0px"
     height: "49px"
@@ -153,7 +153,7 @@ components:
     backgroundColor: "#1A1A1A"
     rounded: "8px"
   input:
-    backgroundColor: "#262626"
+    backgroundColor: "#EFEFEF"
     rounded: "4px"
     height: "40px"
 ---

@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/food/starbucks"
   tags: ["餐饮", "移动 App", "明亮"]
 colors:
-  bg: "#FFFFFF"
-  primary: "#D4E9E2"
-  on-primary: "#000000"
+  bg: "#F9F9F9"
+  primary: "#00704A"
+  on-primary: "#FFFFFF"
   primary-pressed: "#00563A"
-  accent: "#00704A"
-  canvas: "#FFFFFF"
+  accent: "#D4E9E2"
+  canvas: "#F9F9F9"
   surface: "#F1F1F1"
   surface-alt: "#EFEFEF"
   border: "#E8E8E8"
@@ -158,11 +158,11 @@ spacing:
   section: "32px"
 components:
   button-primary:
-    backgroundColor: "#D4E9E2"
-    textColor: "#000000"
+    backgroundColor: "#00704A"
+    textColor: "#FFFFFF"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#F9F9F9"
     textColor: "#595959"
     rounded: "0px"
     height: "49px"

@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/misc/goodreads"
-  tags: ["工具", "移动 App", "暗色", "直角"]
+  tags: ["工具", "移动 App", "明亮", "直角"]
 colors:
-  bg: "#382110"
+  bg: "#F4F1EA"
   primary: "#382110"
   on-primary: "#FFFFFF"
   primary-pressed: "#348355"
   accent: "#58371F"
-  canvas: "#382110"
+  canvas: "#F4F1EA"
   surface: "#FFFFFF"
   surface-alt: "#EBE6DA"
   border: "#DDD6C7"
@@ -144,7 +144,7 @@ components:
     textColor: "#FFFFFF"
     rounded: "3px"
   tab-bar:
-    backgroundColor: "#382110"
+    backgroundColor: "#F4F1EA"
     textColor: "#6B5E47"
     rounded: "0px"
     height: "49px"

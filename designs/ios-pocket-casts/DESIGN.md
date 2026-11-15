@@ -7,16 +7,16 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/music/pocket-casts"
-  tags: ["音乐", "移动 App", "明亮"]
+  tags: ["音乐", "移动 App", "暗色"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#1A1A1A"
   primary: "#F43E37"
   on-primary: "#000000"
   primary-pressed: "#D32B25"
   accent: "#D32B25"
-  canvas: "#FFFFFF"
+  canvas: "#1A1A1A"
   surface: "#F2F2F4"
-  surface-alt: "#EFEFEF"
+  surface-alt: "#262626"
   border: "#383838"
   divider: "#383838"
   text: "#FFFFFF"
@@ -156,7 +156,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#1A1A1A"
     textColor: "#B8B8B8"
     rounded: "0px"
     height: "49px"
@@ -164,7 +164,7 @@ components:
     backgroundColor: "#F2F2F4"
     rounded: "6px"
   input:
-    backgroundColor: "#EFEFEF"
+    backgroundColor: "#262626"
     rounded: "4px"
     height: "40px"
 ---

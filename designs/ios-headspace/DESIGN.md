@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/fitness/headspace"
-  tags: ["运动", "移动 App", "暗色", "大圆角"]
+  tags: ["运动", "移动 App", "明亮", "大圆角"]
 colors:
-  bg: "#1A1430"
+  bg: "#FFF7E7"
   primary: "#FF6B35"
   on-primary: "#000000"
   primary-pressed: "#E55A2B"
   accent: "#E55A2B"
-  canvas: "#1A1430"
+  canvas: "#FFF7E7"
   surface: "#2A2046"
   surface-alt: "#3A2F5C"
   border: "#3F3460"
@@ -158,7 +158,7 @@ components:
     textColor: "#000000"
     rounded: "16px"
   tab-bar:
-    backgroundColor: "#1A1430"
+    backgroundColor: "#FFF7E7"
     textColor: "#594675"
     rounded: "0px"
     height: "49px"

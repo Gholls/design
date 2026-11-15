@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/messaging/discord"
-  tags: ["消息", "移动 App", "明亮"]
+  tags: ["消息", "移动 App", "暗色"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#313338"
   primary: "#5865F2"
   on-primary: "#FFFFFF"
   primary-pressed: "#5865F2"
-  accent: "#4752C4"
-  canvas: "#FFFFFF"
+  accent: "#7289DA"
+  canvas: "#313338"
   surface: "#F2F3F5"
   surface-alt: "#EBEDEF"
   border: "#E3E5E8"
@@ -152,7 +152,7 @@ components:
     textColor: "#FFFFFF"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#313338"
     textColor: "#B5BAC1"
     rounded: "0px"
     height: "49px"

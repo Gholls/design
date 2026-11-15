@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/social/vero"
-  tags: ["社交", "移动 App", "明亮"]
+  tags: ["社交", "移动 App", "暗色"]
 colors:
-  bg: "#00C2B8"
+  bg: "#000000"
   primary: "#00C2B8"
   on-primary: "#000000"
   primary-pressed: "#00A89F"
   accent: "#0098E6"
-  canvas: "#00C2B8"
+  canvas: "#000000"
   surface: "#0E0E10"
   surface-alt: "#161618"
   border: "#232325"
@@ -144,7 +144,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#00C2B8"
+    backgroundColor: "#000000"
     textColor: "#9A9AA0"
     rounded: "0px"
     height: "49px"

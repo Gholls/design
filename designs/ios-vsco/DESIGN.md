@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/social/vsco"
-  tags: ["社交", "移动 App", "明亮", "直角"]
+  tags: ["社交", "移动 App", "暗色", "直角"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#000000"
   primary: "#FFFFFF"
   on-primary: "#000000"
   primary-pressed: "#DBDBDB"
   accent: "#DBDBDB"
-  canvas: "#FFFFFF"
+  canvas: "#000000"
   surface: "#0E0E0E"
   surface-alt: "#1A1A1A"
   border: "#2A2A2A"
@@ -136,7 +136,7 @@ components:
     textColor: "#000000"
     rounded: "2px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#000000"
     textColor: "#B3B3B3"
     rounded: "0px"
     height: "49px"

@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/dating/hinge"
-  tags: ["社交", "约会", "移动 App", "暗色"]
+  tags: ["社交", "约会", "移动 App", "明亮"]
 colors:
-  bg: "#1A1A1A"
+  bg: "#FDF8F2"
   primary: "#1A1A1A"
   on-primary: "#FFFFFF"
   primary-pressed: "#0A0A0A"
   accent: "#0A0A0A"
-  canvas: "#1A1A1A"
+  canvas: "#FDF8F2"
   surface: "#F2EBE0"
   surface-alt: "#E8DFD0"
   border: "#E0D6C5"
@@ -151,7 +151,7 @@ components:
     textColor: "#FFFFFF"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#1A1A1A"
+    backgroundColor: "#FDF8F2"
     textColor: "#A89E8E"
     rounded: "0px"
     height: "49px"

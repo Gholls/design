@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/social/clubhouse"
   tags: ["社交", "移动 App", "明亮", "衬线"]
 colors:
-  bg: "#38B569"
+  bg: "#F2EFE4"
   primary: "#38B569"
   on-primary: "#000000"
   primary-pressed: "#EAE6D8"
   accent: "#2E9A58"
-  canvas: "#38B569"
+  canvas: "#F2EFE4"
   surface: "#FBF9F1"
   surface-alt: "#EFEFEF"
   border: "#DDD8C8"
@@ -135,7 +135,7 @@ components:
     textColor: "#000000"
     rounded: "8px"
   tab-bar:
-    backgroundColor: "#38B569"
+    backgroundColor: "#F2EFE4"
     textColor: "#6B6453"
     rounded: "0px"
     height: "49px"

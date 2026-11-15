@@ -7,20 +7,20 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/fitness/whoop"
-  tags: ["运动", "移动 App", "明亮"]
+  tags: ["运动", "移动 App", "暗色"]
 colors:
-  bg: "#00FF7B"
+  bg: "#0A0A0A"
   primary: "#00FF7B"
   on-primary: "#000000"
   primary-pressed: "#00FF7B"
   accent: "#67E26B"
-  canvas: "#00FF7B"
+  canvas: "#0A0A0A"
   surface: "#1C1C1E"
   surface-alt: "#2A2A2A"
   border: "#252525"
   divider: "#252525"
-  text: "#0E0E0E"
-  muted: "#666666"
+  text: "#F5F4F2"
+  muted: "#A0A0A0"
   success: "#30D158"
   warning: "#FFAA00"
   danger: "#FF453A"
@@ -151,8 +151,8 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#00FF7B"
-    textColor: "#666666"
+    backgroundColor: "#0A0A0A"
+    textColor: "#A0A0A0"
     rounded: "0px"
     height: "49px"
   card:

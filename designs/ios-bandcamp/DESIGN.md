@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/music/bandcamp"
   tags: ["音乐", "移动 App", "明亮", "直角"]
 colors:
-  bg: "#1DA0C3"
+  bg: "#FFFFFF"
   primary: "#1DA0C3"
   on-primary: "#000000"
   primary-pressed: "#17819E"
   accent: "#629AA9"
-  canvas: "#1DA0C3"
+  canvas: "#FFFFFF"
   surface: "#1A2024"
   surface-alt: "#EFEFEF"
   border: "#E2E2E2"
@@ -151,7 +151,7 @@ components:
     textColor: "#000000"
     rounded: "2px"
   tab-bar:
-    backgroundColor: "#1DA0C3"
+    backgroundColor: "#FFFFFF"
     textColor: "#767676"
     rounded: "0px"
     height: "49px"

@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/productivity/apple-notes"
   tags: ["效率", "移动 App", "明亮"]
 colors:
-  bg: "#F09A38"
+  bg: "#FFFBED"
   primary: "#F09A38"
   on-primary: "#000000"
   primary-pressed: "#D87E1F"
-  accent: "#D4B3FF"
-  canvas: "#F09A38"
+  accent: "#D87E1F"
+  canvas: "#FFFBED"
   surface: "#FAF6E3"
   surface-alt: "#F2EDD6"
   border: "#EDEAD8"
@@ -152,7 +152,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#F09A38"
+    backgroundColor: "#FFFBED"
     textColor: "#FFB3DB"
     rounded: "0px"
     height: "49px"

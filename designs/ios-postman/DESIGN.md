@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/misc/postman"
-  tags: ["工具", "移动 App", "明亮"]
+  tags: ["工具", "移动 App", "暗色"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#1A1A1A"
   primary: "#FF6C37"
   on-primary: "#000000"
   primary-pressed: "#E55A2B"
   accent: "#E55A2B"
-  canvas: "#FFFFFF"
+  canvas: "#1A1A1A"
   surface: "#212121"
   surface-alt: "#2A2A2A"
   border: "#3A3A3A"
@@ -150,7 +150,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#1A1A1A"
     textColor: "#A6A6A6"
     rounded: "0px"
     height: "49px"

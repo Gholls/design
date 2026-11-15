@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/misc/duolingo"
   tags: ["工具", "移动 App", "明亮", "大圆角"]
 colors:
-  bg: "#58CC02"
+  bg: "#FFFFFF"
   primary: "#58CC02"
   on-primary: "#000000"
   primary-pressed: "#58CC02"
-  accent: "#89E219"
-  canvas: "#58CC02"
+  accent: "#58A700"
+  canvas: "#FFFFFF"
   surface: "#FF4B4B"
   surface-alt: "#EFEFEF"
   border: "#37464F"
@@ -152,7 +152,7 @@ components:
     textColor: "#000000"
     rounded: "12px"
   tab-bar:
-    backgroundColor: "#58CC02"
+    backgroundColor: "#FFFFFF"
     textColor: "#AFAFAF"
     rounded: "0px"
     height: "49px"

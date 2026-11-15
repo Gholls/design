@@ -7,20 +7,20 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/fitness/nike-run-club"
-  tags: ["运动", "移动 App", "明亮", "大圆角"]
+  tags: ["运动", "移动 App", "暗色", "大圆角"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#000000"
   primary: "#CCFF00"
   on-primary: "#000000"
   primary-pressed: "#9FCC00"
   accent: "#9FCC00"
-  canvas: "#FFFFFF"
+  canvas: "#000000"
   surface: "#1A1A1A"
   surface-alt: "#2B2B2B"
   border: "#333333"
   divider: "#333333"
   text: "#0A0A0A"
-  muted: "#666666"
+  muted: "#A0A0A0"
   success: "#CCFF00"
   warning: "#FFC400"
   danger: "#E50916"
@@ -152,8 +152,8 @@ components:
     textColor: "#000000"
     rounded: "8px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
-    textColor: "#666666"
+    backgroundColor: "#000000"
+    textColor: "#A0A0A0"
     rounded: "0px"
     height: "49px"
   card:

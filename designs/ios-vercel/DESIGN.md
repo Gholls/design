@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/misc/vercel"
-  tags: ["工具", "移动 App", "明亮"]
+  tags: ["工具", "移动 App", "暗色"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#000000"
   primary: "#EDEDED"
   on-primary: "#000000"
   primary-pressed: "#CFCFCF"
   accent: "#FFFFFF"
-  canvas: "#FFFFFF"
+  canvas: "#000000"
   surface: "#0A0A0A"
   surface-alt: "#111111"
   border: "#2E2E2E"
@@ -145,7 +145,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#000000"
     textColor: "#A1A1A1"
     rounded: "0px"
     height: "49px"

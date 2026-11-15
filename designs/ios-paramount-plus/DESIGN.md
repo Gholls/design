@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/video/paramount-plus"
-  tags: ["视频", "移动 App", "明亮"]
+  tags: ["视频", "移动 App", "暗色"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#0A0E2D"
   primary: "#4D9DFF"
   on-primary: "#000000"
   primary-pressed: "#0052CC"
   accent: "#0064FF"
-  canvas: "#FFFFFF"
+  canvas: "#0A0E2D"
   surface: "#F2F4FB"
   surface-alt: "#161C44"
   border: "#DDE1F0"
@@ -145,7 +145,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#0A0E2D"
     textColor: "#AEB4D6"
     rounded: "0px"
     height: "49px"

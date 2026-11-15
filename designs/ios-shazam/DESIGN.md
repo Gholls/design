@@ -7,18 +7,18 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/music/shazam"
-  tags: ["音乐", "移动 App", "明亮", "大圆角"]
+  tags: ["音乐", "移动 App", "暗色", "大圆角"]
 colors:
-  bg: "#0088FF"
+  bg: "#08090E"
   primary: "#0088FF"
   on-primary: "#000000"
   primary-pressed: "#006FE0"
   accent: "#0050FF"
-  canvas: "#0088FF"
-  surface: "#F5F4F2"
-  surface-alt: "#EFEFEF"
-  border: "#E5E5E5"
-  divider: "#E5E5E5"
+  canvas: "#08090E"
+  surface: "#1A1A1A"
+  surface-alt: "#262626"
+  border: "#2A2A2A"
+  divider: "#2A2A2A"
   text: "#FFFFFF"
   muted: "#B8C4FF"
   success: "#16A34A"
@@ -125,15 +125,15 @@ components:
     textColor: "#000000"
     rounded: "20px"
   tab-bar:
-    backgroundColor: "#0088FF"
+    backgroundColor: "#08090E"
     textColor: "#B8C4FF"
     rounded: "0px"
     height: "49px"
   card:
-    backgroundColor: "#F5F4F2"
+    backgroundColor: "#1A1A1A"
     rounded: "24px"
   input:
-    backgroundColor: "#EFEFEF"
+    backgroundColor: "#262626"
     rounded: "20px"
     height: "40px"
 ---

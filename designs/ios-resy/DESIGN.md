@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/food/resy"
-  tags: ["餐饮", "移动 App", "明亮", "直角"]
+  tags: ["餐饮", "移动 App", "暗色", "直角"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#000000"
   primary: "#C73E3A"
   on-primary: "#FFFFFF"
   primary-pressed: "#A8302D"
   accent: "#E2504B"
-  canvas: "#FFFFFF"
+  canvas: "#000000"
   surface: "#121212"
   surface-alt: "#1C1C1C"
   border: "#C73E3A"
@@ -143,7 +143,7 @@ components:
     textColor: "#FFFFFF"
     rounded: "2px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#000000"
     textColor: "#9E9E9E"
     rounded: "0px"
     height: "49px"

@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/misc/claude"
   tags: ["AI", "工具", "移动 App", "明亮"]
 colors:
-  bg: "#D97757"
+  bg: "#F8F4ED"
   primary: "#D97757"
   on-primary: "#000000"
   primary-pressed: "#BE6242"
   accent: "#BE6242"
-  canvas: "#D97757"
+  canvas: "#F8F4ED"
   surface: "#F0EAE0"
   surface-alt: "#E8E0D2"
   border: "#DDD2BD"
@@ -176,7 +176,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#D97757"
+    backgroundColor: "#F8F4ED"
     textColor: "#B5AB9E"
     rounded: "0px"
     height: "49px"

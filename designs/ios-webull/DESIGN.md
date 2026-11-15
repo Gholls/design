@@ -7,16 +7,16 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/finance/webull"
-  tags: ["金融", "移动 App", "明亮", "直角"]
+  tags: ["金融", "移动 App", "暗色", "直角"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#0B0E11"
   primary: "#1B9EFB"
   on-primary: "#000000"
   primary-pressed: "#1684D6"
   accent: "#20D5C4"
-  canvas: "#FFFFFF"
+  canvas: "#0B0E11"
   surface: "#14181D"
-  surface-alt: "#EFEFEF"
+  surface-alt: "#262626"
   border: "#232931"
   divider: "#232931"
   text: "#EAEEF2"
@@ -145,7 +145,7 @@ components:
     textColor: "#000000"
     rounded: "2px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#0B0E11"
     textColor: "#8B95A1"
     rounded: "0px"
     height: "49px"
@@ -153,7 +153,7 @@ components:
     backgroundColor: "#14181D"
     rounded: "4px"
   input:
-    backgroundColor: "#EFEFEF"
+    backgroundColor: "#262626"
     rounded: "2px"
     height: "40px"
 ---

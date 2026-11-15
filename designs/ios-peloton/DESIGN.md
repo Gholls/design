@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/fitness/peloton"
   tags: ["运动", "移动 App", "暗色"]
 colors:
-  bg: "#DF1E2E"
+  bg: "#000000"
   primary: "#DF1E2E"
   on-primary: "#FFFFFF"
   primary-pressed: "#B81825"
   accent: "#FF4B57"
-  canvas: "#DF1E2E"
+  canvas: "#000000"
   surface: "#121212"
   surface-alt: "#1C1C1E"
   border: "#2C2C2E"
@@ -149,7 +149,7 @@ components:
     textColor: "#FFFFFF"
     rounded: "5px"
   tab-bar:
-    backgroundColor: "#DF1E2E"
+    backgroundColor: "#000000"
     textColor: "#B5B5BA"
     rounded: "0px"
     height: "49px"

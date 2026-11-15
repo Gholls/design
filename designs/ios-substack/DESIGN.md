@@ -9,12 +9,12 @@ gallery:
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/misc/substack"
   tags: ["工具", "移动 App", "明亮", "衬线"]
 colors:
-  bg: "#FF6719"
+  bg: "#FFFFFF"
   primary: "#FF6719"
   on-primary: "#000000"
   primary-pressed: "#E5560E"
   accent: "#E5560E"
-  canvas: "#FF6719"
+  canvas: "#FFFFFF"
   surface: "#FFF7F2"
   surface-alt: "#F7F6F4"
   border: "#FFD9C2"
@@ -145,7 +145,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FF6719"
+    backgroundColor: "#FFFFFF"
     textColor: "#6B6B6B"
     rounded: "0px"
     height: "49px"

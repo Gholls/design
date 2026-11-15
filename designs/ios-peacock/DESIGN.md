@@ -7,14 +7,14 @@ gallery:
   platform: "mobile"
   author: "awesome-ios-design-md"
   source: "https://github.com/Meliwat/awesome-ios-design-md/tree/main/design-md/video/peacock"
-  tags: ["视频", "移动 App", "明亮"]
+  tags: ["视频", "移动 App", "暗色"]
 colors:
-  bg: "#FFFFFF"
+  bg: "#0A0A14"
   primary: "#FFFFFF"
   on-primary: "#000000"
   primary-pressed: "#E6E6EA"
   accent: "#E6E6EA"
-  canvas: "#FFFFFF"
+  canvas: "#0A0A14"
   surface: "#F4F3F7"
   surface-alt: "#1A1530"
   border: "#E2E0EA"
@@ -150,7 +150,7 @@ components:
     textColor: "#000000"
     rounded: "4px"
   tab-bar:
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#0A0A14"
     textColor: "#B5B2C2"
     rounded: "0px"
     height: "49px"

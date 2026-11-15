@@ -51,45 +51,43 @@
       </div>
     </div>
     <nav class="platforms" id="platforms" aria-label="平台模块">
-      <a href="#web" data-platform="web"><span class="p-index">01</span><span><b>网站</b><small>Browser surface</small></span><em>下一步</em></a>
+      <a href="#web" data-platform="web"><span class="p-index">01</span><span><b>网站</b><small>Browser surface</small></span><em class="live">已实现</em></a>
       <a href="#mobile" data-platform="mobile" class="on"><span class="p-index">02</span><span><b>移动端</b><small>iOS app surface</small></span><em class="live">已实现</em></a>
-      <a href="#desktop" data-platform="desktop"><span class="p-index">03</span><span><b>桌面端</b><small>Desktop console</small></span><em>规划中</em></a>
+      <a href="#desktop" data-platform="desktop"><span class="p-index">03</span><span><b>桌面端</b><small>Desktop console</small></span><em class="live">已实现</em></a>
     </nav>
   </section>
 
-  <section class="module" id="web" data-module="web">
+  <section class="module module-live" id="web" data-module="web">
     <div class="module-head">
       <span class="module-no">01</span>
       <div>
         <h2>网站</h2>
         <p>公开官网与项目入口：品牌叙事、案例、定价与登录，承接 SEO 与投放落地。</p>
       </div>
-      <span class="status">下一步 · 待实现</span>
+      <span class="status live">已实现 · v1</span>
     </div>
     <div class="module-body">
       <div class="preview preview-web">
         <div class="browser">
           <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">ghollstudio.com</span><span class="browser-menu">⋯</span></div>
-          <div class="browser-page">
-            <div class="mini-nav"><b>GhollStudio</b><span>服务 · 案例 · 定价</span><i>进入后台</i></div>
-            <div class="mini-hero">
-              <div><small>承接中 · 本月余 3 席</small><h3>把你的产品，<br>交给我们收尾。</h3><p>设计系统 · Web 与小程序 · AI 流水线 · 长期运维</p><span class="mini-btn">委托项目</span></div>
-              <div class="mini-pane"><span></span><span></span><span></span><b>本月交付 6</b><b>待审核 3</b></div>
-            </div>
-            <div class="mini-stats"><span><b>128</b>已交付</span><span><b>6</b>在售服务</span><span><b>4.9</b>客户均分</span></div>
-            <div class="mini-cards"><i></i><i></i><i></i></div>
+          <div class="browser-page has-frame">
+            <iframe src="web/?embed=1" title="GhollStudio 网站预览" loading="lazy"></iframe>
           </div>
         </div>
+        <a class="preview-shade" href="web/" aria-label="进入网站"></a>
       </div>
       <div class="module-info">
-        <h3>共享同一份数据</h3>
-        <p>项目、工单、客户与里程碑从 <code>shared/data.js</code> 读取；网站只改变呈现密度，不复制业务状态。</p>
+        <h3>长滚动叙事</h3>
+        <p>服务、案例、定价三段都由 <code>shared/data.js</code> 渲染；项目卡片的进度与里程碑和后台完全一致。</p>
         <ul>
-          <li>营销页 + 项目入口 + 登录</li>
-          <li>桌面宽版栅格与滚动叙事</li>
-          <li>与移动端共用 Token 和状态文案</li>
+          <li>吸顶导航 + 滚动高亮</li>
+          <li>案例、定价按数据生成</li>
+          <li>深浅外观与移动端同步</li>
         </ul>
-        <button class="btn btn-disabled" disabled>即将开放</button>
+        <div class="module-actions">
+          <a class="btn btn-primary" href="web/">进入网站</a>
+          <a class="btn btn-quiet" href="web/?embed=1" target="_blank" rel="noreferrer">独立窗口打开</a>
+        </div>
       </div>
     </div>
   </section>
@@ -131,43 +129,37 @@
     </div>
   </section>
 
-  <section class="module" id="desktop" data-module="desktop">
+  <section class="module module-live" id="desktop" data-module="desktop">
     <div class="module-head">
       <span class="module-no">03</span>
       <div>
         <h2>桌面端</h2>
         <p>交付控制台：侧边导航、项目卡片墙、工单表格、统计图表与审核流水，面向长时间驻留。</p>
       </div>
-      <span class="status">规划中</span>
+      <span class="status live">已实现 · v1</span>
     </div>
     <div class="module-body">
       <div class="preview preview-desktop">
         <div class="desktop">
           <div class="desktop-bar"><span class="dots"><i></i><i></i><i></i></span><span>GhollStudio · Studio 控制台</span></div>
-          <div class="desktop-body">
-            <aside class="d-side">
-              <b>G</b>
-              <span class="on">交付总览</span><span>项目</span><span>工单</span><span>统计</span><span>组件</span>
-            </aside>
-            <div class="d-main">
-              <div class="d-kpis"><div><small>本月交付</small><b>6</b></div><div><small>进行中</small><b>7</b></div><div><small>待审核</small><b>3</b></div><div><small>月营收</small><b>¥48万</b></div></div>
-              <div class="d-grid">
-                <div class="d-table"><span>GS-118</span><b>Atlas 对账</b><i>待审核</i><em>¥128,000</em><span>GS-117</span><b>ProVision</b><i>已上架</i><em>¥246,000</em><span>GS-116</span><b>Nimbus</b><i>待审核</i><em>¥86,000</em></div>
-                <div class="d-chart"><i style="height:38%"></i><i style="height:56%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:62%"></i><i style="height:88%"></i></div>
-              </div>
-            </div>
+          <div class="desktop-body has-frame">
+            <iframe src="desktop/?embed=1" title="GhollStudio 桌面端预览" loading="lazy"></iframe>
           </div>
         </div>
+        <a class="preview-shade" href="desktop/" aria-label="进入桌面端"></a>
       </div>
       <div class="module-info">
         <h3>同一套状态，不同的密度</h3>
-        <p>桌面端沿用移动端的项目与工单模型，但把导航收进侧栏、把列表升级为可排序表格，并加入 6/12 月统计。</p>
+        <p>桌面端沿用项目与工单模型，把导航收进侧栏、把列表升级为可排序表格，并加入行内审核下拉与新建项目弹窗。</p>
         <ul>
           <li>侧栏 + 主区，适合宽屏驻留</li>
-          <li>行内审核下拉与复核记录</li>
-          <li>柱状、环图与线索漏斗</li>
+          <li>工单表格：排序、筛选、行内改状态</li>
+          <li>⌘K 聚焦搜索，Esc 关闭弹窗</li>
         </ul>
-        <button class="btn btn-disabled" disabled>即将开放</button>
+        <div class="module-actions">
+          <a class="btn btn-primary" href="desktop/">进入后台</a>
+          <a class="btn btn-quiet" href="desktop/?embed=1" target="_blank" rel="noreferrer">独立窗口打开</a>
+        </div>
       </div>
     </div>
   </section>
@@ -190,8 +182,13 @@ mobile/
   index.html        iOS App 外壳
   app.css           列表 / 表单 / 标签栏
   app.js            状态机与交互
-web/                （下一步）
-desktop/            （下一步）</code></pre>
+web/
+  index.html        长滚动官网
+  web.css / web.js  案例与定价按数据渲染
+desktop/
+  index.html        控制台外壳
+  app.css           侧栏 + 表格 + 弹窗
+  app.js            状态、排序、快捷键</code></pre>
       </div>
       <div class="rule-list">
         <div><span>01</span><b>数据只有一个来源</b><p><code>shared/data.js</code> 暴露项目、工单、消息与通知；各端只读同一份结构。</p></div>

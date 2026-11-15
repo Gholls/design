@@ -4,9 +4,9 @@
 
 | 表面 | 路由 | 状态 |
 | --- | --- | --- |
-| 网站 | `/studio/#web` | 下一步 |
+| 网站 | `/studio/web/` | v1 已实现 |
 | 移动端 | `/studio/mobile/` | v1 已实现 |
-| 桌面端 | `/studio/#desktop` | 规划中 |
+| 桌面端 | `/studio/desktop/` | v1 已实现 |
 
 移动端设计语言取自 [awesome-ios-design-md](https://github.com/Meliwat/awesome-ios-design-md) 的 **Asana iOS** 规范：白色 / 炭黑画布、单一 Asana Coral、20pt 完成圆环、底部标签栏与 bottom sheet。创建入口放在顶栏的珊瑚色「+」，避免浮动按钮遮挡列表末行。
 
@@ -24,8 +24,14 @@ public/studio/
 │   ├── index.html      App 外壳、SVG 图标、标签栏
 │   ├── app.css         App 组件与五个视图
 │   └── app.js          状态机、sheet、搜索、聊天、表单
-├── web/                （下一步）
-└── desktop/            （下一步）
+├── web/
+│   ├── index.html      长滚动官网（服务 / 案例 / 定价）
+│   ├── web.css         版式与响应式
+│   └── web.js          数据渲染、滚动高亮、主题
+└── desktop/
+    ├── index.html      控制台外壳（侧栏 + 顶栏 + 弹窗）
+    ├── app.css         表格、卡片、弹窗样式
+    └── app.js          视图切换、排序筛选、行内状态、快捷键
 ```
 
 ## 分层规则
@@ -62,13 +68,21 @@ state = {
 - 深色模式（与主页、iframe 预览同步）
 - 完成圆环、bottom sheet、toast、空状态
 
-## 扩展网站 / 桌面端
+## 网站能力
 
-1. 新建 `public/studio/web/` 或 `desktop/`，复用 `shared/tokens.css` 与 `shared/data.js`。
-2. 外壳自己写：网站用长滚动章节，桌面端用 `sidebar + main` 栅格。
-3. 业务状态只读 `GS_DATA`；需要演示态修改时，在各自页面维护内存副本。
-4. 把主页 `#web` / `#desktop` 模块的状态从「下一步 / 规划中」改成「已实现」，并更新 CTA。
-5. 保持数据字段一致：`projects[].progress/status/due`、`tickets[].status/amount`、`conversations[].messages[]`。
+- 吸顶导航与滚动高亮（服务 / 案例 / 定价）
+- 服务卡、案例墙、定价三档全部由 `GS_DATA` 渲染
+- 案例卡片的进度条取 `projects[].progress`，里程碑计数取 `milestones`
+- 深浅外观与主页、移动端、桌面端同步
+
+## 桌面端能力
+
+- 侧栏四个视图：工作台 / 项目 / 工单 / 会话
+- 工单表格：按金额排序、关键字筛选、**行内审核下拉**（待审核 → 复核通过 / 驳回重做 / 已上架）
+- KPI 随状态变化：进行中项目、待审核工单、合同总额、平均进度
+- 新建项目弹窗：必填校验、类型与负责人下拉、进度滑块、创建后写入项目列表
+- 会话：列表切换 + 发送消息（演示态写入内存）
+- 快捷键：`⌘K` 聚焦搜索、`Esc` 关闭弹窗
 
 ## 验证
 
@@ -77,7 +91,11 @@ npm run build
 python3 -m http.server 4173 --directory dist
 ```
 
-人工检查：五个标签切换、项目筛选、工单改状态、新建表单校验、搜索、聊天发送、深色模式、390px / 1280px 两种宽度。
+人工检查：
+
+- `/studio/mobile/`：五个标签切换、项目筛选、工单改状态、新建表单校验、搜索、聊天发送、深色模式、390px / 1280px
+- `/studio/web/`：导航滚动高亮、案例与定价渲染、深色模式、390px / 1280px
+- `/studio/desktop/`：四个视图切换、工单排序与筛选、行内改状态、新建项目校验、会话发送、`⌘K` / `Esc`
 
 ## 来源与许可
 

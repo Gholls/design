@@ -1,7 +1,7 @@
 (() => {
   const root = document.documentElement
   const themeBtn = document.getElementById('themeBtn')
-  const frame = document.querySelector('.phone-screen iframe')
+  const frames = [...document.querySelectorAll('.preview iframe')]
   const links = [...document.querySelectorAll('#platforms a')]
   const modules = [...document.querySelectorAll('[data-module]')]
 
@@ -10,7 +10,7 @@
     localStorage.setItem('gs-theme', theme)
     const meta = document.querySelector('meta[name="theme-color"]')
     if (meta) meta.setAttribute('content', theme === 'dark' ? '#1e1f21' : '#ffffff')
-    frame?.contentWindow?.postMessage({ type: 'gs-theme', theme }, location.origin)
+    frames.forEach((f) => f.contentWindow?.postMessage({ type: 'gs-theme', theme }, location.origin))
   }
 
   applyTheme(localStorage.getItem('gs-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))

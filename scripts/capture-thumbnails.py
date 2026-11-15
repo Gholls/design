@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / 'public/thumbnails'
 INDEX = json.loads((ROOT / 'public/design-index.json').read_text())
 ONLY = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--only=')), None)
+PLATFORM = next((a.split('=', 1)[1] for a in sys.argv[1:] if a.startswith('--platform=')), None)
 
 
 def main():
@@ -24,6 +25,7 @@ def main():
         d for d in INDEX
         if (ROOT / 'public/generated' / d['slug'] / 'index.html').exists()
         and (ONLY is None or d['slug'] == ONLY)
+        and (PLATFORM is None or d.get('platform') == PLATFORM)
     ]
     done = 0
     failed = []

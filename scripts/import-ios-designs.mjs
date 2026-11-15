@@ -25,6 +25,15 @@ const CATEGORY = {
 const AI_APPS = new Set(['chatgpt', 'gemini', 'claude', 'copilot', 'grok', 'deepseek', 'perplexity', 'character-ai', 'midjourney'])
 const WEIGHTS = { thin: 100, ultralight: 200, light: 300, regular: 400, book: 400, medium: 500, semibold: 600, 'semi-bold': 600, bold: 700, extrabold: 800, 'extra-bold': 800, black: 900, heavy: 800 }
 const CORE_SKIP = new Set(['ios-spotify', 'ios-strava'])
+// Canvas declared outside a `Canvas`-titled section; the quote keeps each value
+// traceable to the source DESIGN.md line.
+const CANVAS_FIX = {
+  discord: ['#313338', 'Chat Canvas — the right pane where messages live'],
+  hinge: ['#FDF8F2', 'Hinge Cream — the signature canvas, every screen background by default'],
+  'pocket-casts': ['#1A1A1A', 'Canvas & Surfaces (Dark Mode — canonical): Dark Canvas — primary dark canvas'],
+  substack: ['#FFFFFF', 'Paper White — the reading page'],
+  uber: ['#FFFFFF', 'Uber White — Canvas'],
+}
 
 const clean = (s) => String(s || '').replace(/`/g, '').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim()
 const slugify = (s) => s.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
@@ -64,7 +73,7 @@ function parseColorLines(md) {
       continue
     }
     const m = /^-\s+\*\*(.+?)\*\*\s*\(`?(#[0-9a-fA-F]{3,8})`?\)/.exec(line) || /^-\s+\*\*(.+?)\*\*[^`]*`(#[0-9a-fA-F]{3,8})`/.exec(line)
-    if (m) colors.push({ label: clean(m[1]), hex: m[2].toUpperCase(), section })
+    if (m) colors.push({ label: clean(m[1]), hex: m[2].toUpperCase(), section, desc: clean(line.slice(m[0].length)) })
   }
   return colors
 }
@@ -73,18 +82,77 @@ function pick(colors, test, exclude = []) {
   return colors.find((c) => !exclude.includes(c) && test(c))
 }
 
-function buildColors(allColors) {
+const chroma = (hex) => {
+  const h = hex.replace('#', '')
+  const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h.slice(0, 6)
+  const rgb = [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16))
+  return Math.max(...rgb) - Math.min(...rgb)
+}
+
+function overviewOf(md) {
+  const i = md.search(/^##\s*(?:\d+\.\s*)?(?:Overview|Visual Theme & Atmosphere)/im)
+  if (i < 0) return ''
+  const rest = md.slice(i + 4)
+  const j = rest.search(/^##\s/m)
+  return j < 0 ? rest : rest.slice(0, j)
+}
+
+function firstBulletHex(md, sectionRe) {
+  const start = md.search(/^## \d+\.\s*(Color|Colour)/m)
+  if (start < 0) return null
+  const rest = md.slice(start)
+  const next = rest.slice(4).search(/^## \d+\./m)
+  const body = next < 0 ? rest : rest.slice(0, next + 4)
+  let inSection = false
+  for (const line of body.split(/\r?\n/)) {
+    const h3 = /^###\s+(.+)$/.exec(line)
+    if (h3) {
+      inSection = sectionRe.test(clean(h3[1]))
+      continue
+    }
+    if (!inSection) continue
+    const m = /^-\s+\*\*(.+?)\*\*.*?(#[0-9a-fA-F]{3,8})/.exec(line)
+    if (m) return m[2].toUpperCase()
+  }
+  return null
+}
+
+function buildColors(allColors, md = '', app = '') {
   const colors = allColors.filter((c) => isHex(c.hex))
   if (!colors.length) return { canvas: '#FFFFFF', text: '#0E0E0E', primary: '#2563EB', surface: '#F5F4F2', border: '#E5E5E5', muted: '#666666' }
   const bySection = (re) => colors.filter((c) => re.test(c.section))
   const primaryPool = colors.filter((c) => /^primary\b/i.test(c.section))
   const pool = primaryPool.length ? primaryPool : colors
-  let primary =
-    pick(pool, (c) => /brand|primary|action|accent/i.test(c.label) && !/text|ink|canvas|surface|background/i.test(c.label))?.hex ||
-    pick(pool, (c) => !/background|tint|pressed|dim|soft|shadow|text|ink|canvas|surface/i.test(c.label))?.hex ||
-    pool[0].hex
+  const brandish = pick(pool, (c) => /brand|primary|action|accent/i.test(c.label) && !/text|ink|canvas|surface|background/i.test(c.label))
+  let primary = brandish?.hex || pick(pool, (c) => !/background|tint|pressed|dim|soft|shadow|text|ink|canvas|surface/i.test(c.label))?.hex || pool[0].hex
+  // A soft "Accent … / Mint" swatch is a tint, not the action color; prefer the
+  // brand swatch that appears before it in the same section (Starbucks mint vs green).
+  if (brandish && /accent|mint|tint/i.test(brandish.label)) {
+    const earlier = pool.slice(0, pool.indexOf(brandish)).find((c) => !/background|tint|pressed|dim|soft|shadow|text|ink|canvas|surface|accent|mint/i.test(c.label))
+    if (earlier) primary = earlier.hex
+  }
   const canvasPool = colors.filter((c) => /canvas/i.test(c.label) && !/dark|shadow/i.test(c.label))
-  const canvas = (canvasPool[0] || colors.find((c) => /app background|primary background/i.test(c.label)) || pick(colors, (c) => /^background$/i.test(c.label)) || colors[0]).hex
+  let canvas = (canvasPool[0] || colors.find((c) => /app background|primary background/i.test(c.label)) || pick(colors, (c) => /^background$/i.test(c.label)) || colors[0]).hex
+  // A canvas is a neutral surface, not the brand color. When the label match above
+  // failed it fell back to the first swatch (often the brand hex), so recover the
+  // neutral from the `Canvas` section instead of painting the whole screen brand.
+  const canvasSection = colors.filter((c) => /canvas|background/i.test(c.section))
+  const darkOnly = /no light mode|dark[- ]mode[- ]only|dark[- ]only|permanently dark/i.test(overviewOf(md))
+  const declared = firstBulletHex(md, /canvas|background/i)
+  const neutral = (hex) => chroma(hex) < 40
+  if (canvas === primary && declared !== primary && canvasSection.length) {
+    const cands = canvasSection.filter((c) => neutral(c.hex))
+    const next = darkOnly ? cands.find((c) => hexLum(c.hex) < 0.25) : cands.find((c) => hexLum(c.hex) > 0.5) || cands[0]
+    if (next) canvas = next.hex
+  }
+  if (darkOnly && hexLum(canvas) > 0.6) {
+    const darkPick = canvasSection.find((c) => hexLum(c.hex) < 0.25)
+    if (darkPick) canvas = darkPick.hex
+  }
+  // A swatch whose own description calls it the "primary canvas" outranks label matching.
+  const declaredPrimary = colors.find((c) => /primary canvas/i.test(c.desc) && /canvas|background/i.test(c.section))
+  if (declaredPrimary) canvas = declaredPrimary.hex
+  if (CANVAS_FIX[app]) canvas = CANVAS_FIX[app][0]
   const dark = hexLum(canvas) < 0.2
   const surfacePool = colors.filter((c) => /surface|card|panel|elevat/i.test(c.label) && !/dark|pressed|hover/i.test(c.label))
   const surface = (surfacePool[0] || pick(colors, (c) => /surface|card|panel/i.test(c.label)) || { hex: dark ? '#1A1A1A' : '#F5F4F2' }).hex
@@ -226,7 +294,7 @@ function convert(file, category, app, index) {
   const title = md.match(/^#\s+(.+)$/m)?.[1] || app
   const nameGuess = title.replace(/^Design System Inspiration of\s+/i, '').replace(/\s*\(iOS\)\s*$/i, '').trim()
   const colorsRaw = parseColorLines(md)
-  const colors = buildColors(colorsRaw)
+  const colors = buildColors(colorsRaw, md, app)
   const typo = parseTypography(md)
   const rounded = parseRadius(md)
   const spacing = parseSpacing(md)

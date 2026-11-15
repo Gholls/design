@@ -10,10 +10,10 @@ gallery:
   tags: ["金融", "移动 App", "暗色"]
 colors:
   bg: "#000000"
-  primary: "#000000"
-  on-primary: "#FFFFFF"
-  primary-pressed: "#000000"
-  accent: "#000000"
+  primary: "#0A84FF"
+  on-primary: "#000000"
+  primary-pressed: "#0A84FF"
+  accent: "#E8E8EB"
   canvas: "#000000"
   surface: "#1C1C1E"
   surface-alt: "#2C2C2E"
@@ -147,8 +147,8 @@ spacing:
   section: "32px"
 components:
   button-primary:
-    backgroundColor: "#000000"
-    textColor: "#FFFFFF"
+    backgroundColor: "#0A84FF"
+    textColor: "#000000"
     rounded: "10px"
   tab-bar:
     backgroundColor: "#000000"

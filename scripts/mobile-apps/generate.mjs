@@ -60,6 +60,10 @@ function palette(d) {
   const r = d.roles
   const bg = r.bg || '#ffffff'
   const text = r.text || (lum(bg) < 0.2 ? '#ffffff' : '#111111')
+  const primary = contrast(r.primary || text, bg) < 1.8 ? text : r.primary || text
+  const onPrimary = contrast(r['on-primary'] || '#ffffff', primary) >= 4.5
+    ? r['on-primary'] || '#ffffff'
+    : (contrast('#ffffff', primary) >= contrast('#000000', primary) ? '#ffffff' : '#000000')
   return {
     bg,
     surface: r.surface || (lum(bg) < 0.2 ? mix(bg, '#ffffff', 0.08) : mix(bg, '#000000', 0.04)),
@@ -67,8 +71,9 @@ function palette(d) {
     text,
     muted: readable(r.muted || mix(text, bg, 0.45), bg, text, 3.4),
     border: r.border || mix(bg, text, 0.16),
-    primary: r.primary || text,
-    onPrimary: r['on-primary'] || (contrast('#ffffff', r.primary || text) >= contrast('#000000', r.primary || text) ? '#ffffff' : '#000000'),
+    primary,
+    primaryText: readable(primary, bg, text, 4.5),
+    onPrimary,
     accent: r.accent || r.primary || text,
     success: readable(r.success || '#16a34a', bg, text, 3),
     warning: readable(r.warning || '#d97706', bg, text, 3),
@@ -422,7 +427,7 @@ function renderHTML(d, domain) {
 <style>
 :root{
 --bg:${esc(p.bg)};--surface:${esc(p.surface)};--surface2:${esc(p.surface2)};--text:${esc(p.text)};--muted:${esc(p.muted)};--border:${esc(p.border)};
---primary:${esc(p.primary)};--on-primary:${esc(p.onPrimary)};--accent:${esc(p.accent)};--ok:${esc(p.success)};--warn:${esc(p.warning)};--danger:${esc(p.danger)};
+--primary:${esc(p.primary)};--primary-text:${esc(p.primaryText)};--on-primary:${esc(p.onPrimary)};--accent:${esc(p.accent)};--ok:${esc(p.success)};--warn:${esc(p.warning)};--danger:${esc(p.danger)};
 --r-card:${esc(radius.card)};--r-ctl:${esc(radius.control)};--r-pill:9999px;
 --font:${font};
 --shadow:0 12px 32px rgba(0,0,0,${dark ? '.45' : '.12'});
@@ -443,7 +448,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .appbar .sub{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
 .iconbtn:active{background:var(--surface2)}
-.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary);font:700 11px/1 var(--font);flex:none}
+.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary-text);font:700 11px/1 var(--font);flex:none}
 .content{position:relative;flex:1;min-height:0;overflow:hidden}
 .view{display:none;height:100%;overflow-y:auto;padding-bottom:86px}
 .view.on{display:block;animation:vin .18s ease-out}
@@ -451,7 +456,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .tabbar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:column;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
 .tab{display:grid;justify-items:center;gap:3px;padding:3px 0;color:var(--muted);font:600 10px/1 var(--font)}
 .tab .icon{width:23px;height:23px;stroke-width:1.7}
-.tab.on{color:var(--primary)}
+.tab.on{color:var(--primary-text)}
 .tab.on .icon{stroke-width:2.2}
 .homebar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:99px;background:var(--text);opacity:.5}
 .section{padding:16px 16px 0}
@@ -502,7 +507,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .bars span{font:500 9px/1.2 var(--font);color:var(--muted)}
 .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:2px 16px}
 .tool{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r-ctl);background:var(--surface);text-align:left}
-.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary);font-style:normal;font:700 11px/1 var(--font);flex:none}
+.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary-text);font-style:normal;font:700 11px/1 var(--font);flex:none}
 .tool div{min-width:0}
 .tool b{display:block;font:600 13px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tool span{display:block;font:400 10px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

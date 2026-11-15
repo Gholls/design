@@ -2,7 +2,7 @@
 <!--
   GOLDEN PROMPT 产物 · KakaoTalk · 规范：KakaoTalk iOS
   决策溯源：见 designs/ios-kakaotalk/DESIGN.md（colors / typography / rounded / spacing / components）
-  ─ canvas #FFFFFF · surface #F5F5F5 · text #191919 · primary #FEE500
+  ─ canvas #FFFFFF · surface #F5F5F5 · text #191919 · primary #191919
   ─ 字体 SF Pro Text · card 8px / control 4px
   ─ 领域：消息；共享手机外壳与交互，领域页面按规范气质重建
 -->
@@ -15,7 +15,7 @@
 <style>
 :root{
 --bg:#FFFFFF;--surface:#F5F5F5;--surface2:#EFEFEF;--text:#191919;--muted:#6A6A6A;--border:#E6E6E6;
---primary:#FEE500;--on-primary:#000000;--accent:#E6CF00;--ok:#257b49;--warn:#D97706;--danger:#F15E6C;
+--primary:#191919;--primary-text:#191919;--on-primary:#ffffff;--accent:#E6CF00;--ok:#257b49;--warn:#D97706;--danger:#F15E6C;
 --r-card:8px;--r-ctl:4px;--r-pill:9999px;
 --font:SF Pro Text, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 --shadow:0 12px 32px rgba(0,0,0,.12);
@@ -36,7 +36,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .appbar .sub{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
 .iconbtn:active{background:var(--surface2)}
-.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary);font:700 11px/1 var(--font);flex:none}
+.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary-text);font:700 11px/1 var(--font);flex:none}
 .content{position:relative;flex:1;min-height:0;overflow:hidden}
 .view{display:none;height:100%;overflow-y:auto;padding-bottom:86px}
 .view.on{display:block;animation:vin .18s ease-out}
@@ -44,7 +44,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .tabbar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:column;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
 .tab{display:grid;justify-items:center;gap:3px;padding:3px 0;color:var(--muted);font:600 10px/1 var(--font)}
 .tab .icon{width:23px;height:23px;stroke-width:1.7}
-.tab.on{color:var(--primary)}
+.tab.on{color:var(--primary-text)}
 .tab.on .icon{stroke-width:2.2}
 .homebar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:99px;background:var(--text);opacity:.5}
 .section{padding:16px 16px 0}
@@ -95,7 +95,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .bars span{font:500 9px/1.2 var(--font);color:var(--muted)}
 .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:2px 16px}
 .tool{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r-ctl);background:var(--surface);text-align:left}
-.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary);font-style:normal;font:700 11px/1 var(--font);flex:none}
+.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary-text);font-style:normal;font:700 11px/1 var(--font);flex:none}
 .tool div{min-width:0}
 .tool b{display:block;font:600 13px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tool span{display:block;font:400 10px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -209,7 +209,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
   <div class="toast" id="toast" role="status"></div>
 </div>
 <script>
-const APP={"app":"KakaoTalk","name":"KakaoTalk iOS","domain":"messaging","tabs":[{"id":"home","label":"聊天","icon":"chat"},{"id":"contacts","label":"联系人","icon":"user"},{"id":"discover","label":"发现","icon":"compass"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"chips","items":["全部","未读","群组"]},{"type":"list","title":"最近会话","rows":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型","meta":"09:42","art":{"label":"云","c1":"#FEE500","c2":"#E6CF00"}},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token","meta":"昨天","art":{"label":"设","c1":"#E6CF00","c2":"#257b49"}},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认","meta":"昨天","art":{"label":"青","c1":"#D97706","c2":"#FEE500"}},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传","meta":"10-30","art":{"label":"L","c1":"#F15E6C","c2":"#E6CF00"}}]}],"contacts":[{"type":"list","title":"联系人","rows":[{"id":"u0","title":"周墨白","sub":"产品","art":{"label":"周墨","c1":"#E6CF00","c2":"#257b49"}},{"id":"u1","title":"苏见月","sub":"设计","art":{"label":"苏见","c1":"#D97706","c2":"#FEE500"}},{"id":"u2","title":"陈屿","sub":"工程","art":{"label":"陈屿","c1":"#F15E6C","c2":"#E6CF00"}},{"id":"u3","title":"林晚舟","sub":"运营","art":{"label":"林晚","c1":"#FEE500","c2":"#EFEFEF"}}]}],"discover":[{"type":"tools","title":"发现","items":[["群组","加入项目群","Group"],["频道","订阅更新","Channel"],["附近","同城协作者","Nearby"],["邀请","添加成员","Invite"]]},{"type":"note","text":"消息以会话列表为主，点击进入推送式聊天。"}],"me":[{"type":"profile","name":"林晚舟","sub":"KakaoTalk · 在线","art":{"label":"林","c1":"#D97706","c2":"#FEE500"},"stats":[["会话","12"],["群组","4"],["未读","3"]]},{"type":"settings","rows":[["消息通知","提及与私聊",true],["已读回执","双向",true],["媒体自动下载","仅 Wi-Fi",false]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「KakaoTalk iOS」生成 · 消息领域样板间"}]},"details":{"c1":{"title":"云栖支付 · 项目群","blocks":[{"type":"bubbles","messages":[["them","Atlas 的 UAT 反馈已整理成 6 条。","09:31"],["them","优先处理金额对不上的两条。","09:36"],["me","收到，今天下午给修复版本。","09:40"]]},{"type":"composer","placeholder":"发消息…"}]},"c2":{"title":"设计系统小组","blocks":[{"type":"bubbles","messages":[["them","新增 12 个语义 token，命名按场景/角色重排。","17:20"],["me","收到，我先在官网跑一遍。","17:26"]]},{"type":"composer","placeholder":"发消息…"}]},"c3":{"title":"青柠出行 · Slot","blocks":[{"type":"bubbles","messages":[["them","灰度清单已确认，周四放 10%。","15:02"],["me","监控与回滚脚本今天补齐。","15:08"]]},{"type":"composer","placeholder":"发消息…"}]},"c4":{"title":"Lumen 运维","blocks":[{"type":"bubbles","messages":[["them","季度审计报告已上传，SLA 全绿。","10:12"]]},{"type":"composer","placeholder":"发消息…"}]}},"live":null,"search":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型"},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token"},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认"},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传"}]};
+const APP={"app":"KakaoTalk","name":"KakaoTalk iOS","domain":"messaging","tabs":[{"id":"home","label":"聊天","icon":"chat"},{"id":"contacts","label":"联系人","icon":"user"},{"id":"discover","label":"发现","icon":"compass"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"chips","items":["全部","未读","群组"]},{"type":"list","title":"最近会话","rows":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型","meta":"09:42","art":{"label":"云","c1":"#191919","c2":"#E6CF00"}},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token","meta":"昨天","art":{"label":"设","c1":"#E6CF00","c2":"#257b49"}},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认","meta":"昨天","art":{"label":"青","c1":"#D97706","c2":"#191919"}},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传","meta":"10-30","art":{"label":"L","c1":"#F15E6C","c2":"#E6CF00"}}]}],"contacts":[{"type":"list","title":"联系人","rows":[{"id":"u0","title":"周墨白","sub":"产品","art":{"label":"周墨","c1":"#E6CF00","c2":"#257b49"}},{"id":"u1","title":"苏见月","sub":"设计","art":{"label":"苏见","c1":"#D97706","c2":"#191919"}},{"id":"u2","title":"陈屿","sub":"工程","art":{"label":"陈屿","c1":"#F15E6C","c2":"#E6CF00"}},{"id":"u3","title":"林晚舟","sub":"运营","art":{"label":"林晚","c1":"#191919","c2":"#EFEFEF"}}]}],"discover":[{"type":"tools","title":"发现","items":[["群组","加入项目群","Group"],["频道","订阅更新","Channel"],["附近","同城协作者","Nearby"],["邀请","添加成员","Invite"]]},{"type":"note","text":"消息以会话列表为主，点击进入推送式聊天。"}],"me":[{"type":"profile","name":"林晚舟","sub":"KakaoTalk · 在线","art":{"label":"林","c1":"#D97706","c2":"#191919"},"stats":[["会话","12"],["群组","4"],["未读","3"]]},{"type":"settings","rows":[["消息通知","提及与私聊",true],["已读回执","双向",true],["媒体自动下载","仅 Wi-Fi",false]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「KakaoTalk iOS」生成 · 消息领域样板间"}]},"details":{"c1":{"title":"云栖支付 · 项目群","blocks":[{"type":"bubbles","messages":[["them","Atlas 的 UAT 反馈已整理成 6 条。","09:31"],["them","优先处理金额对不上的两条。","09:36"],["me","收到，今天下午给修复版本。","09:40"]]},{"type":"composer","placeholder":"发消息…"}]},"c2":{"title":"设计系统小组","blocks":[{"type":"bubbles","messages":[["them","新增 12 个语义 token，命名按场景/角色重排。","17:20"],["me","收到，我先在官网跑一遍。","17:26"]]},{"type":"composer","placeholder":"发消息…"}]},"c3":{"title":"青柠出行 · Slot","blocks":[{"type":"bubbles","messages":[["them","灰度清单已确认，周四放 10%。","15:02"],["me","监控与回滚脚本今天补齐。","15:08"]]},{"type":"composer","placeholder":"发消息…"}]},"c4":{"title":"Lumen 运维","blocks":[{"type":"bubbles","messages":[["them","季度审计报告已上传，SLA 全绿。","10:12"]]},{"type":"composer","placeholder":"发消息…"}]}},"live":null,"search":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型"},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token"},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认"},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传"}]};
 const state={tab:0,likes:new Set(),sheetId:null,query:'',liveOpen:false,playing:false,elapsed:0,timer:null};
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];

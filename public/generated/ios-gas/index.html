@@ -2,7 +2,7 @@
 <!--
   GOLDEN PROMPT 产物 · Gas · 规范：Gas iOS
   决策溯源：见 designs/ios-gas/DESIGN.md（colors / typography / rounded / spacing / components）
-  ─ canvas #6C5CE7 · surface #FFFFFF · text #FFFFFF · primary #6C5CE7
+  ─ canvas #6C5CE7 · surface #FFFFFF · text #FFFFFF · primary #FFFFFF
   ─ 字体 Nunito · card 8px / control 3px
   ─ 领域：社交；共享手机外壳与交互，领域页面按规范气质重建
 -->
@@ -15,7 +15,7 @@
 <style>
 :root{
 --bg:#6C5CE7;--surface:#FFFFFF;--surface2:#F4F2FF;--text:#FFFFFF;--muted:#dbd7f9;--border:#ECE9FB;
---primary:#6C5CE7;--on-primary:#FFFFFF;--accent:#A06CFF;--ok:#8adfbf;--warn:#eab476;--danger:#ffa1b0;
+--primary:#FFFFFF;--primary-text:#FFFFFF;--on-primary:#000000;--accent:#A06CFF;--ok:#8adfbf;--warn:#eab476;--danger:#ffa1b0;
 --r-card:8px;--r-ctl:3px;--r-pill:9999px;
 --font:Nunito, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 --shadow:0 12px 32px rgba(0,0,0,.45);
@@ -36,7 +36,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .appbar .sub{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
 .iconbtn:active{background:var(--surface2)}
-.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary);font:700 11px/1 var(--font);flex:none}
+.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary-text);font:700 11px/1 var(--font);flex:none}
 .content{position:relative;flex:1;min-height:0;overflow:hidden}
 .view{display:none;height:100%;overflow-y:auto;padding-bottom:86px}
 .view.on{display:block;animation:vin .18s ease-out}
@@ -44,7 +44,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .tabbar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:column;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
 .tab{display:grid;justify-items:center;gap:3px;padding:3px 0;color:var(--muted);font:600 10px/1 var(--font)}
 .tab .icon{width:23px;height:23px;stroke-width:1.7}
-.tab.on{color:var(--primary)}
+.tab.on{color:var(--primary-text)}
 .tab.on .icon{stroke-width:2.2}
 .homebar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:99px;background:var(--text);opacity:.5}
 .section{padding:16px 16px 0}
@@ -95,7 +95,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .bars span{font:500 9px/1.2 var(--font);color:var(--muted)}
 .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:2px 16px}
 .tool{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r-ctl);background:var(--surface);text-align:left}
-.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary);font-style:normal;font:700 11px/1 var(--font);flex:none}
+.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary-text);font-style:normal;font:700 11px/1 var(--font);flex:none}
 .tool div{min-width:0}
 .tool b{display:block;font:600 13px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tool span{display:block;font:400 10px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -209,7 +209,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
   <div class="toast" id="toast" role="status"></div>
 </div>
 <script>
-const APP={"app":"Gas","name":"Gas iOS","domain":"social","tabs":[{"id":"home","label":"动态","icon":"home"},{"id":"search","label":"发现","icon":"search"},{"id":"notifications","label":"通知","icon":"bell"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"rail","title":"故事","items":[{"id":"s1","title":"周墨白","sub":"09:12","art":{"label":"周","c1":"#6C5CE7","c2":"#A06CFF"}},{"id":"s2","title":"苏见月","sub":"08:48","art":{"label":"苏","c1":"#A06CFF","c2":"#8adfbf"}},{"id":"s3","title":"林晚舟","sub":"昨天","art":{"label":"林","c1":"#eab476","c2":"#6C5CE7"}}]},{"type":"list","title":"动态","rows":[{"id":"s1","title":"周墨白","sub":"Atlas 对账的差异视图定稿了，明天走查。","meta":"09:12","art":{"label":"周","c1":"#6C5CE7","c2":"#A06CFF"}},{"id":"s2","title":"苏见月","sub":"Nimbus 看板的指标口径整理成一页纸。","meta":"08:48","art":{"label":"苏","c1":"#A06CFF","c2":"#8adfbf"}},{"id":"s3","title":"林晚舟","sub":"海雾官网的设计 Token 已交付，下周上线。","meta":"昨天","art":{"label":"林","c1":"#eab476","c2":"#6C5CE7"}}]},{"type":"note","text":"点开动态可进入评论会话；喜欢按钮即时反馈。"}],"search":[{"type":"chips","items":["推荐","关注","附近"]},{"type":"list","title":"发现","rows":[{"id":"s1","title":"周墨白","sub":"Atlas 对账的差异视图定稿了，明天走查。","meta":"09:12","art":{"label":"周","c1":"#6C5CE7","c2":"#A06CFF"}},{"id":"s2","title":"苏见月","sub":"Nimbus 看板的指标口径整理成一页纸。","meta":"08:48","art":{"label":"苏","c1":"#A06CFF","c2":"#8adfbf"}},{"id":"s3","title":"林晚舟","sub":"海雾官网的设计 Token 已交付，下周上线。","meta":"昨天","art":{"label":"林","c1":"#eab476","c2":"#6C5CE7"}}]}],"notifications":[{"type":"list","title":"通知","rows":[{"id":"n1","title":"周墨白 赞了你的动态","sub":"海雾官网 · 2h","meta":"新"},{"id":"n2","title":"苏见月 关注了你","sub":"设计系统小组","meta":"昨天"}]}],"me":[{"type":"profile","name":"林晚舟","sub":"Gas · @wanzhou","art":{"label":"林","c1":"#eab476","c2":"#6C5CE7"},"stats":[["动态","42"],["关注","186"],["粉丝","1.2k"]]},{"type":"settings","rows":[["私密账号","仅关注者可见",false],["评论过滤","默认开启",true],["推送","互动与私信",true]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Gas iOS」生成 · 社交领域样板间"}]},"details":{"s1":{"title":"周墨白","blocks":[{"type":"bubbles","messages":[["them","Atlas 对账的差异视图定稿了，明天走查。","09:12"],["me","收到，下午同步。","刚刚"]]},{"type":"composer","placeholder":"写评论…"}]},"s2":{"title":"苏见月","blocks":[{"type":"bubbles","messages":[["them","Nimbus 看板的指标口径整理成一页纸。","08:48"],["me","收到，下午同步。","刚刚"]]},{"type":"composer","placeholder":"写评论…"}]},"s3":{"title":"林晚舟","blocks":[{"type":"bubbles","messages":[["them","海雾官网的设计 Token 已交付，下周上线。","昨天"],["me","收到，下午同步。","刚刚"]]},{"type":"composer","placeholder":"写评论…"}]}},"live":null,"search":[{"id":"s1","title":"周墨白","sub":"Atlas 对账的差异视图定稿了，明天走查。"},{"id":"s2","title":"苏见月","sub":"Nimbus 看板的指标口径整理成一页纸。"},{"id":"s3","title":"林晚舟","sub":"海雾官网的设计 Token 已交付，下周上线。"}]};
+const APP={"app":"Gas","name":"Gas iOS","domain":"social","tabs":[{"id":"home","label":"动态","icon":"home"},{"id":"search","label":"发现","icon":"search"},{"id":"notifications","label":"通知","icon":"bell"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"rail","title":"故事","items":[{"id":"s1","title":"周墨白","sub":"09:12","art":{"label":"周","c1":"#FFFFFF","c2":"#A06CFF"}},{"id":"s2","title":"苏见月","sub":"08:48","art":{"label":"苏","c1":"#A06CFF","c2":"#8adfbf"}},{"id":"s3","title":"林晚舟","sub":"昨天","art":{"label":"林","c1":"#eab476","c2":"#FFFFFF"}}]},{"type":"list","title":"动态","rows":[{"id":"s1","title":"周墨白","sub":"Atlas 对账的差异视图定稿了，明天走查。","meta":"09:12","art":{"label":"周","c1":"#FFFFFF","c2":"#A06CFF"}},{"id":"s2","title":"苏见月","sub":"Nimbus 看板的指标口径整理成一页纸。","meta":"08:48","art":{"label":"苏","c1":"#A06CFF","c2":"#8adfbf"}},{"id":"s3","title":"林晚舟","sub":"海雾官网的设计 Token 已交付，下周上线。","meta":"昨天","art":{"label":"林","c1":"#eab476","c2":"#FFFFFF"}}]},{"type":"note","text":"点开动态可进入评论会话；喜欢按钮即时反馈。"}],"search":[{"type":"chips","items":["推荐","关注","附近"]},{"type":"list","title":"发现","rows":[{"id":"s1","title":"周墨白","sub":"Atlas 对账的差异视图定稿了，明天走查。","meta":"09:12","art":{"label":"周","c1":"#FFFFFF","c2":"#A06CFF"}},{"id":"s2","title":"苏见月","sub":"Nimbus 看板的指标口径整理成一页纸。","meta":"08:48","art":{"label":"苏","c1":"#A06CFF","c2":"#8adfbf"}},{"id":"s3","title":"林晚舟","sub":"海雾官网的设计 Token 已交付，下周上线。","meta":"昨天","art":{"label":"林","c1":"#eab476","c2":"#FFFFFF"}}]}],"notifications":[{"type":"list","title":"通知","rows":[{"id":"n1","title":"周墨白 赞了你的动态","sub":"海雾官网 · 2h","meta":"新"},{"id":"n2","title":"苏见月 关注了你","sub":"设计系统小组","meta":"昨天"}]}],"me":[{"type":"profile","name":"林晚舟","sub":"Gas · @wanzhou","art":{"label":"林","c1":"#eab476","c2":"#FFFFFF"},"stats":[["动态","42"],["关注","186"],["粉丝","1.2k"]]},{"type":"settings","rows":[["私密账号","仅关注者可见",false],["评论过滤","默认开启",true],["推送","互动与私信",true]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Gas iOS」生成 · 社交领域样板间"}]},"details":{"s1":{"title":"周墨白","blocks":[{"type":"bubbles","messages":[["them","Atlas 对账的差异视图定稿了，明天走查。","09:12"],["me","收到，下午同步。","刚刚"]]},{"type":"composer","placeholder":"写评论…"}]},"s2":{"title":"苏见月","blocks":[{"type":"bubbles","messages":[["them","Nimbus 看板的指标口径整理成一页纸。","08:48"],["me","收到，下午同步。","刚刚"]]},{"type":"composer","placeholder":"写评论…"}]},"s3":{"title":"林晚舟","blocks":[{"type":"bubbles","messages":[["them","海雾官网的设计 Token 已交付，下周上线。","昨天"],["me","收到，下午同步。","刚刚"]]},{"type":"composer","placeholder":"写评论…"}]}},"live":null,"search":[{"id":"s1","title":"周墨白","sub":"Atlas 对账的差异视图定稿了，明天走查。"},{"id":"s2","title":"苏见月","sub":"Nimbus 看板的指标口径整理成一页纸。"},{"id":"s3","title":"林晚舟","sub":"海雾官网的设计 Token 已交付，下周上线。"}]};
 const state={tab:0,likes:new Set(),sheetId:null,query:'',liveOpen:false,playing:false,elapsed:0,timer:null};
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];

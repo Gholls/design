@@ -79,11 +79,10 @@ function buildColors(allColors) {
   const bySection = (re) => colors.filter((c) => re.test(c.section))
   const primaryPool = colors.filter((c) => /^primary\b/i.test(c.section))
   const pool = primaryPool.length ? primaryPool : colors
-  const primary =
+  let primary =
     pick(pool, (c) => /brand|primary|action|accent/i.test(c.label) && !/text|ink|canvas|surface|background/i.test(c.label))?.hex ||
     pick(pool, (c) => !/background|tint|pressed|dim|soft|shadow|text|ink|canvas|surface/i.test(c.label))?.hex ||
     pool[0].hex
-  const onPrimary = contrast('#FFFFFF', primary) >= contrast('#000000', primary) ? '#FFFFFF' : '#000000'
   const canvasPool = colors.filter((c) => /canvas/i.test(c.label) && !/dark|shadow/i.test(c.label))
   const canvas = (canvasPool[0] || colors.find((c) => /app background|primary background/i.test(c.label)) || pick(colors, (c) => /^background$/i.test(c.label)) || colors[0]).hex
   const dark = hexLum(canvas) < 0.2
@@ -92,13 +91,20 @@ function buildColors(allColors) {
   const alt = (surfacePool[1] || { hex: dark ? '#262626' : '#EFEFEF' }).hex
   const textPool = colors.filter((c) => /text|ink|foreground|heading/i.test(c.label))
   const text = (textPool.find((c) => /primary|main|heading|ink/i.test(c.label)) || textPool[0] || { hex: dark ? '#F5F4F2' : '#0E0E0E' }).hex
+  if (contrast(primary, canvas) < 1.8) {
+    primary = (colors.find((c) => /system|link|blue|accent|brand/i.test(c.label) && contrast(c.hex, canvas) >= 3) || { hex: text }).hex
+  }
+  const onPrimary = contrast('#FFFFFF', primary) >= contrast('#000000', primary) ? '#FFFFFF' : '#000000'
   const muted = (textPool.find((c) => /secondary|muted|subtle/i.test(c.label)) || textPool[1] || { hex: dark ? '#A0A0A0' : '#666666' }).hex
   const border = (colors.find((c) => /divider|hairline|border|line/i.test(c.label)) || { hex: dark ? '#2A2A2A' : '#E5E5E5' }).hex
   const semantic = bySection(/semantic|status/i)
   const success = (semantic.find((c) => /success|positive|green|safe/i.test(c.label)) || { hex: '#16A34A' }).hex
   const warning = (semantic.find((c) => /warning|amber|caution|at risk/i.test(c.label)) || { hex: '#D97706' }).hex
   const danger = (semantic.find((c) => /error|danger|red|destructive|negative/i.test(c.label)) || { hex: '#DC2626' }).hex
-  const accent = (primaryPool.find((c) => c.hex !== primary) || colors.find((c) => c.hex !== primary && /accent|secondary|teal|purple/i.test(c.label) && !/text|ink|muted/i.test(c.label)) || { hex: primary }).hex
+  let accent = (primaryPool.find((c) => c.hex !== primary) || colors.find((c) => c.hex !== primary && /accent|secondary|teal|purple/i.test(c.label) && !/text|ink|muted/i.test(c.label)) || { hex: primary }).hex
+  if (accent === primary || contrast(accent, canvas) < 2) {
+    accent = (colors.find((c) => c.hex !== primary && contrast(c.hex, canvas) >= 2.4 && !/text|ink|muted/i.test(c.label)) || { hex: primary }).hex
+  }
   const pressed = (colors.find((c) => /pressed/i.test(c.label)) || { hex: primary }).hex
   const map = {
     bg: canvas,

@@ -2,7 +2,7 @@
 <!--
   GOLDEN PROMPT 产物 · Vercel · 规范：Vercel iOS
   决策溯源：见 designs/ios-vercel/DESIGN.md（colors / typography / rounded / spacing / components）
-  ─ canvas #FFFFFF · surface #0A0A0A · text #000000 · primary #EDEDED
+  ─ canvas #FFFFFF · surface #0A0A0A · text #000000 · primary #000000
   ─ 字体 Geist Sans · card 6px / control 4px
   ─ 领域：工具；共享手机外壳与交互，领域页面按规范气质重建
 -->
@@ -15,7 +15,7 @@
 <style>
 :root{
 --bg:#FFFFFF;--surface:#0A0A0A;--surface2:#111111;--text:#000000;--muted:#737373;--border:#2E2E2E;
---primary:#EDEDED;--on-primary:#000000;--accent:#FFFFFF;--ok:#07713b;--warn:#875b13;--danger:#E5484D;
+--primary:#000000;--primary-text:#000000;--on-primary:#ffffff;--accent:#FFFFFF;--ok:#07713b;--warn:#875b13;--danger:#E5484D;
 --r-card:6px;--r-ctl:4px;--r-pill:9999px;
 --font:Geist Sans, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 --shadow:0 12px 32px rgba(0,0,0,.12);
@@ -36,7 +36,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .appbar .sub{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
 .iconbtn:active{background:var(--surface2)}
-.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary);font:700 11px/1 var(--font);flex:none}
+.avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary-text);font:700 11px/1 var(--font);flex:none}
 .content{position:relative;flex:1;min-height:0;overflow:hidden}
 .view{display:none;height:100%;overflow-y:auto;padding-bottom:86px}
 .view.on{display:block;animation:vin .18s ease-out}
@@ -44,7 +44,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .tabbar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:column;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
 .tab{display:grid;justify-items:center;gap:3px;padding:3px 0;color:var(--muted);font:600 10px/1 var(--font)}
 .tab .icon{width:23px;height:23px;stroke-width:1.7}
-.tab.on{color:var(--primary)}
+.tab.on{color:var(--primary-text)}
 .tab.on .icon{stroke-width:2.2}
 .homebar{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:99px;background:var(--text);opacity:.5}
 .section{padding:16px 16px 0}
@@ -95,7 +95,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .bars span{font:500 9px/1.2 var(--font);color:var(--muted)}
 .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:2px 16px}
 .tool{display:flex;align-items:center;gap:10px;padding:12px;border-radius:var(--r-ctl);background:var(--surface);text-align:left}
-.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary);font-style:normal;font:700 11px/1 var(--font);flex:none}
+.tool i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary-text);font-style:normal;font:700 11px/1 var(--font);flex:none}
 .tool div{min-width:0}
 .tool b{display:block;font:600 13px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tool span{display:block;font:400 10px/1.3 var(--font);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -209,7 +209,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
   <div class="toast" id="toast" role="status"></div>
 </div>
 <script>
-const APP={"app":"Vercel","name":"Vercel iOS","domain":"tools","tabs":[{"id":"home","label":"首页","icon":"home"},{"id":"search","label":"搜索","icon":"search"},{"id":"recent","label":"最近","icon":"library"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"hero","kicker":"WORKSPACE","title":"Vercel","sub":"Vercel's iOS app is the most uncompromisingly minimal developer tool on the App Store. It opens on pure black ","art":{"label":"Ve","c1":"#EDEDED","c2":"#FFFFFF"}},{"type":"prompt","placeholder":"搜索工具与文档…","button":"打开"},{"type":"tools","title":"快捷入口","items":[["Vercel","打开工作区","Home"],["自动化","连接外部服务","Auto"],["模板","从模板开始","Tpl"],["API","密钥与用量","API"]]},{"type":"list","title":"最近","rows":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息","meta":"刚刚"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息","meta":"昨天"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28","meta":"10-28"}]}],"search":[{"type":"chips","items":["全部","工具","文档","模板"]},{"type":"list","title":"搜索结果","rows":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息","meta":"刚刚"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息","meta":"昨天"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28","meta":"10-28"}]},{"type":"tools","title":"分类","items":[["Vercel","打开工作区","Home"],["自动化","连接外部服务","Auto"],["模板","从模板开始","Tpl"],["API","密钥与用量","API"]]}],"recent":[{"type":"list","title":"最近使用","rows":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息","meta":"刚刚"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息","meta":"昨天"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28","meta":"10-28"}]},{"type":"note","text":"最近记录保存在本地；点击继续会话或打开工具。"}],"me":[{"type":"profile","name":"林晚舟","sub":"Vercel · 工作区","art":{"label":"林","c1":"#875b13","c2":"#EDEDED"},"stats":[["会话","24"],["工具","8"],["用量","62%"]]},{"type":"settings","rows":[["同步","跨设备",true],["通知","任务完成",true],["高级模型","按需开启",false]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Vercel iOS」生成 · 工具领域样板间"}]},"details":{"x1":{"title":"本周交付清单","blocks":[{"type":"bubbles","messages":[["me","本周交付清单","10:02"],["them","已打开工作区，包含 12 个字段与 3 个校验规则。","10:03"]]},{"type":"composer","placeholder":"输入命令…"}]},"x2":{"title":"Atlas 对账字段映射","blocks":[{"type":"bubbles","messages":[["me","Atlas 对账字段映射","10:02"],["them","已打开工作区，包含 12 个字段与 3 个校验规则。","10:03"]]},{"type":"composer","placeholder":"输入命令…"}]},"x3":{"title":"海雾官网 Token 导出","blocks":[{"type":"bubbles","messages":[["me","海雾官网 Token 导出","10:02"],["them","已打开工作区，包含 12 个字段与 3 个校验规则。","10:03"]]},{"type":"composer","placeholder":"输入命令…"}]}},"live":null,"search":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28"}]};
+const APP={"app":"Vercel","name":"Vercel iOS","domain":"tools","tabs":[{"id":"home","label":"首页","icon":"home"},{"id":"search","label":"搜索","icon":"search"},{"id":"recent","label":"最近","icon":"library"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"hero","kicker":"WORKSPACE","title":"Vercel","sub":"Vercel's iOS app is the most uncompromisingly minimal developer tool on the App Store. It opens on pure black ","art":{"label":"Ve","c1":"#000000","c2":"#FFFFFF"}},{"type":"prompt","placeholder":"搜索工具与文档…","button":"打开"},{"type":"tools","title":"快捷入口","items":[["Vercel","打开工作区","Home"],["自动化","连接外部服务","Auto"],["模板","从模板开始","Tpl"],["API","密钥与用量","API"]]},{"type":"list","title":"最近","rows":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息","meta":"刚刚"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息","meta":"昨天"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28","meta":"10-28"}]}],"search":[{"type":"chips","items":["全部","工具","文档","模板"]},{"type":"list","title":"搜索结果","rows":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息","meta":"刚刚"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息","meta":"昨天"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28","meta":"10-28"}]},{"type":"tools","title":"分类","items":[["Vercel","打开工作区","Home"],["自动化","连接外部服务","Auto"],["模板","从模板开始","Tpl"],["API","密钥与用量","API"]]}],"recent":[{"type":"list","title":"最近使用","rows":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息","meta":"刚刚"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息","meta":"昨天"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28","meta":"10-28"}]},{"type":"note","text":"最近记录保存在本地；点击继续会话或打开工具。"}],"me":[{"type":"profile","name":"林晚舟","sub":"Vercel · 工作区","art":{"label":"林","c1":"#875b13","c2":"#000000"},"stats":[["会话","24"],["工具","8"],["用量","62%"]]},{"type":"settings","rows":[["同步","跨设备",true],["通知","任务完成",true],["高级模型","按需开启",false]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「Vercel iOS」生成 · 工具领域样板间"}]},"details":{"x1":{"title":"本周交付清单","blocks":[{"type":"bubbles","messages":[["me","本周交付清单","10:02"],["them","已打开工作区，包含 12 个字段与 3 个校验规则。","10:03"]]},{"type":"composer","placeholder":"输入命令…"}]},"x2":{"title":"Atlas 对账字段映射","blocks":[{"type":"bubbles","messages":[["me","Atlas 对账字段映射","10:02"],["them","已打开工作区，包含 12 个字段与 3 个校验规则。","10:03"]]},{"type":"composer","placeholder":"输入命令…"}]},"x3":{"title":"海雾官网 Token 导出","blocks":[{"type":"bubbles","messages":[["me","海雾官网 Token 导出","10:02"],["them","已打开工作区，包含 12 个字段与 3 个校验规则。","10:03"]]},{"type":"composer","placeholder":"输入命令…"}]}},"live":null,"search":[{"id":"x1","title":"本周交付清单","sub":"刚刚 · 12 条消息"},{"id":"x2","title":"Atlas 对账字段映射","sub":"昨天 · 8 条消息"},{"id":"x3","title":"海雾官网 Token 导出","sub":"10-28"}]};
 const state={tab:0,likes:new Set(),sheetId:null,query:'',liveOpen:false,playing:false,elapsed:0,timer:null};
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];

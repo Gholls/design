@@ -297,6 +297,13 @@ function resolveRoles(colors: TokenGroup, warnings: string[]): Record<string, st
       const better = pickBackgroundByDistribution(colors)
       if (better && better !== roles.bg) roles.bg = better
     }
+    /* 明亮高饱和的底几乎一定是品牌色被当成了画布（荧光绿/柠檬黄），
+       深色画布的品牌色（navy/靛蓝）是合法设计，因此只标记亮色 */
+    const chrBg = chroma(roles.bg)
+    const lumNow = luminance(roles.bg)
+    if (chrBg !== null && chrBg > 0.45 && lumNow !== null && lumNow > 0.35) {
+      warnings.push('brand-canvas: bg 为明亮高饱和色，疑似把品牌色当画布')
+    }
   }
 
   /* 推导兜底（依赖先解析出的基础角色）。

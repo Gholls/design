@@ -60,7 +60,10 @@ function palette(d) {
   const r = d.roles
   const bg = r.bg || '#ffffff'
   const text = r.text || (lum(bg) < 0.2 ? '#ffffff' : '#111111')
-  const primary = contrast(r.primary || text, bg) < 1.8 ? text : r.primary || text
+  // Keep the spec's brand fill even when it sits close to bg (Wise lime, Bumble
+  // yellow): buttons carry their own onPrimary. Only an exact bg copy is useless.
+  const brand = r.primary || text
+  const primary = brand.toLowerCase() === bg.toLowerCase() ? text : brand
   const onPrimary = contrast(r['on-primary'] || '#ffffff', primary) >= 4.5
     ? r['on-primary'] || '#ffffff'
     : (contrast('#ffffff', primary) >= contrast('#000000', primary) ? '#ffffff' : '#000000')
@@ -433,6 +436,9 @@ function renderHTML(d, domain) {
 --shadow:0 12px 32px rgba(0,0,0,${dark ? '.45' : '.12'});
 }
 *{box-sizing:border-box;margin:0;transition:background-color .18s ease,color .18s ease,border-color .18s ease}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
+input:focus-visible{outline:2px solid var(--primary);outline-offset:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 html,body{height:100%}
 body{background:${dark ? '#0a0a0a' : '#e9e7e2'};color:var(--text);font:400 15px/1.45 var(--font);display:grid;place-items:center;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
@@ -446,7 +452,8 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .appbar div{flex:1;min-width:0}
 .appbar h1{font:700 26px/1.15 var(--font);letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appbar .sub{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.iconbtn{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
+.iconbtn{position:relative;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--text);flex:none}
+.iconbtn::before{content:"";position:absolute;inset:-4px}
 .iconbtn:active{background:var(--surface2)}
 .avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary-text);font:700 11px/1 var(--font);flex:none}
 .content{position:relative;flex:1;min-height:0;overflow:hidden}
@@ -496,7 +503,11 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .row-main span{display:block;font:400 12px/1.4 var(--font);color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row-meta{font:600 11px/1.2 var(--font);color:var(--muted);font-variant-numeric:tabular-nums;flex:none;text-align:right}
 .chips{display:flex;gap:7px;padding:2px 16px 14px;overflow-x:auto}
-.chip{flex:none;padding:6px 11px;border-radius:var(--r-pill);background:var(--surface);color:var(--text);font:600 11px/1 var(--font);white-space:nowrap}
+.chip{position:relative;flex:none;padding:6px 11px;border-radius:var(--r-pill);background:var(--surface);color:var(--text);font:600 11px/1 var(--font);white-space:nowrap}
+.chip::after{content:"";position:absolute;inset:-11px 0}
+.ptr{position:fixed;left:50%;top:72px;transform:translate(-50%,-10px);opacity:0;transition:opacity .15s ease,transform .15s ease;pointer-events:none;z-index:70;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow)}
+.ptr.on{opacity:1;transform:translate(-50%,0)}
+.ptr span{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--primary);display:block}
 .chip.on{background:var(--text);color:var(--bg)}
 .chart{margin:12px 16px 0;padding:14px;border-radius:var(--r-card);background:var(--surface)}
 .chart-head{display:flex;justify-content:space-between;font:600 12px/1.2 var(--font);color:var(--muted);margin-bottom:10px}
@@ -539,6 +550,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .setting-main b{display:block;font:600 14px/1.35 var(--font)}
 .setting-main span{display:block;font:400 11px/1.4 var(--font);color:var(--muted);margin-top:2px}
 .switch{width:44px;height:26px;border-radius:99px;background:var(--surface2);position:relative;flex:none;transition:background .18s}
+.switch::before{content:"";position:absolute;inset:-9px 0}
 .switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .18s}
 .switch.on{background:var(--primary)}
 .switch.on::after{transform:translateX(18px)}
@@ -601,7 +613,7 @@ ${iconSet.map((n) => `<symbol id="i-${n}" viewBox="0 0 24 24">${{ home: '<path d
   <div class="statusbar"><span>9:41</span><span style="display:flex;gap:5px;align-items:center"><svg width="17" height="11" viewBox="0 0 17 12"><rect x="0" y="7" width="3" height="5" rx=".6" fill="currentColor"/><rect x="4.5" y="5" width="3" height="7" rx=".6" fill="currentColor"/><rect x="9" y="2.5" width="3" height="9.5" rx=".6" fill="currentColor"/><rect x="13.5" y="0" width="3" height="12" rx=".6" fill="currentColor"/></svg><svg width="16" height="11" viewBox="0 0 16 12"><path d="M8 11.2 5.2 8.4a4 4 0 0 1 5.6 0zM3.2 6.4 1 4.2a9.9 9.9 0 0 1 14 0l-2.2 2.2a6.7 6.7 0 0 0-9.6 0z" fill="currentColor"/></svg><svg width="24" height="11" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="1.8" fill="currentColor"/></svg></span></div>
   <header class="appbar"><div><h1 id="title"></h1><span class="sub" id="sub"></span></div><button class="iconbtn" id="searchBtn" aria-label="搜索"><svg class="icon"><use href="#i-search"/></svg></button><span class="avatar" id="avatar">${esc(cfg.app.slice(0, 1))}</span></header>
   <main class="content" id="content"></main>
-  <nav class="tabbar" id="tabbar"></nav>
+  <nav class="tabbar" id="tabbar" role="tablist" aria-label="主导航"></nav>
   <div class="sheet" id="sheet"><div class="sheet-panel"><div class="grab"></div><div class="sheet-head"><b id="sheetTitle"></b><button class="iconbtn" id="sheetClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="sheet-body" id="sheetBody"></div></div></div>
   <div class="searchview" id="searchview"><div class="searchbar"><svg class="icon" style="width:18px;height:18px"><use href="#i-search"/></svg><input id="searchInput" placeholder="搜索 ${esc(cfg.domainLabel)} 内容" autocomplete="off"><button class="iconbtn" id="searchClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="search-results" id="searchResults"></div></div>
   <div class="live" id="live"><div class="live-bg" id="liveBg"></div><div class="live-head"><span id="liveKicker">LIVE</span><button class="iconbtn" id="liveClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="live-main"><div class="live-art" id="liveArt"></div><h2 id="liveTitle"></h2><p id="liveSub"></p><div class="live-time" id="liveTime"></div><div class="live-progress"><i id="liveFill"></i></div></div><div class="live-actions"><button id="livePlay" aria-label="播放/暂停"><svg class="icon"><use href="#i-pause"/></svg></button><button class="main" id="liveMain" aria-label="结束"><svg class="icon"><use href="#i-stop"/></svg></button></div></div>

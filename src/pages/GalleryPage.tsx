@@ -1,12 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { IndexedDesign } from '../types'
 import { designs, defaultDesign, skippedSlugs } from '../lib/registry'
 import { generatedUrl } from '../lib/generated'
 import { navigate } from '../lib/router'
 import { styleFromVars } from '../lib/cssVars'
-import { buttonClass } from '../components/ui/styles'
 import DesignCard from '../components/gallery/DesignCard'
 import SourcePanel from '../components/shared/SourcePanel'
+import '../styles/gallery.css'
 
 type Category = 'all' | 'builtin' | 'community' | 'generated'
 type Platform = 'web' | 'mobile' | 'desktop'
@@ -52,13 +52,42 @@ function PlatformIcon({ id }: { id: Platform }) {
   )
 }
 
+function readPlatform(): Platform {
+  const q = new URLSearchParams(window.location.search).get('platform')
+  if (q === 'mobile' || q === 'desktop' || q === 'web') return q
+  const stored = sessionStorage.getItem('gallery-platform')
+  if (stored === 'mobile' || stored === 'desktop' || stored === 'web') return stored
+  return 'web'
+}
+
 export default function GalleryPage() {
   const [source, setSource] = useState<IndexedDesign | null>(null)
-  const [platform, setPlatform] = useState<Platform>('web')
+  const [platform, setPlatform] = useState<Platform>(readPlatform)
   const [category, setCategory] = useState<Category>('all')
   const [tag, setTag] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [shown, setShown] = useState(PAGE_STEP)
+
+  const generatedTotal = useMemo(() => designs.filter((d) => generatedUrl(d.slug) !== null).length, [])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        document.getElementById('g-search-input')?.focus()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (platform === 'web') url.searchParams.delete('platform')
+    else url.searchParams.set('platform', platform)
+    window.history.replaceState(null, '', url)
+    sessionStorage.setItem('gallery-platform', platform)
+  }, [platform])
 
   const counts = useMemo(
     () => ({
@@ -92,133 +121,167 @@ export default function GalleryPage() {
     })
   }, [category, tag, query, pool])
 
+  const platformMeta = PLATFORMS.find((p) => p.id === platform) ?? PLATFORMS[0]
+
   return (
-    <div className="min-h-screen">
-      <nav className="sticky top-0 z-30 border-b border-line bg-bg/85 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4">
-          <div className="flex items-center gap-2.5">
+    <div className="gallery-shell">
+      <nav className="g-nav">
+        <div className="g-nav-in">
+          <a className="g-brand" href="/" aria-label="Design.md Gallery 首页">
             <span
               style={defaultDesign ? styleFromVars(defaultDesign.design.vars) : undefined}
-              className="grid h-7 w-7 shrink-0 grid-cols-2 grid-rows-2 gap-0.5 overflow-hidden rounded-md bg-ink p-0.5"
+              className="g-mark"
               aria-hidden="true"
             >
-              <span className="rounded-[2px] bg-primary" />
-              <span className="rounded-[2px] bg-accent" />
-              <span className="rounded-[2px] bg-success" />
-              <span className="rounded-[2px] bg-warning" />
+              <i /><i /><i /><i />
             </span>
-            <span className="font-display text-sm font-bold">
-              Design.md Gallery
-              <span className="ml-2 hidden font-mono text-[11px] font-normal text-muted sm:inline">design.gholl.com</span>
+            <span className="g-wordmark">
+              Design.md <em>Gallery</em>
+              <small>design.gholl.com</small>
             </span>
+          </a>
+          <div className="g-links">
+            <a href="#library">规范库</a>
+            <a href="/prompt">黄金提示词</a>
+            <a href="/studio/">跨端样板间</a>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-flex">
-              <a href="/studio/" className={buttonClass('secondary', 'sm', 'stroke-control font-mono')}>
-                跨端样板间
-              </a>
-            </span>
-            <a href="/prompt" className={buttonClass('secondary', 'sm', 'stroke-control font-mono')}>
-              GOLDEN PROMPT
-            </a>
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={`搜索${PLATFORMS.find((p) => p.id === platform)?.label}规范或标签…`}
-              className="hidden h-8 w-36 rounded-control border border-line bg-surface px-2.5 text-xs outline-none placeholder:text-muted focus:border-primary sm:block"
-            />
+          <div className="g-nav-meta">
+            <span>{designs.length} SPECIMENS</span>
+            <span>MIT</span>
           </div>
         </div>
       </nav>
 
-      <header className="mx-auto max-w-7xl px-4 pb-5 pt-9">
-        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-          同一份提示词 × <span className="text-primary">{designs.length} 份 DESIGN.md</span> = 同一个产品的不同人格
-        </h1>
-        <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted">
-          {designs.length} 套规范：内置基准 + 收录自{' '}
-          <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
-            awesome-design-md
-          </a>
-          {' '}与{' '}
-          <a href="https://github.com/Meliwat/awesome-ios-design-md" target="_blank" rel="noreferrer" className="text-primary underline decoration-line">
-            awesome-ios-design-md
-          </a>
-          {' '}的真实品牌设计系统分析；样板间由 code agent 依
-          <a href="/prompt" className="mx-1 whitespace-nowrap text-primary underline decoration-line">黄金提示词</a>
-          逐规范生成静态站点。<span className="whitespace-nowrap">网站 {counts.web} · 移动端 {counts.mobile} · 桌面端 {counts.desktop}</span>。
-        </p>
+      <header className="g-hero">
+        <div className="g-hero-in">
+          <div className="g-hero-copy">
+            <span className="g-eyebrow"><i /> SPECIMEN ARCHIVE · 2026</span>
+            <h1>同一份提示词，<br /><em>{designs.length}</em> 种产品人格。</h1>
+            <p>
+              一组来自真实产品的 DESIGN.md 规范，加上同一份 GOLDEN PROMPT：
+              同一间虚构工作室 GhollStudio，被反复重写成完全不同的产品。
+              网站、移动端与桌面端共用一套数据，只换设计语言。
+            </p>
+            <div className="g-hero-actions">
+              <a className="g-btn g-btn-primary" href="#library">浏览规范 <span>↓</span></a>
+              <a className="g-btn" href="/prompt">阅读黄金提示词 <span>↗</span></a>
+            </div>
+            <div className="g-hero-stats">
+              <div><b>{designs.length}</b><span>规范总数</span></div>
+              <div><b>{counts.web}</b><span>网站</span></div>
+              <div><b>{counts.mobile}</b><span>移动端</span></div>
+              <div><b>{counts.desktop}</b><span>桌面端</span></div>
+              <div><b>{generatedTotal}</b><span>已生成</span></div>
+            </div>
+          </div>
+          <div className="g-hero-art" aria-hidden="true">
+            <div className="g-art-head">
+              <span>SPECIMEN / SURFACES</span>
+              <span>GHOLL / 2026</span>
+            </div>
+            <div className="g-art-board">
+              <div className="g-art-card g-art-web">
+                <span>WEB / 01</span>
+                <b>{counts.web}</b>
+                <small>官网 · 商城 · 产品站</small>
+                <i className="g-art-rule" />
+              </div>
+              <div className="g-art-card g-art-mobile">
+                <span>MOBILE / 02</span>
+                <b>{counts.mobile}</b>
+                <small>iOS · Android</small>
+                <span className="g-art-mini"><i /><i /><i /></span>
+                <i className="g-art-rule" />
+              </div>
+              <div className="g-art-card g-art-desktop">
+                <span>DESKTOP / 03</span>
+                <b>{counts.desktop}</b>
+                <small>控制台 · 工具</small>
+                <i className="g-art-rule" />
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <section className="mx-auto max-w-7xl px-4 pb-5">
-        <div className="grid gap-3 md:grid-cols-3">
-          {PLATFORMS.map((p) => {
-            const active = platform === p.id
-            return (
-              <button
-                key={p.id}
-                onClick={() => {
-                  setPlatform(p.id)
-                  setCategory('all')
-                  setTag(null)
-                }}
-                className={`group cursor-pointer rounded-xl border p-4 text-left transition-colors ${
-                  active ? 'border-primary bg-primary/5' : 'border-line bg-surface hover:border-primary/50'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`inline-flex items-center gap-2 font-mono text-[10px] tracking-wide ${active ? 'text-primary' : 'text-muted'}`}>
-                    <PlatformIcon id={p.id} />
-                    {p.en}
-                  </span>
-                  <span className="font-mono text-[11px] tabular-nums text-muted">{counts[p.id]} 套</span>
-                </div>
-                <div className="mt-3 flex items-baseline justify-between gap-2">
-                  <span className="font-display text-lg font-bold">{p.label}</span>
-                  <span className={`text-[11px] ${active ? 'text-primary' : 'text-muted'}`}>{active ? '当前分类' : '进入 →'}</span>
-                </div>
-                <p className="mt-1 text-xs text-muted">{p.blurb}</p>
-              </button>
-            )
-          })}
-        </div>
+      <section className="g-surfaces" aria-label="平台分类">
+        {PLATFORMS.map((p, i) => {
+          const active = platform === p.id
+          return (
+            <button
+              key={p.id}
+              onClick={() => {
+                setPlatform(p.id)
+                setCategory('all')
+                setTag(null)
+              }}
+              className={`g-surface ${active ? 'is-active' : ''}`}
+              aria-pressed={active}
+            >
+              <div className="g-surface-top">
+                <span>0{i + 1} / {p.en}</span>
+                <PlatformIcon id={p.id} />
+              </div>
+              <div className="g-surface-main">
+                <b>{p.label}</b>
+                <em>{counts[p.id]}</em>
+              </div>
+              <p>{p.blurb}</p>
+              <div className="g-surface-foot">
+                <span>{active ? '正在浏览' : '进入分类'}</span>
+                <span>→</span>
+              </div>
+            </button>
+          )
+        })}
       </section>
 
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-1.5 px-4 pb-6">
-        {(['all', 'generated', 'builtin', 'community'] as const).map((c) => (
-          <button
-            key={c}
-            onClick={() => setCategory(c)}
-            className={`cursor-pointer rounded-badge border px-3 py-1 text-xs font-medium ${
-              category === c ? 'border-transparent bg-ink text-bg' : 'border-line bg-surface text-muted hover:text-ink'
-            }`}
-          >
-            {CATEGORY_LABEL[c]}
-          </button>
-        ))}
-        {tagOptions.length > 0 ? (
-          <>
-            <span className="mx-1 hidden h-4 w-px bg-line sm:inline-block" />
-            {tagOptions.map((t) => (
-              <button
-                key={t}
-                onClick={() => setTag(tag === t ? null : t)}
-                className={`cursor-pointer rounded-badge border px-2.5 py-1 text-[11px] ${
-                  tag === t ? 'border-primary bg-primary/10 text-primary' : 'border-line text-muted hover:text-ink'
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </>
-        ) : null}
-        <span className="ml-auto font-mono text-[11px] text-muted tabular-nums">
-          {Math.min(shown, visible.length)}/{visible.length}
-        </span>
-      </div>
+      <section className="g-library" id="library">
+        <div className="g-library-head">
+          <div>
+            <span className="g-eyebrow">LIBRARY / {platformMeta.en}</span>
+            <h2>{visible.length} 个{platformMeta.label}规范</h2>
+          </div>
+          <label className="g-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>
+            <input
+              id="g-search-input"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={`搜索${platformMeta.label}规范或标签…`}
+            />
+            <kbd>⌘K</kbd>
+          </label>
+        </div>
 
-      <main className="mx-auto max-w-7xl px-4 pb-12">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div className="g-filters">
+          {(['all', 'generated', 'builtin', 'community'] as const).map((c) => (
+            <button
+              key={c}
+              onClick={() => setCategory(c)}
+              className={`g-filter ${category === c ? 'is-active' : ''}`}
+            >
+              {CATEGORY_LABEL[c]}
+            </button>
+          ))}
+          {tagOptions.length > 0 ? (
+            <>
+              <span className="g-filter-rule" />
+              {tagOptions.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTag(tag === t ? null : t)}
+                  className={`g-tag ${tag === t ? 'is-active' : ''}`}
+                >
+                  {t}
+                </button>
+              ))}
+            </>
+          ) : null}
+          <span className="g-count">{Math.min(shown, visible.length)} / {visible.length}</span>
+        </div>
+
+        <div className="g-grid">
           {visible.slice(0, shown).map((design) => (
             <DesignCard
               key={design.slug}
@@ -232,40 +295,46 @@ export default function GalleryPage() {
             />
           ))}
         </div>
+
         {visible.length === 0 ? (
-          <p className="py-16 text-center text-sm text-muted">这个分类下没有匹配的规范，换个关键词试试。</p>
+          <div className="g-empty">
+            <span>0 RESULTS</span>
+            <b>这个分类下没有匹配的规范。</b>
+            <p>换个关键词，或切换平台再看。</p>
+          </div>
         ) : null}
+
         {shown < visible.length ? (
-          <div className="mt-8 flex justify-center">
-            <button onClick={() => setShown((s) => s + PAGE_STEP)} className={buttonClass('secondary', 'md', 'stroke-control px-10')}>
-              加载更多（剩余 {visible.length - shown} 套）
+          <div className="g-load">
+            <button onClick={() => setShown((s) => s + PAGE_STEP)}>
+              加载更多 <span>（剩余 {visible.length - shown} 套）</span>
             </button>
           </div>
         ) : null}
-        {skippedSlugs.length > 0 ? (
-          <p className="mt-6 rounded-control border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-warning">
-            {skippedSlugs.length} 份 DESIGN.md 解析失败被跳过（运行 npm run design:lint 排查）
-          </p>
-        ) : null}
-      </main>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-4 font-mono text-[11px] text-muted">
-          <span>
-            格式:{' '}
-            <a href="https://github.com/google-labs-code/design.md" target="_blank" rel="noreferrer" className="underline decoration-line hover:text-ink">
-              Google DESIGN.md
-            </a>
-            {' · '}数据源:{' '}
-            <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer" className="underline decoration-line hover:text-ink">
-              VoltAgent/awesome-design-md
-            </a>
-            {' · '}生成: code agent +{' '}
-            <a href="/prompt" className="underline decoration-line hover:text-ink">GOLDEN PROMPT</a>
-            {' · '}
-            <a href="/studio/" className="underline decoration-line hover:text-ink">跨端样板间</a>
-          </span>
-          <span>npm run design:lint · npm run generate · MIT</span>
+        {skippedSlugs.length > 0 ? (
+          <p className="g-warning">{skippedSlugs.length} 份 DESIGN.md 解析失败被跳过（运行 npm run design:lint 排查）</p>
+        ) : null}
+      </section>
+
+      <footer className="g-footer">
+        <div className="g-footer-in">
+          <div>
+            <b>Design.md Gallery</b>
+            <p>同一份黄金提示词 × 不同 DESIGN.md = 不同产品页面。<br />开源 MIT · 纯静态托管。</p>
+          </div>
+          <div className="g-footer-links">
+            <a href="/prompt">GOLDEN PROMPT</a>
+            <a href="/studio/">跨端样板间</a>
+            <a href="https://github.com/google-labs-code/design.md" target="_blank" rel="noreferrer">Google DESIGN.md ↗</a>
+            <a href="https://github.com/VoltAgent/awesome-design-md" target="_blank" rel="noreferrer">awesome-design-md ↗</a>
+            <a href="https://github.com/Meliwat/awesome-ios-design-md" target="_blank" rel="noreferrer">awesome-ios-design-md ↗</a>
+          </div>
+          <div className="g-footer-meta">
+            <span>npm run design:lint</span>
+            <span>design.gholl.com</span>
+            <span>© 2026 GhollStudio</span>
+          </div>
         </div>
       </footer>
 

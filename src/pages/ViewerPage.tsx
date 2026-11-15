@@ -23,7 +23,7 @@ export default function ViewerPage({ theme }: { theme?: string }) {
     <div className="flex h-screen flex-col overflow-hidden">
       {/* 预览器工具栏 */}
       <header className="flex h-13 shrink-0 flex-wrap items-center gap-2 border-b border-line bg-surface px-3 py-2">
-        <a href="/" className={buttonClass('ghost', 'sm')}>← 画廊</a>
+        <a href={design.design.platform === 'web' ? '/' : `/?platform=${design.design.platform}`} className={buttonClass('ghost', 'sm')}>← 画廊</a>
         <span className="hidden h-5 w-px bg-line sm:block" />
         <select
           aria-label="切换设计规范"

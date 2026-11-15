@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>GhollStudio · 桌面端</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4l2 2.5h7A1.5 1.5 0 0 1 19 10v7.5A1.5 1.5 0 0 1 17.5 19h-13A1.5 1.5 0 0 1 3 17.5z"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a3 3 0 0 0 0 6v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a3 3 0 0 0 0-6z"/><path d="M13 5v14" stroke-dasharray="2 3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.5-5.5 7-5.5s6.2 1.9 7 5.5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+</svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span><b>GhollStudio</b><small>delivery console</small></span>
+    </div>
+    <nav class="nav" id="nav" aria-label="主导航"></nav>
+    <div class="side-foot">
+      <div class="team" id="team"></div>
+      <div class="me" id="me"></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <span class="crumb" id="crumb"></span>
+      <label class="search">
+        <svg class="nav-icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="q" placeholder="搜索工单、项目、客户…" autocomplete="off" aria-label="搜索">
+        <kbd>⌘K</kbd>
+      </label>
+      <button class="tbtn" id="themeBtn">深色</button>
+      <button class="btn primary" id="newBtn">新建项目</button>
+    </header>
+    <section class="view" id="view" aria-live="polite"></section>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="sheet">
+    <div class="sheet-head">
+      <b id="modalTitle">新建项目</b>
+      <button data-close aria-label="关闭"><svg class="nav-icon"><use href="#i-close"/></svg></button>
+    </div>
+    <form class="form" id="projectForm" novalidate>
+      <div class="field">
+        <label for="f-name">项目名 *</label>
+        <input id="f-name" name="name" placeholder="例如：Atlas 对账模块" maxlength="40">
+        <span class="err">请填写项目名（2–40 字）</span>
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="f-client">客户 *</label>
+          <input id="f-client" name="client" placeholder="例如：云栖支付" maxlength="24">
+          <span class="err">请填写客户名</span>
+        </div>
+        <div class="field">
+          <label for="f-type">类型</label>
+          <select id="f-type" name="type"><option>设计系统</option><option>Web 交付</option><option>AI 流水线</option><option>运维审计</option></select>
+        </div>
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="f-owner">负责人</label>
+          <select id="f-owner" name="owner"></select>
+        </div>
+        <div class="field">
+          <label for="f-due">截止</label>
+          <input id="f-due" name="due" type="date">
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-progress">进度 <output id="f-progress-out">0%</output></label>
+        <input id="f-progress" name="progress" type="range" min="0" max="100" value="0">
+      </div>
+      <div class="field">
+        <label for="f-desc">简介</label>
+        <textarea id="f-desc" name="desc" maxlength="120" placeholder="一句话说明交付范围"></textarea>
+      </div>
+      <div class="form-foot">
+        <button type="button" class="btn" data-close>取消</button>
+        <button type="submit" class="btn primary">创建</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="../shared/data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

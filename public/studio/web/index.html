@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>GhollStudio · 网站</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="web.css">
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="GhollStudio 首页">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="wordmark">GhollStudio<small>design delivery</small></span>
+    </a>
+    <nav class="links" aria-label="主导航">
+      <a href="#services" data-spy="services">服务</a>
+      <a href="#work" data-spy="work">案例</a>
+      <a href="#pricing" data-spy="pricing">定价</a>
+      <a href="../mobile/">移动端</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="ghost" id="themeBtn" aria-label="切换深浅外观">外观</button>
+      <a class="btn primary" href="../desktop/">进入后台</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-in">
+      <span class="eyebrow"><i></i> DESIGN DELIVERY · 2026</span>
+      <h1 id="heroTitle"></h1>
+      <p class="lead" id="heroLead"></p>
+      <div class="hero-actions">
+        <a class="btn primary" href="../desktop/">进入后台</a>
+        <a class="btn" href="#work">看案例</a>
+      </div>
+      <dl class="hero-stats" id="heroStats"></dl>
+    </div>
+    <div class="hero-board" aria-hidden="true">
+      <div class="board-card" id="boardCard"></div>
+      <div class="board-float">
+        <span class="dot-live"></span>
+        <b id="boardFloat">交付中</b>
+      </div>
+    </div>
+  </section>
+
+  <section class="clients" aria-label="客户">
+    <span class="clients-label">服务过的团队</span>
+    <ul id="clientList"></ul>
+  </section>
+
+  <section class="section" id="services">
+    <header class="section-head">
+      <span class="eyebrow">01 / 服务</span>
+      <h2>三条交付线，一套 Token 贯穿到底</h2>
+      <p>设计系统落地、Web 交付与 AI 流水线共用同一份语义 token；换品牌只换一层变量。</p>
+    </header>
+    <div class="cards" id="serviceCards"></div>
+  </section>
+
+  <section class="section" id="work">
+    <header class="section-head">
+      <span class="eyebrow">02 / 案例</span>
+      <h2>最近交付的 8 个项目</h2>
+      <p>进度、负责人与里程碑都来自同一份 GS_DATA，三端读的是同一个来源。</p>
+    </header>
+    <div class="work-grid" id="workGrid"></div>
+  </section>
+
+  <section class="section" id="pricing">
+    <header class="section-head">
+      <span class="eyebrow">03 / 定价</span>
+      <h2>按交付节奏选，不按人头算</h2>
+      <p>三档都含设计系统、验收基线与上线复核；差别在并行项目数与响应时间。</p>
+    </header>
+    <div class="plans" id="plans"></div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-in">
+      <h2>把你的产品，交给我们收尾。</h2>
+      <p>进入后台可以看到完整的项目、工单与会话，数据与移动端、桌面端完全一致。</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="../desktop/">进入后台</a>
+        <a class="btn" href="../mobile/">移动端样板</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <span>GhollStudio · 虚构工作室</span>
+    <span>设计语言取自 Asana iOS 规范（MIT 分析）</span>
+    <a href="../">跨端主页</a>
+  </div>
+</footer>
+
+<script src="../shared/data.js"></script>
+<script src="web.js"></script>
+</body>
+</html>

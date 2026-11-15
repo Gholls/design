@@ -327,6 +327,7 @@ components:
     typography: "{typography.link-md}"
 
 gallery:
+  platform: "desktop"
   order: 155
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/raycast"

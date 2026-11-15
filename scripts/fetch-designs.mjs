@@ -20,6 +20,9 @@ function sanitizeSlug(raw) {
   return raw.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '')
 }
 
+// 这些产品本身是桌面工具，导入时直接标注 platform: desktop
+const DESKTOP_SLUGS = new Set(['figma', 'notion', 'linear-app', 'raycast', 'slack', 'warp', 'superhuman', 'cursor'])
+
 const KNOWN_KEYS = new Set(['version', 'name', 'description', 'omitted', 'gallery', 'colors', 'typography', 'rounded', 'spacing', 'components', 'shadows', 'strokes', 'gradients'])
 
 // 上游个别文件在标量值（description/未知键）里写裸冒号破坏 YAML → 引号化修复
@@ -47,6 +50,7 @@ function injectGallery(text, meta) {  const m = /^---\r?\n([\s\S]*?)\r?\n---/.ex
   const block = [
     'gallery:',
     `  order: ${meta.order}`,
+    ...(meta.desktop ? ['  platform: "desktop"'] : []),
     `  author: "awesome-design-md"`,
     `  source: "${meta.source}"`,
     `  tags: [${meta.tags.map((t) => `"${t}"`).join(', ')}]`,
@@ -96,6 +100,7 @@ for (const rel of paths.sort()) {
     order: 100 + idx,
     source: `${ROOT_URL}/tree/main/design-md/${slugRaw}`,
     tags: ['真实品牌', 'awesome-design-md'],
+    desktop: DESKTOP_SLUGS.has(slug),
   }
   if (!dry) {
     mkdirSync(dirname(out), { recursive: true })

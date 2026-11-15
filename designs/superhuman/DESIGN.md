@@ -211,6 +211,7 @@ components:
     padding: 64px 24px
 
 gallery:
+  platform: "desktop"
   order: 171
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/superhuman"

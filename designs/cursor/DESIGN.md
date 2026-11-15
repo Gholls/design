@@ -281,6 +281,7 @@ components:
     typography: "{typography.body-sm}"
 
 gallery:
+  platform: "desktop"
   order: 117
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/cursor"

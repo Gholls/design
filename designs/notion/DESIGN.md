@@ -443,6 +443,7 @@ components:
     padding: "{spacing.xxs} 0"
 
 gallery:
+  platform: "desktop"
   order: 146
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/notion"

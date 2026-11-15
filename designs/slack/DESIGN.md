@@ -233,6 +233,7 @@ components:
     padding: 32px 24px
 
 gallery:
+  platform: "desktop"
   order: 165
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/slack"

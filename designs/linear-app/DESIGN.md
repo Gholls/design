@@ -255,6 +255,7 @@ components:
     padding: 64px 32px
 
 gallery:
+  platform: "desktop"
   order: 132
   author: "awesome-design-md"
   source: "https://github.com/VoltAgent/awesome-design-md/tree/main/design-md/linear.app"

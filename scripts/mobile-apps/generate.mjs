@@ -54,7 +54,7 @@ const domainOf = (d) => {
 }
 const CATEGORY_DOMAIN = { music: 'music', fitness: 'fitness', finance: 'finance', messaging: 'messaging', video: 'video', food: 'food', travel: 'travel', dating: 'dating', productivity: 'productivity', social: 'social', misc: 'tools' }
 
-const iconSet = ['home', 'search', 'library', 'user', 'chart', 'chat', 'calendar', 'play', 'cart', 'compass', 'heart', 'check', 'tool', 'bell']
+const iconSet = ['home', 'search', 'library', 'user', 'chart', 'chat', 'calendar', 'play', 'cart', 'compass', 'heart', 'check', 'tool', 'bell', 'moon', 'sun']
 
 function palette(d) {
   const r = d.roles
@@ -396,8 +396,544 @@ function domainConfig(d, domain) {
   }
 }
 
+// ── 规范声明的 tab 信息架构：标签 → 角色 → 该 tab 专属 screen ──
+const TAB_ZH = {
+  home: '首页', overview: '总览', today: '今日', summary: '概览', dashboard: '看板', feed: '动态', timeline: '动态',
+  search: '搜索', discover: '发现', explore: '探索', browse: '浏览', markets: '行情', prices: '价格', find: '搜索',
+  library: '资料库', saved: '收藏', collection: '收藏', lists: '清单', playlist: '歌单', watchlist: '自选', podcasts: '播客', downloads: '下载',
+  profile: '我的', you: '我的', me: '我的', account: '账户', more: '更多', menu: '菜单', settings: '设置',
+  messages: '消息', chats: '聊天', community: '社区', social: '社交', inbox: '收件箱',
+  stats: '数据', insights: '洞察', progress: '进展', activity: '活动', training: '训练', coach: '教练', coaching: '教练', classes: '课程',
+  meditate: '冥想', sleep: '睡眠', move: '运动', calendar: '日历', schedule: '日程', plan: '计划', plans: '计划', goal: '目标', goals: '目标',
+  play: '播放', watch: '观看', video: '视频', cart: '购物车', bag: '购物袋', order: '点单', orders: '订单', shop: '商城', store: '商店', stores: '门店',
+  map: '地图', maps: '地图', nearby: '附近', record: '记录', likes: '喜欢', matches: '匹配', connections: '人脉', prospects: '对象', concierge: '管家',
+  groups: '社群', club: '俱乐部', challenges: '挑战', rewards: '奖励', offers: '优惠', deals: '优惠', gift: '礼品', scan: '扫码',
+  favorites: '收藏', favourites: '收藏', notifications: '通知', news: '资讯', invest: '投资', trade: '交易', portfolio: '持仓',
+  wallet: '钱包', wallets: '钱包', earn: '赚取', spend: '消费', card: '卡片', payments: '支付', pots: '存钱罐', trends: '趋势',
+  research: '研究', accounts: '账户', planning: '规划', banking: '银行', borrow: '借贷', grow: '成长', track: '追踪', log: '记录', learn: '学习',
+  diary: '日记', journal: '日志', sounds: '声音', alarm: '闹钟', sharing: '共享', run: '跑步', 'watch now': '观看', 'tv+': 'TV+', 'fitness+': '健身+',
+  'new hot': '新片热播', 'my netflix': '我的片单', 'my list': '我的清单', boards: '看板', templates: '模板', people: '成员', members: '成员',
+  trips: '行程', delivery: '外卖', dining: '堂食', live: '直播', 'live tv': '直播电视', shorts: '短视频', create: '创作', subscriptions: '订阅',
+  events: '活动', 'buy it again': '再买一次', 'hit list': '心愿单', reservations: '预订', notify: '提醒', featured: '精选', 'my tasks': '我的任务', tasks: '任务',
+}
+const ROLE_RULES = [
+  ['community', /community|social|group|club|connection|match|people|member|friend/],
+  ['chat', /chat|message|inbox|conversation/],
+  ['stats', /stat|insight|progress|activity|trend|analytics|portfolio|track|diary|journal|log|performance/],
+  ['coach', /coach|training|workout|class|meditate|sleep|fitness|run/],
+  ['calendar', /calendar|schedule|trip|agenda|plan|goal|challenge/],
+  ['notify', /notif|news|alarm|sound/],
+  ['rewards', /reward|offer|deal|gift|scan/],
+  ['cart', /cart|bag|order|shop|store|delivery|dining|basket/],
+  ['map', /map|nearby|location/],
+  ['finance', /invest|trade|market|price|wallet|earn|spend|card|payment|pot|bank|borrow|grow|account|research|planning|futures/],
+  ['record', /\brecord\b|\blive\b|play|watch|video|tv|shorts|create/],
+  ['library', /library|saved|collection|playlist|list|favorite|like|heart|download|template|board|podcast|hit list/],
+  ['search', /search|discover|explore|browse|find|lookup/],
+  ['profile', /profile|you$|^me$|account|more|menu|setting|avatar/],
+  ['home', /home|overview|today|summary|dashboard|feed|timeline|start|hub|featured|new hot/],
+]
+const ROLE_ICON = { home: 'home', search: 'search', library: 'library', profile: 'user', community: 'chat', chat: 'chat', stats: 'chart', coach: 'chart', calendar: 'calendar', record: 'play', cart: 'cart', map: 'compass', finance: 'chart', rewards: 'bell', notify: 'bell' }
+const ROLE_KIND = { home: '精选', search: '检索', library: '收藏', profile: '账户', community: '社区', chat: '会话', stats: '指标', coach: '训练', calendar: '日程', record: '记录', cart: '订单', map: '地点', finance: '资产', rewards: '权益', notify: '通知' }
+const ROLE_VARIANTS = { finance: 7, rewards: 3, search: 2, library: 2, record: 3, cart: 2 }
+const VARIANT_HINT = {
+  finance: [
+    [/pot|存钱/, 4],
+    [/research|研报|研/, 6],
+    [/borrow|loan|借贷/, 5],
+    [/pay|transfer|spend|card/, 1],
+    [/invest|portfol|market|price|trade|futures/, 2],
+    [/plan|goal|规划|目标/, 3],
+    [/bank|grow|account|账户/, 0],
+  ],
+  search: [[/discover|explore|browse/, 1]],
+  library: [[/playlist|saved|favorite|like|hit list|podcast/, 0]],
+  record: [[/create/, 1], [/live|tv|shorts|watch|play/, 0]],
+  rewards: [[/scan/, 2], [/gift/, 1]],
+}
+const SPEC_STYLE_WORDS = /\b(pt|px|glyph|hit|height|width|blur|border|shadow|safe|area|font|weight|radius|opacity|gradient|rgba|hex|color|top|bottom|left|right|center|corner|padding|spacing|divider|lift|protrude|tint|fill|stroke|scrim|material|blurred)\b/i
+const looksLikeTabName = (s) => {
+  const t = s.trim()
+  if (t.length < 2 || t.length > 24) return false
+  if (/\d/.test(t)) return false
+  if (SPEC_STYLE_WORDS.test(t)) return false
+  return /[A-Za-zÀ-ÿ]/.test(t)
+}
+const tabKey = (s) => String(s).toLowerCase().replace(/[^a-z0-9+ ]/g, ' ').replace(/\s+/g, ' ').trim()
+function parseSpecTabs(md) {
+  for (const line of String(md).split(/\r?\n/)) {
+    if (!/tab\s*-?\s*bar|bottom\s+nav/i.test(line)) continue
+    const m =
+      /tabs?\s*\(\s*(\d+)\s*\)\s*:\s*(.+)/i.exec(line) ||
+      /tab\s*-?\s*bar[^:\n]{0,48}:\s*(.+)/i.exec(line) ||
+      /tab\s*-?\s*bar\s*\(([^)]{3,90})\)/i.exec(line)
+    if (!m) continue
+    const labels = m[m.length - 1]
+      .split(/[,|/、]/)
+      .map((s) => s.replace(/\*\*/g, '').replace(/`/g, '').replace(/\(.*?\)/g, '').replace(/\s*[—–].*$/, '').trim())
+      .filter(Boolean)
+    if (labels.length < 2 || labels.length > 5) continue
+    if (!labels.every(looksLikeTabName)) continue
+    if (m.length === 3 && Number(m[1]) !== labels.length) continue
+    return labels
+  }
+  return null
+}
+const roleOf = (label) => {
+  const k = String(label).toLowerCase()
+  for (const [role, re] of ROLE_RULES) if (re.test(k)) return role
+  return null
+}
+const NOUNS = {
+  music: ['专辑', '歌单', '单曲'], fitness: ['训练', '课程', '记录'], finance: ['账户', '交易', '资产'],
+  messaging: ['会话', '联系人', '群组'], video: ['片单', '剧集', '影片'], food: ['点单', '商户', '订单'],
+  travel: ['行程', '地点', '订单'], dating: ['推荐', '匹配', '会话'], productivity: ['项目', '任务', '文档'],
+  tools: ['任务', '会话', '文档'], social: ['动态', '话题', '好友'],
+}
+function archetypeScreen(role, v, ctx) {
+  const { app, noun, mk, prefix, label } = ctx
+  const details = {}
+  let n = 0
+  const row = (title, sub, meta, artLabel) => {
+    const id = `${prefix}r${n++}`
+    const art = mk(artLabel || title.slice(0, 1), n)
+    details[id] = {
+      title,
+      blocks: [
+        { type: 'hero', kicker: ROLE_KIND[role] || '详情', title, sub, art },
+        { type: 'stats', items: [['类型', ROLE_KIND[role] || '条目'], ['状态', '进行中'], ['更新', '刚刚']] },
+        { type: 'note', text: `${app} 样板间 · ${title}。内容按 DESIGN.md 的${ROLE_KIND[role] || '组件'}语义重建。` },
+      ],
+    }
+    return { id, title, sub, meta, art }
+  }
+  const sample = (i) => `${noun[i % noun.length]} ${String(i + 1).padStart(2, '0')}`
+  if (role === 'home') {
+    return {
+      details,
+      blocks: [
+        { type: 'hero', kicker: '今日推荐', title: `${noun[0]}精选`, sub: `${app} · 首屏主推`, art: mk(noun[0], 0), cta: { label: '查看全部' } },
+        { type: 'stats', items: [['本周', '12'], ['进行中', '3'], ['完成', '9']] },
+        { type: 'rail', title: `最近${noun[0]}`, items: [0, 1, 2, 3].map((i) => row(sample(i), `更新于 ${i + 1} 小时前`, '', noun[0].slice(0, 1))) },
+        { type: 'list', title: '为你推荐', rows: [4, 5, 6].map((i) => row(sample(i), '根据你的偏好', '→')) },
+      ],
+    }
+  }
+  if (role === 'search') {
+    const items = [0, 1, 2, 3, 4, 5].map((i) => row(sample(i), '热门', ''))
+    return {
+      details,
+      blocks: v === 1
+        ? [{ type: 'chips', items: ['全部', '热门', '新上', '附近'] }, { type: 'posters', title: `浏览全部${noun[0]}`, items }]
+        : [{ type: 'chips', items: ['全部', noun[0], noun[1], '附近'] }, { type: 'list', title: `${label}结果`, rows: items.slice(0, 4) }],
+    }
+  }
+  if (role === 'library') {
+    return {
+      details,
+      blocks: v === 0
+        ? [{ type: 'list', title: label || `我的${noun[1]}`, rows: [0, 1, 2].map((i) => row(`${noun[1]} ${i + 1}`, `${8 + i} 项`, String(8 + i))) }, { type: 'list', title: '最近保存', rows: [3, 4].map((i) => row(sample(i), '昨天', '')) }]
+        : [{ type: 'posters', title: `全部${noun[0]}`, items: [0, 1, 2, 3, 4, 5].map((i) => row(sample(i), '已归档', '')) }],
+    }
+  }
+  if (role === 'profile') {
+    return {
+      details,
+      blocks: [
+        { type: 'profile', name: '林晚舟', sub: `${app} · 设计负责人`, art: mk('林', 2), stats: [['本月', '42'], ['收藏', '38'], ['等级', 'Lv.7']] },
+        { type: 'settings', rows: [['通知', '消息与提醒', true], ['深色外观', '跟随系统', true], ['离线缓存', '仅 Wi-Fi', false]] },
+        { type: 'note', text: `账户与偏好设置，依 DESIGN.md 的设置项分组呈现。` },
+      ],
+    }
+  }
+  if (role === 'community' || role === 'chat') {
+    return {
+      details,
+      blocks: [
+        ...(role === 'community' ? [{ type: 'chips', items: ['关注', '推荐', '附近', '热门'] }] : []),
+        { type: 'list', title: role === 'chat' ? '最近会话' : '社区动态', rows: [0, 1, 2, 3].map((i) => row(`${['陈屿', '周墨白', '苏见月', '林晚舟'][i]}`, role === 'chat' ? '刚刚有一条新消息' : '发布了新的分享', `${9 + i}:0${i}`)) },
+        { type: 'note', text: role === 'chat' ? '会话列表按最近消息排序，未读以品牌色标记。' : '社区内容按时间流排序，支持关注与筛选。' },
+      ],
+    }
+  }
+  if (role === 'stats') {
+    return {
+      details,
+      blocks: [
+        { type: 'stats', items: [['本周', '12.4'], ['较上周', '+8%'], ['目标', '78%']] },
+        { type: 'chart', title: '近 7 天趋势', unit: noun[0], values: [42, 58, 36, 71, 64, 88, 76], labels: ['一', '二', '三', '四', '五', '六', '日'] },
+        { type: 'list', title: '明细', rows: [0, 1, 2].map((i) => row(sample(i), '查看分解', `${60 + i}`)) },
+      ],
+    }
+  }
+  if (role === 'coach') {
+    return {
+      details,
+      blocks: [
+        { type: 'hero', kicker: '教练建议', title: '本周训练计划', sub: '按你的恢复情况动态调整', art: mk('教', 1), cta: { label: '开始' } },
+        { type: 'tasks', title: '今日任务', rows: [{ id: `${prefix}k0`, title: '热身 10 分钟', sub: '动态拉伸', done: true }, { id: `${prefix}k1`, title: '主课 32 分钟', sub: '间歇跑', done: false }, { id: `${prefix}k2`, title: '放松 8 分钟', sub: '静态拉伸', done: false }] },
+        { type: 'list', title: '课程库', rows: [0, 1, 2].map((i) => row(`${noun[1]} ${i + 1}`, `${20 + i * 5} 分钟`, '→')) },
+      ],
+    }
+  }
+  if (role === 'calendar') {
+    return {
+      details,
+      blocks: [
+        { type: 'list', title: '今天', rows: [0, 1, 2].map((i) => row(`${['晨间时段', '午间时段', '傍晚时段'][i]}`, noun[0], `${7 + i * 4}:00`)) },
+        { type: 'list', title: '本周稍后', rows: [3, 4].map((i) => row(`${['周四', '周六'][i - 3]}安排`, noun[0], `${18}:30`)) },
+        { type: 'note', text: '日程按时间分组，可长按拖拽调整。' },
+      ],
+    }
+  }
+  if (role === 'record') {
+    const items = [0, 1, 2].map((i) => row(sample(i), `用时 ${20 + i * 7} 分钟`, `${20 + i * 7}′`))
+    if (v === 1) return { details, blocks: [{ type: 'prompt', placeholder: '描述你要创作的内容…', button: '生成' }, { type: 'list', title: '最近作品', rows: items }] }
+    if (v === 2) return { details, blocks: [{ type: 'stats', items: [['本周', String(items.length * 3)], ['总时长', '3 小时'], ['连续', '6 天']] }, { type: 'list', title: label || '历史记录', rows: items }] }
+    return {
+      details,
+      blocks: [
+        { type: 'hero', kicker: '进行中', title: '开始一次记录', sub: '实时显示关键指标', art: mk('录', 0), cta: { label: '开始', live: true } },
+        { type: 'stats', items: [['时长', '32:18'], ['强度', '中高'], ['消耗', '286']] },
+        { type: 'list', title: '历史', rows: items },
+      ],
+    }
+  }
+  if (role === 'cart') {
+    if (v === 1) return { details, blocks: [{ type: 'list', title: label || '历史订单', rows: [0, 1, 2].map((i) => row(`订单 ${2026030 + i}`, `${['已完成', '配送中', '已完成'][i]}`, `¥${56 + i * 23}`)) }, { type: 'chips', items: ['全部', '进行中', '已完成'] }] }
+    return {
+      details,
+      blocks: [
+        { type: 'list', title: '购物车', rows: [0, 1, 2].map((i) => row(sample(i), '1 件', `¥${38 + i * 17}`)) },
+        { type: 'stats', items: [['小计', '¥186'], ['配送', '¥6'], ['合计', '¥192']] },
+        { type: 'note', text: '结算走品牌主色的主按钮，金额右对齐。' },
+      ],
+    }
+  }
+  if (role === 'map') {
+    return {
+      details,
+      blocks: [
+        { type: 'hero', kicker: '附近', title: '地图', sub: '3 个地点在你的 1 公里内', art: mk('图', 3), cta: { label: '定位' } },
+        { type: 'list', title: '附近推荐', rows: [0, 1, 2].map((i) => row(sample(i), `${200 + i * 350} 米`, `${4 + i}.${i}★`)) },
+      ],
+    }
+  }
+  if (role === 'finance') {
+    if (v === 1) return { details, blocks: [{ type: 'list', title: '最近交易', rows: [0, 1, 2, 3].map((i) => row(sample(i), '今天', i % 2 ? `-¥${24 + i * 9}` : `+¥${120 + i * 30}`)) }, { type: 'stats', items: [['本月支出', '¥2,480'], ['收入', '¥9,600'], ['净额', '+¥7,120']] }] }
+    if (v === 2) return { details, blocks: [{ type: 'chart', title: '组合走势', unit: '近 7 天', values: [52, 61, 47, 68, 74, 66, 81], labels: ['一', '二', '三', '四', '五', '六', '日'] }, { type: 'list', title: '持仓', rows: [0, 1, 2].map((i) => row(sample(i), '持有 12 股', `+${2 + i}.${i}%`)) }] }
+    if (v === 4) return { details, blocks: [{ type: 'list', title: label || '存钱罐', rows: [0, 1, 2].map((i) => row(`${['应急金', '旅行', '新设备'][i]}`, `已存 ${62 - i * 9}%`, `¥${1200 + i * 400}`)) }, { type: 'chart', title: '每月存入', unit: '近 6 月', values: [600, 900, 750, 1200, 1400, 1800], labels: ['十', '十一', '十二', '一', '二', '三'] }] }
+    if (v === 6) return { details, blocks: [{ type: 'list', title: label || '研究', rows: [0, 1, 2].map((i) => row(`${['晨报', '行业深度', '评级调整'][i]}`, '今天 08:30', '→')) }, { type: 'note', text: '研究与资讯按主题与时间分组。' }] }
+    if (v === 5) return { details, blocks: [{ type: 'stats', items: [['可用额度', '¥50,000'], ['已用', '¥12,400'], ['月供', '¥1,080']] }, { type: 'list', title: label || '贷款', rows: [0, 1].map((i) => row(`${['消费贷', '分期'][i]}`, `剩余 ${18 - i * 3} 期`, `¥${2800 + i * 600}`)) }, { type: 'note', text: '额度与还款计划按账单周期更新。' }] }
+    if (v === 3) return { details, blocks: [{ type: 'tasks', title: '储蓄计划', rows: [{ id: `${prefix}f0`, title: '自动转账', sub: '每月 1 日 · ¥1,000', done: true }, { id: `${prefix}f1`, title: '目标储蓄', sub: '距离目标还差 ¥4,200', done: false }] }, { type: 'list', title: label || '进行中', rows: [0, 1].map((i) => row(`${['应急金', '旅行基金'][i]}`, '每月 1 日', '进行中')) }] }
+    return { details, blocks: [{ type: 'stats', items: [['总资产', '¥86,420'], ['可用', '¥12,880'], ['本月', '+3.2%']] }, { type: 'list', title: '账户', rows: [0, 1, 2].map((i) => row(`${noun[i % noun.length]}账户`, '已同步', `¥${12 + i * 9},${400 + i * 70}`)) }] }
+  }
+  if (role === 'rewards') {
+    if (v === 2) return { details, blocks: [{ type: 'hero', kicker: '扫码', title: '出示会员码', sub: '结账时扫描即可累积积分', art: mk('码', 2), cta: { label: '亮屏' } }, { type: 'note', text: '码面使用品牌主色，亮度自动调到最高。' }] }
+    if (v === 1) return { details, blocks: [{ type: 'list', title: label || '可用优惠', rows: [0, 1, 2].map((i) => row(`${label} ${i + 1}`, `${['满 50 减 10', '第二杯半价', '免配送费'][i]}`, '领取')) }] }
+    return { details, blocks: [{ type: 'hero', kicker: '会员', title: '你的权益', sub: '本月已省 ¥48', art: mk('卡', 1), cta: { label: '查看' } }, { type: 'stats', items: [['积分', '1,280'], ['等级', '金卡'], ['本月', '+240']] }] }
+  }
+  return { details, blocks: [{ type: 'list', title: '通知', rows: [0, 1, 2].map((i) => row(`${['系统', '关注', '活动'][i]}通知`, '刚刚', '')) }, { type: 'note', text: '通知按类型分组，可单条已读。' }] }
+}
+function applySpecTabs(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  const raw = parseSpecTabs(readFileSync(file, 'utf8'))
+  if (!raw) return
+  const ia = []
+  for (const label of raw) {
+    const zh = TAB_ZH[tabKey(label)]
+    const role = roleOf(label)
+    if (!zh || !role) return
+    ia.push({ zh, role, raw: label })
+  }
+  const p = cfg.palette
+  const noun = NOUNS[cfg.domain] || NOUNS.tools
+  const used = {}
+  const seenSig = {}
+  const tabs = []
+  const screens = {}
+  const details = {}
+  const breakTie = (blocks, zh) => {
+    const sig = blocks.map((b) => b.type).join('+')
+    if (!seenSig[sig]) {
+      seenSig[sig] = true
+      return blocks
+    }
+    for (const extra of [{ type: 'chips', items: [zh, '全部', '最近'] }, { type: 'stats', items: [['已选', '1'], ['范围', '本周'], ['更新', '刚刚']] }]) {
+      const cand = [extra, ...blocks]
+      const s2 = cand.map((b) => b.type).join('+')
+      if (!seenSig[s2]) {
+        seenSig[s2] = true
+        return cand
+      }
+    }
+    return blocks
+  }
+  ia.forEach((t, i) => {
+    const count = ROLE_VARIANTS[t.role] || 1
+    let v = 0
+    for (const [re, hint] of (VARIANT_HINT[t.role] || [])) if (re.test(t.raw.toLowerCase())) v = hint
+    while (count > 1 && used[`${t.role}-${v}`]) v = (v + 1) % count
+    used[`${t.role}-${v}`] = true
+    const id = `s${i}`
+    const built = archetypeScreen(t.role, v, {
+      app: cfg.app,
+      noun,
+      label: t.zh,
+      prefix: `t${i}`,
+      mk: (label, k) => {
+        const pair = artFrom(p, k)
+        return art(label, pair.c1, pair.c2)
+      },
+    })
+    tabs.push([id, t.zh, ROLE_ICON[t.role] || 'home'])
+    screens[id] = breakTie(built.blocks, t.zh)
+    Object.assign(details, built.details)
+  })
+  cfg.tabs = tabs
+  cfg.screens = screens
+  cfg.details = { ...cfg.details, ...details }
+}
+
+function applySegmented(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  if (!/segmented/i.test(readFileSync(file, 'utf8'))) return
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks) return
+  const idx = blocks.findIndex((b) => b.type === 'list' && (b.rows || []).length >= 3)
+  if (idx < 0) return
+  const rows = blocks[idx].rows
+  const cut = Math.max(1, Math.ceil(rows.length / 2))
+  blocks[idx] = { type: 'segmented', items: ['全部', '最近', '归档'], groups: [rows, rows.slice(0, cut), rows.slice(cut)] }
+}
+
+const RING_SETS = {
+  fitness: [['活动', 72], ['训练', 58], ['站立', 88]],
+  finance: [['预算', 64], ['储蓄', 41], ['投资', 78]],
+  productivity: [['完成', 68], ['进行', 34], ['超期', 12]],
+  tools: [['完成', 68], ['进行', 34], ['超期', 12]],
+}
+function applyRings(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  if (!/activity rings?|progress ring|circular progress|ring gauge|conic-gradient/i.test(readFileSync(file, 'utf8'))) return
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks || blocks.some((b) => b.type === 'rings')) return
+  const set = RING_SETS[cfg.domain] || [['本周', 72], ['本月', 58], ['目标', 85]]
+  const block = { type: 'rings', items: set.map(([label, value]) => ({ label, value })) }
+  const at = blocks.findIndex((b) => b.type === 'stats')
+  if (at >= 0) blocks.splice(at + 1, 0, block)
+  else if (blocks[0] && blocks[0].type === 'hero') blocks.splice(1, 0, block)
+  else blocks.unshift(block)
+}
+function applyTable(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  if (!/\btable\b|data table/i.test(readFileSync(file, 'utf8'))) return
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks || blocks.some((b) => b.type === 'table')) return
+  const noun = (NOUNS[cfg.domain] || NOUNS.tools)[0]
+  const head = cfg.domain === 'finance' ? ['账户', '余额', '变化'] : ['条目', '本周', '变化']
+  const rows = [0, 1, 2].map((i) => [`${noun} ${String(i + 1).padStart(2, '0')}`, `${12 + i * 7}`, `${i % 2 ? '-' : '+'}${2 + i}.${i}%`])
+  const block = { type: 'table', head, rows }
+  const noteAt = blocks.map((b) => b.type).lastIndexOf('note')
+  if (noteAt >= 0) blocks.splice(noteAt, 0, block)
+  else blocks.push(block)
+}
+
+function applyTimeline(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  if (!/timeline|activity feed|chronological/i.test(readFileSync(file, 'utf8'))) return
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks || blocks.some((b) => b.type === 'timeline')) return
+  const noun = (NOUNS[cfg.domain] || NOUNS.tools)[0]
+  const items = [0, 1, 2].map((i) => ({ title: `${noun}更新 ${String(i + 1).padStart(2, '0')}`, time: `${['今天 09:12', '昨天 18:40', '周二 08:05'][i]}`, text: `${['完成了一次同步', '新增了 3 条记录', '调整了展示顺序'][i]}。` }))
+  const noteAt = blocks.map((b) => b.type).lastIndexOf('note')
+  if (noteAt >= 0) blocks.splice(noteAt, 0, { type: 'timeline', items })
+  else blocks.push({ type: 'timeline', items })
+}
+function applySlider(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  if (!/slider|range control|drag to adjust/i.test(readFileSync(file, 'utf8'))) return
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks || blocks.some((b) => b.type === 'slider')) return
+  const block = { type: 'slider', key: 'main', label: '筛选强度', value: 60, min: 0, max: 100, unit: '%' }
+  const at = blocks.findIndex((b) => b.type === 'stats' || b.type === 'rings')
+  if (at >= 0) blocks.splice(at + 1, 0, block)
+  else blocks.unshift(block)
+}
+
+function ensureDetails(cfg, p) {
+  const mk = (label, i) => {
+    const pair = artFrom(p, i)
+    return art(label, pair.c1, pair.c2)
+  }
+  let seq = 0
+  const add = (r) => {
+    if (!r || typeof r !== 'object') return
+    const title = r.title || r.name || '详情'
+    if (r.id && cfg.details[r.id]) return
+    const id = r.id || `gen${seq++}`
+    r.id = id
+    cfg.details[id] = {
+      title,
+      blocks: [
+        { type: 'hero', kicker: '详情', title, sub: r.sub || '', art: r.art || mk(String(title).slice(0, 2), seq) },
+        { type: 'stats', items: [['类型', '条目'], ['状态', '已同步'], ['更新', '刚刚']] },
+        { type: 'note', text: `${cfg.app} 样板间 · 该条目按 DESIGN.md 的组件语义重建。` },
+      ],
+    }
+  }
+  const walk = (blocks) => {
+    for (const b of blocks || []) {
+      if (b.type !== 'list' && b.type !== 'rail' && b.type !== 'posters') continue
+      const rows = b.type === 'list' ? b.rows : b.items
+      if (Array.isArray(rows)) rows.forEach(add)
+    }
+  }
+  for (const blocks of Object.values(cfg.screens || {})) walk(blocks)
+  for (const entry of Object.values(cfg.details || {})) if (entry && entry.blocks) walk(entry.blocks)
+}
+
+function applyMap(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  if (!/\bmap\b|map view|map card|map screen/i.test(readFileSync(file, 'utf8'))) return
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks || blocks.some((b) => b.type === 'map')) return
+  const p = cfg.palette
+  const pair = artFrom(p, 3)
+  const block = { type: 'map', art: art('图', pair.c1, pair.c2), pin: { x: 38, y: 46 }, label: '当前位置', meta: '1.2 公里内 3 个' }
+  const at = blocks.findIndex((b) => b.type === 'hero')
+  if (at >= 0) blocks.splice(at + 1, 0, block)
+  else blocks.unshift(block)
+}
+
+const hex6 = (h) => {
+  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(h || '').trim())
+  if (!m) return null
+  const v = m[1].length === 3 ? m[1].split('').map((c) => c + c).join('') : m[1]
+  return '#' + v.toUpperCase()
+}
+const PAL_ROLES = [
+  ['bg', /background|canvas|\bbg\b|base/i],
+  ['surface', /surface|card background|elevated|panel/i],
+  ['text', /primary text|text primary|^text$|main text|foreground|body text/i],
+  ['muted', /muted|secondary text|tertiary text|caption text/i],
+  ['border', /border|divider|hairline/i],
+]
+function readPalette(md) {
+  const secs = []
+  let cur = null
+  for (const line of md.split(/\r?\n/)) {
+    const h = /^#{2,4}\s+(.+)$/.exec(line)
+    if (h) {
+      cur = { head: h[1].toLowerCase(), body: [] }
+      secs.push(cur)
+      continue
+    }
+    if (cur) cur.body.push(line)
+  }
+  const out = []
+  for (const sec of secs) {
+    const mode = /\bdark\b/.test(sec.head) ? 'dark' : /\blight\b/.test(sec.head) ? 'light' : null
+    if (!mode || !/(mode|palette|theme|appearance|colors?)/.test(sec.head)) continue
+    const got = {}
+    for (const line of sec.body) {
+      const hm = /#[0-9a-f]{6}/i.exec(line)
+      if (!hm) continue
+      const before = line.split(/#[0-9a-f]{6}/i)[0]
+      for (const [role, re] of PAL_ROLES) {
+        if (got[role] || !re.test(before)) continue
+        got[role] = hex6(hm[0])
+      }
+    }
+    out.push({ mode, got })
+  }
+  return out
+}
+function applyTheme(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  const md = readFileSync(file, 'utf8')
+  const pal = cfg.palette
+  const curDark = lum(pal.bg) < 0.25
+  const want = curDark ? 'light' : 'dark'
+  const cands = readPalette(md).filter((c) => c.got.bg && c.got.text)
+  const pick = cands.find((c) => c.mode === want && contrast(c.got.text, c.got.bg) >= 4.5) || null
+  if (!pick) return
+  const g = pick.got
+  if (Math.abs(lum(g.bg) - lum(pal.bg)) < 0.25) return
+  const bg = hex6(g.bg), text = hex6(g.text)
+  const surface = hex6(g.surface) || mix(bg, text, curDark ? 0.08 : 0.05)
+  const muted = hex6(g.muted) || mix(bg, text, 0.45)
+  const border = hex6(g.border) || mix(bg, text, 0.14)
+  if (contrast(muted, bg) < 3) return
+  // 品牌色在另一套画布上仍需可见：低于 3:1 时逐步向该模式正文色提亮/压暗
+  const brand = hex6(pal.primary) || text
+  const bestOn = (c) => Math.max(contrast(text, c), contrast(bg, c))
+  let primaryAlt = brand
+  if (contrast(brand, bg) < 3 || bestOn(brand) < 4.5) {
+    primaryAlt = text
+    for (const t of [0.35, 0.5, 0.65, 0.8, 0.9]) {
+      const cand = mix(brand, text, t)
+      if (contrast(cand, bg) >= 3 && bestOn(cand) >= 4.5) {
+        primaryAlt = cand
+        break
+      }
+    }
+  }
+  const onPrimaryAlt = contrast(text, primaryAlt) >= contrast(bg, primaryAlt) ? text : bg
+  cfg.themeAlt = { bg, surface, surface2: mix(surface, text, 0.06), text, muted, border, primary: primaryAlt, primaryText: primaryAlt, onPrimary: onPrimaryAlt, dark: lum(bg) < 0.25 }
+}
+
+function applySpecViz(cfg, d) {
+  const file = join(ROOT, 'designs', d.slug, 'DESIGN.md')
+  if (!existsSync(file)) return
+  const md = readFileSync(file, 'utf8')
+  cfg.longPress = /long[- ]press|press and hold/i.test(md)
+  cfg.haptic = /haptic/i.test(md)
+  const first = cfg.tabs[0] && cfg.tabs[0][0]
+  const blocks = cfg.screens[first]
+  if (!blocks) return
+  if (/waveform|wave form/i.test(md) && !blocks.some((b) => b.type === 'waveform')) {
+    const values = [18, 34, 52, 41, 66, 78, 59, 72, 45, 61, 38, 54, 69, 47, 30, 22]
+    const block = { type: 'waveform', values, active: 9, meta: { left: '00:42', right: '03:18' } }
+    const noteAt = blocks.map((b) => b.type).lastIndexOf('note')
+    if (noteAt >= 0) blocks.splice(noteAt, 0, block)
+    else blocks.push(block)
+  }
+  if (/stacked bar|stacked chart|stacked bars/i.test(md) && !blocks.some((b) => b.type === 'stacked')) {
+    const p = cfg.palette
+    const block = { type: 'stacked', items: [{ label: '主项', value: 52, color: p.primary }, { label: '次项', value: 28, color: p.accent }, { label: '其他', value: 20, color: p.muted }] }
+    const noteAt = blocks.map((b) => b.type).lastIndexOf('note')
+    if (noteAt >= 0) blocks.splice(noteAt, 0, block)
+    else blocks.push(block)
+  }
+}
+
 function renderHTML(d, domain) {
   const cfg = domainConfig(d, domain)
+  applySpecTabs(cfg, d)
+  applySegmented(cfg, d)
+  applyRings(cfg, d)
+  applyTable(cfg, d)
+  applyTimeline(cfg, d)
+  applySlider(cfg, d)
+  applyMap(cfg, d)
+  applySpecViz(cfg, d)
+  applyTheme(cfg, d)
+  ensureDetails(cfg, cfg.palette)
   const p = cfg.palette
   const dark = lum(p.bg) < 0.25
   const radius = d.radius || { card: '12px', control: '8px', badge: '9999px' }
@@ -412,6 +948,9 @@ function renderHTML(d, domain) {
     details: cfg.details,
     live: cfg.live,
     search: cfg.search,
+    longPress: cfg.longPress === true,
+    haptic: cfg.haptic === true,
+    themeAlt: cfg.themeAlt ? true : false,
   }
   return `<!doctype html>
 <!--
@@ -435,6 +974,7 @@ function renderHTML(d, domain) {
 --font:${font};
 --shadow:0 12px 32px rgba(0,0,0,${dark ? '.45' : '.12'});
 }
+${cfg.themeAlt ? `:root[data-theme="alt"]{--bg:${cfg.themeAlt.bg};--surface:${cfg.themeAlt.surface};--surface2:${cfg.themeAlt.surface2};--text:${cfg.themeAlt.text};--muted:${cfg.themeAlt.muted};--border:${cfg.themeAlt.border};--primary:${cfg.themeAlt.primary};--primary-text:${cfg.themeAlt.primaryText};--on-primary:${cfg.themeAlt.onPrimary};--shadow:0 12px 32px rgba(0,0,0,${cfg.themeAlt.dark ? '.45' : '.12'})}` : ''}
 *{box-sizing:border-box;margin:0;transition:background-color .18s ease,color .18s ease,border-color .18s ease}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
 input:focus-visible{outline:2px solid var(--primary);outline-offset:0}
@@ -508,6 +1048,61 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ptr{position:fixed;left:50%;top:72px;transform:translate(-50%,-10px);opacity:0;transition:opacity .15s ease,transform .15s ease;pointer-events:none;z-index:70;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow)}
 .ptr.on{opacity:1;transform:translate(-50%,0)}
 .ptr span{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--primary);display:block}
+.segwrap{display:block}
+.seg{display:flex;gap:2px;background:var(--surface2);border-radius:var(--r-ctl);padding:3px;margin:0 0 10px}
+.seg-btn{position:relative;flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:7px 4px;border-radius:calc(var(--r-ctl) - 2px);min-height:34px;cursor:pointer}
+.seg-btn::before{content:"";position:absolute;inset:-5px 0}
+.seg-btn.on{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.14)}
+.seg-group{display:none}
+.seg-group.on{display:block}
+.rings{display:flex;gap:14px;justify-content:space-around;margin:2px 0 14px}
+.ring{--p:0;position:relative;width:84px;height:84px;border-radius:50%;background:conic-gradient(var(--ring-c,var(--primary)) calc(var(--p) * 1%),var(--surface2) 0);display:flex;align-items:center;justify-content:center}
+.ring::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--bg)}
+.ring span{position:relative;z-index:1;text-align:center;font-size:10px;color:var(--muted);line-height:1.25}
+.ring b{display:block;font-size:15px;color:var(--text);font-variant-numeric:tabular-nums}
+.table{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 14px}
+.table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border);font-size:11px}
+.table td{padding:9px 4px;border-bottom:1px solid var(--border);color:var(--text)}
+.table td.num{text-align:right;font-variant-numeric:tabular-nums}
+.mapcard{position:relative;height:150px;border-radius:var(--r-card);overflow:hidden;margin:0 0 14px;background:linear-gradient(135deg,var(--c1),var(--c2))}
+.mapgrid{position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.16) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.16) 1px,transparent 1px);background-size:26px 26px}
+.maproute{position:absolute;left:14%;top:66%;width:56%;height:2px;background:var(--primary);transform:rotate(-18deg);border-radius:2px;opacity:.9}
+.pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.pin i{width:14px;height:14px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.mapbadge{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.45);color:#fff;font-size:11px;padding:4px 8px;border-radius:999px;backdrop-filter:blur(6px)}
+.wave{display:flex;align-items:flex-end;gap:2px;height:64px;margin:0 0 6px}
+.wave i{flex:1;background:var(--surface2);border-radius:2px}
+.wave i.on{background:var(--primary)}
+.wave-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:14px}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin:0 0 8px}
+.stack span{display:block}
+.stack-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-bottom:14px}
+.stack-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.ctx{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;z-index:80}
+.ctx.on{display:flex}
+.ctx-panel{width:100%;background:var(--surface);border-radius:16px 16px 0 0;padding:14px 16px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+.ctx-panel b{font-size:12px;color:var(--muted);font-weight:600;padding:0 4px 2px}
+.ctx-panel button{border:0;background:var(--surface2);color:var(--text);font:inherit;font-size:14px;font-weight:600;padding:13px;border-radius:12px;min-height:44px;cursor:pointer}
+.ctx-panel button[data-ctx="cancel"]{background:transparent;color:var(--muted)}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:36px 16px;text-align:center}
+.empty-ic{width:52px;height:52px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.empty b{font-size:15px;line-height:1.4}
+.empty p{font-size:13px;color:var(--muted);line-height:1.5;max-width:260px}
+.empty .hero-btn{margin-top:6px}
+.timeline{list-style:none;margin:0 0 14px;padding:0 0 0 18px;position:relative}
+.timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border)}
+.timeline li{position:relative;padding:0 0 14px}
+.timeline li i{position:absolute;left:-17px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px var(--bg)}
+.timeline b{display:block;font-size:13px}
+.timeline span{display:block;font-size:11px;color:var(--muted);margin:2px 0 4px}
+.timeline p{font-size:12px;color:var(--muted);line-height:1.5}
+.slider{margin:0 0 14px}
+.slider-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.slider-head label{font-size:13px;font-weight:600}
+.slider-head output{font-size:13px;color:var(--primary);font-variant-numeric:tabular-nums}
+.slider input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:28px;background:transparent}
+.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:var(--surface2)}
+.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:var(--primary);border:2px solid var(--bg)}
 .chip.on{background:var(--text);color:var(--bg)}
 .chart{margin:12px 16px 0;padding:14px;border-radius:var(--r-card);background:var(--surface)}
 .chart-head{display:flex;justify-content:space-between;font:600 12px/1.2 var(--font);color:var(--muted);margin-bottom:10px}
@@ -604,19 +1199,20 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 </head>
 <body>
 <svg style="position:absolute;width:0;height:0" aria-hidden="true">
-${iconSet.map((n) => `<symbol id="i-${n}" viewBox="0 0 24 24">${{ home: '<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/>', search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>', library: '<path d="M4 5v14M8 5v14M12 5v14M16 5v14"/><path d="m19 6 1.5 12"/>', user: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.5-5.5 7-5.5s6.2 1.9 7 5.5"/>', chart: '<path d="M5 20V10M12 20V4M19 20v-7"/>', chat: '<path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/>', calendar: '<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/>', play: '<path d="M8 5.5v13l11-6.5z"/>', cart: '<path d="M4 5h2l2.2 10.2a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/>', compass: '<circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>', heart: '<path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 4.6-7 9-7 9z"/>', check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>', tool: '<path d="M14.5 6.5a4 4 0 0 0-5.2 5.2L4 17v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.3 2.3-2.7-2.7z"/>', bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>' }[n]}</symbol>`).join('\n')}
+${iconSet.map((n) => `<symbol id="i-${n}" viewBox="0 0 24 24">${{ home: '<path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/>', search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>', library: '<path d="M4 5v14M8 5v14M12 5v14M16 5v14"/><path d="m19 6 1.5 12"/>', user: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.5-5.5 7-5.5s6.2 1.9 7 5.5"/>', chart: '<path d="M5 20V10M12 20V4M19 20v-7"/>', chat: '<path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/>', calendar: '<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/>', play: '<path d="M8 5.5v13l11-6.5z"/>', cart: '<path d="M4 5h2l2.2 10.2a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/>', compass: '<circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>', heart: '<path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 4.6-7 9-7 9z"/>', check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>', tool: '<path d="M14.5 6.5a4 4 0 0 0-5.2 5.2L4 17v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.3 2.3-2.7-2.7z"/>', bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>', moon: '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>', sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/>' }[n]}</symbol>`).join('\n')}
 <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></symbol>
 <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
 </svg>
 <div class="app" id="app">
   <div class="statusbar"><span>9:41</span><span style="display:flex;gap:5px;align-items:center"><svg width="17" height="11" viewBox="0 0 17 12"><rect x="0" y="7" width="3" height="5" rx=".6" fill="currentColor"/><rect x="4.5" y="5" width="3" height="7" rx=".6" fill="currentColor"/><rect x="9" y="2.5" width="3" height="9.5" rx=".6" fill="currentColor"/><rect x="13.5" y="0" width="3" height="12" rx=".6" fill="currentColor"/></svg><svg width="16" height="11" viewBox="0 0 16 12"><path d="M8 11.2 5.2 8.4a4 4 0 0 1 5.6 0zM3.2 6.4 1 4.2a9.9 9.9 0 0 1 14 0l-2.2 2.2a6.7 6.7 0 0 0-9.6 0z" fill="currentColor"/></svg><svg width="24" height="11" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="1.8" fill="currentColor"/></svg></span></div>
-  <header class="appbar"><div><h1 id="title"></h1><span class="sub" id="sub"></span></div><button class="iconbtn" id="searchBtn" aria-label="搜索"><svg class="icon"><use href="#i-search"/></svg></button><span class="avatar" id="avatar">${esc(cfg.app.slice(0, 1))}</span></header>
+  <header class="appbar"><div><h1 id="title"></h1><span class="sub" id="sub"></span></div>${cfg.themeAlt ? `<button class="iconbtn" id="themeBtn" aria-label="切换深浅外观"><svg class="icon"><use href="#i-${dark ? 'sun' : 'moon'}"/></svg></button>` : ''}<button class="iconbtn" id="searchBtn" aria-label="搜索"><svg class="icon"><use href="#i-search"/></svg></button><span class="avatar" id="avatar">${esc(cfg.app.slice(0, 1))}</span></header>
   <main class="content" id="content"></main>
   <nav class="tabbar" id="tabbar" role="tablist" aria-label="主导航"></nav>
   <div class="sheet" id="sheet"><div class="sheet-panel"><div class="grab"></div><div class="sheet-head"><b id="sheetTitle"></b><button class="iconbtn" id="sheetClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="sheet-body" id="sheetBody"></div></div></div>
   <div class="searchview" id="searchview"><div class="searchbar"><svg class="icon" style="width:18px;height:18px"><use href="#i-search"/></svg><input id="searchInput" placeholder="搜索 ${esc(cfg.domainLabel)} 内容" autocomplete="off"><button class="iconbtn" id="searchClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="search-results" id="searchResults"></div></div>
   <div class="live" id="live"><div class="live-bg" id="liveBg"></div><div class="live-head"><span id="liveKicker">LIVE</span><button class="iconbtn" id="liveClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="live-main"><div class="live-art" id="liveArt"></div><h2 id="liveTitle"></h2><p id="liveSub"></p><div class="live-time" id="liveTime"></div><div class="live-progress"><i id="liveFill"></i></div></div><div class="live-actions"><button id="livePlay" aria-label="播放/暂停"><svg class="icon"><use href="#i-pause"/></svg></button><button class="main" id="liveMain" aria-label="结束"><svg class="icon"><use href="#i-stop"/></svg></button></div></div>
+  <div class="ctx" id="ctx"><div class="ctx-panel"><b id="ctxTitle"></b><button data-ctx="save">收藏</button><button data-ctx="share">分享</button><button data-ctx="cancel">取消</button></div></div>
   <div class="toast" id="toast" role="status"></div>
 </div>
 <script>

@@ -20,6 +20,7 @@
 --font:SF Pro Text, ui-sans-serif, system-ui, sans-serif, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 --shadow:0 12px 32px rgba(0,0,0,.12);
 }
+
 *{box-sizing:border-box;margin:0;transition:background-color .18s ease,color .18s ease,border-color .18s ease}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
 input:focus-visible{outline:2px solid var(--primary);outline-offset:0}
@@ -93,6 +94,61 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .ptr{position:fixed;left:50%;top:72px;transform:translate(-50%,-10px);opacity:0;transition:opacity .15s ease,transform .15s ease;pointer-events:none;z-index:70;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow)}
 .ptr.on{opacity:1;transform:translate(-50%,0)}
 .ptr span{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--primary);display:block}
+.segwrap{display:block}
+.seg{display:flex;gap:2px;background:var(--surface2);border-radius:var(--r-ctl);padding:3px;margin:0 0 10px}
+.seg-btn{position:relative;flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:7px 4px;border-radius:calc(var(--r-ctl) - 2px);min-height:34px;cursor:pointer}
+.seg-btn::before{content:"";position:absolute;inset:-5px 0}
+.seg-btn.on{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.14)}
+.seg-group{display:none}
+.seg-group.on{display:block}
+.rings{display:flex;gap:14px;justify-content:space-around;margin:2px 0 14px}
+.ring{--p:0;position:relative;width:84px;height:84px;border-radius:50%;background:conic-gradient(var(--ring-c,var(--primary)) calc(var(--p) * 1%),var(--surface2) 0);display:flex;align-items:center;justify-content:center}
+.ring::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--bg)}
+.ring span{position:relative;z-index:1;text-align:center;font-size:10px;color:var(--muted);line-height:1.25}
+.ring b{display:block;font-size:15px;color:var(--text);font-variant-numeric:tabular-nums}
+.table{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 14px}
+.table th{text-align:left;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--border);font-size:11px}
+.table td{padding:9px 4px;border-bottom:1px solid var(--border);color:var(--text)}
+.table td.num{text-align:right;font-variant-numeric:tabular-nums}
+.mapcard{position:relative;height:150px;border-radius:var(--r-card);overflow:hidden;margin:0 0 14px;background:linear-gradient(135deg,var(--c1),var(--c2))}
+.mapgrid{position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.16) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.16) 1px,transparent 1px);background-size:26px 26px}
+.maproute{position:absolute;left:14%;top:66%;width:56%;height:2px;background:var(--primary);transform:rotate(-18deg);border-radius:2px;opacity:.9}
+.pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.pin i{width:14px;height:14px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.mapbadge{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.45);color:#fff;font-size:11px;padding:4px 8px;border-radius:999px;backdrop-filter:blur(6px)}
+.wave{display:flex;align-items:flex-end;gap:2px;height:64px;margin:0 0 6px}
+.wave i{flex:1;background:var(--surface2);border-radius:2px}
+.wave i.on{background:var(--primary)}
+.wave-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:14px}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin:0 0 8px}
+.stack span{display:block}
+.stack-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-bottom:14px}
+.stack-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.ctx{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;z-index:80}
+.ctx.on{display:flex}
+.ctx-panel{width:100%;background:var(--surface);border-radius:16px 16px 0 0;padding:14px 16px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px}
+.ctx-panel b{font-size:12px;color:var(--muted);font-weight:600;padding:0 4px 2px}
+.ctx-panel button{border:0;background:var(--surface2);color:var(--text);font:inherit;font-size:14px;font-weight:600;padding:13px;border-radius:12px;min-height:44px;cursor:pointer}
+.ctx-panel button[data-ctx="cancel"]{background:transparent;color:var(--muted)}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:36px 16px;text-align:center}
+.empty-ic{width:52px;height:52px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.empty b{font-size:15px;line-height:1.4}
+.empty p{font-size:13px;color:var(--muted);line-height:1.5;max-width:260px}
+.empty .hero-btn{margin-top:6px}
+.timeline{list-style:none;margin:0 0 14px;padding:0 0 0 18px;position:relative}
+.timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border)}
+.timeline li{position:relative;padding:0 0 14px}
+.timeline li i{position:absolute;left:-17px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px var(--bg)}
+.timeline b{display:block;font-size:13px}
+.timeline span{display:block;font-size:11px;color:var(--muted);margin:2px 0 4px}
+.timeline p{font-size:12px;color:var(--muted);line-height:1.5}
+.slider{margin:0 0 14px}
+.slider-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.slider-head label{font-size:13px;font-weight:600}
+.slider-head output{font-size:13px;color:var(--primary);font-variant-numeric:tabular-nums}
+.slider input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:28px;background:transparent}
+.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:var(--surface2)}
+.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:var(--primary);border:2px solid var(--bg)}
 .chip.on{background:var(--text);color:var(--bg)}
 .chart{margin:12px 16px 0;padding:14px;border-radius:var(--r-card);background:var(--surface)}
 .chart-head{display:flex;justify-content:space-between;font:600 12px/1.2 var(--font);color:var(--muted);margin-bottom:10px}
@@ -203,6 +259,8 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
 <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.2 5.2L4 17v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.3 2.3-2.7-2.7z"/></symbol>
 <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></symbol>
 <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.6" height="14" rx="1"/><rect x="13.4" y="5" width="3.6" height="14" rx="1"/></symbol>
 <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
@@ -215,22 +273,33 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
   <div class="sheet" id="sheet"><div class="sheet-panel"><div class="grab"></div><div class="sheet-head"><b id="sheetTitle"></b><button class="iconbtn" id="sheetClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="sheet-body" id="sheetBody"></div></div></div>
   <div class="searchview" id="searchview"><div class="searchbar"><svg class="icon" style="width:18px;height:18px"><use href="#i-search"/></svg><input id="searchInput" placeholder="搜索 消息 内容" autocomplete="off"><button class="iconbtn" id="searchClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="search-results" id="searchResults"></div></div>
   <div class="live" id="live"><div class="live-bg" id="liveBg"></div><div class="live-head"><span id="liveKicker">LIVE</span><button class="iconbtn" id="liveClose" aria-label="关闭"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="live-main"><div class="live-art" id="liveArt"></div><h2 id="liveTitle"></h2><p id="liveSub"></p><div class="live-time" id="liveTime"></div><div class="live-progress"><i id="liveFill"></i></div></div><div class="live-actions"><button id="livePlay" aria-label="播放/暂停"><svg class="icon"><use href="#i-pause"/></svg></button><button class="main" id="liveMain" aria-label="结束"><svg class="icon"><use href="#i-stop"/></svg></button></div></div>
+  <div class="ctx" id="ctx"><div class="ctx-panel"><b id="ctxTitle"></b><button data-ctx="save">收藏</button><button data-ctx="share">分享</button><button data-ctx="cancel">取消</button></div></div>
   <div class="toast" id="toast" role="status"></div>
 </div>
 <script>
-const APP={"app":"KakaoTalk","name":"KakaoTalk iOS","domain":"messaging","tabs":[{"id":"home","label":"聊天","icon":"chat"},{"id":"contacts","label":"联系人","icon":"user"},{"id":"discover","label":"发现","icon":"compass"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"chips","items":["全部","未读","群组"]},{"type":"list","title":"最近会话","rows":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型","meta":"09:42","art":{"label":"云","c1":"#FEE500","c2":"#E6CF00"}},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token","meta":"昨天","art":{"label":"设","c1":"#E6CF00","c2":"#257b49"}},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认","meta":"昨天","art":{"label":"青","c1":"#D97706","c2":"#FEE500"}},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传","meta":"10-30","art":{"label":"L","c1":"#F15E6C","c2":"#E6CF00"}}]}],"contacts":[{"type":"list","title":"联系人","rows":[{"id":"u0","title":"周墨白","sub":"产品","art":{"label":"周墨","c1":"#E6CF00","c2":"#257b49"}},{"id":"u1","title":"苏见月","sub":"设计","art":{"label":"苏见","c1":"#D97706","c2":"#FEE500"}},{"id":"u2","title":"陈屿","sub":"工程","art":{"label":"陈屿","c1":"#F15E6C","c2":"#E6CF00"}},{"id":"u3","title":"林晚舟","sub":"运营","art":{"label":"林晚","c1":"#FEE500","c2":"#EFEFEF"}}]}],"discover":[{"type":"tools","title":"发现","items":[["群组","加入项目群","Group"],["频道","订阅更新","Channel"],["附近","同城协作者","Nearby"],["邀请","添加成员","Invite"]]},{"type":"note","text":"消息以会话列表为主，点击进入推送式聊天。"}],"me":[{"type":"profile","name":"林晚舟","sub":"KakaoTalk · 在线","art":{"label":"林","c1":"#D97706","c2":"#FEE500"},"stats":[["会话","12"],["群组","4"],["未读","3"]]},{"type":"settings","rows":[["消息通知","提及与私聊",true],["已读回执","双向",true],["媒体自动下载","仅 Wi-Fi",false]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「KakaoTalk iOS」生成 · 消息领域样板间"}]},"details":{"c1":{"title":"云栖支付 · 项目群","blocks":[{"type":"bubbles","messages":[["them","Atlas 的 UAT 反馈已整理成 6 条。","09:31"],["them","优先处理金额对不上的两条。","09:36"],["me","收到，今天下午给修复版本。","09:40"]]},{"type":"composer","placeholder":"发消息…"}]},"c2":{"title":"设计系统小组","blocks":[{"type":"bubbles","messages":[["them","新增 12 个语义 token，命名按场景/角色重排。","17:20"],["me","收到，我先在官网跑一遍。","17:26"]]},{"type":"composer","placeholder":"发消息…"}]},"c3":{"title":"青柠出行 · Slot","blocks":[{"type":"bubbles","messages":[["them","灰度清单已确认，周四放 10%。","15:02"],["me","监控与回滚脚本今天补齐。","15:08"]]},{"type":"composer","placeholder":"发消息…"}]},"c4":{"title":"Lumen 运维","blocks":[{"type":"bubbles","messages":[["them","季度审计报告已上传，SLA 全绿。","10:12"]]},{"type":"composer","placeholder":"发消息…"}]}},"live":null,"search":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型"},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token"},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认"},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传"}]};
+const APP={"app":"KakaoTalk","name":"KakaoTalk iOS","domain":"messaging","tabs":[{"id":"home","label":"聊天","icon":"chat"},{"id":"contacts","label":"联系人","icon":"user"},{"id":"discover","label":"发现","icon":"compass"},{"id":"me","label":"我的","icon":"user"}],"screens":{"home":[{"type":"chips","items":["全部","未读","群组"]},{"type":"list","title":"最近会话","rows":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型","meta":"09:42","art":{"label":"云","c1":"#FEE500","c2":"#E6CF00"}},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token","meta":"昨天","art":{"label":"设","c1":"#E6CF00","c2":"#257b49"}},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认","meta":"昨天","art":{"label":"青","c1":"#D97706","c2":"#FEE500"}},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传","meta":"10-30","art":{"label":"L","c1":"#F15E6C","c2":"#E6CF00"}}]}],"contacts":[{"type":"list","title":"联系人","rows":[{"id":"u0","title":"周墨白","sub":"产品","art":{"label":"周墨","c1":"#E6CF00","c2":"#257b49"}},{"id":"u1","title":"苏见月","sub":"设计","art":{"label":"苏见","c1":"#D97706","c2":"#FEE500"}},{"id":"u2","title":"陈屿","sub":"工程","art":{"label":"陈屿","c1":"#F15E6C","c2":"#E6CF00"}},{"id":"u3","title":"林晚舟","sub":"运营","art":{"label":"林晚","c1":"#FEE500","c2":"#EFEFEF"}}]}],"discover":[{"type":"tools","title":"发现","items":[["群组","加入项目群","Group"],["频道","订阅更新","Channel"],["附近","同城协作者","Nearby"],["邀请","添加成员","Invite"]]},{"type":"note","text":"消息以会话列表为主，点击进入推送式聊天。"}],"me":[{"type":"profile","name":"林晚舟","sub":"KakaoTalk · 在线","art":{"label":"林","c1":"#D97706","c2":"#FEE500"},"stats":[["会话","12"],["群组","4"],["未读","3"]]},{"type":"settings","rows":[["消息通知","提及与私聊",true],["已读回执","双向",true],["媒体自动下载","仅 Wi-Fi",false]]},{"type":"note","text":"由 AI agent 依 GOLDEN PROMPT + DESIGN.md「KakaoTalk iOS」生成 · 消息领域样板间"}]},"details":{"c1":{"title":"云栖支付 · 项目群","blocks":[{"type":"bubbles","messages":[["them","Atlas 的 UAT 反馈已整理成 6 条。","09:31"],["them","优先处理金额对不上的两条。","09:36"],["me","收到，今天下午给修复版本。","09:40"]]},{"type":"composer","placeholder":"发消息…"}]},"c2":{"title":"设计系统小组","blocks":[{"type":"bubbles","messages":[["them","新增 12 个语义 token，命名按场景/角色重排。","17:20"],["me","收到，我先在官网跑一遍。","17:26"]]},{"type":"composer","placeholder":"发消息…"}]},"c3":{"title":"青柠出行 · Slot","blocks":[{"type":"bubbles","messages":[["them","灰度清单已确认，周四放 10%。","15:02"],["me","监控与回滚脚本今天补齐。","15:08"]]},{"type":"composer","placeholder":"发消息…"}]},"c4":{"title":"Lumen 运维","blocks":[{"type":"bubbles","messages":[["them","季度审计报告已上传，SLA 全绿。","10:12"]]},{"type":"composer","placeholder":"发消息…"}]},"u0":{"title":"周墨白","blocks":[{"type":"hero","kicker":"详情","title":"周墨白","sub":"产品","art":{"label":"周墨","c1":"#E6CF00","c2":"#257b49"}},{"type":"stats","items":[["类型","条目"],["状态","已同步"],["更新","刚刚"]]},{"type":"note","text":"KakaoTalk 样板间 · 该条目按 DESIGN.md 的组件语义重建。"}]},"u1":{"title":"苏见月","blocks":[{"type":"hero","kicker":"详情","title":"苏见月","sub":"设计","art":{"label":"苏见","c1":"#D97706","c2":"#FEE500"}},{"type":"stats","items":[["类型","条目"],["状态","已同步"],["更新","刚刚"]]},{"type":"note","text":"KakaoTalk 样板间 · 该条目按 DESIGN.md 的组件语义重建。"}]},"u2":{"title":"陈屿","blocks":[{"type":"hero","kicker":"详情","title":"陈屿","sub":"工程","art":{"label":"陈屿","c1":"#F15E6C","c2":"#E6CF00"}},{"type":"stats","items":[["类型","条目"],["状态","已同步"],["更新","刚刚"]]},{"type":"note","text":"KakaoTalk 样板间 · 该条目按 DESIGN.md 的组件语义重建。"}]},"u3":{"title":"林晚舟","blocks":[{"type":"hero","kicker":"详情","title":"林晚舟","sub":"运营","art":{"label":"林晚","c1":"#FEE500","c2":"#EFEFEF"}},{"type":"stats","items":[["类型","条目"],["状态","已同步"],["更新","刚刚"]]},{"type":"note","text":"KakaoTalk 样板间 · 该条目按 DESIGN.md 的组件语义重建。"}]}},"live":null,"search":[{"id":"c1","title":"云栖支付 · 项目群","sub":"周五前给到对账原型"},{"id":"c2","title":"设计系统小组","sub":"新增了 12 个语义 token"},{"id":"c3","title":"青柠出行 · Slot","sub":"灰度清单已确认"},{"id":"c4","title":"Lumen 运维","sub":"季度审计报告已上传"}],"longPress":true,"haptic":true,"themeAlt":false};
 const state={tab:0,likes:new Set(),sheetId:null,query:'',liveOpen:false,playing:false,elapsed:0,timer:null};
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 let toastTimer;
+const haptic=(ms)=>{if(!APP.haptic)return;try{navigator.vibrate&&navigator.vibrate(ms)}catch{}}
 function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),1700)}
 function artHTML(a,cls='art'){return `<span class="${cls}" style="--c1:${a.c1};--c2:${a.c2}"><span>${esc(a.label)}</span></span>`}
 function hero(b){return `<section class="hero" style="--c1:${b.art.c1};--c2:${b.art.c2}"><div class="hero-art">${esc(b.art.label)}</div><div class="hero-copy"><small>${esc(b.kicker||'')}</small><b>${esc(b.title)}</b><p>${esc(b.sub||'')}</p></div>${b.cta?`<button class="hero-btn" ${b.cta.live?'data-live':'data-toast="'+esc(b.cta.label)+'"'}>${esc(b.cta.label)}</button>`:''}</section>`}
 function stats(b){return `<div class="stats cols3">${b.items.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>`}
 function rail(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 项</span></div></div>`:''}<div class="rail">${b.items.map(x=>`<button class="tile" data-open="${esc(x.id)}">${artHTML(x.art)}<b>${esc(x.title)}</b><small>${esc(x.sub||'')}</small></button>`).join('')}</div>`}
 function posters(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 部</span></div></div>`:''}<div class="posters">${b.items.map(x=>`<button class="poster" data-open="${esc(x.id)}">${artHTML(x.art)}<b>${esc(x.title)}</b><small>${esc(x.sub||'')}</small></button>`).join('')}</div>`}
-function list(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.rows.length} 条</span></div></div>`:''}<div class="list">${b.rows.map(x=>`<button class="row" data-open="${esc(x.id)}">${x.art?artHTML(x.art):'<span class="art" style="--c1:var(--surface2);--c2:var(--surface)"></span>'}<span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">${esc(x.meta||'')}</span></button>`).join('')}</div>`}
+function list(b){if(!b.rows||!b.rows.length)return empty({icon:'search',title:'暂无内容',sub:'这里还没有可展示的条目。'});return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.rows.length} 条</span></div></div>`:''}<div class="list">${b.rows.map(x=>`<button class="row" data-open="${esc(x.id)}">${x.art?artHTML(x.art):'<span class="art" style="--c1:var(--surface2);--c2:var(--surface)"></span>'}<span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">${esc(x.meta||'')}</span></button>`).join('')}</div>`}
+function empty(b){return `<div class="empty"><span class="empty-ic"><svg class="icon"><use href="#i-${b.icon||'search'}"/></svg></span><b>${esc(b.title||'暂无内容')}</b>${b.sub?`<p>${esc(b.sub)}</p>`:''}${b.cta?`<button class="hero-btn" data-toast="${esc(b.cta)}">${esc(b.cta)}</button>`:''}</div>`}
+function waveform(b){const max=Math.max(...b.values,1);return `<div class="wave">${b.values.map((v,i)=>`<i class="${b.active&&i<=b.active?'on':''}" style="height:${Math.max(8,(v/max)*100)}%"></i>`).join('')}</div>${b.meta?`<div class="wave-meta"><span>${esc(b.meta.left||'')}</span><span>${esc(b.meta.right||'')}</span></div>`:''}`}
+function stacked(b){return `<div class="stack">${b.items.map(x=>`<span style="flex:${x.value};background:${x.color||'var(--primary)'}"></span>`).join('')}</div><div class="stack-legend">${b.items.map(x=>`<span><i style="background:${x.color||'var(--primary)'}"></i>${esc(x.label)} ${x.value}%</span>`).join('')}</div>`}
+function mapblock(b){return `<div class="mapcard" style="--c1:${b.art.c1};--c2:${b.art.c2}"><span class="mapgrid"></span><span class="maproute"></span><span class="pin" style="left:${b.pin.x}%;top:${b.pin.y}%"><i></i>${esc(b.label||'')}</span>${b.meta?`<span class="mapbadge">${esc(b.meta)}</span>`:''}</div>`}
+function timeline(b){return `<ol class="timeline">${b.items.map(x=>`<li><i></i><div><b>${esc(x.title)}</b><span>${esc(x.time||'')}</span><p>${esc(x.text||'')}</p></div></li>`).join('')}</ol>`}
+function slider(b){const id=`sl-${b.key}`;return `<div class="slider"><div class="slider-head"><label for="${id}">${esc(b.label)}</label><output data-slider-out>${esc(b.unit||'')}${esc(b.value)}</output></div><input id="${id}" type="range" min="${b.min ?? 0}" max="${b.max ?? 100}" value="${b.value}" data-slider data-slider-unit="${esc(b.unit || '')}"></div>`}
+function rings(b){return `<div class="rings">${b.items.map(x=>`<div class="ring" style="--p:${Math.max(0,Math.min(100,x.value))};--ring-c:${x.color||'var(--primary)'}"><span><b>${esc(x.value)}%</b><small>${esc(x.label)}</small></span></div>`).join('')}</div>`}
+function table(b){return `<table class="table"><thead><tr>${b.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r=>`<tr>${r.map((c,i)=>`<td${i===r.length-1?' class="num"':''}>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`}
+function segmented(b){return `<div class="segwrap"><div class="seg" role="tablist">${b.items.map((x,i)=>`<button class="seg-btn ${i===0?'on':''}" data-seg="${i}" role="tab" aria-selected="${i===0}">${esc(x)}</button>`).join('')}</div>${b.groups.map((rows,i)=>`<div class="seg-group ${i===0?'on':''}">${list({rows})}</div>`).join('')}</div>`}
 function chips(b){return `<div class="chips">${b.items.map((x,i)=>`<button class="chip ${i===0?'on':''}" data-chip>${esc(x)}</button>`).join('')}</div>`}
 function chart(b){const max=Math.max(...b.values,1);return `<div class="chart"><div class="chart-head"><span>${esc(b.title)}</span><span>${esc(b.unit||'')}</span></div><div class="bars">${b.values.map((v,i)=>`<div><i class="${i===b.values.length-1?'hot':''}" style="height:${Math.max(6,v/max*100)}%"></i><span>${esc(b.labels[i]||'')}</span></div>`).join('')}</div></div>`}
 function tools(b){return `${b.title?`<div class="section"><div class="section-head"><b>${esc(b.title)}</b><span>${b.items.length} 个</span></div></div>`:''}<div class="tools">${b.items.map(([label,sub,tag],i)=>`<button class="tool" data-chip><i>${esc(tag||label.slice(0,2))}</i><div><b>${esc(label)}</b><span>${esc(sub)}</span></div></button>`).join('')}</div>`}
@@ -242,34 +311,48 @@ function note(b){return `<p class="note">${esc(b.text)}</p>`}
 function bubbles(b){const msgs=b.messages||[];return `<div class="bubbles">${msgs.map(m=>`<div class="bubble ${m[0]}">${esc(m[1])}<time>${esc(m[2]||'')}</time></div>`).join('')}</div>`}
 function composer(b){return `<form class="composer" data-composer><input placeholder="${esc(b.placeholder||'发消息…')}" autocomplete="off"><button type="submit">发送</button></form>`}
 function promptBlock(b){return `<form class="prompt" data-prompt><input placeholder="${esc(b.placeholder||'描述你的任务…')}" autocomplete="off"><button type="submit">${esc(b.button||'发送')}</button></form>`}
-function block(b){switch(b.type){case'hero':return hero(b);case'stats':return stats(b);case'rail':return rail(b);case'posters':return posters(b);case'list':return list(b);case'chips':return chips(b);case'chart':return chart(b);case'tools':return tools(b);case'tasks':return tasks(b);case'swipe':return swipe(b);case'profile':return profile(b);case'settings':return settings(b);case'note':return note(b);case'bubbles':return bubbles(b);case'composer':return composer(b);case'prompt':return promptBlock(b);default:return ''}}
+function block(b){switch(b.type){case'hero':return hero(b);case'stats':return stats(b);case'rail':return rail(b);case'posters':return posters(b);case'list':return list(b);case'chips':return chips(b);case'segmented':return segmented(b);case'rings':return rings(b);case'timeline':return timeline(b);case'map':return mapblock(b);case'waveform':return waveform(b);case'empty':return empty(b);case'stacked':return stacked(b);case'slider':return slider(b);case'table':return table(b);case'chart':return chart(b);case'tools':return tools(b);case'tasks':return tasks(b);case'swipe':return swipe(b);case'profile':return profile(b);case'settings':return settings(b);case'note':return note(b);case'bubbles':return bubbles(b);case'composer':return composer(b);case'prompt':return promptBlock(b);default:return ''}}
 function current(){return APP.tabs[state.tab]}
 function render(){const t=current();$('#title').textContent=t.label;$('#sub').textContent=`${APP.app} · ${APP.domain==='tools'?'工具':APP.domain==='music'?'音乐':APP.domain==='fitness'?'运动':APP.domain==='finance'?'金融':APP.domain==='messaging'?'消息':APP.domain==='video'?'视频':APP.domain==='food'?'餐饮':APP.domain==='travel'?'旅行':APP.domain==='dating'?'约会':APP.domain==='productivity'?'效率':'社交'}样板间`;$('#avatar').textContent=APP.app.slice(0,1);$('#content').innerHTML=`<section class="view on" id="v-${t.id}">${(APP.screens[t.id]||[]).map(block).join('')}</section>`;$('#tabbar').style.gridTemplateColumns=`repeat(${APP.tabs.length},1fr)`;$('#tabbar').innerHTML=APP.tabs.map((x,i)=>`<button class="tab ${i===state.tab?'on':''}" data-tab="${i}" role="tab" aria-selected="${i===state.tab}"><svg class="icon"><use href="#i-${x.icon}"/></svg><span>${esc(x.label)}</span></button>`).join('')+`<span class="homebar"></span>`}
 function openSheet(id){const d=APP.details[id];if(!d)return;closeSearch();state.sheetId=id;$('#sheetTitle').textContent=d.title;$('#sheetBody').innerHTML=d.blocks.map(block).join('');$('#sheet').classList.add('on');$('#sheetBody').scrollTop=0}
 function closeSheet(){$('#sheet').classList.remove('on')}
 function openSearch(){state.query='';$('#searchInput').value='';renderSearch('');$('#searchview').classList.add('on');setTimeout(()=>$('#searchInput').focus(),60)}
 function closeSearch(){$('#searchview').classList.remove('on')}
-function renderSearch(q){const key=q.trim().toLowerCase();const rows=(APP.search||[]).filter(x=>!key||(x.title+' '+x.sub).toLowerCase().includes(key));$('#searchResults').innerHTML=rows.length?`<div class="list">${rows.map(x=>`<button class="row" data-open="${esc(x.id)}"><span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">→</span></button>`).join('')}</div>`:`<p class="note">没有找到「${esc(q)}」。</p>`}
+function renderSearch(q){const key=q.trim().toLowerCase();const rows=(APP.search||[]).filter(x=>!key||(x.title+' '+x.sub).toLowerCase().includes(key));$('#searchResults').innerHTML=rows.length?`<div class="list">${rows.map(x=>`<button class="row" data-open="${esc(x.id)}"><span class="row-main"><b>${esc(x.title)}</b><span>${esc(x.sub||'')}</span></span><span class="row-meta">→</span></button>`).join('')}</div>`:empty({icon:'search',title:`没有找到「${q}」`,sub:'换个关键词，或从下面的热门内容开始。',cta:'清空筛选'})}
 function openLive(){const l=APP.live;if(!l){toast('此样板间暂无播放/记录流程');return}state.liveOpen=true;state.elapsed=0;state.playing=true;$('#liveBg').style=`--c1:${l.art.c1};--c2:${l.art.c2}`;$('#liveArt').textContent=l.art.label;$('#liveTitle').textContent=l.title;$('#liveSub').textContent=l.sub;$('#liveKicker').textContent=l.kind==='music'?'NOW PLAYING':l.kind==='fitness'?'RECORDING':'PLAYING';$('#live').classList.add('on');updateLive();clearInterval(state.timer);state.timer=setInterval(()=>{if(state.liveOpen&&state.playing){state.elapsed+=1;updateLive()}},1000)}
 function updateLive(){const l=APP.live;const dur=l.duration||1;const sec=state.elapsed;$('#liveTime').textContent=l.kind==='fitness'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:l.kind==='music'?`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`:'';$('#liveFill').style.width=Math.min(100,sec/(l.kind==='fitness'?60:dur)*100)+'%';$('#livePlay').innerHTML=`<svg class="icon"><use href="#i-${state.playing?'pause':'play'}"/></svg>`}
 function closeLive(){state.liveOpen=false;state.playing=false;clearInterval(state.timer);$('#live').classList.remove('on')}
+document.addEventListener('input',e=>{const r=e.target.closest('[data-slider]');if(!r)return;const out=r.parentElement.querySelector('[data-slider-out]');if(out)out.textContent=(r.dataset.sliderUnit||'')+r.value})
 document.addEventListener('click',e=>{
-  const tab=e.target.closest('[data-tab]');if(tab){state.tab=Number(tab.dataset.tab);render();return}
+  const tab=e.target.closest('[data-tab]');if(tab){haptic(8);state.tab=Number(tab.dataset.tab);render();return}
+  if(lpFired&&e.target.closest('[data-open]')){lpFired=false;return}
   const open=e.target.closest('[data-open]');if(open&&!e.target.closest('.sheet')){openSheet(open.dataset.open);return}
   const live=e.target.closest('[data-live]');if(live){openLive();return}
   const hint=e.target.closest('[data-toast]');if(hint){toast(hint.dataset.toast+' · 演示入口');return}
   const task=e.target.closest('[data-task]');if(task){const id=task.dataset.task;for(const s of Object.values(APP.screens))for(const b of s)if(b.type==='tasks')for(const r of b.rows)if(r.id===id)r.done=!r.done;for(const d of Object.values(APP.details))for(const b of d.blocks)if(b.type==='tasks')for(const r of b.rows)if(r.id===id)r.done=!r.done;render();if(state.sheetId)openSheet(state.sheetId);toast('任务状态已更新');return}
-  const chip=e.target.closest('[data-chip]');if(chip){$$('.chip').forEach(c=>c.classList.toggle('on',c===chip));return}
-  const sw=e.target.closest('[data-switch]');if(sw){sw.classList.toggle('on');toast(sw.classList.contains('on')?'已开启':'已关闭');return}
-  const act=e.target.closest('[data-act]');if(act){if(act.dataset.act==='like'){toast('已喜欢')}else{toast('已跳过')}return}
+  const cx=e.target.closest('[data-ctx]');if(cx){$('#ctx').classList.remove('on');if(cx.dataset.ctx!=='cancel')toast(cx.dataset.ctx==='save'?'已收藏':'已分享');return}
+  const seg=e.target.closest('[data-seg]');if(seg){const wrap=seg.closest('.segwrap');const i=Number(seg.dataset.seg);wrap.querySelectorAll('.seg-btn').forEach((x,k)=>{x.classList.toggle('on',k===i);x.setAttribute('aria-selected',String(k===i))});wrap.querySelectorAll('.seg-group').forEach((x,k)=>x.classList.toggle('on',k===i));return}
+  const chip=e.target.closest('[data-chip]');if(chip){haptic(6);$$('.chip').forEach(c=>c.classList.toggle('on',c===chip));return}
+  const sw=e.target.closest('[data-switch]');if(sw){haptic(10);sw.classList.toggle('on');toast(sw.classList.contains('on')?'已开启':'已关闭');return}
+  const act=e.target.closest('[data-act]');if(act){haptic(12);if(act.dataset.act==='like'){toast('已喜欢')}else{toast('已跳过')}return}
 })
+function openCtx(row){const t=row.querySelector('b');$('#ctxTitle').textContent=t?t.textContent:'操作';$('#ctx').classList.add('on')}
+let lpTimer=null,lpFired=false
+if(APP.longPress){
+  document.addEventListener('touchstart',e=>{const row=e.target.closest('[data-open]');if(!row||e.touches.length!==1||state.liveOpen)return;lpFired=false;clearTimeout(lpTimer);lpTimer=setTimeout(()=>{lpFired=true;haptic(18);openCtx(row)},480)},{passive:true})
+  document.addEventListener('touchmove',()=>clearTimeout(lpTimer),{passive:true})
+  document.addEventListener('touchend',()=>clearTimeout(lpTimer),{passive:true})
+  document.addEventListener('touchcancel',()=>clearTimeout(lpTimer),{passive:true})
+}
+$('#ctx').addEventListener('click',e=>{if(e.target===$('#ctx'))$('#ctx').classList.remove('on')})
 $('#searchBtn').addEventListener('click',openSearch)
+const themeBtn=$('#themeBtn');if(themeBtn)themeBtn.addEventListener('click',()=>{const r=document.documentElement;const alt=r.dataset.theme!=='alt';r.dataset.theme=alt?'alt':'';const u=themeBtn.querySelector('use');if(u)u.setAttribute('href',alt?'#i-moon':'#i-sun');haptic(8)})
 $('#searchClose').addEventListener('click',closeSearch)
 $('#searchInput').addEventListener('input',e=>renderSearch(e.target.value))
 $('#sheetClose').addEventListener('click',closeSheet)
 $('#sheet').addEventListener('click',e=>{if(e.target===$('#sheet'))closeSheet()})
 $('#liveClose').addEventListener('click',closeLive)
-$('#livePlay').addEventListener('click',()=>{state.playing=!state.playing;updateLive();toast(state.playing?'继续':'已暂停')})
+$('#livePlay').addEventListener('click',()=>{haptic(10);state.playing=!state.playing;updateLive();toast(state.playing?'继续':'已暂停')})
 $('#liveMain').addEventListener('click',()=>{closeLive();toast(APP.live?.kind==='fitness'?'记录已保存':'已结束播放')})
 function submitHandler(e){const form=e.target.closest('[data-composer]');if(form){e.preventDefault();const input=$('input',form);const v=input.value.trim();if(!v)return;const d=APP.details[state.sheetId];if(d){const b=d.blocks.find(x=>x.type==='bubbles');if(b){(b.messages||(b.messages=[])).push(['me',v,'刚刚']);}openSheet(state.sheetId);toast('已发送')}return}const pr=e.target.closest('[data-prompt]');if(pr){e.preventDefault();const v=$('input',pr).value.trim();if(v){toast('已提交：'+v);$('input',pr).value=''}}}
 $('#content').addEventListener('submit',submitHandler)
@@ -281,7 +364,7 @@ const ptrView=$('#content')
 ptrView.addEventListener('touchstart',e=>{if(ptrView.scrollTop>0||e.touches.length!==1||state.liveOpen)return;ptrOn=true;ptrY=e.touches[0].clientY;ptrReady=false},{passive:true})
 ptrView.addEventListener('touchmove',e=>{if(!ptrOn)return;const dy=e.touches[0].clientY-ptrY;if(dy<=0)return;ptrReady=dy*.5>=44;ptrEl.classList.toggle('on',ptrReady)},{passive:true})
 ptrView.addEventListener('touchend',()=>{if(!ptrOn)return;ptrOn=false;if(!ptrReady){ptrEl.classList.remove('on');return}setTimeout(()=>{ptrEl.classList.remove('on');render();toast('已刷新')},480)})
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();closeSearch();if(state.liveOpen)closeLive()}})
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();closeSearch();$('#ctx').classList.remove('on');if(state.liveOpen)closeLive()}})
 render()
 </script>
 </body>

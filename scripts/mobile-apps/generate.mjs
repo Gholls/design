@@ -448,7 +448,7 @@ input{font:inherit;color:inherit;border:0;outline:0;background:none}
 .view{display:none;height:100%;overflow-y:auto;padding-bottom:86px}
 .view.on{display:block;animation:vin .18s ease-out}
 @keyframes vin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.tabbar{position:relative;z-index:20;display:grid;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
+.tabbar{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:column;height:70px;padding:6px 8px 18px;border-top:1px solid var(--border);background:var(--bg);flex:none}
 .tab{display:grid;justify-items:center;gap:3px;padding:3px 0;color:var(--muted);font:600 10px/1 var(--font)}
 .tab .icon{width:23px;height:23px;stroke-width:1.7}
 .tab.on{color:var(--primary)}
@@ -612,9 +612,11 @@ ${RUNTIME_JS.replace('__APP__', JSON.stringify(data))}
 
 const only = process.argv.find((a) => a.startsWith('--only='))?.slice(7)
 const force = process.argv.includes('--force')
+const BENCHMARKS = new Set(['ios-spotify', 'ios-strava'])
 const mobile = INDEX.filter((d) => d.platform === 'mobile')
 let made = 0
 for (const d of mobile) {
+  if (BENCHMARKS.has(d.slug)) continue
   if (only && d.slug !== only) continue
   const out = join(ROOT, 'public/generated', d.slug, 'index.html')
   if (existsSync(out) && !force) continue

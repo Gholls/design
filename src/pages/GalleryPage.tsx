@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { IndexedDesign } from '../types'
 import { designs, defaultDesign, skippedSlugs } from '../lib/registry'
 import { generatedUrl } from '../lib/generated'
@@ -19,6 +19,15 @@ const CATEGORY_LABEL: Record<Category, string> = {
 }
 
 const PAGE_STEP = 48
+
+// 进入样板间时本页会被路由卸载，筛选与滚动位置需要存在组件之外才能复原
+const galleryMemory = {
+  category: 'all' as Category,
+  tag: null as string | null,
+  query: '',
+  shown: PAGE_STEP,
+  scrollY: 0,
+}
 
 const PLATFORMS: Array<{ id: Platform; label: string; en: string; blurb: string }> = [
   { id: 'web', label: '网站', en: 'WEB', blurb: '官网、商城与产品站' },
@@ -63,10 +72,10 @@ function readPlatform(): Platform {
 export default function GalleryPage() {
   const [source, setSource] = useState<IndexedDesign | null>(null)
   const [platform, setPlatform] = useState<Platform>(readPlatform)
-  const [category, setCategory] = useState<Category>('all')
-  const [tag, setTag] = useState<string | null>(null)
-  const [query, setQuery] = useState('')
-  const [shown, setShown] = useState(PAGE_STEP)
+  const [category, setCategory] = useState<Category>(galleryMemory.category)
+  const [tag, setTag] = useState<string | null>(galleryMemory.tag)
+  const [query, setQuery] = useState(galleryMemory.query)
+  const [shown, setShown] = useState(galleryMemory.shown)
 
   const generatedTotal = useMemo(() => designs.filter((d) => generatedUrl(d.slug) !== null).length, [])
 
@@ -110,7 +119,6 @@ export default function GalleryPage() {
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
-    setShown(PAGE_STEP)
     return pool.filter((d) => {
       if (category === 'builtin' && d.design.source) return false
       if (category === 'community' && !d.design.source) return false
@@ -120,6 +128,44 @@ export default function GalleryPage() {
       return true
     })
   }, [category, tag, query, pool])
+
+  useEffect(() => {
+    galleryMemory.category = category
+    galleryMemory.tag = tag
+    galleryMemory.query = query
+    galleryMemory.shown = shown
+  }, [category, tag, query, shown])
+
+  const filterKey = `${platform}|${category}|${tag ?? ''}|${query}`
+  const appliedFilterKey = useRef(filterKey)
+  useEffect(() => {
+    if (appliedFilterKey.current === filterKey) return
+    appliedFilterKey.current = filterKey
+    setShown(PAGE_STEP)
+  }, [filterKey])
+
+  useEffect(() => {
+    let frame = 0
+    const save = () => {
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        galleryMemory.scrollY = window.scrollY
+      })
+    }
+    window.addEventListener('scroll', save, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', save)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  useEffect(() => {
+    const top = galleryMemory.scrollY
+    if (!top) return
+    const frame = requestAnimationFrame(() => window.scrollTo(0, top))
+    return () => cancelAnimationFrame(frame)
+  }, [])
 
   const platformMeta = PLATFORMS.find((p) => p.id === platform) ?? PLATFORMS[0]
 
@@ -287,7 +333,10 @@ export default function GalleryPage() {
               key={design.slug}
               design={design}
               onViewSource={setSource}
-              onPreview={(d) => navigate(`/design/${d.slug}`)}
+              onPreview={(d) => {
+                galleryMemory.scrollY = window.scrollY
+                navigate(`/design/${d.slug}`)
+              }}
               onTag={(t) => {
                 setTag(t)
                 window.scrollTo({ top: 0, behavior: 'smooth' })
